@@ -1,0 +1,957 @@
+{
+  "metadata": {
+    "stage": "SolArch",
+    "stage_number": 4,
+    "version": "2.0.0",
+    "description": "Solution Architecture Multi-Agent System with Architecture Board",
+    "architecture": "hierarchical_with_board",
+    "total_agents": 28,
+    "created": "2025-12-27",
+    "updated": "2026-01-27",
+    "changelog": [
+      "v2.0.0: Added Architecture Board (3 architects), sub-orchestrators, self-validation",
+      "v1.0.0: Initial flat spawning architecture"
+    ]
+  },
+  "categories": {
+    "orchestration": {
+      "description": "Master and sub-orchestrators for SolArch stage",
+      "count": 3
+    },
+    "architecture_board": {
+      "description": "Architecture Board members with distinct personalities",
+      "count": 3
+    },
+    "research": {
+      "description": "Technology and integration research agents",
+      "count": 3
+    },
+    "c4_diagrams": {
+      "description": "C4 model diagram generators",
+      "count": 4
+    },
+    "quality_scenarios": {
+      "description": "Quality attribute scenario generators",
+      "count": 4
+    },
+    "adr_writers": {
+      "description": "Architecture Decision Record writers",
+      "count": 4
+    },
+    "validation": {
+      "description": "Self-validation and consensus calculation",
+      "count": 2
+    },
+    "global_validation": {
+      "description": "Global validation at CP-10",
+      "count": 4
+    },
+    "evaluation": {
+      "description": "Architecture evaluation and risk scoring",
+      "count": 2
+    }
+  },
+  "agents": [
+    {
+      "id": "solarch-orchestrator",
+      "name": "SolArch Orchestrator",
+      "category": "orchestration",
+      "model": "sonnet",
+      "file": "solarch-orchestrator.md",
+      "description": "Master coordinator for Solution Architecture generation with entry points",
+      "version": "3.0.0",
+      "checkpoints": "all",
+      "capabilities": [
+        "phase_orchestration",
+        "entry_point_filtering",
+        "sub_orchestrator_dispatch",
+        "state_management",
+        "quality_gates"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_Generator",
+        "SolutionArchitecture_Arc42Generator"
+      ],
+      "invokes": [
+        "solarch-adr-board-orchestrator",
+        "solarch-validation-orchestrator",
+        "solarch-tech-researcher",
+        "solarch-integration-analyst",
+        "solarch-cost-estimator",
+        "solarch-c4-context",
+        "solarch-c4-container",
+        "solarch-c4-component",
+        "solarch-c4-deployment",
+        "solarch-perf-scenarios",
+        "solarch-security-scenarios",
+        "solarch-reliability-scenarios",
+        "solarch-usability-scenarios",
+        "solarch-arch-evaluator",
+        "solarch-risk-scorer"
+      ]
+    },
+    {
+      "id": "solarch-adr-board-orchestrator",
+      "name": "ADR Board Orchestrator",
+      "category": "orchestration",
+      "model": "sonnet",
+      "file": "solarch-adr-board-orchestrator.md",
+      "description": "Sub-orchestrator for ADR generation with Architecture Board review",
+      "version": "1.0.0",
+      "checkpoints": [5, 6, 7, 8],
+      "capabilities": [
+        "adr_coordination",
+        "board_review_orchestration",
+        "auto_rework_management",
+        "user_escalation",
+        "weighted_voting"
+      ],
+      "invokes": [
+        "solarch-adr-foundation",
+        "solarch-adr-communication",
+        "solarch-adr-operational",
+        "solarch-adr-validator",
+        "solarch-self-validator",
+        "solarch-architect-pragmatist",
+        "solarch-architect-perfectionist",
+        "solarch-architect-skeptic",
+        "solarch-board-consensus"
+      ]
+    },
+    {
+      "id": "solarch-validation-orchestrator",
+      "name": "Validation Orchestrator",
+      "category": "orchestration",
+      "model": "sonnet",
+      "file": "solarch-validation-orchestrator.md",
+      "description": "Sub-orchestrator for global validation at CP-10 (blocking gate)",
+      "version": "1.0.0",
+      "checkpoints": [10],
+      "capabilities": [
+        "parallel_validator_dispatch",
+        "blocking_gate_enforcement",
+        "gap_analysis",
+        "traceability_validation"
+      ],
+      "invokes": [
+        "solarch-adr-consistency-validator",
+        "solarch-adr-completeness-validator",
+        "solarch-traceability-validator",
+        "solarch-coverage-validator"
+      ]
+    },
+    {
+      "id": "solarch-architect-pragmatist",
+      "name": "Architect - Pragmatist",
+      "category": "architecture_board",
+      "model": "sonnet",
+      "file": "solarch-architect-pragmatist.md",
+      "description": "Architecture Board member focused on scalability, cost, and delivery",
+      "version": "1.0.0",
+      "personality": "pragmatist",
+      "domain": "scalability",
+      "evaluation_weights": {
+        "scalability": 0.30,
+        "cost_efficiency": 0.25,
+        "delivery_feasibility": 0.25,
+        "operational_complexity": 0.20
+      },
+      "voting_weight": 1.0,
+      "typical_concerns": [
+        "complexity_overhead",
+        "cost_implications",
+        "delivery_timeline"
+      ]
+    },
+    {
+      "id": "solarch-architect-perfectionist",
+      "name": "Architect - Perfectionist",
+      "category": "architecture_board",
+      "model": "sonnet",
+      "file": "solarch-architect-perfectionist.md",
+      "description": "Architecture Board member focused on security and compliance",
+      "version": "1.0.0",
+      "personality": "perfectionist",
+      "domain": "security",
+      "evaluation_weights": {
+        "owasp_top_10": 0.35,
+        "data_protection": 0.30,
+        "auth_authz": 0.20,
+        "audit_trails": 0.15
+      },
+      "voting_weight": 1.0,
+      "typical_concerns": [
+        "security_gaps",
+        "data_protection",
+        "compliance_requirements"
+      ]
+    },
+    {
+      "id": "solarch-architect-skeptic",
+      "name": "Architect - Skeptic",
+      "category": "architecture_board",
+      "model": "sonnet",
+      "file": "solarch-architect-skeptic.md",
+      "description": "Architecture Board member focused on maintainability and tech debt",
+      "version": "1.0.0",
+      "personality": "skeptic",
+      "domain": "maintainability",
+      "evaluation_weights": {
+        "maintainability": 0.35,
+        "debugging_difficulty": 0.25,
+        "dependency_justification": 0.25,
+        "maintainability_principle": 0.15
+      },
+      "voting_weight": 1.0,
+      "typical_concerns": [
+        "dependency_skepticism",
+        "complexity_creep",
+        "future_maintenance_burden"
+      ]
+    },
+    {
+      "id": "solarch-tech-researcher",
+      "name": "Technology Researcher",
+      "category": "research",
+      "model": "sonnet",
+      "file": "solarch-tech-researcher.md",
+      "description": "Evaluates technology options with weighted scoring",
+      "checkpoint": 3,
+      "parallel_group": "research",
+      "capabilities": [
+        "technology_evaluation",
+        "vendor_comparison",
+        "proof_of_concept_design",
+        "migration_analysis"
+      ],
+      "skill_refs": [
+        "sdd-researcher"
+      ],
+      "outputs": [
+        "research/TECH-*.md"
+      ]
+    },
+    {
+      "id": "solarch-integration-analyst",
+      "name": "Integration Analyst",
+      "category": "research",
+      "model": "sonnet",
+      "file": "solarch-integration-analyst.md",
+      "description": "Analyzes integration patterns and data flows",
+      "checkpoint": 3,
+      "parallel_group": "research",
+      "capabilities": [
+        "integration_pattern_analysis",
+        "data_flow_mapping",
+        "api_design",
+        "event_architecture"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_InformationDesignGenerator"
+      ],
+      "outputs": [
+        "06-runtime/integration-analysis.md"
+      ]
+    },
+    {
+      "id": "solarch-cost-estimator",
+      "name": "Cost Estimator",
+      "category": "research",
+      "model": "haiku",
+      "file": "solarch-cost-estimator.md",
+      "description": "Total cost of ownership analysis",
+      "checkpoint": 3,
+      "parallel_group": "research",
+      "capabilities": [
+        "tco_analysis",
+        "infrastructure_costing",
+        "license_analysis",
+        "operational_cost_projection"
+      ],
+      "skill_refs": [
+        "sdd-researcher"
+      ],
+      "outputs": [
+        "research/cost-analysis.md"
+      ]
+    },
+    {
+      "id": "solarch-c4-context",
+      "name": "C4 Context Generator",
+      "category": "c4_diagrams",
+      "model": "haiku",
+      "file": "solarch-c4-context-generator.md",
+      "description": "Generates C4 context diagram (highest level)",
+      "checkpoint": 4,
+      "sequence": 1,
+      "capabilities": [
+        "system_boundary_definition",
+        "external_actor_identification",
+        "external_system_mapping"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_C4Generator"
+      ],
+      "outputs": [
+        "diagrams/c4-context.mermaid"
+      ]
+    },
+    {
+      "id": "solarch-c4-container",
+      "name": "C4 Container Generator",
+      "category": "c4_diagrams",
+      "model": "haiku",
+      "file": "solarch-c4-container-generator.md",
+      "description": "Generates C4 container diagram",
+      "checkpoint": 4,
+      "sequence": 2,
+      "depends_on": [
+        "solarch-c4-context"
+      ],
+      "capabilities": [
+        "container_identification",
+        "technology_mapping",
+        "communication_flow"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_C4Generator"
+      ],
+      "outputs": [
+        "diagrams/c4-container.mermaid"
+      ]
+    },
+    {
+      "id": "solarch-c4-component",
+      "name": "C4 Component Generator",
+      "category": "c4_diagrams",
+      "model": "haiku",
+      "file": "solarch-c4-component-generator.md",
+      "description": "Generates C4 component diagrams per container",
+      "checkpoint": 4,
+      "sequence": 3,
+      "depends_on": [
+        "solarch-c4-container"
+      ],
+      "capabilities": [
+        "component_decomposition",
+        "interface_definition",
+        "dependency_mapping"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_C4Generator"
+      ],
+      "outputs": [
+        "05-building-blocks/modules/*/c4-component.mermaid"
+      ]
+    },
+    {
+      "id": "solarch-c4-deployment",
+      "name": "C4 Deployment Generator",
+      "category": "c4_diagrams",
+      "model": "haiku",
+      "file": "solarch-c4-deployment-generator.md",
+      "description": "Generates C4 deployment diagram",
+      "checkpoint": 7,
+      "capabilities": [
+        "infrastructure_mapping",
+        "network_topology",
+        "scaling_configuration"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_C4Generator"
+      ],
+      "outputs": [
+        "diagrams/c4-deployment.mermaid"
+      ]
+    },
+    {
+      "id": "solarch-perf-scenarios",
+      "name": "Performance Scenarios",
+      "category": "quality_scenarios",
+      "model": "haiku",
+      "file": "solarch-performance-scenarios.md",
+      "description": "Generates performance quality scenarios",
+      "checkpoint": 6,
+      "parallel_group": "quality",
+      "capabilities": [
+        "response_time_analysis",
+        "throughput_scenarios",
+        "scalability_planning",
+        "load_testing_specs"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_Arc42Generator"
+      ],
+      "outputs": [
+        "07-quality/performance-scenarios.md"
+      ]
+    },
+    {
+      "id": "solarch-security-scenarios",
+      "name": "Security Scenarios",
+      "category": "quality_scenarios",
+      "model": "haiku",
+      "file": "solarch-security-scenarios.md",
+      "description": "Generates security quality scenarios with STRIDE",
+      "checkpoint": 6,
+      "parallel_group": "quality",
+      "capabilities": [
+        "stride_threat_modeling",
+        "owasp_mapping",
+        "security_scenario_generation",
+        "penetration_test_specs"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_Arc42Generator"
+      ],
+      "outputs": [
+        "07-quality/security-scenarios.md",
+        "06-runtime/security-architecture.md"
+      ]
+    },
+    {
+      "id": "solarch-reliability-scenarios",
+      "name": "Reliability Scenarios",
+      "category": "quality_scenarios",
+      "model": "haiku",
+      "file": "solarch-reliability-scenarios.md",
+      "description": "Generates reliability and availability scenarios",
+      "checkpoint": 6,
+      "parallel_group": "quality",
+      "capabilities": [
+        "availability_analysis",
+        "fault_tolerance_design",
+        "recovery_planning",
+        "sla_definition"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_Arc42Generator"
+      ],
+      "outputs": [
+        "07-quality/reliability-scenarios.md",
+        "07-quality/sla-definitions.md",
+        "08-deployment/runbooks/recovery.md"
+      ]
+    },
+    {
+      "id": "solarch-usability-scenarios",
+      "name": "Usability Scenarios",
+      "category": "quality_scenarios",
+      "model": "haiku",
+      "file": "solarch-usability-scenarios.md",
+      "description": "Generates usability and accessibility scenarios",
+      "checkpoint": 6,
+      "parallel_group": "quality",
+      "capabilities": [
+        "wcag_compliance",
+        "ux_scenario_generation",
+        "accessibility_testing_specs",
+        "persona_scenario_mapping"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_Arc42Generator"
+      ],
+      "outputs": [
+        "07-quality/usability-scenarios.md"
+      ]
+    },
+    {
+      "id": "solarch-adr-foundation",
+      "name": "ADR Foundation Writer",
+      "category": "adr_writers",
+      "model": "sonnet",
+      "file": "solarch-adr-foundation-writer.md",
+      "description": "Creates foundational ADRs (001-004)",
+      "checkpoint": 3,
+      "sequence": 1,
+      "capabilities": [
+        "architecture_style_adr",
+        "technology_stack_adr",
+        "data_storage_adr",
+        "frontend_architecture_adr"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_AdrGenerator",
+        "thinking-critically",
+        "making-product-decisions"
+      ],
+      "outputs": [
+        "09-decisions/ADR-001-architecture-style.md",
+        "09-decisions/ADR-002-technology-stack.md",
+        "09-decisions/ADR-003-data-storage.md",
+        "09-decisions/ADR-004-frontend-architecture.md",
+        "09-decisions/adr-index.md"
+      ]
+    },
+    {
+      "id": "solarch-adr-communication",
+      "name": "ADR Communication Writer",
+      "category": "adr_writers",
+      "model": "sonnet",
+      "file": "solarch-adr-communication-writer.md",
+      "description": "Creates communication ADRs (005-008)",
+      "checkpoint": 8,
+      "parallel_group": "adr_secondary",
+      "depends_on": [
+        "solarch-adr-foundation"
+      ],
+      "capabilities": [
+        "api_design_adr",
+        "messaging_adr",
+        "external_integration_adr",
+        "authentication_adr"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_AdrGenerator"
+      ],
+      "outputs": [
+        "09-decisions/ADR-005-api-design.md",
+        "09-decisions/ADR-006-messaging.md",
+        "09-decisions/ADR-007-external-integration.md",
+        "09-decisions/ADR-008-authentication.md"
+      ]
+    },
+    {
+      "id": "solarch-adr-operational",
+      "name": "ADR Operational Writer",
+      "category": "adr_writers",
+      "model": "sonnet",
+      "file": "solarch-adr-operational-writer.md",
+      "description": "Creates operational ADRs (009-012)",
+      "checkpoint": 8,
+      "parallel_group": "adr_secondary",
+      "depends_on": [
+        "solarch-adr-foundation"
+      ],
+      "capabilities": [
+        "deployment_strategy_adr",
+        "observability_adr",
+        "security_infrastructure_adr",
+        "cicd_pipeline_adr"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_AdrGenerator"
+      ],
+      "outputs": [
+        "09-decisions/ADR-009-deployment-strategy.md",
+        "09-decisions/ADR-010-observability.md",
+        "09-decisions/ADR-011-security-infrastructure.md",
+        "09-decisions/ADR-012-cicd-pipeline.md"
+      ]
+    },
+    {
+      "id": "solarch-adr-validator",
+      "name": "ADR Validator",
+      "category": "adr_writers",
+      "model": "haiku",
+      "file": "solarch-adr-validator.md",
+      "description": "Validates all ADRs for consistency",
+      "checkpoint": 8,
+      "sequence": "last",
+      "depends_on": [
+        "solarch-adr-foundation",
+        "solarch-adr-communication",
+        "solarch-adr-operational"
+      ],
+      "capabilities": [
+        "completeness_check",
+        "consistency_validation",
+        "traceability_verification",
+        "coverage_analysis"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_AdrGenerator",
+        "SolutionArchitecture_E2ETraceabilityAnalyzer"
+      ],
+      "outputs": [
+        "09-decisions/adr-validation-report.md",
+        "09-decisions/adr-coverage-matrix.md",
+        "09-decisions/adr-issues.json"
+      ]
+    },
+    {
+      "id": "solarch-self-validator",
+      "name": "Self Validator",
+      "category": "validation",
+      "model": "haiku",
+      "file": "solarch-self-validator.md",
+      "description": "Per-ADR 15-point checklist validation",
+      "version": "1.0.0",
+      "capabilities": [
+        "frontmatter_validation",
+        "context_validation",
+        "decision_validation",
+        "traceability_validation",
+        "quality_scoring"
+      ],
+      "pass_threshold": 70,
+      "check_count": 15,
+      "target_time_ms": 15000
+    },
+    {
+      "id": "solarch-board-consensus",
+      "name": "Board Consensus",
+      "category": "validation",
+      "model": "haiku",
+      "file": "solarch-board-consensus.md",
+      "description": "Calculates weighted voting consensus",
+      "version": "1.0.0",
+      "capabilities": [
+        "weighted_voting",
+        "dissent_calculation",
+        "escalation_decision",
+        "consensus_formatting"
+      ],
+      "thresholds": {
+        "confidence": 60,
+        "dissent": 40
+      }
+    },
+    {
+      "id": "solarch-adr-consistency-validator",
+      "name": "ADR Consistency Validator",
+      "category": "global_validation",
+      "model": "haiku",
+      "file": "solarch-adr-consistency-validator.md",
+      "description": "Validates ADR cross-references and decision consistency",
+      "checkpoint": 10,
+      "parallel_group": "global_validation",
+      "capabilities": [
+        "cross_reference_validation",
+        "contradiction_detection",
+        "sequence_validation"
+      ]
+    },
+    {
+      "id": "solarch-adr-completeness-validator",
+      "name": "ADR Completeness Validator",
+      "category": "global_validation",
+      "model": "haiku",
+      "file": "solarch-adr-completeness-validator.md",
+      "description": "Validates all required ADRs exist and are complete",
+      "checkpoint": 10,
+      "parallel_group": "global_validation",
+      "capabilities": [
+        "required_adr_check",
+        "section_completeness",
+        "quality_threshold_check"
+      ]
+    },
+    {
+      "id": "solarch-traceability-validator",
+      "name": "Traceability Validator",
+      "category": "global_validation",
+      "model": "haiku",
+      "file": "solarch-traceability-validator.md",
+      "description": "Validates traceability chains (PP → ADR, REQ → ADR)",
+      "checkpoint": 10,
+      "parallel_group": "global_validation",
+      "capabilities": [
+        "pain_point_coverage",
+        "requirement_coverage",
+        "nfr_coverage",
+        "chain_validation"
+      ]
+    },
+    {
+      "id": "solarch-coverage-validator",
+      "name": "Coverage Validator",
+      "category": "global_validation",
+      "model": "haiku",
+      "file": "solarch-coverage-validator.md",
+      "description": "Validates overall coverage and identifies orphans",
+      "checkpoint": 10,
+      "parallel_group": "global_validation",
+      "capabilities": [
+        "quality_scenario_coverage",
+        "c4_diagram_coverage",
+        "orphan_detection",
+        "reference_integrity"
+      ]
+    },
+    {
+      "id": "solarch-arch-evaluator",
+      "name": "Architecture Evaluator",
+      "category": "evaluation",
+      "model": "sonnet",
+      "file": "solarch-arch-evaluator.md",
+      "description": "ATAM-inspired architecture evaluation",
+      "checkpoint": 9,
+      "sequence": 1,
+      "capabilities": [
+        "quality_attribute_analysis",
+        "tradeoff_identification",
+        "sensitivity_analysis",
+        "fitness_function_definition"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_E2ETraceabilityAnalyzer",
+        "thinking-critically",
+        "five-whys"
+      ],
+      "outputs": [
+        "reports/architecture-evaluation.md",
+        "reports/tradeoff-matrix.md",
+        "reports/fitness-functions.md",
+        "10-risks/architecture-risks.json"
+      ]
+    },
+    {
+      "id": "solarch-risk-scorer",
+      "name": "Risk Scorer",
+      "category": "evaluation",
+      "model": "haiku",
+      "file": "solarch-risk-scorer.md",
+      "description": "Quantifies and prioritizes architectural risks",
+      "checkpoint": 9,
+      "sequence": 2,
+      "depends_on": [
+        "solarch-arch-evaluator"
+      ],
+      "capabilities": [
+        "risk_scoring",
+        "risk_categorization",
+        "technical_debt_assessment",
+        "mitigation_planning"
+      ],
+      "skill_refs": [
+        "SolutionArchitecture_E2ETraceabilityAnalyzer"
+      ],
+      "outputs": [
+        "10-risks/risks-technical-debt.md",
+        "10-risks/risk-register.json",
+        "10-risks/mitigation-plan.md"
+      ]
+    }
+  ],
+  "parallel_groups": {
+    "research": {
+      "checkpoint": 3,
+      "agents": [
+        "solarch-tech-researcher",
+        "solarch-integration-analyst",
+        "solarch-cost-estimator"
+      ],
+      "strategy": "all_parallel"
+    },
+    "quality": {
+      "checkpoint": 6,
+      "agents": [
+        "solarch-perf-scenarios",
+        "solarch-security-scenarios",
+        "solarch-reliability-scenarios",
+        "solarch-usability-scenarios"
+      ],
+      "strategy": "all_parallel"
+    },
+    "adr_secondary": {
+      "checkpoint": 8,
+      "agents": [
+        "solarch-adr-communication",
+        "solarch-adr-operational"
+      ],
+      "strategy": "all_parallel",
+      "after": "solarch-adr-foundation"
+    },
+    "architecture_board": {
+      "description": "Board reviews run in parallel for each ADR",
+      "agents": [
+        "solarch-architect-pragmatist",
+        "solarch-architect-perfectionist",
+        "solarch-architect-skeptic"
+      ],
+      "strategy": "all_parallel"
+    },
+    "global_validation": {
+      "checkpoint": 10,
+      "agents": [
+        "solarch-adr-consistency-validator",
+        "solarch-adr-completeness-validator",
+        "solarch-traceability-validator",
+        "solarch-coverage-validator"
+      ],
+      "strategy": "all_parallel"
+    }
+  },
+  "sequential_chains": {
+    "c4_diagrams": {
+      "checkpoint": 4,
+      "order": [
+        "solarch-c4-context",
+        "solarch-c4-container",
+        "solarch-c4-component"
+      ]
+    },
+    "evaluation": {
+      "checkpoint": 9,
+      "order": [
+        "solarch-arch-evaluator",
+        "solarch-risk-scorer"
+      ]
+    },
+    "adr_validation": {
+      "checkpoint": 8,
+      "after": [
+        "solarch-adr-communication",
+        "solarch-adr-operational"
+      ],
+      "order": [
+        "solarch-adr-validator"
+      ]
+    }
+  },
+  "board_config": {
+    "consensus_threshold": 60,
+    "dissent_threshold": 40,
+    "max_rework_attempts": 2,
+    "escalation_tool": "AskUserQuestion",
+    "architects": [
+      {
+        "id": "solarch-architect-pragmatist",
+        "personality": "pragmatist",
+        "domain": "scalability",
+        "weight": 1.0
+      },
+      {
+        "id": "solarch-architect-perfectionist",
+        "personality": "perfectionist",
+        "domain": "security",
+        "weight": 1.0
+      },
+      {
+        "id": "solarch-architect-skeptic",
+        "personality": "skeptic",
+        "domain": "maintainability",
+        "weight": 1.0
+      }
+    ]
+  },
+  "entry_points": {
+    "system": {
+      "flag": null,
+      "description": "All ADRs (default)",
+      "example": "/solarch InventorySystem",
+      "estimated_time_minutes": 68
+    },
+    "subsystem": {
+      "flag": "--subsystem",
+      "description": "Filter by subsystem (auth, api, etc.)",
+      "example": "/solarch InventorySystem --subsystem authentication",
+      "estimated_time_minutes": 23
+    },
+    "layer": {
+      "flag": "--layer",
+      "description": "Filter by layer (frontend, backend, infrastructure)",
+      "example": "/solarch InventorySystem --layer frontend",
+      "estimated_time_minutes": 17
+    },
+    "adr": {
+      "flag": "--adr",
+      "description": "Single ADR",
+      "example": "/solarch InventorySystem --adr ADR-007",
+      "estimated_time_minutes": 6
+    }
+  },
+  "quality_modes": {
+    "standard": {
+      "description": "Board review for P0 ADRs only",
+      "board_review_trigger": "priority == P0"
+    },
+    "critical": {
+      "flag": "--quality critical",
+      "description": "Board review for ALL ADRs",
+      "board_review_trigger": "always"
+    }
+  },
+  "blocking_checkpoints": [
+    {
+      "checkpoint": 1,
+      "name": "Input Validation",
+      "validations": [
+        "productspecs_checkpoint >= 8",
+        "prototype_checkpoint >= 14",
+        "required_files_exist"
+      ]
+    },
+    {
+      "checkpoint": 10,
+      "name": "Global Validation",
+      "validations": [
+        "pain_point_coverage == 100%",
+        "requirement_coverage == 100%",
+        "all_adrs_pass_self_validation",
+        "no_dangling_references"
+      ]
+    }
+  ],
+  "model_allocation": {
+    "sonnet": {
+      "count": 10,
+      "agents": [
+        "solarch-orchestrator",
+        "solarch-adr-board-orchestrator",
+        "solarch-validation-orchestrator",
+        "solarch-architect-pragmatist",
+        "solarch-architect-perfectionist",
+        "solarch-architect-skeptic",
+        "solarch-tech-researcher",
+        "solarch-integration-analyst",
+        "solarch-adr-foundation",
+        "solarch-adr-communication",
+        "solarch-adr-operational",
+        "solarch-arch-evaluator"
+      ],
+      "rationale": "Complex reasoning, architectural decisions, board deliberation"
+    },
+    "haiku": {
+      "count": 18,
+      "agents": [
+        "solarch-cost-estimator",
+        "solarch-c4-context",
+        "solarch-c4-container",
+        "solarch-c4-component",
+        "solarch-c4-deployment",
+        "solarch-perf-scenarios",
+        "solarch-security-scenarios",
+        "solarch-reliability-scenarios",
+        "solarch-usability-scenarios",
+        "solarch-adr-validator",
+        "solarch-self-validator",
+        "solarch-board-consensus",
+        "solarch-adr-consistency-validator",
+        "solarch-adr-completeness-validator",
+        "solarch-traceability-validator",
+        "solarch-coverage-validator",
+        "solarch-risk-scorer"
+      ],
+      "rationale": "Template-driven, validation, fast consensus calculation"
+    }
+  },
+  "skill_mapping": {
+    "SolutionArchitecture_Generator": [
+      "solarch-orchestrator"
+    ],
+    "SolutionArchitecture_C4Generator": [
+      "solarch-c4-context",
+      "solarch-c4-container",
+      "solarch-c4-component",
+      "solarch-c4-deployment"
+    ],
+    "SolutionArchitecture_AdrGenerator": [
+      "solarch-adr-foundation",
+      "solarch-adr-communication",
+      "solarch-adr-operational",
+      "solarch-adr-validator"
+    ],
+    "SolutionArchitecture_Arc42Generator": [
+      "solarch-orchestrator"
+    ],
+    "SolutionArchitecture_InformationDesignGenerator": [
+      "solarch-integration-analyst"
+    ],
+    "SolutionArchitecture_E2ETraceabilityAnalyzer": [
+      "solarch-adr-validator",
+      "solarch-arch-evaluator"
+    ]
+  }
+}

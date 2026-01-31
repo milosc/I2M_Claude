@@ -1,0 +1,27 @@
+{
+  "system_name": "ClaudeManual",
+  "scanned_at": "2026-01-31T09:15:00Z",
+  "materials": {
+    "interviews": [
+      {
+        "id": "INT-001",
+        "filename": "ClaudeManual.txt",
+        "path": "Client_Materials/Interviews/ClaudeManual.txt",
+        "type": "interview_transcript",
+        "format": "txt",
+        "size_bytes": 2847
+      }
+    ],
+    "spreadsheets": [],
+    "screenshots": [],
+    "pdfs": [],
+    "other": []
+  },
+  "summary": {
+    "total_files": 1,
+    "interviews": 1,
+    "spreadsheets": 0,
+    "screenshots": 0,
+    "pdfs": 0
+  }
+}

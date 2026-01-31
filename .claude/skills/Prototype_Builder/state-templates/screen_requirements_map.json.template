@@ -1,0 +1,23 @@
+{
+  "$schema": "screen-requirements-map-v1",
+  "$metadata": {
+    "created_at": null,
+    "updated_at": null,
+    "created_by": "Prototype_Screens",
+    "source": ["requirements_registry.json", "screen_registry.json"]
+  },
+  "mappings": {},
+  "requirements_by_screen": {},
+  "screens_by_requirement": {},
+  "coverage": {
+    "total_screens": 0,
+    "screens_with_requirements": 0,
+    "total_requirements": 0,
+    "requirements_mapped": 0,
+    "p0_coverage_percent": 0
+  },
+  "unmapped": {
+    "screens_without_requirements": [],
+    "requirements_without_screens": []
+  }
+}

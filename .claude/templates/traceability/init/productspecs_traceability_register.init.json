@@ -1,0 +1,68 @@
+{
+    "$documentation": {
+        "purpose": "Stage-specific traceability register for the Product Specs phase. Consolidates requirement-to-screen-to-module mappings.",
+        "stage": "ProductSpecs",
+        "phase_position": "Stage register - aggregates requirements, screens, and modules with coverage metrics",
+        "upstream": [
+            "prototype_traceability_register.json",
+            "pain_point_registry.json",
+            "requirements_registry.json"
+        ],
+        "downstream": [
+            "solarch_traceability_register.json"
+        ],
+        "commands": [
+            "/productspecs",
+            "/productspecs-validate"
+        ],
+        "skills": [
+            "ProductSpecs_Generator",
+            "ProductSpecs_Validator"
+        ],
+        "validation_rules": [
+            "Pain point coverage >= 80%",
+            "Screen coverage = 100%",
+            "Requirement coverage = 100%"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "stage": "ProductSpecs",
+    "checkpoint": 7,
+    "upstream_links": {
+        "discovery_folder": "",
+        "discovery_register": "traceability/pain_point_registry.json",
+        "prototype_folder": "",
+        "prototype_register": "traceability/prototype_traceability_register.json"
+    },
+    "local_registry": "",
+    "coverage": {
+        "pain_points": {
+            "total": 0,
+            "addressed": 0,
+            "coverage_percent": 0
+        },
+        "jtbd": {
+            "total": 0,
+            "addressed": 0,
+            "coverage_percent": 0
+        },
+        "screens": {
+            "total": 0,
+            "addressed": 0,
+            "coverage_percent": 0
+        },
+        "requirements": {
+            "total": 0,
+            "addressed": 0,
+            "coverage_percent": 0
+        }
+    },
+    "requirement_traceability": [],
+    "validation": {
+        "passed": false,
+        "checks": []
+    }
+}

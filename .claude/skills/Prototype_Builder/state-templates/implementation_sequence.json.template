@@ -1,0 +1,24 @@
+{
+  "$schema": "implementation-sequence-v1",
+  "$metadata": {
+    "created_at": null,
+    "updated_at": null,
+    "created_by": "Prototype_Sequencer",
+    "source": ["requirements_registry.json", "screen_registry.json", "data_model.json"]
+  },
+  "phases": [],
+  "checkpoints": [],
+  "build_order": {
+    "components": [],
+    "screens": [],
+    "services": [],
+    "hooks": []
+  },
+  "dependencies": {},
+  "statistics": {
+    "total_phases": 0,
+    "total_checkpoints": 0,
+    "total_items": 0,
+    "p0_items": 0
+  }
+}

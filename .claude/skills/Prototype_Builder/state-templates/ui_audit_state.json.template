@@ -1,0 +1,31 @@
+{
+  "$schema": "ui-audit-state-v1",
+  "$metadata": {
+    "created_at": null,
+    "updated_at": null,
+    "created_by": "Prototype_UIAudit",
+    "source": "qa_validation_state.json"
+  },
+  "status": "pending",
+  "last_run": null,
+  "score": 0,
+  "screenshots": {
+    "total": 0,
+    "captured": 0,
+    "failed": 0,
+    "directory": "05-validation/screenshots/"
+  },
+  "visual_checks": {
+    "passed": 0,
+    "failed": 0,
+    "warnings": 0
+  },
+  "responsive_tests": {
+    "mobile": { "passed": 0, "failed": 0 },
+    "tablet": { "passed": 0, "failed": 0 },
+    "desktop": { "passed": 0, "failed": 0 }
+  },
+  "issues": [],
+  "skipped_issues": [],
+  "open_issues": []
+}

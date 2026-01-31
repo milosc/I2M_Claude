@@ -1,0 +1,18 @@
+{
+  "$schema": "jtbd-map-v1",
+  "$metadata": {
+    "created_at": null,
+    "updated_at": null,
+    "created_by": "Prototype_Requirements",
+    "source": "discovery_summary.json"
+  },
+  "jtbd_to_screens": {},
+  "jtbd_to_requirements": {},
+  "screen_to_jtbd": {},
+  "persona_to_jtbd": {},
+  "coverage": {
+    "total_jtbd": 0,
+    "addressed_jtbd": 0,
+    "coverage_percent": 0
+  }
+}

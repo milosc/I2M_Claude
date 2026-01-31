@@ -1,0 +1,142 @@
+{
+    "$documentation": {
+        "purpose": "Stage-specific traceability register for the Implementation phase. Links implementation tasks to upstream modules, ADRs, components, requirements, and pain points. Tracks code files and test coverage.",
+        "stage": "Implementation",
+        "phase_position": "Final stage - implements the solution architecture via TDD tasks",
+        "upstream": [
+            "solarch_traceability_register.json",
+            "productspecs_traceability_register.json",
+            "module_registry.json",
+            "component_registry.json",
+            "adr_registry.json"
+        ],
+        "downstream": [],
+        "commands": [
+            "/htec-sdd",
+            "/htec-sdd-validate"
+        ],
+        "skills": [
+            "Implementation_TaskDecomposer",
+            "Implementation_Developer",
+            "Implementation_CodeReview",
+            "Implementation_Integrator",
+            "Implementation_Validator"
+        ],
+        "id_pattern": {
+            "description": "Uses task IDs (T-NNN) with links to upstream registries"
+        },
+        "key_attributes": {
+            "upstream_links": "References to all upstream phases",
+            "traceability_chain": "Full chain from CM to Code/Tests",
+            "coverage.tasksCompleted": "Count of completed implementation tasks",
+            "coverage.modulesImplemented": "Count of modules with code",
+            "coverage.testCoverage": "Test coverage percentage",
+            "module_status": "Per-module implementation status",
+            "code_review": "Code review results summary",
+            "integration_testing": "Integration test results",
+            "adr_compliance": "ADR implementation compliance"
+        },
+        "validation_rules": [
+            "P0 task completion = 100% for CP5",
+            "Test coverage >= 80% for CP6",
+            "All tasks MUST link to a module",
+            "All modules MUST link to SolArch components",
+            "No CRITICAL code review findings"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "stage": "Implementation",
+    "checkpoint": 0,
+    "upstream_links": {
+        "discovery_folder": "ClientAnalysis_{{SYSTEM_NAME}}/",
+        "prototype_folder": "Prototype_{{SYSTEM_NAME}}/",
+        "productspecs_folder": "ProductSpecs_{{SYSTEM_NAME}}/",
+        "solarch_folder": "SolArch_{{SYSTEM_NAME}}/",
+        "solarch_register": "traceability/solarch_traceability_register.json",
+        "productspecs_register": "traceability/productspecs_traceability_register.json",
+        "component_registry": "traceability/component_registry.json",
+        "adr_registry": "traceability/adr_registry.json",
+        "module_registry": "traceability/module_registry.json",
+        "task_registry": "traceability/task_registry.json"
+    },
+    "local_registry": "Implementation_{{SYSTEM_NAME}}/traceability/",
+    "traceability_chain": {
+        "description": "CM -> PP -> JTBD -> REQ -> SCR -> MOD -> ADR -> COMP -> T -> Code -> Test",
+        "levels": [
+            "Client Material (CM)",
+            "Pain Point (PP)",
+            "Job To Be Done (JTBD)",
+            "Requirement (REQ)",
+            "Screen (SCR)",
+            "Module Spec (MOD)",
+            "Architecture Decision Record (ADR)",
+            "Component (COMP)",
+            "Implementation Task (T)",
+            "Source Code (src/)",
+            "Test File (tests/)"
+        ]
+    },
+    "coverage": {
+        "tasksCompleted": 0,
+        "tasksTotal": 0,
+        "tasksCoveragePercent": 0,
+        "tasksDeferred": 0,
+        "modulesImplemented": 0,
+        "modulesTotal": 0,
+        "modulesCoveragePercent": 0,
+        "modulesComplete": 0,
+        "modulesPartial": 0,
+        "modulesNotStarted": 0,
+        "p0TasksCompleted": 0,
+        "p0TasksTotal": 0,
+        "p0CoveragePercent": 0,
+        "p1TasksCompleted": 0,
+        "p1TasksTotal": 0,
+        "p1CoveragePercent": 0,
+        "p2TasksCompleted": 0,
+        "p2TasksTotal": 0,
+        "p2CoveragePercent": 0,
+        "testFiles": 0,
+        "testsPassing": 0,
+        "testsTotal": 0,
+        "testBreakdown": {
+            "unit": 0,
+            "integration": 0,
+            "e2e": 0
+        },
+        "estimatedCoverage": 0
+    },
+    "module_status": {},
+    "code_review": {
+        "checkpoint": 6,
+        "status": "pending",
+        "findings": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "total": 0
+        },
+        "top_issues": [],
+        "recommendation": ""
+    },
+    "integration_testing": {
+        "checkpoint": 7,
+        "status": "pending",
+        "tests_passing": 0,
+        "tests_total": 0,
+        "api_contracts_validated": 0
+    },
+    "deferred_items": [],
+    "adr_compliance": {},
+    "validation": {
+        "passed": false,
+        "timestamp": "",
+        "checkpoints": {},
+        "checks": [],
+        "blocking_issues": []
+    }
+}

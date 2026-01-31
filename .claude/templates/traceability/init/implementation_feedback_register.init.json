@@ -1,0 +1,78 @@
+{
+    "$documentation": {
+        "purpose": "Registry of Implementation phase stakeholder feedback items and change requests. Tracks bugs, enhancements, and modifications with Kaizen-based root cause analysis and PDCA implementation workflow.",
+        "stage": "Implementation",
+        "phase_position": "Quality feedback - captures issues discovered during implementation and testing",
+        "upstream": [
+            "task_registry.json",
+            "review_registry.json",
+            "implementation_traceability_register.json"
+        ],
+        "downstream": [],
+        "commands": [
+            "/htec-sdd-changerequest"
+        ],
+        "skills": [
+            "Implementation_ChangeAnalyzer",
+            "Implementation_ChangeImplementer"
+        ],
+        "id_pattern": {
+            "format": "CR-{NNN}",
+            "description": "Change Request identifier",
+            "example": "CR-001"
+        },
+        "key_attributes": {
+            "feedback[].id": "Change request identifier CR-NNN",
+            "feedback[].type": "bug | enhancement | refactor | documentation",
+            "feedback[].severity": "critical | high | medium | low",
+            "feedback[].status": "registered | analyzing | approved | implementing | completed | rejected",
+            "feedback[].analysis_method": "quick_check | five_whys | fishbone | a3_full | gemba_walk",
+            "feedback[].root_cause": "Identified root cause from analysis",
+            "feedback[].affected_tasks": "Array of T-NNN task IDs affected",
+            "feedback[].implementation_plan": "PDCA-based implementation approach",
+            "feedback[].learnings": "Captured insights for CLAUDE.md"
+        },
+        "analysis_methods": {
+            "quick_check": "Simple, low-risk, obvious cause (10-15 min)",
+            "five_whys": "Moderate complexity, need root cause (30-60 min)",
+            "fishbone": "Complex, multiple contributing factors (60-90 min)",
+            "a3_full": "Critical issues, comprehensive documentation (2-4 hours)",
+            "gemba_walk": "Unfamiliar code, need to understand first (30-60 min)"
+        },
+        "validation_rules": [
+            "All change requests MUST have root cause before implementation",
+            "Bug fixes MUST have failing test before fix",
+            "Learnings MUST be captured in CLAUDE.md for critical issues",
+            "All implementations follow PDCA cycle"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "feedback": [],
+    "statistics": {
+        "total": 0,
+        "by_type": {
+            "bug": 0,
+            "enhancement": 0,
+            "refactor": 0,
+            "documentation": 0
+        },
+        "by_status": {
+            "registered": 0,
+            "analyzing": 0,
+            "approved": 0,
+            "implementing": 0,
+            "completed": 0,
+            "rejected": 0
+        },
+        "by_severity": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0
+        }
+    },
+    "learnings_captured": []
+}

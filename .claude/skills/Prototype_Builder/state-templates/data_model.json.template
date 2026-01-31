@@ -1,0 +1,33 @@
+{
+  "$schema": "data-model-v1",
+  "$metadata": {
+    "created_at": null,
+    "updated_at": null,
+    "created_by": "Prototype_DataModel",
+    "source": "discovery_summary.json"
+  },
+  "entities": {},
+  "relationships": [],
+  "enums": {},
+  "entity_index": {
+    "by_type": {
+      "catalog": [],
+      "core": [],
+      "junction": [],
+      "transactional": []
+    },
+    "by_priority": {
+      "P0": [],
+      "P1": [],
+      "P2": []
+    }
+  },
+  "validation_rules": [],
+  "referential_integrity": [],
+  "statistics": {
+    "entity_count": 0,
+    "relationship_count": 0,
+    "enum_count": 0,
+    "total_fields": 0
+  }
+}

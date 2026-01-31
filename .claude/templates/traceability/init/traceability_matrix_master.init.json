@@ -1,0 +1,111 @@
+{
+    "$documentation": {
+        "purpose": "Master consolidated traceability matrix combining all artifact relationships and coverage metrics.",
+        "stage": "Cross-cutting",
+        "phase_position": "Master aggregation - computed from all registry files",
+        "upstream": [
+            "All registry files - this file aggregates their relationships"
+        ],
+        "downstream": [
+            "TRACEABILITY_MATRIX_MASTER.md",
+            "Reports",
+            "Dashboards"
+        ],
+        "commands": [
+            "/discovery-validate",
+            "/prototype-validate",
+            "/productspecs-validate",
+            "/solarch-validate"
+        ],
+        "skills": [
+            "Discovery_Validator",
+            "Prototype_Validator",
+            "ProductSpecs_Validator"
+        ],
+        "key_sections": {
+            "traceability_chain": "Defines the full chain",
+            "coverage": "Coverage metrics per artifact type",
+            "mappings": "Cross-referencing maps between artifact types",
+            "summary": "Aggregated totals and completeness percentages"
+        },
+        "validation_rules": [
+            "All coverage percentages MUST sum correctly",
+            "All IDs in mappings MUST exist in their respective registries"
+        ]
+    },
+    
+    "schema_version": "1.0.0",
+    "description": "Master Traceability Matrix - Single Source of Truth",
+    "stage": "Cross-cutting",
+    "checkpoint": 0,
+    "source_file": "traceability/traceability_matrix_master.json",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "traceability_chain": {
+        "description": "CM → PP → JTBD → REQ → SCR → COMP → MOD → NFR → ADR → EPIC → US → TS → TC → JIRA",
+        "levels": [
+            "ClientMaterial",
+            "PainPoint",
+            "JTBD",
+            "Requirement",
+            "Screen",
+            "Component",
+            "Module",
+            "NFR",
+            "ADR",
+            "Epic",
+            "UserStory",
+            "TestScenario",
+            "TestCase"
+        ],
+        "upstream_registries": [
+            "client_facts_registry.json",
+            "pain_point_registry.json",
+            "jtbd_registry.json"
+        ],
+        "downstream_registries": [
+            "requirements_registry.json",
+            "module_registry.json",
+            "adr_registry.json"
+        ]
+    },
+    "coverage": {
+        "pain_points": {
+            "total": 0,
+            "addressed": 0,
+            "coverage_percent": 0
+        },
+        "jtbd": {
+            "total": 0,
+            "addressed": 0,
+            "coverage_percent": 0
+        },
+        "screens": {
+            "total": 0,
+            "addressed": 0,
+            "coverage_percent": 0
+        },
+        "requirements": {
+            "total": 0,
+            "addressed": 0,
+            "coverage_percent": 0
+        },
+        "modules": {
+            "total": 0,
+            "addressed": 0,
+            "coverage_percent": 0
+        },
+        "adrs": {
+            "total": 0,
+            "addressed": 0,
+            "coverage_percent": 0
+        }
+    },
+    "mappings": {},
+    "summary": {
+        "total_artifacts": 0,
+        "total_links": 0,
+        "overall_coverage_percent": 0
+    }
+}

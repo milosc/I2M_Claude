@@ -1,0 +1,67 @@
+{
+    "$documentation": {
+        "purpose": "Registry of stakeholder feedback received during Discovery phase. Tracks feedback through its lifecycle.",
+        "stage": "Discovery",
+        "phase_position": "Feedback loop - captures and tracks changes to discovery artifacts",
+        "upstream": [],
+        "downstream": [
+            "pain_point_registry.json",
+            "jtbd_registry.json",
+            "screen_registry.json"
+        ],
+        "commands": [
+            "/discovery-feedback",
+            "/feedback-implement"
+        ],
+        "skills": [
+            "Discovery_FeedbackRegister",
+            "Discovery_FeedbackImplementer",
+            "Discovery_FeedbackValidator"
+        ],
+        "folder_structure": {
+            "base_path": "traceability/feedback_sessions/discovery/",
+            "session_folder": "{YYYY-MM-DD}_Feedback_{NNN}/",
+            "files": {
+                "FEEDBACK_ORIGINAL.md": "Original feedback text",
+                "FEEDBACK_SUMMARY.md": "Classified summary",
+                "IMPACT_ANALYSIS.md": "Impact assessment",
+                "IMPLEMENTATION_PLAN.md": "Change implementation plan",
+                "IMPLEMENTATION_LOG.md": "Execution log",
+                "VALIDATION_REPORT.md": "Verification results"
+            }
+        },
+        "id_pattern": {
+            "format": "FB-{NNN}",
+            "example": "FB-001"
+        },
+        "feedback_categories": {
+            "CAT-PER": "Persona-related feedback",
+            "CAT-REQ": "Requirement changes",
+            "CAT-SCR": "Screen/UI feedback",
+            "CAT-PROC": "Process improvements"
+        },
+        "validation_rules": [
+            "Every feedback item MUST have a session folder with artifacts"
+        ]
+    },
+    "$schema": "discover-feedback-registry-v1",
+    "$metadata": {
+        "document_id": "REG-FEEDBACK-001",
+        
+        "created_at": "{{CREATED_AT}}",
+        "updated_at": "{{UPDATED_AT}}",
+        "generated_by": "Traceability_Initializer",
+        "source_files": [],
+        "change_history": []
+    },
+    "feedback_items": [],
+    "statistics": {
+        "total": 0,
+        "approved": 0,
+        "rejected": 0,
+        "pending": 0,
+        "implemented": 0,
+        "validated": 0,
+        "failed": 0
+    }
+}

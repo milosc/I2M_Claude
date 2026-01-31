@@ -1,0 +1,71 @@
+{
+    "$documentation": {
+        "purpose": "Registry of code review sessions and findings from multi-agent code review at Checkpoint 6. Tracks issues found by each specialized reviewer agent (bug-hunter, security-auditor, code-quality, test-coverage, contracts-reviewer, accessibility-auditor) with severity classification and resolution status.",
+        "stage": "Implementation",
+        "phase_position": "Quality gate - validates code before integration testing",
+        "upstream": [
+            "task_registry.json",
+            "Source code files (src/)"
+        ],
+        "downstream": [
+            "implementation_traceability_register.json"
+        ],
+        "commands": [
+            "/htec-sdd-review"
+        ],
+        "skills": [
+            "Implementation_CodeReview"
+        ],
+        "id_pattern": {
+            "format": "REV-{NNN}",
+            "description": "Sequential review session identifier",
+            "example": "REV-001"
+        },
+        "finding_id_patterns": {
+            "bug_hunter": "BH-{NNN}",
+            "security_auditor": "SEC-{NNN}",
+            "code_quality": "CQ-{NNN}",
+            "test_coverage": "TC-{NNN}",
+            "contracts_reviewer": "CR-{NNN}",
+            "accessibility_auditor": "A11Y-{NNN}"
+        },
+        "key_attributes": {
+            "reviews[].id": "Review session identifier REV-NNN",
+            "reviews[].checkpoint": "Checkpoint number (typically 6)",
+            "reviews[].timestamp": "ISO 8601 timestamp of review",
+            "reviews[].status": "PASSED | PASSED_CONDITIONAL | FAILED",
+            "reviews[].files_reviewed": "Count of files reviewed",
+            "reviews[].agents": "Per-agent findings breakdown",
+            "reviews[].totals": "Aggregate finding counts by severity",
+            "reviews[].metrics": "Code quality metrics",
+            "findings_by_category": "Categorized finding IDs for tracking",
+            "p0_blockers": "Critical issues that must be fixed"
+        },
+        "severity_levels": {
+            "critical": "Blocks release - security vulnerabilities, data loss",
+            "high": "Must fix before production - bugs, compliance issues",
+            "medium": "Should fix - code quality, maintainability",
+            "low": "Nice to fix - style, minor improvements"
+        },
+        "validation_rules": [
+            "No CRITICAL findings for PASSED status",
+            "PASSED_CONDITIONAL requires action plan for HIGH findings",
+            "Test coverage must be >= 80% for full pass",
+            "All P0 blockers must be resolved before CP7"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "reviews": [],
+    "findings_by_category": {
+        "bug": [],
+        "security": [],
+        "code_quality": [],
+        "test_coverage": [],
+        "contracts": [],
+        "accessibility": []
+    },
+    "p0_blockers": {
+        "must_fix_before_production": []
+    }
+}

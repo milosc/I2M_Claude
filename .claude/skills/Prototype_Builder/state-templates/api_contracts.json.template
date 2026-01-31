@@ -1,0 +1,36 @@
+{
+  "$schema": "api-contracts-v1",
+  "$metadata": {
+    "created_at": null,
+    "updated_at": null,
+    "created_by": "Prototype_ApiContracts",
+    "source": ["data_model.json", "screen_registry.json"]
+  },
+  "base_url": "/api/v1",
+  "endpoints": [],
+  "endpoint_index": {
+    "by_entity": {},
+    "by_method": {
+      "GET": [],
+      "POST": [],
+      "PUT": [],
+      "PATCH": [],
+      "DELETE": []
+    },
+    "by_screen": {}
+  },
+  "security": {
+    "authentication": "bearer",
+    "authorization": "rbac"
+  },
+  "statistics": {
+    "total_endpoints": 0,
+    "by_method": {
+      "GET": 0,
+      "POST": 0,
+      "PUT": 0,
+      "PATCH": 0,
+      "DELETE": 0
+    }
+  }
+}

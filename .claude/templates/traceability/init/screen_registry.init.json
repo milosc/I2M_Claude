@@ -1,0 +1,69 @@
+{
+    "$documentation": {
+        "purpose": "Registry of all UI screens across mobile and desktop platforms. Tracks screen definitions from discovery through spec generation to code implementation.",
+        "stage": "Prototype",
+        "phase_position": "Fifth layer - screens implement requirements, consumed by component and module registries",
+        "upstream": [
+            "requirements_registry.json",
+            "jtbd_registry.json"
+        ],
+        "downstream": [
+            "component_registry.json",
+            "module_registry.json",
+            "prototype_traceability_register.json"
+        ],
+        "commands": [
+            "/prototype",
+            "/prototype-screen",
+            "/prototype-validate"
+        ],
+        "skills": [
+            "Prototype_Screens",
+            "Prototype_ScreenSpec",
+            "Prototype_Validator"
+        ],
+        "id_pattern": {
+            "mobile": {
+                "format": "M-{NN}",
+                "description": "Mobile/RF device screens",
+                "example": "M-01"
+            },
+            "desktop": {
+                "format": "D-{NN}",
+                "description": "Desktop/web application screens",
+                "example": "D-04"
+            },
+            "shared": {
+                "format": "S-{NN}",
+                "description": "Cross-platform shared screens",
+                "example": "S-00"
+            }
+        },
+        "key_attributes": {
+            "discovery_screens[].id": "Screen identifier (M-XX, D-XX, S-XX)",
+            "discovery_screens[].name": "Human-readable screen name",
+            "discovery_screens[].priority": "P0 (critical), P1 (high), P2 (medium)",
+            "discovery_screens[].platform": "'mobile', 'desktop', or 'shared'",
+            "traceability[].spec_status": "'complete', 'pending', or 'in_progress'",
+            "traceability[].code_status": "'complete', 'pending', or 'in_progress'"
+        },
+        "validation_rules": [
+            "Every screen MUST link to at least one requirement (REQ-XXX)",
+            "P0 screens MUST have spec_status = 'complete' before code generation"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "discovery_source": "",
+    "prototype_path": "",
+    "discovery_screens": [],
+    "traceability": [],
+    "coverage": {
+        "pain_points_total": 0,
+        "pain_points_addressed": 0,
+        "jtbd_total": 0,
+        "jtbd_addressed": 0
+    }
+}

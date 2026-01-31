@@ -1,0 +1,104 @@
+{
+    "$documentation": {
+        "purpose": "Stage-specific traceability register for the Discovery phase. Consolidates client facts, pain points, JTBDs, and user types into a single entry point for downstream stages. This is the foundation of the entire traceability chain.",
+        "stage": "Discovery",
+        "phase_position": "First stage - extracts insights from client materials and establishes evidence-based foundation",
+        "upstream": [],
+        "downstream": [
+            "prototype_traceability_register.json",
+            "screen_registry.json",
+            "requirements_registry.json"
+        ],
+        "commands": [
+            "/discovery",
+            "/discovery-validate"
+        ],
+        "skills": [
+            "Discovery_Orchestrator",
+            "Discovery_AnalyzeDocument",
+            "Discovery_ExtractPainPoints",
+            "Discovery_GenerateJTBD",
+            "Discovery_Validator"
+        ],
+        "id_pattern": {
+            "description": "Uses IDs from component registries (CF-*, PP-*, JTBD-*, P-*)"
+        },
+        "key_attributes": {
+            "upstream_links": "References to raw client materials",
+            "local_registries": "Paths to stage-specific registries",
+            "traceability_chain": "Chain description for discovery phase",
+            "coverage.clientFactsExtracted": "Count of facts extracted from materials",
+            "coverage.painPointsIdentified": "Count of pain points identified",
+            "coverage.jtbdsGenerated": "Count of JTBDs generated",
+            "coverage.personasCreated": "Count of personas created",
+            "source_to_fact": "Mapping of source files to extracted facts",
+            "fact_to_painpoint": "Mapping of facts to pain points",
+            "painpoint_to_jtbd": "Mapping of pain points to JTBDs"
+        },
+        "validation_rules": [
+            "All pain points MUST trace to client facts",
+            "All JTBDs MUST trace to pain points",
+            "P0 pain point coverage = 100%",
+            "Critical JTBD coverage = 100%"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "stage": "Discovery",
+    "checkpoint": 0,
+    "upstream_links": {
+        "client_materials_folder": "",
+        "interviews_folder": "",
+        "screenshots_folder": "",
+        "user_manuals_folder": ""
+    },
+    "downstream_links": {
+        "prototype_folder": "Prototype_{{SYSTEM_NAME}}/",
+        "prototype_register": "traceability/prototype_traceability_register.json",
+        "screen_registry": "traceability/screen_registry.json",
+        "requirements_registry": "traceability/requirements_registry.json"
+    },
+    "local_registries": {
+        "client_facts": "traceability/client_facts_registry.json",
+        "pain_points": "traceability/pain_point_registry.json",
+        "jtbd": "traceability/jtbd_registry.json",
+        "user_types": "traceability/user_type_registry.json"
+    },
+    "output_folder": "ClientAnalysis_{{SYSTEM_NAME}}/",
+    "traceability_chain": {
+        "description": "CM -> CF -> PP -> JTBD -> REQ",
+        "levels": [
+            "Client Material (CM) - Raw interviews, screenshots, manuals",
+            "Client Fact (CF) - Extracted quotes, metrics, observations",
+            "Pain Point (PP) - Validated user problems",
+            "Job To Be Done (JTBD) - User goal statements",
+            "Requirement (REQ) - Solution requirements"
+        ]
+    },
+    "coverage": {
+        "sourceFilesProcessed": 0,
+        "sourceFilesTotal": 0,
+        "sourceFilesCoveragePercent": 0,
+        "clientFactsExtracted": 0,
+        "painPointsIdentified": 0,
+        "painPointsP0": 0,
+        "painPointsP1": 0,
+        "painPointsP2": 0,
+        "jtbdsGenerated": 0,
+        "jtbdsP0": 0,
+        "jtbdsP1": 0,
+        "jtbdsP2": 0,
+        "personasCreated": 0,
+        "screensDefinned": 0
+    },
+    "source_to_fact": {},
+    "painpoint_to_jtbd": {},
+    "persona_index": {},
+    "validation": {
+        "passed": false,
+        "timestamp": "",
+        "checks": []
+    }
+}

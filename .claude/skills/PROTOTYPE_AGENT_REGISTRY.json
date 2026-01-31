@@ -1,0 +1,658 @@
+{
+  "metadata": {
+    "stage": "Prototype",
+    "stage_number": 2,
+    "version": "2.0.0",
+    "description": "Prototype Generation Multi-Agent System with TDD Teams",
+    "total_agents": 14,
+    "created": "2025-12-27",
+    "updated": "2026-01-29"
+  },
+  "categories": {
+    "orchestration": {
+      "description": "Master orchestrator for Prototype stage",
+      "count": 1
+    },
+    "specification": {
+      "description": "Specification generation agents",
+      "count": 5
+    },
+    "planning": {
+      "description": "Task decomposition and planning agents",
+      "count": 1
+    },
+    "implementation": {
+      "description": "TDD implementation agents (developers and testers)",
+      "count": 4
+    },
+    "validation": {
+      "description": "Quality and compliance validation agents",
+      "count": 5
+    }
+  },
+  "agents": [
+    {
+      "id": "prototype-orchestrator",
+      "name": "Prototype Orchestrator",
+      "category": "orchestration",
+      "model": "sonnet",
+      "file": "prototype-orchestrator.md",
+      "description": "Master coordinator for Prototype generation",
+      "checkpoints": "all",
+      "capabilities": [
+        "phase_orchestration",
+        "agent_dispatch",
+        "parallel_coordination",
+        "state_management",
+        "quality_gates",
+        "code_generation"
+      ],
+      "skill_refs": [
+        "Prototype_Builder",
+        "Prototype_ValidateDiscovery",
+        "Prototype_Requirements",
+        "thinking-critically",
+        "reinforce"
+      ],
+      "invokes": [
+        "prototype-data-model-specifier",
+        "prototype-api-contract-specifier",
+        "prototype-design-token-generator",
+        "prototype-component-specifier",
+        "prototype-screen-specifier",
+        "prototype-planner",
+        "prototype-developer-1",
+        "prototype-developer-2",
+        "prototype-tester-1",
+        "prototype-tester-2",
+        "prototype-component-validator",
+        "prototype-screen-validator",
+        "prototype-ux-validator",
+        "prototype-accessibility-auditor",
+        "prototype-visual-qa-tester"
+      ]
+    },
+    {
+      "id": "prototype-data-model-specifier",
+      "name": "Data Model Specifier",
+      "category": "specification",
+      "model": "sonnet",
+      "file": "prototype-data-model-specifier.md",
+      "description": "Generates data model from Discovery data fields",
+      "checkpoint": 3,
+      "capabilities": [
+        "entity_extraction",
+        "relationship_mapping",
+        "type_definition",
+        "validation_rules"
+      ],
+      "skill_refs": [
+        "Prototype_DataModel"
+      ],
+      "inputs": [
+        "ClientAnalysis_*/04-design-specs/data-fields.md"
+      ],
+      "outputs": [
+        "04-implementation/data-model.md"
+      ]
+    },
+    {
+      "id": "prototype-api-contract-specifier",
+      "name": "API Contract Specifier",
+      "category": "specification",
+      "model": "sonnet",
+      "file": "prototype-api-contract-specifier.md",
+      "description": "Generates API contracts from screen data requirements",
+      "checkpoint": 4,
+      "depends_on": [
+        "prototype-data-model-specifier"
+      ],
+      "capabilities": [
+        "endpoint_definition",
+        "request_response_schemas",
+        "openapi_generation",
+        "mock_data_creation"
+      ],
+      "skill_refs": [
+        "Prototype_ApiContracts",
+        "Prototype_TestData",
+        "api-patterns",
+        "api-documentation-generator",
+        "api-integration-specialist"
+      ],
+      "outputs": [
+        "04-implementation/api-contracts.json"
+      ]
+    },
+    {
+      "id": "prototype-design-token-generator",
+      "name": "Design Token Generator",
+      "category": "specification",
+      "model": "sonnet",
+      "file": "prototype-design-token-generator.md",
+      "description": "Generates design tokens and theming system",
+      "checkpoint": "6-7",
+      "capabilities": [
+        "color_system_generation",
+        "typography_scale",
+        "spacing_system",
+        "token_export"
+      ],
+      "skill_refs": [
+        "Prototype_DesignBrief",
+        "Prototype_DesignTokens"
+      ],
+      "outputs": [
+        "00-foundation/design-tokens.json",
+        "00-foundation/color-system.md",
+        "00-foundation/typography.md",
+        "00-foundation/spacing-layout.md"
+      ]
+    },
+    {
+      "id": "prototype-component-specifier",
+      "name": "Component Specifier",
+      "category": "specification",
+      "model": "sonnet",
+      "file": "prototype-component-specifier.md",
+      "description": "Generates component library specifications",
+      "checkpoint": 8,
+      "depends_on": [
+        "prototype-design-token-generator"
+      ],
+      "capabilities": [
+        "component_identification",
+        "prop_definition",
+        "variant_specification",
+        "accessibility_requirements"
+      ],
+      "skill_refs": [
+        "Prototype_Components",
+        "Prototype_Decomposition",
+        "cognitive-load",
+        "hicks-law",
+        "tailwind-patterns",
+        "ui-ux-pro-max",
+        "ui-design-system"
+      ],
+      "outputs": [
+        "01-components/component-index.md",
+        "01-components/primitives/*.md",
+        "01-components/data-display/*.md",
+        "01-components/feedback/*.md",
+        "01-components/navigation/*.md",
+        "01-components/overlays/*.md",
+        "01-components/patterns/*.md"
+      ]
+    },
+    {
+      "id": "prototype-screen-specifier",
+      "name": "Screen Specifier",
+      "category": "specification",
+      "model": "sonnet",
+      "file": "prototype-screen-specifier.md",
+      "description": "Generates detailed screen specifications",
+      "checkpoint": 9,
+      "parallel_group": "screens",
+      "depends_on": [
+        "prototype-component-specifier"
+      ],
+      "capabilities": [
+        "layout_specification",
+        "component_mapping",
+        "state_management",
+        "user_flow_definition"
+      ],
+      "skill_refs": [
+        "Prototype_Screens",
+        "Prototype_Interactions",
+        "progressive-disclosure",
+        "visual-cues-cta-psychology",
+        "cognitive-fluency-psychology",
+        "web-design-guidelines",
+        "mobile-design"
+      ],
+      "outputs": [
+        "02-screens/screen-index.md",
+        "02-screens/[screen-name]/spec.md",
+        "02-screens/[screen-name]/wireframe.md",
+        "02-screens/[screen-name]/data-requirements.md"
+      ]
+    },
+    {
+      "id": "prototype-planner",
+      "name": "Prototype Planner",
+      "category": "planning",
+      "model": "sonnet",
+      "file": "prototype-planner.md",
+      "description": "Decomposes screen specifications into evolutionary implementation tasks with TDD specs",
+      "checkpoint": 10,
+      "depends_on": [
+        "prototype-screen-specifier"
+      ],
+      "capabilities": [
+        "task_decomposition",
+        "dependency_analysis",
+        "tdd_specification",
+        "team_balancing",
+        "gantt_generation"
+      ],
+      "skill_refs": [],
+      "outputs": [
+        "04-implementation/BUILD_PLAN.md",
+        "04-implementation/task_registry.json",
+        "04-implementation/GANTT.mermaid"
+      ]
+    },
+    {
+      "id": "prototype-developer",
+      "name": "Prototype Developer",
+      "category": "implementation",
+      "model": "sonnet",
+      "file": "prototype-developer.md",
+      "description": "Executes TDD implementation following RED-GREEN-REFACTOR cycle",
+      "checkpoint": 11,
+      "parallel_instances": 2,
+      "instance_names": ["prototype-developer-1", "prototype-developer-2"],
+      "depends_on": [
+        "prototype-planner"
+      ],
+      "capabilities": [
+        "tdd_red_phase",
+        "tdd_green_phase",
+        "tdd_refactor_phase",
+        "assembly_first_compliance",
+        "file_locking"
+      ],
+      "skill_refs": [],
+      "outputs": [
+        "04-implementation/src/components/**/*.tsx",
+        "04-implementation/src/pages/**/*.tsx",
+        "04-implementation/__tests__/**/*.test.tsx"
+      ]
+    },
+    {
+      "id": "prototype-tester",
+      "name": "Prototype Tester",
+      "category": "implementation",
+      "model": "haiku",
+      "file": "prototype-tester.md",
+      "description": "Validates implemented components with 4-check validation system",
+      "checkpoint": 11,
+      "parallel_instances": 2,
+      "instance_names": ["prototype-tester-1", "prototype-tester-2"],
+      "depends_on": [
+        "prototype-developer"
+      ],
+      "capabilities": [
+        "spec_compliance_check",
+        "test_coverage_validation",
+        "accessibility_check",
+        "integration_smoke_test"
+      ],
+      "skill_refs": [],
+      "outputs": [
+        "04-implementation/validation/*.md"
+      ]
+    },
+    {
+      "id": "prototype-component-validator",
+      "name": "Component Validator",
+      "category": "validation",
+      "model": "haiku",
+      "file": "prototype-component-validator.md",
+      "description": "Validates component specifications for completeness",
+      "checkpoint": 13,
+      "parallel_group": "validation",
+      "capabilities": [
+        "spec_completeness_check",
+        "prop_type_validation",
+        "variant_coverage",
+        "token_reference_check"
+      ],
+      "skill_refs": [
+        "Prototype_QA"
+      ],
+      "outputs": [
+        "05-validation/component-validation.md"
+      ]
+    },
+    {
+      "id": "prototype-screen-validator",
+      "name": "Screen Validator",
+      "category": "validation",
+      "model": "haiku",
+      "file": "prototype-screen-validator.md",
+      "description": "Validates screen specifications and coverage",
+      "checkpoint": 13,
+      "parallel_group": "validation",
+      "capabilities": [
+        "screen_coverage_check",
+        "component_usage_validation",
+        "data_flow_verification",
+        "traceability_check"
+      ],
+      "skill_refs": [
+        "Prototype_QA"
+      ],
+      "outputs": [
+        "05-validation/screen-validation.md"
+      ]
+    },
+    {
+      "id": "prototype-ux-validator",
+      "name": "UX Validator",
+      "category": "validation",
+      "model": "haiku",
+      "file": "prototype-ux-validator.md",
+      "description": "Validates UX patterns and consistency",
+      "checkpoint": 13,
+      "parallel_group": "validation",
+      "capabilities": [
+        "pattern_consistency_check",
+        "navigation_flow_validation",
+        "interaction_pattern_review",
+        "error_state_coverage"
+      ],
+      "skill_refs": [
+        "Prototype_QA",
+        "cognitive-biases",
+        "status-quo-bias",
+        "loss-aversion-psychology"
+      ],
+      "outputs": [
+        "05-validation/ux-validation.md"
+      ]
+    },
+    {
+      "id": "prototype-accessibility-auditor",
+      "name": "Accessibility Auditor",
+      "category": "validation",
+      "model": "sonnet",
+      "file": "prototype-accessibility-auditor.md",
+      "description": "Validates WCAG 2.1 compliance",
+      "checkpoint": 13,
+      "parallel_group": "validation",
+      "capabilities": [
+        "wcag_compliance_check",
+        "aria_validation",
+        "keyboard_navigation_review",
+        "color_contrast_check"
+      ],
+      "skill_refs": [
+        "Prototype_QA"
+      ],
+      "outputs": [
+        "05-validation/accessibility-report.md"
+      ]
+    },
+    {
+      "id": "prototype-visual-qa-tester",
+      "name": "Visual QA Tester",
+      "category": "validation",
+      "model": "sonnet",
+      "file": "prototype-visual-qa-tester.md",
+      "description": "Performs visual regression and screenshot testing",
+      "checkpoint": 14,
+      "sequence": "last",
+      "depends_on": [
+        "prototype-component-validator",
+        "prototype-screen-validator",
+        "prototype-ux-validator",
+        "prototype-accessibility-auditor"
+      ],
+      "capabilities": [
+        "screenshot_capture",
+        "visual_comparison",
+        "responsive_testing",
+        "final_qa_report"
+      ],
+      "skill_refs": [
+        "Prototype_UIAudit"
+      ],
+      "outputs": [
+        "05-validation/ui-audit-report.md",
+        "05-validation/screenshots/"
+      ]
+    }
+  ],
+  "parallel_groups": {
+    "screens": {
+      "checkpoint": 9,
+      "agents": [
+        "prototype-screen-specifier"
+      ],
+      "strategy": "per_screen",
+      "description": "Generate one spec per screen from Discovery"
+    },
+    "validation": {
+      "checkpoint": 13,
+      "agents": [
+        "prototype-component-validator",
+        "prototype-screen-validator",
+        "prototype-ux-validator",
+        "prototype-accessibility-auditor"
+      ],
+      "strategy": "all_parallel",
+      "description": "Run all validators in parallel"
+    }
+  },
+  "sequential_chains": {
+    "specification": {
+      "order": [
+        "prototype-data-model-specifier",
+        "prototype-api-contract-specifier",
+        "prototype-design-token-generator",
+        "prototype-component-specifier",
+        "prototype-screen-specifier"
+      ]
+    },
+    "final_validation": {
+      "after": [
+        "validation_group"
+      ],
+      "order": [
+        "prototype-visual-qa-tester"
+      ]
+    }
+  },
+  "checkpoint_mapping": {
+    "0": {
+      "name": "Initialize",
+      "agents": [],
+      "description": "Create folders and state"
+    },
+    "1": {
+      "name": "Validate Discovery",
+      "agents": [],
+      "blocking": true,
+      "description": "Verify Discovery CP11+"
+    },
+    "2": {
+      "name": "Extract Requirements",
+      "agents": [],
+      "description": "Build requirements registry"
+    },
+    "3": {
+      "name": "Data Model",
+      "agents": [
+        "prototype-data-model-specifier"
+      ]
+    },
+    "4": {
+      "name": "API Contracts",
+      "agents": [
+        "prototype-api-contract-specifier"
+      ]
+    },
+    "5": {
+      "name": "Test Data",
+      "agents": [],
+      "description": "Generate mock data"
+    },
+    "6-7": {
+      "name": "Design Foundations",
+      "agents": [
+        "prototype-design-token-generator"
+      ]
+    },
+    "8": {
+      "name": "Components",
+      "agents": [
+        "prototype-component-specifier"
+      ]
+    },
+    "9": {
+      "name": "Screens",
+      "agents": [
+        "prototype-screen-specifier"
+      ],
+      "parallel": true,
+      "note": "One agent per screen"
+    },
+    "9.5": {
+      "name": "Review Gate",
+      "agents": [],
+      "blocking": true,
+      "description": "User approval required before build"
+    },
+    "10": {
+      "name": "Planning Phase",
+      "agents": [
+        "prototype-planner"
+      ],
+      "description": "Decompose into evolutionary tasks with TDD specs"
+    },
+    "11": {
+      "name": "Team-Based TDD Implementation",
+      "agents": [
+        "prototype-developer-1",
+        "prototype-developer-2",
+        "prototype-tester-1",
+        "prototype-tester-2"
+      ],
+      "parallel": true,
+      "description": "2 teams (developer+tester each) implement tasks in loop"
+    },
+    "12": {
+      "name": "Integration & App Shell",
+      "agents": [],
+      "description": "Wire up router, layout, providers, final build"
+    },
+    "13": {
+      "name": "Validation",
+      "agents": [
+        "prototype-component-validator",
+        "prototype-screen-validator",
+        "prototype-ux-validator",
+        "prototype-accessibility-auditor"
+      ],
+      "parallel": true
+    },
+    "14": {
+      "name": "UI Audit",
+      "agents": [
+        "prototype-visual-qa-tester"
+      ],
+      "blocking": true
+    }
+  },
+  "blocking_checkpoints": [
+    {
+      "checkpoint": 1,
+      "name": "Discovery Validation",
+      "validations": [
+        "discovery_checkpoint >= 11",
+        "required_discovery_files_exist"
+      ]
+    },
+    {
+      "checkpoint": 14,
+      "name": "UI Audit",
+      "validations": [
+        "screen_coverage == 100%",
+        "all_screens_have_react_code",
+        "wcag_aa_compliance"
+      ]
+    }
+  ],
+  "model_allocation": {
+    "sonnet": {
+      "count": 10,
+      "agents": [
+        "prototype-orchestrator",
+        "prototype-data-model-specifier",
+        "prototype-api-contract-specifier",
+        "prototype-design-token-generator",
+        "prototype-component-specifier",
+        "prototype-screen-specifier",
+        "prototype-planner",
+        "prototype-developer-1",
+        "prototype-developer-2",
+        "prototype-accessibility-auditor",
+        "prototype-visual-qa-tester"
+      ],
+      "rationale": "Complex design decisions, code generation, and TDD implementation"
+    },
+    "haiku": {
+      "count": 5,
+      "agents": [
+        "prototype-component-validator",
+        "prototype-screen-validator",
+        "prototype-ux-validator",
+        "prototype-tester-1",
+        "prototype-tester-2"
+      ],
+      "rationale": "Pattern-based validation checks and fast TDD validation"
+    }
+  },
+  "skill_mapping": {
+    "Prototype_Builder": [
+      "prototype-orchestrator"
+    ],
+    "Prototype_Screens": [
+      "prototype-screen-specifier"
+    ],
+    "Prototype_Decomposition": [
+      "prototype-component-specifier"
+    ],
+    "Prototype_TestData": [
+      "prototype-api-contract-specifier"
+    ],
+    "Prototype_QA": [
+      "prototype-component-validator",
+      "prototype-screen-validator",
+      "prototype-ux-validator"
+    ],
+    "Prototype_UIAudit": [
+      "prototype-visual-qa-tester"
+    ],
+    "slidev": [
+      "prototype-orchestrator"
+    ],
+    "pptx": [
+      "prototype-orchestrator"
+    ]
+  },
+  "traceability_ids": {
+    "requirement": {
+      "format": "REQ-NNN",
+      "example": "REQ-001",
+      "source": "PP-X.X"
+    },
+    "user_story": {
+      "format": "US-NNN",
+      "example": "US-001",
+      "source": "JTBD-X.X"
+    },
+    "screen": {
+      "format": "SCR-NNN",
+      "example": "SCR-001",
+      "source": "S-X.X"
+    },
+    "component": {
+      "format": "COMP-NNN",
+      "example": "COMP-001"
+    }
+  }
+}

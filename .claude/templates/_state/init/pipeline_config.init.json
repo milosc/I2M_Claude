@@ -1,0 +1,42 @@
+{
+    "$documentation": {
+        "purpose": "Pipeline configuration specifying the active workflow, version, and paths. Used by orchestrator skills to determine execution context.",
+        "stage": "Discovery",
+        "phase_position": "Created at CP0, referenced by all pipeline skills",
+        "upstream": [],
+        "downstream": [
+            "discovery_config.json",
+            "discovery_progress.json"
+        ],
+        "commands": [
+            "/discovery-init",
+            "/discovery"
+        ],
+        "skills": [
+            "Discovery_Orchestrator",
+            "Discovery_Init"
+        ],
+        "key_attributes": {
+            "pipeline_name": "Name of the active pipeline (discovery, prototype, productspecs, etc.)",
+            "version": "Pipeline version for compatibility tracking",
+            "created_at": "ISO timestamp when pipeline was initialized",
+            "system_name": "Name of the system being processed",
+            "input_path": "Path to input materials",
+            "output_path": "Path for pipeline outputs",
+            "skills_path": "Path to skills directory"
+        },
+        "validation_rules": [
+            "pipeline_name MUST be one of: discovery, prototype, productspecs, solarch, implementation",
+            "version MUST follow semver pattern",
+            "skills_path MUST point to valid .claude/skills/ directory"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "pipeline_name": "{{PIPELINE_NAME}}",
+    "version": "{{PIPELINE_VERSION}}",
+    "created_at": "{{CREATED_AT}}",
+    "system_name": "{{SYSTEM_NAME}}",
+    "input_path": "{{INPUT_PATH}}",
+    "output_path": "{{OUTPUT_PATH}}",
+    "skills_path": ".claude/skills/"
+}

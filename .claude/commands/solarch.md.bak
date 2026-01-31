@@ -1,0 +1,443 @@
+---
+description: Generate solution architecture with arc42 docs, C4 diagrams, and ADRs
+argument-hint: <SystemName>
+model: claude-sonnet-4-5-20250929
+allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep
+hooks:
+  PreToolUse:
+    - matcher: "*"
+      once: true
+      hooks:
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /solarch started '{"stage": "solarch"}'
+  Stop:
+    - hooks:
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /solarch ended '{"stage": "solarch"}'
+---
+
+
+# /solarch - Complete Solution Architecture Generation
+
+## FIRST ACTION (MANDATORY)
+
+Before doing ANYTHING else, run these commands:
+
+```bash
+# 1. Update session context
+bash "$CLAUDE_PROJECT_DIR/.claude/hooks/session-update.sh" --project "{SystemName}" --stage "solarch"
+
+# 2. Log command start
+bash .claude/hooks/log-lifecycle.sh command /solarch instruction_start '{"stage": "solarch", "method": "instruction-based"}'
+```
+
+
+---
+
+## v3.0 Architecture Board Mode
+
+**Version**: 3.0.0 (Hierarchical Architecture with Architecture Board)
+
+This command uses a hierarchical multi-agent architecture with:
+
+- **Architecture Board**: 3 Architect personas (Pragmatist, Perfectionist, Skeptic)
+- **Weighted Voting Consensus**: Decisions with confidence scores
+- **Self-Validation**: Per-ADR quality checks (15-point checklist)
+- **4 Entry Points**: System, subsystem, layer, single-ADR
+- **Auto-Rework**: Max 2 attempts with OBVIOUS user notification
+
+### Consensus Thresholds
+- **Confidence threshold**: >= 60% average confidence
+- **Dissent threshold**: <= 40% dissent score
+- **Escalation**: AskUserQuestion when thresholds violated
+
+### Quality Modes
+| Mode | Flag | Board Reviews | Use Case |
+|------|------|---------------|----------|
+| Standard | `--quality standard` | P0 ADRs only | Default, balanced |
+| Critical | `--quality critical` | ALL ADRs | High-stakes projects |
+
+---
+
+## 🎯 Guiding Architectural Principle
+
+**Optimize for maintainability, not simplicity.**
+
+When making architectural and implementation decisions:
+
+1. **Prioritize long-term maintainability** over short-term simplicity
+2. **Minimize complexity** by being strategic with dependencies and libraries
+3. **Avoid "simplicity traps"** - adding libraries without considering downstream debugging and maintenance burden
+4. **Think 6 months ahead** - will this decision make debugging easier or harder?
+5. **Use libraries strategically** - not avoided, but chosen carefully with justification
+
+### Decision-Making Protocol
+
+When facing architectural trade-offs between complexity and maintainability:
+
+**If the decision is clear** → Make the decision autonomously and document the rationale
+
+**If the decision is unclear** → Use `AskUserQuestion` tool with:
+- Minimum 3 alternative scenarios
+- Clear trade-off analysis for each option
+- Maintainability impact assessment (short-term vs long-term)
+- Complexity implications (cognitive load, debugging difficulty, dependency graph)
+- Recommendation with reasoning
+
+---
+
+## Rules Loading (On-Demand)
+
+This command requires traceability rules for architecture decisions:
+
+```bash
+# Load Traceability rules (includes ADR ID format, building blocks)
+/rules-traceability
+```
+
+## Description
+
+This command orchestrates the complete Solution Architecture generation pipeline (Stage 4), producing arc42-compliant documentation with C4 diagrams, ADRs, and full traceability.
+
+## Arguments
+
+- `$ARGUMENTS` - Required: `<SystemName>` (e.g., InventorySystem)
+
+## Options (v3.0 Entry Points)
+
+| Flag | Description | Example |
+|------|-------------|---------|
+| `--subsystem <name>` | Filter to subsystem ADRs | `--subsystem authentication` |
+| `--layer <name>` | Filter to layer ADRs | `--layer frontend` |
+| `--adr <id>` | Single ADR mode | `--adr ADR-007` |
+| `--quality <mode>` | Quality mode (`standard`, `critical`) | `--quality critical` |
+
+## Usage
+
+```bash
+# System-level (all ADRs) - default
+/solarch InventorySystem
+
+# Subsystem-level (66% time savings)
+/solarch InventorySystem --subsystem authentication
+
+# Layer-level (75% time savings)
+/solarch InventorySystem --layer frontend
+
+# Single ADR (91% time savings)
+/solarch InventorySystem --adr ADR-007
+
+# Quality critical mode (board review for ALL ADRs)
+/solarch InventorySystem --quality critical
+
+# Combined
+/solarch InventorySystem --subsystem authentication --quality critical
+```
+
+## Prerequisites
+
+- **Prototype Stage Complete**: `Prototype_<SystemName>/` with Checkpoint 14 passed
+- **ProductSpecs Stage Complete**: `ProductSpecs_<SystemName>/` with Checkpoint 8 passed
+- Dependencies installed: `/htec-libraries-init`
+
+## Pipeline Position
+
+```
+Discovery (Stage 1) → Prototype (Stage 2) → ProductSpecs (Stage 3) → SolArch (Stage 4)
+        ↓                    ↓                      ↓                      ↓
+ClientAnalysis_X/     Prototype_X/          ProductSpecs_X/          SolArch_X/
+```
+
+## Skills Used
+
+Read BEFORE execution:
+- `.claude/skills/SolutionArchitecture_Generator/SKILL.md`
+- `.claude/skills/SolutionArchitecture_C4Generator/SKILL.md`
+- `.claude/skills/SolutionArchitecture_AdrGenerator/SKILL.md`
+- `.claude/skills/SolutionArchitecture_Arc42Generator/SKILL.md`
+- `.claude/skills/SolutionArchitecture_InformationDesignGenerator/SKILL.md`
+- `.claude/skills/SolutionArchitecture_E2ETraceabiliyAnalyzer/SKILL.md`
+
+## Execution Flow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                 SOLUTION ARCHITECTURE PIPELINE                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  Phase 0: Initialization (Checkpoint 0)                        │
+│  ├── Create folder structure                                   │
+│  ├── Initialize _state/solarch_config.json                     │
+│  └── Initialize _state/solarch_progress.json                   │
+│                                                                 │
+│  Phase 1: Input Validation (Checkpoint 1) [BLOCKING]           │
+│  ├── Validate ProductSpecs completeness                        │
+│  ├── Validate Prototype completeness                           │
+│  └── Extract input summaries                                   │
+│                                                                 │
+│  Phase 2: Context & Goals (Checkpoint 2)                       │
+│  ├── Generate 01-introduction-goals/                           │
+│  ├── Generate 02-constraints/                                  │
+│  └── Generate 03-context-scope/                                │
+│                                                                 │
+│  Phase 3: Solution Strategy (Checkpoint 3)                     │
+│  ├── Generate 04-solution-strategy/                            │
+│  └── Generate foundation ADRs (ADR-001, ADR-002)               │
+│                                                                 │
+│  Phase 4: Building Blocks (Checkpoint 4)                       │
+│  ├── Generate 05-building-blocks/                              │
+│  ├── Generate C4 diagrams                                      │
+│  └── Register components in _registry/                         │
+│                                                                 │
+│  Phase 5: Runtime & Integration (Checkpoint 5)                 │
+│  ├── Generate 06-runtime/ scenarios                            │
+│  ├── Generate API design docs                                  │
+│  └── Generate event communication docs                         │
+│                                                                 │
+│  Phase 6: Quality & Cross-cutting (Checkpoint 6)               │
+│  ├── Generate 07-quality/                                      │
+│  ├── Generate security architecture                            │
+│  └── Generate cross-cutting concerns                           │
+│                                                                 │
+│  Phase 7: Deployment (Checkpoint 7)                            │
+│  ├── Generate 08-deployment/                                   │
+│  └── Generate operations guide                                 │
+│                                                                 │
+│  Phase 8: Decisions (Checkpoint 8)                             │
+│  ├── Complete all ADRs (09-decisions/)                         │
+│  └── Generate decision index                                   │
+│                                                                 │
+│  Phase 9: Risks (Checkpoint 9)                                 │
+│  └── Generate 10-risks/                                        │
+│                                                                 │
+│  Phase 10: Documentation (Checkpoint 10)                       │
+│  └── Generate 11-glossary/                                     │
+│                                                                 │
+│  Phase 11: Traceability (Checkpoint 11) [BLOCKING]             │
+│  ├── Validate all chains                                       │
+│  ├── 100% pain point coverage                                  │
+│  └── 100% module architecture coverage                         │
+│                                                                 │
+│  Phase 12: Finalization (Checkpoint 12)                        │
+│  ├── Generate VALIDATION_REPORT.md                             │
+│  └── Generate GENERATION_SUMMARY.md                            │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Execution Steps
+
+### Step 1: Initialize Variables
+
+```
+IF NOT SYSTEM_NAME:
+  PROMPT: "Enter system name (e.g., InventorySystem):"
+  SYSTEM_NAME = user_input
+
+SET paths:
+  PROTOTYPE_PATH = "Prototype_{SYSTEM_NAME}"
+  PRODUCTSPECS_PATH = "ProductSpecs_{SYSTEM_NAME}"
+  OUTPUT_PATH = "SolArch_{SYSTEM_NAME}"
+  ROOT_STATE = "_state"
+  ROOT_TRACE = "traceability"
+```
+
+### Step 2: Execute Checkpoints
+
+```
+FOR checkpoint IN [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]:
+  EXECUTE checkpoint:
+    0: /solarch-init {SYSTEM_NAME}
+    1: /solarch-validate {SYSTEM_NAME}
+    2: /solarch-context {SYSTEM_NAME}
+    3: /solarch-strategy {SYSTEM_NAME}
+    4: /solarch-blocks {SYSTEM_NAME}
+    5: /solarch-runtime {SYSTEM_NAME}
+    6: /solarch-quality {SYSTEM_NAME}
+    7: /solarch-deploy {SYSTEM_NAME}
+    8: /solarch-decisions {SYSTEM_NAME}
+    9: /solarch-risks {SYSTEM_NAME}
+    10: /solarch-docs {SYSTEM_NAME}
+    11: /solarch-trace {SYSTEM_NAME}
+    12: /solarch-finalize {SYSTEM_NAME}
+
+  RUN quality gate:
+    python3 .claude/hooks/solarch_quality_gates.py --validate-checkpoint {checkpoint} --dir {OUTPUT_PATH}/
+
+  IF checkpoint is BLOCKING AND validation fails:
+    STOP and show fix instructions
+
+DISPLAY completion summary
+
+## Output Structure
+
+```
+project_root/
+├── _state/                              # SHARED (ROOT)
+│   ├── solarch_config.json
+│   ├── solarch_progress.json
+│   ├── solarch_input_validation.json
+│   └── FAILURES_LOG.md
+│
+├── traceability/                        # SHARED (ROOT)
+│   └── solarch_traceability_register.json
+│
+└── SolArch_<SystemName>/                # OUTPUT
+    ├── 01-introduction-goals/
+    │   ├── introduction.md
+    │   └── stakeholders.md
+    │
+    ├── 02-constraints/
+    │   ├── business-constraints.md
+    │   ├── technical-constraints.md
+    │   └── regulatory-constraints.md
+    │
+    ├── 03-context-scope/
+    │   ├── business-context.md
+    │   └── technical-context.md
+    │
+    ├── 04-solution-strategy/
+    │   └── solution-strategy.md
+    │
+    ├── 05-building-blocks/
+    │   ├── overview.md
+    │   ├── cross-cutting.md
+    │   ├── data-model/
+    │   │   └── README.md
+    │   └── modules/
+    │       └── <module-slug>/
+    │           ├── README.md
+    │           └── c4-component.mermaid
+    │
+    ├── 06-runtime/
+    │   ├── api-design.md
+    │   ├── event-communication.md
+    │   └── security-architecture.md
+    │
+    ├── 07-quality/
+    │   ├── quality-requirements.md
+    │   └── testing-strategy.md
+    │
+    ├── 08-deployment/
+    │   ├── deployment-view.md
+    │   ├── operations-guide.md
+    │   └── runbooks/
+    │       └── RB-*.md
+    │
+    ├── 09-decisions/
+    │   ├── ADR-001-architecture-style.md
+    │   ├── ADR-002-technology-stack.md
+    │   ├── ADR-003-module-structure.md
+    │   ├── ADR-004-data-storage.md
+    │   ├── ADR-005-api-design.md
+    │   ├── ADR-006-event-communication.md
+    │   ├── ADR-007-security-architecture.md
+    │   ├── ADR-008-caching-strategy.md
+    │   └── ADR-009-observability.md
+    │
+    ├── 10-risks/
+    │   └── risks-technical-debt.md
+    │
+    ├── 11-glossary/
+    │   └── glossary.md
+    │
+    ├── _registry/
+    │   ├── components.json
+    │   ├── decisions.json
+    │   ├── architecture-traceability.json
+    │   ├── VALIDATION_REPORT.md
+    │   └── GENERATION_SUMMARY.md
+    │
+    └── diagrams/
+        ├── c4-context.mermaid
+        ├── c4-container.mermaid
+        └── c4-deployment.mermaid
+```
+
+## Traceability Chain
+
+```
+CM-XXX (Client Material)
+    ↓
+PP-X.X (Pain Point)
+    ↓
+JTBD-X.X (Job To Be Done)
+    ↓
+REQ-XXX (Requirement)
+    ↓
+MOD-XXX (Module Spec)
+    ↓
+ADR-XXX (Architecture Decision)
+    ↓
+COMP-XXX (Component)
+    ↓
+QS-XXX (Quality Scenario)
+```
+
+## Checkpoint Requirements
+
+| CP | Phase | Required Files | Validation | Blocking |
+|----|-------|----------------|------------|----------|
+| 0 | Init | Config, folders | Structure | No |
+| 1 | Validate | Input validation | Complete check | **YES** |
+| 2 | Context | Introduction, constraints, context | Content | No |
+| 3 | Strategy | Solution strategy, ADR-001, ADR-002 | Content | No |
+| 4 | Blocks | Building blocks, modules, C4 | Coverage | No |
+| 5 | Runtime | API design, events | Content | No |
+| 6 | Quality | Quality reqs, security | Content | No |
+| 7 | Deploy | Deployment view, ops guide | Content | No |
+| 8 | Decisions | All ADRs, decisions.json | Min 9 ADRs | No |
+| 9 | Risks | Risks doc | Content | No |
+| 10 | Docs | Glossary | Content | No |
+| 11 | Trace | Traceability | 100% coverage | **YES** |
+| 12 | Final | Validation report | Complete | No |
+
+## Error Handling
+
+```
+ERROR → SKIP → CONTINUE → NEVER RETRY
+```
+
+- File read fails → Log to `_state/FAILURES_LOG.md`, continue
+- Phase fails blocking checkpoint → Stop, require fix
+- Phase fails non-blocking → Continue with warnings
+- Never pip install, never retry, never ask
+
+## Quality Gates
+
+```bash
+# List checkpoints
+python3 .claude/hooks/solarch_quality_gates.py --list-checkpoints
+
+# Validate checkpoint
+python3 .claude/hooks/solarch_quality_gates.py --validate-checkpoint N --dir SolArch_X/
+
+# Validate ADR file
+python3 .claude/hooks/solarch_quality_gates.py --validate-file SolArch_X/09-decisions/ADR-001.md
+
+# Validate traceability
+python3 .claude/hooks/solarch_quality_gates.py --validate-traceability --dir SolArch_X/
+```
+
+## Related Commands
+
+| Command | Description |
+|---------|-------------|
+| `/solarch-resume` | Resume from last checkpoint |
+| `/solarch-status` | Show current progress |
+| `/solarch-reset` | Reset state |
+| `/solarch-feedback` | Process change requests |
+
+## Example
+
+```bash
+# Full generation
+/solarch InventorySystem
+
+# This will:
+# 1. Validate Prototype_InventorySystem/ and ProductSpecs_InventorySystem/
+# 2. Generate SolArch_InventorySystem/ with all documentation
+# 3. Create 9+ ADRs with full traceability
+# 4. Generate C4 diagrams
+# 5. Validate 100% coverage
+```

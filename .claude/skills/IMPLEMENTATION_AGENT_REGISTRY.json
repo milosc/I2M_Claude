@@ -1,0 +1,185 @@
+{
+  "version": "1.0.0",
+  "stage": "implementation",
+  "updated": "2026-01-30",
+  "description": "Agent registry for Implementation stage (/htec-sdd-implement)",
+  "agents": {
+    "implementation-task-orchestrator": {
+      "path": ".claude/agents/implementation-task-orchestrator.md",
+      "description": "Orchestrates full 8-phase implementation for single task in isolated context",
+      "spawned_by": ["/htec-sdd-implement"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "run_in_background": true,
+      "purpose": "Prevents context rot by running each task in isolated agent context",
+      "inputs": ["TASK_ID", "SYSTEM_NAME", "PR_GROUP", "WORKTREE_PATH"],
+      "outputs": {
+        "results_folder": "Implementation_<System>/01-tasks/<T-ID>/results/",
+        "files": [
+          "execution.json",
+          "implementation_plan.md",
+          "test_spec.md",
+          "build.log",
+          "test.log",
+          "e2e_test.log",
+          "quality_report.json",
+          "pr_description.md"
+        ]
+      },
+      "spawns": [
+        "planning-code-explorer",
+        "planning-tech-lead",
+        "implementation-test-designer",
+        "implementation-developer",
+        "implementation-test-automation-engineer",
+        "quality-bug-hunter",
+        "quality-security-auditor",
+        "quality-code-quality",
+        "quality-test-coverage",
+        "quality-contracts-reviewer",
+        "quality-accessibility-auditor",
+        "implementation-documenter",
+        "implementation-pr-preparer"
+      ]
+    },
+    "planning-code-explorer": {
+      "path": ".claude/agents/planning-code-explorer.md",
+      "description": "Analyzes codebase patterns and conventions",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 1
+    },
+    "planning-tech-lead": {
+      "path": ".claude/agents/planning-tech-lead.md",
+      "description": "Generates detailed implementation plans",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 2
+    },
+    "implementation-test-designer": {
+      "path": ".claude/agents/implementation-test-designer.md",
+      "description": "Designs test specifications before coding",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 3
+    },
+    "implementation-developer": {
+      "path": ".claude/agents/implementation-developer.md",
+      "description": "Executes TDD cycle (RED-GREEN-REFACTOR)",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 4,
+      "outputs": ["build.log", "test.log"]
+    },
+    "implementation-test-automation-engineer": {
+      "path": ".claude/agents/implementation-test-automation-engineer.md",
+      "description": "Creates E2E and integration tests",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 5,
+      "outputs": ["e2e_test.log"]
+    },
+    "quality-bug-hunter": {
+      "path": ".claude/agents/quality-bug-hunter.md",
+      "description": "Detects bugs and edge cases",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 6,
+      "run_in_background": true
+    },
+    "quality-security-auditor": {
+      "path": ".claude/agents/quality-security-auditor.md",
+      "description": "Security vulnerability scanning using OWASP 2025 guidelines",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 6,
+      "run_in_background": true,
+      "skills": [
+        "code-review-security-auditor",
+        "SECURITY_vulnerability-scanner",
+        "SECURITY_api-security-best-practices",
+        "SECURITY_top-web-vulnerabilities",
+        "SECURITY_broken-authentication",
+        "SECURITY_sql-injection-testing",
+        "SECURITY_xss-html-injection",
+        "SECURITY_idor-testing",
+        "SECURITY_file-uploads"
+      ]
+    },
+    "quality-code-quality": {
+      "path": ".claude/agents/quality-code-quality.md",
+      "description": "Code quality and SOLID principles",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 6,
+      "run_in_background": true,
+      "skills": [
+        "clean-code"
+      ]
+    },
+    "quality-test-coverage": {
+      "path": ".claude/agents/quality-test-coverage.md",
+      "description": "Test coverage analysis",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 6,
+      "run_in_background": true
+    },
+    "quality-contracts-reviewer": {
+      "path": ".claude/agents/quality-contracts-reviewer.md",
+      "description": "API contract compliance",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 6,
+      "run_in_background": true
+    },
+    "quality-accessibility-auditor": {
+      "path": ".claude/agents/quality-accessibility-auditor.md",
+      "description": "WCAG 2.1 AA compliance",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 6,
+      "run_in_background": true
+    },
+    "implementation-documenter": {
+      "path": ".claude/agents/implementation-documenter.md",
+      "description": "Generates inline docs and API documentation",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 7
+    },
+    "implementation-pr-preparer": {
+      "path": ".claude/agents/implementation-pr-preparer.md",
+      "description": "Prepares PR description and metadata",
+      "spawned_by": ["implementation-task-orchestrator"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "phase": 7,
+      "outputs": ["pr_description.md"],
+      "skills": [
+        "github_finishing-a-development-branch",
+        "github_git-pushing",
+        "github_github-workflow-automation"
+      ]
+    }
+  },
+  "dispatch_config": {
+    "default_isolation": true,
+    "default_concurrency": 2,
+    "results_path_template": "Implementation_<System>/01-tasks/<T-ID>/results/",
+    "quality_gate_blocking": true,
+    "critical_findings_threshold": 0
+  }
+}

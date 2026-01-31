@@ -1,0 +1,77 @@
+{
+    "$documentation": {
+        "purpose": "Registry of Test Cases that verify module functionality and NFR compliance.",
+        "stage": "ProductSpecs",
+        "phase_position": "Verification layer - created from modules and NFRs to ensure quality",
+        "upstream": [
+            "requirements_registry.json",
+            "module_registry.json",
+            "nfr_registry.json"
+        ],
+        "downstream": [],
+        "commands": [
+            "/productspecs",
+            "/productspecs-tests"
+        ],
+        "skills": [
+            "ProductSpecs_Generator",
+            "ProductSpecs_TestGenerator"
+        ],
+        "id_pattern": {
+            "test_cases": {
+                "format": "TC-{MODULE}-{NNN}",
+                "example": "TC-TASK-005"
+            },
+            "e2e_scenarios": {
+                "format": "E2E-{NNN}",
+                "example": "E2E-003"
+            }
+        },
+        "key_attributes": {
+            "items[].id": "Test case ID following TC-{MODULE}-{NNN} pattern",
+            "items[].module_ref": "MOD-* ID this test verifies",
+            "items[].type": "'functional' or 'performance'",
+            "e2e_scenarios[].module_refs": "Array of modules involved in the flow"
+        },
+        "test_types": {
+            "functional": "Verifies correct behavior",
+            "performance": "Verifies NFR metrics"
+        },
+        "validation_rules": [
+            "Every P0 module MUST have at least one P0 test case",
+            "E2E scenarios MUST cover cross-module workflows"
+        ]
+    },
+    
+    "schema_version": "1.0.0",
+    "description": "Registry of Test Cases with traceability",
+    "stage": "ProductSpecs",
+    "checkpoint": 6,
+    "source_file": "traceability/test_case_registry.json",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "traceability_chain": {
+        "upstream": [
+            "requirements_registry.json",
+            "module_registry.json",
+            "nfr_registry.json"
+        ],
+        "downstream": []
+    },
+    "items": [],
+    "e2e_scenarios": [],
+    "summary": {
+        "total_test_cases": 0,
+        "total_e2e_scenarios": 0,
+        "by_priority": {
+            "P0": 0,
+            "P1": 0
+        },
+        "by_type": {
+            "functional": 0,
+            "performance": 0
+        },
+        "by_module": {}
+    }
+}

@@ -1,0 +1,79 @@
+{
+    "$documentation": {
+        "purpose": "Registry of Architecture Decision Records (ADRs) documenting significant technical decisions with context, rationale, and consequences.",
+        "stage": "SolutionArchitecture",
+        "phase_position": "Seventh layer - ADRs justify architectural choices based on upstream requirements",
+        "upstream": [
+            "nfr_registry.json",
+            "module_registry.json",
+            "requirements_registry.json",
+            "pain_point_registry.json"
+        ],
+        "downstream": [
+            "component_registry.json"
+        ],
+        "commands": [
+            "/solarch",
+            "/solarch-adr"
+        ],
+        "skills": [
+            "SolutionArchitecture_AdrGenerator",
+            "SolutionArchitecture_C4Generator"
+        ],
+        "id_pattern": {
+            "format": "ADR-{NNN}",
+            "example": "ADR-007"
+        },
+        "key_attributes": {
+            "items[].id": "ADR identifier following ADR-{NNN} pattern",
+            "items[].title": "Descriptive decision title",
+            "items[].status": "'Proposed', 'Accepted', 'Deprecated', or 'Superseded'",
+            "items[].category": "Architecture, Technology, Data, Integration, Security, Performance, Operations",
+            "items[].pain_point_refs": "Array of PP-X.X IDs this decision addresses",
+            "items[].quality_scenario_refs": "Array of QS-XXX IDs for validation"
+        },
+        "adr_categories": {
+            "Architecture": "Overall system structure and patterns",
+            "Technology": "Technology stack and tool selection",
+            "Data": "Data storage, modeling, and management",
+            "Integration": "API design and system integration",
+            "Security": "Authentication, authorization, and data protection",
+            "Performance": "Caching, optimization, and scalability",
+            "Operations": "Monitoring, logging, and deployment"
+        },
+        "validation_rules": [
+            "Every ADR MUST link to at least one pain point or requirement",
+            "Accepted ADRs MUST have quality scenarios for validation"
+        ]
+    },
+    
+    "schema_version": "1.0.0",
+    "description": "Registry of Architecture Decision Records with traceability",
+    "stage": "SolutionArchitecture",
+    "checkpoint": 8,
+    "source_file": "traceability/adr_registry.json",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "traceability_chain": {
+        "upstream": [
+            "nfr_registry.json",
+            "module_registry.json",
+            "pain_point_registry.json"
+        ],
+        "downstream": [
+            "component_registry.json"
+        ]
+    },
+    "items": [],
+    "summary": {
+        "total_adrs": 0,
+        "by_status": {
+            "Proposed": 0,
+            "Accepted": 0,
+            "Deprecated": 0,
+            "Superseded": 0
+        },
+        "by_category": {}
+    }
+}

@@ -1,0 +1,198 @@
+{
+    "$documentation": {
+        "purpose": "Registry of product roadmap with phases, epics, milestones, and dependencies for strategic planning.",
+        "stage": "Discovery",
+        "phase_position": "Strategy layer - created after JTBD and product strategy",
+        "upstream": [
+            "PRODUCT_STRATEGY.md",
+            "JOBS_TO_BE_DONE.md",
+            "jtbd_registry.json",
+            "requirements_registry.json"
+        ],
+        "downstream": [
+            "epic_registry.json",
+            "user_story_registry.json",
+            "module_registry.json"
+        ],
+        "commands": [
+            "/discovery",
+            "/roadmap"
+        ],
+        "skills": [
+            "Discovery_GenerateRoadmap"
+        ],
+        "id_pattern": {
+            "epic_format": "epic-{P}.{N}",
+            "epic_example": "epic-1.1",
+            "phase_format": "phase-{N}",
+            "phase_example": "phase-1",
+            "milestone_format": "M{N}",
+            "milestone_example": "M1"
+        },
+        "key_attributes": {
+            "document_id": "Unique identifier for the roadmap (ROADMAP-{PROJECT})",
+            "roadmap_metadata.product_name": "Name of the product being planned",
+            "roadmap_metadata.total_phases": "Number of development phases (typically 3-4)",
+            "roadmap_metadata.total_epics": "Total number of epics across all phases (typically 10-15)",
+            "phases[].phase_id": "Unique phase identifier (phase-1, phase-2, etc.)",
+            "phases[].epics[].epic_id": "Unique epic identifier (epic-1.1, epic-2.3, etc.)",
+            "phases[].epics[].jtbd_addressed": "Array of JTBD-X.X IDs this epic satisfies",
+            "phases[].epics[].requirements": "Array of REQ-XXX IDs for traceability",
+            "dependency_map.critical_path": "Ordered array of epic IDs on the critical path",
+            "feature_prioritization": "Breakdown of features by priority (P0/P1/P2)"
+        },
+        "validation_rules": [
+            "Every epic MUST have at least one JTBD addressed",
+            "Every epic MUST have at least one requirement",
+            "Epic IDs MUST follow epic-{phase}.{number} format",
+            "Phase IDs MUST follow phase-{number} format",
+            "Dependencies MUST reference valid epic IDs",
+            "Critical path MUST contain valid epic IDs in dependency order"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "description": "Product roadmap with phases, epics, and dependencies",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "created_by": "Discovery_GenerateRoadmap",
+    "document_id": "ROADMAP-{{SYSTEM_NAME}}",
+    "version": "1.0.0",
+    "generated_by": "Discovery_GenerateRoadmap",
+    "source_files": [
+        "03-strategy/PRODUCT_STRATEGY.md",
+        "02-research/JOBS_TO_BE_DONE.md",
+        "02-research/personas/*.md",
+        "traceability/jtbd_registry.json"
+    ],
+    "roadmap_metadata": {
+        "product_name": "{{SYSTEM_NAME}}",
+        "planning_horizon": "12 months",
+        "total_phases": 0,
+        "total_epics": 0,
+        "roadmap_date": "{{CREATED_AT}}"
+    },
+    "phases": [],
+    "dependency_map": {
+        "critical_path": [],
+        "critical_path_duration_weeks": 0,
+        "dependencies": []
+    },
+    "feature_prioritization": {
+        "p0_must_have": [],
+        "p1_should_have": [],
+        "p2_nice_to_have": []
+    },
+    "milestones": [],
+    "future_considerations": {
+        "backlog": [],
+        "decision_points": []
+    },
+    "resource_allocation": {
+        "by_phase": [],
+        "critical_path_sequence": ""
+    },
+    "requirements_summary": {
+        "total_requirements": 0,
+        "by_epic": [],
+        "by_priority": {
+            "p0_count": 0,
+            "p0_percentage": 0,
+            "p1_count": 0,
+            "p1_percentage": 0,
+            "p2_count": 0,
+            "p2_percentage": 0
+        }
+    },
+    "schema": {
+        "phase": {
+            "phase_id": "phase-{N}",
+            "phase_number": 1,
+            "name": "Phase Name",
+            "timeline": "Week 1-12",
+            "duration_weeks": 12,
+            "theme": "Phase focus description",
+            "target_users": [
+                "Persona 1",
+                "Persona 2"
+            ],
+            "status": "not_started|in_progress|completed",
+            "objectives": [
+                "Objective 1",
+                "Objective 2"
+            ],
+            "epics": [],
+            "milestone": {
+                "name": "Milestone Name",
+                "target_date": "YYYY-MM-DD",
+                "validation_method": "How we validate completion",
+                "exit_criteria": [
+                    "Criterion 1",
+                    "Criterion 2"
+                ]
+            }
+        },
+        "epic": {
+            "epic_id": "epic-{P}.{N}",
+            "epic_number": "1.1",
+            "name": "Epic Name",
+            "priority": "P0|P1|P2",
+            "estimated_effort": "S|M|L|XL",
+            "story_points": "3-4|5-6|8-10|12-15",
+            "duration_weeks": 4,
+            "description": "2-3 sentences describing what this epic delivers",
+            "user_value": "As a [persona], I will be able to [capability], which means [benefit]",
+            "jtbd_addressed": [
+                "JTBD-X.X"
+            ],
+            "requirements": [
+                "REQ-XXX"
+            ],
+            "features": [
+                {
+                    "name": "Feature name",
+                    "description": "What it does",
+                    "priority": "Must Have|Should Have|Nice to Have"
+                }
+            ],
+            "acceptance_criteria": [
+                "Criterion 1",
+                "Criterion 2"
+            ],
+            "dependencies": {
+                "requires": [
+                    "epic-X.Y"
+                ],
+                "enables": [
+                    "epic-X.Y"
+                ]
+            },
+            "risks": [
+                {
+                    "risk": "Risk description",
+                    "mitigation": "Mitigation strategy"
+                }
+            ]
+        },
+        "dependency": {
+            "epic_id": "epic-X.Y",
+            "depends_on": [
+                "epic-X.Y"
+            ],
+            "blocks": [
+                "epic-X.Y"
+            ],
+            "phase": 1
+        },
+        "milestone": {
+            "milestone_id": "M{N}",
+            "name": "Milestone Name",
+            "target_date": "YYYY-MM-DD",
+            "phase": 1,
+            "key_deliverables": [
+                "Deliverable 1",
+                "Deliverable 2"
+            ]
+        }
+    }
+}

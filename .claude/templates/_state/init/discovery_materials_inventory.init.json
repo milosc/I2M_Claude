@@ -1,0 +1,60 @@
+{
+    "$documentation": {
+        "purpose": "Inventory of all client materials available for discovery analysis. Categorizes files by type and tracks processing status.",
+        "stage": "Discovery",
+        "phase_position": "Created at CP0 during material scanning",
+        "upstream": [
+            "discovery_config.json"
+        ],
+        "downstream": [
+            "discovery_context.json",
+            "discovery_progress.json"
+        ],
+        "commands": [
+            "/discovery-init",
+            "/discovery-analyze"
+        ],
+        "skills": [
+            "Discovery_Init",
+            "Discovery_AnalyzeDocument"
+        ],
+        "key_attributes": {
+            "inventory_date": "ISO timestamp when inventory was created",
+            "input_path": "Root path to client materials",
+            "categories": "Breakdown of materials by type (interviews, pdfs, screenshots, videos)",
+            "total_processable_files": "Count of files that can be analyzed",
+            "total_skipped": "Count of files that will be skipped (videos, etc.)"
+        },
+        "validation_rules": [
+            "inventory_date MUST be a valid ISO timestamp",
+            "input_path MUST match discovery_config.json input_path",
+            "total_processable_files MUST equal sum of processable category counts"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "inventory_date": "{{INVENTORY_DATE}}",
+    "input_path": "{{INPUT_PATH}}",
+    "categories": {
+        "interviews": {
+            "count": 0,
+            "files": []
+        },
+        "pdf_manuals": {
+            "count": 0,
+            "files": [],
+            "markdown_chunks": null,
+            "total_pages": 0
+        },
+        "screenshots": {
+            "count": 0,
+            "folder": null
+        },
+        "video_links": {
+            "count": 0,
+            "status": "skipped",
+            "reason": "YouTube URLs not processable"
+        }
+    },
+    "total_processable_files": 0,
+    "total_skipped": 0
+}

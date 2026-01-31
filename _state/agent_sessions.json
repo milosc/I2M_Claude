@@ -1,0 +1,84 @@
+{
+  "active_sessions": [],
+  "completed_sessions": [
+    {
+      "session_id": "session-f1238fdb",
+      "agent_id": "strategy-generator",
+      "agent_type": "discovery-strategy-generator",
+      "task_id": "disc-claude-manual-006",
+      "status": "completed",
+      "started_at": "2026-01-31T09:27:13.720815",
+      "last_heartbeat": "2026-01-31T09:27:13.720816",
+      "locks_held": [],
+      "ended_at": "2026-01-31T09:29:20.781106"
+    },
+    {
+      "session_id": "session-c13b46fa",
+      "agent_id": "kpis-generator",
+      "agent_type": "discovery-kpis-generator",
+      "task_id": "CP-8",
+      "status": "completed",
+      "started_at": "2026-01-31T09:30:25.531590",
+      "last_heartbeat": "2026-01-31T09:30:25.531598",
+      "locks_held": [],
+      "ended_at": "2026-01-31T09:32:27.059118"
+    },
+    {
+      "session_id": "session-dd762074",
+      "agent_id": "roadmap-generator",
+      "agent_type": "discovery-roadmap-generator",
+      "task_id": "disc-claude-manual-007",
+      "status": "completed",
+      "started_at": "2026-01-31T09:30:09.157634",
+      "last_heartbeat": "2026-01-31T09:30:09.157641",
+      "locks_held": [],
+      "ended_at": "2026-01-31T09:32:47.035245"
+    },
+    {
+      "session_id": "session-ae06ae88",
+      "agent_id": "navigation-specifier",
+      "agent_type": "discovery-navigation-specifier",
+      "task_id": "disc-claude-manual-009b",
+      "status": "completed",
+      "started_at": "2026-01-31T09:33:44.775496",
+      "last_heartbeat": "2026-01-31T09:33:44.775504",
+      "locks_held": [],
+      "ended_at": "2026-01-31T09:36:06.547316"
+    },
+    {
+      "session_id": "session-159ff88e",
+      "agent_id": "data-fields-specifier",
+      "agent_type": "discovery-data-fields-specifier",
+      "task_id": "disc-claude-manual-009c",
+      "status": "completed",
+      "started_at": "2026-01-31T09:33:59.372172",
+      "last_heartbeat": "2026-01-31T09:33:59.372180",
+      "locks_held": [],
+      "ended_at": "2026-01-31T09:36:29.614018"
+    },
+    {
+      "session_id": "session-e0638076",
+      "agent_id": "interaction-specifier",
+      "agent_type": "discovery-interaction-specifier",
+      "task_id": "disc-claude-manual-009d",
+      "status": "completed",
+      "started_at": "2026-01-31T09:34:19.801564",
+      "last_heartbeat": "2026-01-31T09:34:19.801576",
+      "locks_held": [],
+      "ended_at": "2026-01-31T09:37:22.998385"
+    },
+    {
+      "session_id": "session-32334297",
+      "agent_id": "screen-specifier",
+      "agent_type": "discovery-screen-specifier",
+      "task_id": "disc-claude-manual-009a-cp9",
+      "status": "completed",
+      "started_at": "2026-01-31T09:33:36.871690",
+      "last_heartbeat": "2026-01-31T09:33:36.871698",
+      "locks_held": [],
+      "ended_at": "2026-01-31T09:39:37.195137"
+    }
+  ],
+  "failed_sessions": [],
+  "updated_at": "2026-01-31T09:39:37.195171"
+}

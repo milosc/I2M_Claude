@@ -1,0 +1,170 @@
+:root, 
+[data-theme='graphite-light'] {
+  /* Graphite Light (Default) */
+  --bg-canvas: #ffffff;
+  --bg-surface-1: #f4f4f5;
+  --bg-surface-2: #e4e4e7;
+  --bg-overlay: #ffffff;
+  --bg-elevated: #ffffff;
+  
+  --text-primary: #111827;
+  --text-secondary: #3f3f46;
+  --text-muted: #71717a;
+  --text-inverse: #ffffff;
+  --text-link: #2563eb;
+
+  --border-subtle: #f4f4f5;
+  --border-default: #d4d4d8;
+  --border-strong: #71717a;
+
+  --accent-default: #18181b;
+  --accent-hover: #27272a;
+  --accent-active: #09090b;
+  --accent-subtle: #f4f4f5;
+
+  --success: #16a34a;
+  --warning: #ca8a04;
+  --danger: #dc2626;
+  --info: #0284c7;
+
+  --focus-ring: #3b82f6;
+  --focus-ring-offset: #ffffff;
+
+  --radius-sm: 0.125rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.75rem;
+
+  --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-overlay: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+[data-theme='graphite-dark'] {
+  --bg-canvas: #09090b;
+  --bg-surface-1: #18181b;
+  --bg-surface-2: #27272a;
+  --bg-overlay: #18181b;
+  --bg-elevated: #18181b;
+  --text-primary: #fafafa;
+  --text-secondary: #d4d4d8;
+  --text-muted: #a1a1aa;
+  --text-inverse: #09090b;
+  --text-link: #60a5fa;
+  --border-subtle: #18181b;
+  --border-default: #3f3f46;
+  --border-strong: #a1a1aa;
+  --accent-default: #fafafa;
+  --accent-hover: #f4f4f5;
+  --accent-active: #e4e4e7;
+  --accent-subtle: #27272a;
+  --focus-ring: #60a5fa;
+  --focus-ring-offset: #09090b;
+}
+
+[data-theme='ocean-light'] {
+  --bg-canvas: #f8fafc;
+  --bg-surface-1: #f1f5f9;
+  --bg-surface-2: #e2e8f0;
+  --bg-overlay: #ffffff;
+  --bg-elevated: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+  --text-link: #0284c7;
+  --border-subtle: #f1f5f9;
+  --border-default: #cbd5e1;
+  --border-strong: #64748b;
+  --accent-default: #0284c7;
+  --accent-hover: #0369a1;
+  --accent-active: #075985;
+  --accent-subtle: #e0f2fe;
+  --focus-ring: #0ea5e9;
+  --focus-ring-offset: #ffffff;
+}
+
+[data-theme='ocean-dark'] {
+  --bg-canvas: #0f172a;
+  --bg-surface-1: #1e293b;
+  --bg-surface-2: #334155;
+  --bg-overlay: #1e293b;
+  --bg-elevated: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-inverse: #0f172a;
+  --text-link: #38bdf8;
+  --border-subtle: #1e293b;
+  --border-default: #475569;
+  --border-strong: #94a3b8;
+  --accent-default: #38bdf8;
+  --accent-hover: #7dd3fc;
+  --accent-active: #bae6fd;
+  --accent-subtle: #1e293b;
+  --focus-ring: #38bdf8;
+  --focus-ring-offset: #0f172a;
+}
+
+[data-theme='forest-light'] {
+  --bg-canvas: #fcfdfc;
+  --bg-surface-1: #f0fdf4;
+  --bg-surface-2: #dcfce7;
+  --bg-overlay: #ffffff;
+  --bg-elevated: #ffffff;
+  --text-primary: #064e3b;
+  --text-secondary: #065f46;
+  --text-muted: #14532d;
+  --text-inverse: #ffffff;
+  --text-link: #059669;
+  --border-subtle: #f0fdf4;
+  --border-default: #bbf7d0;
+  --border-strong: #15803d;
+  --accent-default: #059669;
+  --accent-hover: #047857;
+  --accent-active: #065f46;
+  --accent-subtle: #ecfdf5;
+  --focus-ring: #10b981;
+  --focus-ring-offset: #ffffff;
+}
+
+[data-theme='forest-dark'] {
+  --bg-canvas: #022c22;
+  --bg-surface-1: #064e3b;
+  --bg-surface-2: #065f46;
+  --bg-overlay: #064e3b;
+  --bg-elevated: #064e3b;
+  --text-primary: #ecfdf5;
+  --text-secondary: #d1fae5;
+  --text-muted: #6ee7b7;
+  --text-inverse: #022c22;
+  --text-link: #34d399;
+  --border-subtle: #064e3b;
+  --border-default: #0f766e;
+  --border-strong: #6ee7b7;
+  --accent-default: #10b981;
+  --accent-hover: #34d399;
+  --accent-active: #6ee7b7;
+  --accent-subtle: #064e3b;
+  --focus-ring: #10b981;
+  --focus-ring-offset: #022c22;
+}
+
+/* Global High Contrast Toggles */
+[data-hc='true'] {
+  --border-default: var(--text-primary) !important;
+  --border-subtle: var(--text-primary) !important;
+  --text-secondary: var(--text-primary) !important;
+  --text-muted: var(--text-primary) !important;
+  --radius-sm: 0px !important;
+  --radius-md: 0px !important;
+  --radius-lg: 0px !important;
+}
+
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: system-ui, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  margin: 0;
+  min-height: 100vh;
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "qa-validation-state-v1",
+  "$metadata": {
+    "created_at": null,
+    "updated_at": null,
+    "created_by": "Prototype_QA",
+    "source": ["codegen_state.json", "requirements_registry.json"]
+  },
+  "status": "pending",
+  "tests": {
+    "total": 0,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0
+  },
+  "coverage": {
+    "p0_requirements": {
+      "total": 0,
+      "covered": 0,
+      "percent": 0
+    },
+    "p1_requirements": {
+      "total": 0,
+      "covered": 0,
+      "percent": 0
+    },
+    "screens": {
+      "total": 0,
+      "tested": 0,
+      "percent": 0
+    },
+    "components": {
+      "total": 0,
+      "tested": 0,
+      "percent": 0
+    }
+  },
+  "accessibility": {
+    "wcag_level": "AA",
+    "violations": [],
+    "warnings": []
+  },
+  "issues": {
+    "critical": [],
+    "high": [],
+    "medium": [],
+    "low": []
+  },
+  "traceability_matrix": {
+    "requirements_to_tests": {},
+    "tests_to_requirements": {}
+  }
+}

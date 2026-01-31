@@ -1,0 +1,68 @@
+{
+    "$documentation": {
+        "purpose": "Registry of User Stories - atomic units of work with acceptance criteria for development.",
+        "stage": "ProductSpecs",
+        "phase_position": "Export layer - derived from requirements and modules for JIRA integration",
+        "upstream": [
+            "epic_registry.json",
+            "module_registry.json",
+            "requirements_registry.json"
+        ],
+        "downstream": [
+            "test_scenario_registry.json",
+            "test_case_registry.json"
+        ],
+        "commands": [
+            "/productspecs-jira",
+            "/jira-export"
+        ],
+        "skills": [
+            "ProductSpecs_JIRAExporter",
+            "ProductSpecs_Generator"
+        ],
+        "id_pattern": {
+            "format": "US-{NNN}",
+            "example": "US-017"
+        },
+        "key_attributes": {
+            "items[].id": "User story identifier following US-{NNN} pattern",
+            "items[].description": "Full 'As a...I want...so that' statement",
+            "items[].story_points": "Fibonacci estimation (1, 2, 3, 5, 8, 13)",
+            "items[].epic_id": "Parent EPIC-XXX this story belongs to",
+            "items[].acceptance_criteria": "Array of testable criteria strings"
+        },
+        "validation_rules": [
+            "Every user story MUST have at least 3 acceptance criteria",
+            "Every user story MUST belong to exactly one epic",
+            "User story descriptions MUST follow 'As a...I want...so that' format"
+        ]
+    },
+    
+    "schema_version": "1.0.0",
+    "description": "Registry of User Stories for JIRA export",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "created_by": "ProductSpecs_JIRAExporter",
+    "schema": {
+        "id": "US-XXX",
+        "description": "As a [persona], I want [goal], so that [benefit]",
+        "priority": "P0|P1|P2",
+        "story_points": 0,
+        "epic_id": "EPIC-XXX",
+        "acceptance_criteria": [
+            "AC-1",
+            "AC-2"
+        ]
+    },
+    "items": [],
+    "summary": {
+        "total_user_stories": 0,
+        "by_priority": {
+            "P0": 0,
+            "P1": 0,
+            "P2": 0
+        },
+        "by_epic": {}
+    }
+}

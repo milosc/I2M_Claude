@@ -1,0 +1,80 @@
+{
+    "$documentation": {
+        "purpose": "Registry of Jobs-To-Be-Done statements. JTBDs express user goals in the format 'When [situation], I want [capability], so I can [outcome]'. They bridge pain points to actionable requirements.",
+        "stage": "Discovery",
+        "phase_position": "Third layer - derived from pain_point_registry.json",
+        "upstream": [
+            "pain_point_registry.json"
+        ],
+        "downstream": [
+            "requirements_registry.json",
+            "screen_registry.json",
+            "epic_registry.json"
+        ],
+        "commands": [
+            "/discovery",
+            "/discovery-jtbd"
+        ],
+        "skills": [
+            "Discovery_GenerateJTBD",
+            "Discovery_Orchestrator"
+        ],
+        "id_pattern": {
+            "format": "JTBD-{PERSONA}.{NUMBER}",
+            "persona_mapping": "Persona number from user_type_registry.json (UT-01 = 1)",
+            "example": "JTBD-1.4"
+        },
+        "key_attributes": {
+            "jtbd[].id": "Unique identifier following JTBD-{PERSONA}.{NUM} pattern",
+            "jtbd[].statement": "Full JTBD in 'When...I want...so I can' format",
+            "jtbd[].type": "'functional', 'emotional', 'social', or 'supporting'",
+            "jtbd[].persona": "User type this JTBD belongs to",
+            "jtbd[].priority": "P0 (must have), P1 (should have), P2 (could have)",
+            "jtbd[].related_pain_points": "Array of PP-* IDs this JTBD addresses"
+        },
+        "jtbd_types": {
+            "functional": "Core task the user needs to accomplish",
+            "emotional": "How the user wants to feel",
+            "social": "How the user wants to be perceived",
+            "supporting": "Auxiliary tasks that enable the main job"
+        },
+        "validation_rules": [
+            "Every JTBD MUST follow 'When...I want...so I can' format",
+            "Every JTBD MUST link to at least one pain point",
+            "Persona reference MUST exist in user_type_registry.json"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "description": "Registry of Jobs-To-Be-Done (JTBD) with traceability to pain points",
+    "stage": "Discovery",
+    "checkpoint": 3,
+    "source_file": "traceability/jtbd_registry.json",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "traceability_chain": {
+        "upstream": [
+            "pain_point_registry.json"
+        ],
+        "downstream": [
+            "requirements_registry.json",
+            "screen_registry.json"
+        ]
+    },
+    "jtbd": [],
+    "summary": {
+        "total": 0,
+        "by_persona": {},
+        "by_type": {
+            "functional": 0,
+            "emotional": 0,
+            "social": 0,
+            "supporting": 0
+        },
+        "by_priority": {
+            "P0": 0,
+            "P1": 0,
+            "P2": 0
+        }
+    }
+}

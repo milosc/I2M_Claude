@@ -1,0 +1,68 @@
+{
+    "$documentation": {
+        "purpose": "Configuration file for the Implementation phase. Defines source paths (ProductSpecs, SolArch, Discovery), target framework settings (React Native, TypeScript, testing framework), and execution parameters (parallel agents, TDD requirements, review thresholds).",
+        "stage": "Implementation",
+        "phase_position": "Created at CP0, referenced throughout implementation",
+        "upstream": [
+            "productspecs_config.json",
+            "solarch_config.json"
+        ],
+        "downstream": [
+            "implementation_progress.json",
+            "task_registry.json"
+        ],
+        "commands": [
+            "/htec-sdd-init"
+        ],
+        "skills": [
+            "Implementation_TaskDecomposer"
+        ],
+        "key_attributes": {
+            "source.productspecs_path": "Path to ProductSpecs stage outputs",
+            "source.solarch_path": "Path to SolArch stage outputs",
+            "target.framework": "Target framework (react-native, react, vue, etc.)",
+            "target.language": "Target language (typescript, javascript)",
+            "target.test_framework": "Testing framework (vitest, jest, mocha)",
+            "execution.parallel_enabled": "Enable parallel task execution",
+            "execution.tdd_required": "Enforce TDD for all tasks",
+            "execution.reflexion_enabled": "Enable self-assessment loops",
+            "checkpoints.blocking": "Checkpoints that block progress if not passed"
+        },
+        "validation_rules": [
+            "source paths MUST exist and contain valid outputs",
+            "target framework MUST be supported",
+            "blocking checkpoints MUST include 1 and 6"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "source": {
+        "productspecs_path": "ProductSpecs_{{SYSTEM_NAME}}/",
+        "solarch_path": "SolArch_{{SYSTEM_NAME}}/",
+        "discovery_path": "ClientAnalysis_{{SYSTEM_NAME}}/"
+    },
+    "target": {
+        "output_path": "Implementation_{{SYSTEM_NAME}}/",
+        "framework": "react-native",
+        "language": "typescript",
+        "test_framework": "vitest",
+        "style_system": "tailwind"
+    },
+    "execution": {
+        "parallel_enabled": true,
+        "max_parallel_agents": 3,
+        "tdd_required": true,
+        "reflexion_enabled": true,
+        "review_threshold": 70
+    },
+    "checkpoints": {
+        "blocking": [1, 6],
+        "current": 0
+    },
+    "modules": {
+        "total": 0,
+        "mobile": 0,
+        "desktop": 0
+    }
+}

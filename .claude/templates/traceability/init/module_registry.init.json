@@ -1,0 +1,79 @@
+{
+    "$documentation": {
+        "purpose": "Registry of functional modules that group related screens, APIs, and components into deliverable units with effort estimation.",
+        "stage": "ProductSpecs",
+        "phase_position": "Sixth layer - modules aggregate screens/components, inform ADRs and test cases",
+        "upstream": [
+            "requirements_registry.json",
+            "screen_registry.json",
+            "component_registry.json"
+        ],
+        "downstream": [
+            "nfr_registry.json",
+            "adr_registry.json",
+            "test_case_registry.json",
+            "user_story_registry.json"
+        ],
+        "commands": [
+            "/productspecs",
+            "/productspecs-module"
+        ],
+        "skills": [
+            "ProductSpecs_Generator",
+            "ProductSpecs_ModuleSpec"
+        ],
+        "id_pattern": {
+            "format": "MOD-{APP}-{FEATURE}-{NN}",
+            "app_codes": {
+                "MOB": "Mobile application module",
+                "DSK": "Desktop application module",
+                "ADM": "Admin portal module",
+                "SHR": "Shared/cross-platform module"
+            },
+            "example": "MOD-DSK-DASH-01"
+        },
+        "key_attributes": {
+            "items[].id": "Module ID following MOD-{APP}-{FEATURE}-{NN} pattern",
+            "items[].title": "Descriptive module name",
+            "items[].screen_refs": "Array of screen IDs in this module",
+            "items[].effort.fe": "Frontend story points estimate",
+            "items[].effort.be": "Backend story points estimate",
+            "items[].effort.total": "Total story points"
+        },
+        "validation_rules": [
+            "Every module MUST link to at least one screen or user story",
+            "effort.total MUST equal fe + be + qa"
+        ]
+    },
+    
+    "schema_version": "1.0.0",
+    "description": "Registry of Module Specifications with traceability",
+    "stage": "ProductSpecs",
+    "checkpoint": 4,
+    "source_file": "traceability/module_registry.json",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "traceability_chain": {
+        "upstream": [
+            "requirements_registry.json",
+            "screen_registry.json"
+        ],
+        "downstream": [
+            "nfr_registry.json",
+            "adr_registry.json",
+            "test_case_registry.json"
+        ]
+    },
+    "items": [],
+    "summary": {
+        "total_modules": 0,
+        "by_app": {},
+        "total_effort": {
+            "fe": 0,
+            "be": 0,
+            "qa": 0,
+            "total": 0
+        }
+    }
+}

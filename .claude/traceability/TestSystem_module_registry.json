@@ -1,0 +1,52 @@
+[
+  {
+    "id": "MOD-TEST-SEARCH-01",
+    "priority": "P0",
+    "layer": "frontend",
+    "subsystem": "ui",
+    "personas": ["admin", "user"],
+    "sources": {
+      "screens": ["SCR-001", "SCR-002"]
+    }
+  },
+  {
+    "id": "MOD-TEST-SEARCH-02",
+    "priority": "P1",
+    "layer": "backend",
+    "subsystem": "api",
+    "personas": ["admin"],
+    "sources": {
+      "screens": ["SCR-001"]
+    }
+  },
+  {
+    "id": "MOD-TEST-REPORT-01",
+    "priority": "P0",
+    "layer": "frontend",
+    "subsystem": "ui",
+    "personas": ["admin"],
+    "sources": {
+      "screens": ["SCR-003"]
+    }
+  },
+  {
+    "id": "MOD-TEST-REPORT-02",
+    "priority": "P2",
+    "layer": "backend",
+    "subsystem": "api",
+    "personas": ["user"],
+    "sources": {
+      "screens": ["SCR-003", "SCR-004"]
+    }
+  },
+  {
+    "id": "MOD-TEST-EXPORT-01",
+    "priority": "P1",
+    "layer": "middleware",
+    "subsystem": "integration",
+    "personas": ["admin", "user"],
+    "sources": {
+      "screens": ["SCR-005"]
+    }
+  }
+]

@@ -1,0 +1,67 @@
+{
+    "$documentation": {
+        "purpose": "Configuration file for the Discovery phase. Defines input/output paths, project classification for artifact applicability, and checkpoint tracking.",
+        "stage": "Discovery",
+        "phase_position": "Created at CP0, referenced throughout discovery",
+        "upstream": [],
+        "downstream": [
+            "discovery_progress.json",
+            "discovery_traceability_register.json"
+        ],
+        "commands": [
+            "/discovery-init"
+        ],
+        "skills": [
+            "Discovery_Init",
+            "Discovery_ClassifyProject"
+        ],
+        "key_attributes": {
+            "system_name": "Name of the system being analyzed",
+            "input_path": "Path to client materials folder",
+            "output_path": "Path for discovery outputs",
+            "project_classification.type": "Project type (FULL_STACK, BACKEND_ONLY, DATABASE_ONLY, INTEGRATION, INFRASTRUCTURE)",
+            "project_classification.confidence": "Confidence level of classification (HIGH, MEDIUM, LOW)",
+            "project_classification.signals": "Detected signals that informed classification",
+            "project_classification.artifact_applicability": "Which artifacts apply to this project type"
+        },
+        "validation_rules": [
+            "input_path MUST exist and contain client materials",
+            "project_classification.type MUST be a valid project type",
+            "artifact_applicability MUST match project type defaults unless overridden"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "input_path": "{{INPUT_PATH}}",
+    "output_path": "ClientAnalysis_{{SYSTEM_NAME}}/",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "status": "initialized",
+    "project_classification": {
+        "type": "FULL_STACK",
+        "detected_at": null,
+        "confidence": null,
+        "signals": [],
+        "override_reason": null,
+        "artifact_applicability": {
+            "screen-definitions": true,
+            "navigation-structure": true,
+            "data-fields": true,
+            "interaction-patterns": true,
+            "ui-components": true,
+            "PERSONAS": true,
+            "JOBS_TO_BE_DONE": true,
+            "PRODUCT_VISION": true,
+            "PRODUCT_STRATEGY": true,
+            "PRODUCT_ROADMAP": true,
+            "KPIS_AND_GOALS": true,
+            "PAIN_POINTS": true,
+            "PDF_ANALYSIS": true
+        }
+    },
+    "current_checkpoint": 0,
+    "checkpoints": {
+        "blocking": [1, 11],
+        "current": 0
+    }
+}

@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Component-level overrides using semantic tokens */
+
+.react-aria-Button {
+  background-color: var(--accent-default);
+  color: var(--text-inverse);
+  border-radius: var(--radius-md);
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  padding: 0.5rem 1rem;
+}
+
+.react-aria-Button[data-hovered] {
+  background-color: var(--accent-hover);
+  box-shadow: var(--shadow-subtle);
+}
+
+.react-aria-Button[data-pressed] {
+  background-color: var(--accent-active);
+  transform: translateY(1px);
+}
+
+.react-aria-Button[data-focus-visible] {
+  box-shadow: 0 0 0 2px var(--focus-ring-offset), 0 0 0 4px var(--focus-ring);
+}
+
+.react-aria-Input, .react-aria-TextArea {
+  background-color: var(--bg-surface-1);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  width: 100%;
+}
+
+.react-aria-Input[data-focused], .react-aria-TextArea[data-focused] {
+  border-color: var(--focus-ring);
+  box-shadow: 0 0 0 1px var(--focus-ring);
+}
+
+.react-aria-ListBox {
+  background-color: var(--bg-overlay);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-medium);
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+
+.react-aria-ListBoxItem {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  outline: none;
+  cursor: default;
+}
+
+.react-aria-ListBoxItem[data-hovered] {
+  background-color: var(--accent-subtle);
+  color: var(--text-primary);
+}
+
+.react-aria-ListBoxItem[data-focused] {
+  background-color: var(--accent-default);
+  color: var(--text-inverse);
+}
+
+.react-aria-Table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: var(--bg-canvas);
+}
+
+.react-aria-Column {
+  background-color: var(--bg-surface-1);
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 2px solid var(--border-default);
+}
+
+.react-aria-Cell {
+  padding: 0.75rem;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.react-aria-Row[data-selected] {
+  background-color: var(--accent-subtle);
+}
+
+.react-aria-Popover, .react-aria-Tooltip {
+  background-color: var(--bg-overlay);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-overlay);
+  padding: 1rem;
+  outline: none;
+}
+
+/* Base styles for popover/tooltip triggers */
+.popover-base, .tooltip-base {
+  transform-origin: var(--trigger-anchor-point);
+}
+
+/* Combined Animation Classes */
+.popover, .tooltip {
+  transform-origin: var(--trigger-anchor-point);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.popover[data-entering], .popover[data-exiting],
+.tooltip[data-entering], .tooltip[data-exiting] {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.transition {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.transition[data-entering], .transition[data-exiting] {
+  opacity: 0;
+  transform: scale(0.95);
+}

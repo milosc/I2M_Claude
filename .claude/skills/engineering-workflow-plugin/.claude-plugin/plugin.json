@@ -1,0 +1,9 @@
+{
+  "name": "engineering-workflow-skills",
+  "version": "1.1.0",
+  "description": "Skills for common software engineering workflows including git operations, test fixing, code review implementation, and feature planning with plan-implementer agent",
+  "author": {
+    "name": "mhattingpete",
+    "email": "noreply@github.com"
+  }
+}

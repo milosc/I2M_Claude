@@ -1,0 +1,67 @@
+{
+    "$documentation": {
+        "purpose": "Registry of architecture components (services, databases, modules) that implement the system.",
+        "stage": "SolutionArchitecture",
+        "phase_position": "Eighth layer - components implement ADR decisions and support modules",
+        "upstream": [
+            "module_registry.json",
+            "requirements_registry.json",
+            "adr_registry.json"
+        ],
+        "downstream": [],
+        "commands": [
+            "/solarch",
+            "/solarch-component"
+        ],
+        "skills": [
+            "SolutionArchitecture_C4Generator",
+            "SolutionArchitecture_ComponentGenerator"
+        ],
+        "id_pattern": {
+            "format": "COMP-{TYPE}-{NNN}",
+            "types": {
+                "API": "Backend API services",
+                "WS": "WebSocket/real-time services",
+                "WEB": "Web frontend applications",
+                "MOB": "Mobile applications",
+                "DB": "Database systems",
+                "CACHE": "Caching infrastructure"
+            },
+            "example": "COMP-API-001"
+        },
+        "key_attributes": {
+            "items[].id": "Component ID following COMP-{TYPE}-{NNN} pattern",
+            "items[].type": "'service', 'frontend', 'database', 'cache', 'infrastructure', or 'module'",
+            "items[].technology": "Technology stack used",
+            "items[].module_refs": "Array of MOD-* IDs this component supports",
+            "items[].adr_refs": "Array of ADR-* IDs that justify this component"
+        },
+        "validation_rules": [
+            "Every component MUST reference at least one ADR",
+            "Component IDs MUST follow the COMP-{TYPE}-{NNN} pattern"
+        ]
+    },
+    
+    "schema_version": "1.0.0",
+    "description": "Registry of Architecture Components with traceability",
+    "stage": "SolutionArchitecture",
+    "checkpoint": 4,
+    "source_file": "traceability/component_registry.json",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "traceability_chain": {
+        "upstream": [
+            "module_registry.json",
+            "requirements_registry.json"
+        ],
+        "downstream": [
+            "adr_registry.json"
+        ]
+    },
+    "items": [],
+    "summary": {
+        "total_components": 0,
+        "by_type": {}
+    }
+}

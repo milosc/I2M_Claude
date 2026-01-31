@@ -1,0 +1,135 @@
+{
+    "$documentation": {
+        "purpose": "Consolidated findings from multi-agent code review at Checkpoint 4 (Code Review). Contains all issues found by specialized reviewer agents (security-auditor, code-quality, test-coverage, accessibility-auditor, bug-hunter, contracts-reviewer) with severity classification, remediation guidance, and resolution status.",
+        "stage": "Implementation",
+        "phase_position": "Checkpoint 4 - validates code quality before integration testing",
+        "upstream": [
+            "task_registry.json",
+            "review_registry.json",
+            "Source code files (packages/*/src/)"
+        ],
+        "downstream": [
+            "implementation_traceability_register.json",
+            "CODE_REVIEW.md"
+        ],
+        "commands": [
+            "/htec-sdd-review"
+        ],
+        "skills": [
+            "Implementation_CodeReview"
+        ],
+        "agents": [
+            "quality-security-auditor",
+            "quality-code-quality",
+            "quality-test-coverage",
+            "quality-accessibility-auditor",
+            "quality-bug-hunter",
+            "quality-contracts-reviewer"
+        ],
+        "finding_id_patterns": {
+            "security": "SEC-{NNN}",
+            "code_quality": "CQ-{NNN}",
+            "test_coverage": "TC-{NNN}",
+            "accessibility": "A11Y-{NNN}",
+            "bug_hunter": "BH-{NNN}",
+            "contracts_reviewer": "CR-{NNN}"
+        },
+        "key_attributes": {
+            "findings[].id": "Finding identifier (SEC-001, CQ-001, etc.)",
+            "findings[].agent": "Agent that found this issue",
+            "findings[].severity": "critical | high | medium | low",
+            "findings[].confidence": "Confidence score 0-100",
+            "findings[].file": "File path relative to Implementation_<System>/",
+            "findings[].line": "Line number in the file",
+            "findings[].issue": "Description of the issue",
+            "findings[].remediation": "How to fix the issue",
+            "findings[].priority": "P0 (blocking) | P1 | P2 | P3",
+            "findings[].status": "open | fixed | wontfix | false_positive",
+            "metrics.files_reviewed": "Count of files reviewed",
+            "metrics.test_coverage": "Test coverage percentage",
+            "metrics.code_quality_score": "Code quality score 0-100",
+            "metrics.accessibility_score": "Accessibility compliance score 0-100",
+            "metrics.security_risk_level": "Overall security risk: low | medium | high | critical",
+            "agents.*": "Per-agent status and findings count",
+            "positive_findings.*": "Good practices found by each agent",
+            "recommendations.P0-P3": "Prioritized recommendations"
+        },
+        "severity_levels": {
+            "critical": "Blocks release - security vulnerabilities, data loss",
+            "high": "Must fix before production - bugs, compliance issues",
+            "medium": "Should fix - code quality, maintainability",
+            "low": "Nice to fix - style, minor improvements"
+        },
+        "blocking_criteria": {
+            "PASSED": "No CRITICAL findings, no HIGH findings with confidence > 90%",
+            "FAILED": "Any CRITICAL finding OR HIGH finding with confidence > 90%",
+            "test_coverage_warning": "Test coverage < 80% generates warning but doesn't block"
+        },
+        "validation_rules": [
+            "Every finding MUST have an id, agent, severity, file, and issue",
+            "Confidence score MUST be 0-100",
+            "Status MUST be one of: open, fixed, wontfix, false_positive",
+            "P0 findings MUST be resolved before CP5",
+            "All findings MUST trace to specific file and line"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "review_id": "{{REVIEW_ID}}",
+    "generated_at": "{{CREATED_AT}}",
+    "scope": "{{SCOPE}}",
+    "traceability_chain": {
+        "upstream": [
+            "traceability/task_registry.json",
+            "traceability/review_registry.json"
+        ],
+        "downstream": [
+            "traceability/implementation_traceability_register.json",
+            "Implementation_{{SYSTEM_NAME}}/reports/CODE_REVIEW.md"
+        ]
+    },
+    "findings": [],
+    "metrics": {
+        "files_reviewed": 0,
+        "test_coverage": null,
+        "tests_passing": null,
+        "tests_failing": null,
+        "tests_skipped": null,
+        "code_quality_score": null,
+        "accessibility_score": null,
+        "security_risk_level": null
+    },
+    "agents": {
+        "security": {
+            "status": "pending",
+            "findings_count": 0,
+            "risk_level": null
+        },
+        "code_quality": {
+            "status": "pending",
+            "findings_count": 0,
+            "score": null
+        },
+        "test_coverage": {
+            "status": "pending",
+            "findings_count": 0
+        },
+        "accessibility": {
+            "status": "pending",
+            "findings_count": 0,
+            "score": null
+        }
+    },
+    "positive_findings": {
+        "security": [],
+        "code_quality": [],
+        "test_coverage": [],
+        "accessibility": []
+    },
+    "recommendations": {
+        "P0": [],
+        "P1": [],
+        "P2": [],
+        "P3": []
+    }
+}

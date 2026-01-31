@@ -1,0 +1,947 @@
+---
+description: Orchestrate complete implementation workflow with specialized agents
+argument-hint: <SystemName> [options]
+model: claude-sonnet-4-5-20250929
+allowed-tools: Read, Write, Edit, Bash, Grep, Glob, Task
+hooks:
+  PreToolUse:
+    - matcher: "*"
+      once: true
+      hooks:
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /htec-sdd-implement started '{"stage": "implementation"}'
+  Stop:
+    - hooks:
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /htec-sdd-implement ended '{"stage": "implementation"}'
+---
+
+## FIRST ACTION (MANDATORY)
+
+Before doing ANYTHING else, run these commands:
+
+```bash
+# 1. Update session context
+bash "$CLAUDE_PROJECT_DIR/.claude/hooks/session-update.sh" --project "{SystemName}" --stage "implementation"
+
+# 2. Log command start
+bash .claude/hooks/log-lifecycle.sh command /htec-sdd-implement instruction_start '{"stage": "implementation", "method": "orchestration-based"}'
+```
+
+
+---
+
+## 🎯 Guiding Architectural Principle
+
+**Optimize for maintainability, not simplicity.**
+
+When making architectural and implementation decisions:
+
+1. **Prioritize long-term maintainability** over short-term simplicity
+2. **Minimize complexity** by being strategic with dependencies and libraries
+3. **Avoid "simplicity traps"** - adding libraries without considering downstream debugging and maintenance burden
+4. **Think 6 months ahead** - will this decision make debugging easier or harder?
+5. **Use libraries strategically** - not avoided, but chosen carefully with justification
+
+### Decision-Making Protocol
+
+When facing architectural trade-offs between complexity and maintainability:
+
+**If the decision is clear** → Make the decision autonomously and document the rationale
+
+**If the decision is unclear** → Use `AskUserQuestion` tool with:
+- Minimum 3 alternative scenarios
+- Clear trade-off analysis for each option
+- Maintainability impact assessment (short-term vs long-term)
+- Complexity implications (cognitive load, debugging difficulty, dependency graph)
+- Recommendation with reasoning
+
+---
+
+## Rules Loading (On-Demand)
+
+This command requires Implementation stage rules:
+
+```bash
+# Load TDD and quality gate rules
+/rules-process-integrity
+
+# Load multi-agent coordination rules
+/rules-agent-coordination
+
+# Load Traceability rules
+/rules-traceability
+```
+
+---
+
+## Overview
+
+**Philosophy**: `/htec-sdd-implement` is a **comprehensive orchestrator** that manages the complete implementation workflow from codebase research through PR preparation, using specialized agents for each phase.
+
+**Scope**: Task-based or PR-based execution (narrow scope, comprehensive process)
+
+---
+
+## Usage
+
+```bash
+# Single task (comprehensive orchestration)
+/htec-sdd-implement <SystemName> --task T-001
+
+# PR group (all tasks in group)
+/htec-sdd-implement <SystemName> --pr-group PR-001
+
+# Auto-detect from worktree
+cd ../worktrees/pr-001-auth
+/htec-sdd-implement <SystemName>  # Auto-detects PR-001
+
+# Batch processing
+/htec-sdd-implement <SystemName> --batch 5 --parallel
+
+# Priority filter
+/htec-sdd-implement <SystemName> --priority P0
+
+# Phase-specific
+/htec-sdd-implement <SystemName> --phase 3
+```
+
+---
+
+## Arguments
+
+- `<SystemName>`: Name of the system (e.g., InventorySystem)
+
+## Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--task <T-ID>` | Execute specific task only | All pending |
+| `--pr-group <PR-ID>` | Execute PR group | Auto-detect or all |
+| `--batch <N>` | Process N tasks per batch | 1 |
+| `--parallel` | Enable parallel agent execution | false |
+| `--priority <P0\|P1\|P2>` | Filter by priority | All |
+| `--phase <N>` | Target specific phase | All phases |
+| `--skip-research` | Skip codebase research | false |
+| `--skip-review` | Skip quality review | false |
+
+---
+
+## Prerequisites
+
+- ✅ `/htec-sdd-tasks` completed (task registry populated)
+- ✅ ProductSpecs Stage 3 completed (CP8+)
+- ✅ SolArch Stage 4 completed (CP12+)
+
+---
+
+## Orchestration Flow
+
+This command orchestrates 8 phases with specialized agents:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│         /htec-sdd-implement ORCHESTRATION FLOW          │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  Phase 0: Context Detection & Registry Loading         │
+│  ├─ Detect worktree & PR group                         │
+│  └─ Load task registry & config                        │
+│                                                         │
+│  Phase 1: Codebase Research                            │
+│  ├─ Agent: planning-code-explorer                      │
+│  └─ Analyze patterns, conventions, architecture        │
+│                                                         │
+│  Phase 2: Implementation Planning                      │
+│  ├─ Agent: planning-tech-lead                          │
+│  └─ Generate detailed implementation plan              │
+│                                                         │
+│  Phase 3: Test Design                                  │
+│  ├─ Agent: implementation-test-designer                │
+│  └─ Create BDD scenarios & TDD specs                   │
+│                                                         │
+│  Phase 4: TDD Implementation                           │
+│  ├─ Agent: implementation-developer                    │
+│  └─ Execute RED-GREEN-REFACTOR cycle                   │
+│                                                         │
+│  Phase 5: Test Automation                              │
+│  ├─ Agent: implementation-test-automation-engineer     │
+│  └─ E2E tests, integration tests, Playwright           │
+│                                                         │
+│  Phase 6: Quality Review (parallel)                    │
+│  ├─ Agents: quality-bug-hunter                         │
+│  │           quality-security-auditor                  │
+│  │           quality-code-quality                      │
+│  │           quality-test-coverage                     │
+│  │           quality-contracts-reviewer                │
+│  │           quality-accessibility-auditor             │
+│  └─ Comprehensive quality assessment                   │
+│                                                         │
+│  Phase 7: Documentation & PR Prep                      │
+│  ├─ Agent: implementation-documenter                   │
+│  ├─ Agent: implementation-pr-preparer                  │
+│  └─ Generate docs & PR description                     │
+│                                                         │
+│  Phase 8: Finalization                                 │
+│  ├─ Update task registry                               │
+│  ├─ Log traceability                                   │
+│  └─ Report completion                                  │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Duration**: 10-25 minutes per task (varies by complexity)
+
+---
+
+## Procedure
+
+### Phase 0: Context Detection & Registry Loading
+
+**Duration**: 2-3 seconds
+
+```bash
+# Detect worktree context
+WORKTREE_INFO=$(git worktree list | grep "$(pwd)")
+
+if [[ $WORKTREE_INFO =~ worktrees/pr-([0-9]+)- ]]; then
+    PR_GROUP="PR-${BASH_REMATCH[1]}"
+    echo "✓ Auto-detected PR group: $PR_GROUP"
+fi
+
+# Load task registry
+task_registry=$(cat traceability/task_registry.json)
+impl_config=$(cat _state/implementation_config.json)
+
+# Apply filters
+if [ -n "$PR_GROUP" ]; then
+    task_ids=$(jq -r ".pr_groups[\"$PR_GROUP\"].tasks[]" <<< "$task_registry")
+    echo "📍 Filtered to PR group $PR_GROUP"
+elif [ -n "$TASK_ID" ]; then
+    task_ids=("$TASK_ID")
+    echo "🎯 Single task: $TASK_ID"
+else
+    task_ids=$(jq -r '.tasks | keys[]' <<< "$task_registry")
+    echo "📋 All pending tasks"
+fi
+
+# Build execution queue
+QUEUE=$(topological_sort_tasks "$task_ids")
+echo "🎯 Execution queue: ${#QUEUE[@]} task(s)"
+```
+
+**Output**:
+```
+📍 Context: Worktree pr-001-auth
+🎯 PR Group: PR-001
+📋 Tasks: 3 (T-001, T-002, T-003)
+```
+
+---
+
+### Phase 1: Codebase Research
+
+**Duration**: 2-3 minutes
+**Agent**: `planning-code-explorer`
+**Optional**: Skip with `--skip-research` if plan exists
+
+**Purpose**: Analyze existing codebase to understand:
+- Coding patterns and conventions
+- Architecture layers
+- Existing similar implementations
+- Dependencies and integrations
+
+```bash
+# Generate session ID
+session_id="sess-$(uuidgen | cut -d'-' -f1)"
+
+# Spawn planning-code-explorer
+Task({
+  subagent_type: "general-purpose",
+  model: "sonnet",
+  description: "Analyze codebase patterns",
+  prompt: `Agent: planning-code-explorer
+Read: .claude/agents/planning-code-explorer.md
+SESSION: ${session_id} | TASK: ${task_id}
+
+ANALYZE codebase for:
+- Existing patterns in src/features/
+- Architecture conventions (layering, naming)
+- Similar implementations
+- Integration points
+- Dependency patterns
+
+TARGET TASK: ${task_id}
+WORKING DIR: ${working_dir}
+
+RETURN JSON:
+{
+  "status": "completed",
+  "patterns_found": ["pattern1", "pattern2"],
+  "similar_files": ["file1.ts", "file2.ts"],
+  "conventions": {...},
+  "recommendations": [...]
+}
+`
+})
+```
+
+**Output**:
+```
+[Phase 1: Codebase Research]
+✓ Agent spawned: planning-code-explorer (sess-a7b2c4d1)
+✓ Analyzed 47 files in src/features/
+✓ Found 3 similar implementations:
+  - src/features/user/services/user-service.ts
+  - src/features/session/services/session-service.ts
+✓ Patterns identified: Service layer, Repository pattern, Error handling
+✓ Duration: 2m 15s
+```
+
+---
+
+### Phase 2: Implementation Planning
+
+**Duration**: 3-5 minutes
+**Agent**: `planning-tech-lead`
+
+**Purpose**: Generate detailed implementation plan using:
+- Task specification
+- Module specification
+- Codebase research results
+- ADR references
+
+```bash
+# Spawn planning-tech-lead
+Task({
+  subagent_type: "general-purpose",
+  model: "sonnet",
+  description: "Generate implementation plan",
+  prompt: `Agent: planning-tech-lead
+Read: .claude/agents/planning-tech-lead.md
+SESSION: ${session_id} | TASK: ${task_id}
+
+TASK SPEC:
+${read_file('Implementation_${system}/01-tasks/${task_id}.md')}
+
+MODULE SPEC:
+${read_file('ProductSpecs_${system}/01-modules/${module_id}.md')}
+
+CODEBASE RESEARCH:
+${phase1_results}
+
+GENERATE detailed implementation plan:
+- Step-by-step actions
+- Exact file paths
+- Dependencies to install
+- Verification commands
+- TDD approach
+
+OUTPUT: Implementation_${system}/docs/featureImplementationplans/${date}-${task_id}.md
+
+RETURN JSON:
+{
+  "status": "completed",
+  "plan_file": "...",
+  "steps_count": 8,
+  "files_to_create": [...],
+  "files_to_modify": [...]
+}
+`
+})
+```
+
+**Output**:
+```
+[Phase 2: Implementation Planning]
+✓ Agent spawned: planning-tech-lead (sess-b8c3d5e2)
+✓ Plan generated: featureImplementationplans/2026-01-26-T-001-auth-service.md
+✓ Steps: 8
+✓ Files to create: 2
+✓ Files to modify: 1
+✓ Duration: 3m 42s
+```
+
+---
+
+### Phase 3: Test Design
+
+**Duration**: 4-6 minutes
+**Agent**: `implementation-test-designer` (NEW)
+
+**Purpose**: Design comprehensive test specifications BEFORE coding:
+- BDD scenarios (Given-When-Then)
+- TDD test cases
+- Test data fixtures
+- Edge cases and error paths
+
+```bash
+# Spawn implementation-test-designer
+Task({
+  subagent_type: "general-purpose",
+  model: "sonnet",
+  description: "Design test specifications",
+  prompt: `Agent: implementation-test-designer
+Read: .claude/agents/implementation-test-designer.md
+SESSION: ${session_id} | TASK: ${task_id}
+
+TASK SPEC:
+${read_file('Implementation_${system}/01-tasks/${task_id}.md')}
+
+MODULE SPEC:
+${read_file('ProductSpecs_${system}/01-modules/${module_id}.md')}
+
+ACCEPTANCE CRITERIA:
+${acceptance_criteria}
+
+CREATE test specifications:
+- BDD scenarios for each AC
+- Unit test cases
+- Integration test specs
+- E2E test specs (Playwright)
+- Test data fixtures
+
+OUTPUT: Implementation_${system}/02-implementation/test-specs/${task_id}-test-spec.md
+
+RETURN JSON:
+{
+  "status": "completed",
+  "test_spec_file": "...",
+  "bdd_scenarios_count": 5,
+  "unit_tests_count": 12,
+  "integration_tests_count": 3,
+  "e2e_tests_count": 2
+}
+`
+})
+```
+
+**Output**:
+```
+[Phase 3: Test Design]
+✓ Agent spawned: implementation-test-designer (sess-c9d4e6f3)
+✓ Test spec created: test-specs/T-001-test-spec.md
+✓ BDD scenarios: 5
+✓ Unit tests: 12
+✓ Integration tests: 3
+✓ E2E tests: 2
+✓ All ACs covered
+✓ Duration: 4m 28s
+```
+
+---
+
+### Phase 4: TDD Implementation
+
+**Duration**: 8-15 minutes
+**Agent**: `implementation-developer`
+
+**Purpose**: Execute test-driven development cycle:
+- RED: Write failing tests
+- GREEN: Minimal implementation
+- REFACTOR: Code cleanup
+- VERIFY: Full test suite
+- MARK: Update registry
+
+```bash
+# Spawn implementation-developer
+Task({
+  subagent_type: "general-purpose",
+  model: "sonnet",
+  description: "Implement via TDD",
+  prompt: `Agent: implementation-developer
+Read: .claude/agents/implementation-developer.md
+SESSION: ${session_id} | TASK: ${task_id}
+
+IMPLEMENTATION PLAN:
+${read_file(plan_file)}
+
+TEST SPECIFICATION:
+${read_file(test_spec_file)}
+
+CODEBASE PATTERNS:
+${phase1_results}
+
+EXECUTE TDD cycle:
+1. RED: Write failing tests (from test spec)
+2. GREEN: Minimal implementation
+3. REFACTOR: Clean up code
+4. VERIFY: Full test suite
+5. MARK: Update registry
+
+WORKING DIR: ${working_dir}
+WORKTREE PATH: ${worktree_path}
+
+RETURN JSON:
+{
+  "status": "completed",
+  "files_created": [...],
+  "files_modified": [...],
+  "tests_created": [...],
+  "test_results": {
+    "passing": 12,
+    "failing": 0,
+    "coverage": 87
+  }
+}
+`
+})
+```
+
+**Output**:
+```
+[Phase 4: TDD Implementation]
+✓ Agent spawned: implementation-developer (sess-d0e5f7g4)
+
+  RED Phase:
+  ✓ Created: tests/unit/auth/auth-service.test.ts
+  ✓ Tests fail as expected (12 failing)
+
+  GREEN Phase:
+  ✓ Created: src/features/auth/services/auth-service.ts (87 lines)
+  ✓ Tests pass (12 passing)
+
+  REFACTOR Phase:
+  ✓ Extracted method: isValidTokenStructure()
+  ✓ Tests still pass
+
+  VERIFY Phase:
+  ✓ Full suite: 156 passing, 0 failing
+  ✓ Coverage: 87%
+
+  MARK Phase:
+  ✓ Task T-001 marked complete
+  ✓ Registry updated
+
+✓ Duration: 12m 34s
+```
+
+---
+
+### Phase 5: Test Automation
+
+**Duration**: 5-8 minutes
+**Agent**: `implementation-test-automation-engineer`
+
+**Purpose**: Create additional automated tests:
+- E2E tests (Playwright)
+- Integration tests
+- API tests
+- Visual regression tests (if UI)
+
+```bash
+# Spawn implementation-test-automation-engineer
+Task({
+  subagent_type: "general-purpose",
+  model: "sonnet",
+  description: "Create E2E and integration tests",
+  prompt: `Agent: implementation-test-automation-engineer
+Read: .claude/agents/implementation-test-automation-engineer.md
+SESSION: ${session_id} | TASK: ${task_id}
+
+TEST SPECIFICATION:
+${read_file(test_spec_file)}
+
+IMPLEMENTED FILES:
+${phase4_results.files_created}
+
+CREATE automated tests:
+- E2E tests using Playwright
+- Integration tests for API endpoints
+- Visual regression tests (if UI)
+
+TEST DATA:
+${test_spec_fixtures}
+
+RETURN JSON:
+{
+  "status": "completed",
+  "e2e_tests_created": [...],
+  "integration_tests_created": [...],
+  "test_results": {...}
+}
+`
+})
+```
+
+**Output**:
+```
+[Phase 5: Test Automation]
+✓ Agent spawned: implementation-test-automation-engineer (sess-e1f6g8h5)
+✓ E2E tests created: 2
+  - tests/e2e/auth/login-flow.spec.ts
+  - tests/e2e/auth/token-expiration.spec.ts
+✓ Integration tests created: 3
+  - tests/integration/auth/auth-api.test.ts
+✓ All tests passing
+✓ Duration: 6m 18s
+```
+
+---
+
+### Phase 6: Quality Review (Parallel)
+
+**Duration**: 3-5 minutes (parallel execution)
+**Agents**: 6 specialized quality agents (parallel)
+
+**Purpose**: Comprehensive quality assessment from multiple perspectives
+
+```bash
+# Spawn quality agents in parallel
+agents=(
+  "quality-bug-hunter"
+  "quality-security-auditor"
+  "quality-code-quality"
+  "quality-test-coverage"
+  "quality-contracts-reviewer"
+  "quality-accessibility-auditor"
+)
+
+for agent in "${agents[@]}"; do
+  Task({
+    subagent_type: "general-purpose",
+    model: "sonnet",
+    description: "Quality review: $agent",
+    run_in_background: true,
+    prompt: `Agent: $agent
+Read: .claude/agents/$agent.md
+SESSION: ${session_id} | TASK: ${task_id}
+
+REVIEW FILES:
+${phase4_results.files_created}
+
+PR GROUP: ${pr_group}
+WORKTREE SCOPED: ${worktree_path}
+
+RETURN JSON:
+{
+  "status": "completed",
+  "findings": [...],
+  "critical_count": 0,
+  "high_count": 2,
+  "recommendations": [...]
+}
+`
+  })
+done
+
+# Wait for all agents to complete
+for agent_id in "${agent_ids[@]}"; do
+  result=$(TaskOutput "$agent_id" block=true)
+  # Collect findings
+done
+
+# Consolidate findings
+consolidate_quality_findings
+```
+
+**Output**:
+```
+[Phase 6: Quality Review]
+✓ Spawned 6 quality agents (parallel)
+
+  quality-bug-hunter:
+  ✓ No CRITICAL issues
+  ⚠ 2 HIGH issues (null handling)
+
+  quality-security-auditor:
+  ✓ No CRITICAL issues
+  ✓ OWASP Top 10 compliant
+
+  quality-code-quality:
+  ✓ SOLID principles followed
+  ✓ No code duplication
+
+  quality-test-coverage:
+  ✓ Coverage: 87% (target: 80%)
+  ✓ All ACs covered
+
+  quality-contracts-reviewer:
+  ✓ API contracts satisfied
+  ✓ Type safety verified
+
+  quality-accessibility-auditor:
+  ✓ WCAG 2.1 AA compliant
+  ✓ ARIA attributes correct
+  ⚠ 1 MEDIUM issue (focus management)
+
+✓ Consolidated: 0 CRITICAL, 2 HIGH, 6 MEDIUM
+✓ Duration: 4m 12s (parallel)
+```
+
+---
+
+### Phase 7: Documentation & PR Prep
+
+**Duration**: 3-5 minutes
+**Agents**: `implementation-documenter`, `implementation-pr-preparer`
+
+**Purpose**: Generate comprehensive documentation and PR materials
+
+```bash
+# Spawn implementation-documenter
+Task({
+  subagent_type: "general-purpose",
+  model: "sonnet",
+  description: "Generate documentation",
+  prompt: `Agent: implementation-documenter
+Read: .claude/agents/implementation-documenter.md
+SESSION: ${session_id} | TASK: ${task_id}
+
+IMPLEMENTED FILES:
+${phase4_results.files_created}
+
+GENERATE:
+- Inline JSDoc/TSDoc
+- Module README (_readme.md convention)
+- API documentation
+- Usage examples
+- Architecture diagrams (Mermaid)
+
+RETURN JSON:
+{
+  "status": "completed",
+  "documentation_files": [...],
+  "inline_docs_updated": [...]
+}
+`
+})
+
+# Spawn implementation-pr-preparer
+Task({
+  subagent_type: "general-purpose",
+  model: "sonnet",
+  description: "Prepare PR description",
+  prompt: `Agent: implementation-pr-preparer
+Read: .claude/agents/implementation-pr-preparer.md
+SESSION: ${session_id} | TASK: ${task_id}
+
+PR GROUP: ${pr_group}
+TASKS COMPLETED: ${completed_tasks}
+FILES CHANGED: ${all_files_changed}
+TEST RESULTS: ${consolidated_test_results}
+QUALITY FINDINGS: ${quality_findings}
+
+GENERATE:
+- PR description with full context
+- Change summary with file tree
+- Testing checklist
+- Traceability links
+- Review guidance
+
+OUTPUT: Implementation_${system}/pr-metadata/${pr_group}-description.md
+
+RETURN JSON:
+{
+  "status": "completed",
+  "pr_description_file": "...",
+  "pr_title": "feat(auth): User authentication system",
+  "pr_branch": "feature/pr-001-auth"
+}
+`
+})
+```
+
+**Output**:
+```
+[Phase 7: Documentation & PR Prep]
+
+  implementation-documenter:
+  ✓ Agent spawned (sess-f2g7h9i6)
+  ✓ Inline docs added to 2 files
+  ✓ Module README created: src/features/auth/_readme.md
+  ✓ API docs created: 05-documentation/api/auth.md
+  ✓ Mermaid diagrams: 2
+
+  implementation-pr-preparer:
+  ✓ Agent spawned (sess-g3h8i0j7)
+  ✓ PR description: pr-metadata/PR-001-description.md
+  ✓ PR title: feat(auth): User authentication system
+  ✓ Change summary: 6 files, +388 lines
+  ✓ Traceability complete
+
+✓ Duration: 4m 05s
+```
+
+---
+
+### Phase 8: Finalization
+
+**Duration**: 5-10 seconds
+
+```bash
+# Update task registry (final consolidation)
+update_task_registry_final
+
+# Log version history
+python3 .claude/hooks/version_history_logger.py \
+  "traceability/" \
+  "${system_name}" \
+  "implementation" \
+  "implementation-orchestrator" \
+  "1.0.0" \
+  "Completed task ${task_id} via full orchestration" \
+  "${traceability_refs}" \
+  "traceability/task_registry.json" \
+  "modification"
+
+# Update progress
+update_implementation_progress
+
+# Generate summary report
+generate_completion_report
+```
+
+**Output**:
+```
+[Phase 8: Finalization]
+✓ Task registry updated
+✓ Version history logged
+✓ Progress updated: 23/47 tasks (49%)
+✓ Checkpoint: 4 (Features 50%+)
+```
+
+---
+
+## Final Output
+
+```
+═══════════════════════════════════════════════════════════
+✅ Implementation Complete: T-001
+═══════════════════════════════════════════════════════════
+
+Duration: 23m 47s
+
+Phases Completed:
+  ✓ Phase 1: Codebase Research (2m 15s)
+  ✓ Phase 2: Implementation Planning (3m 42s)
+  ✓ Phase 3: Test Design (4m 28s)
+  ✓ Phase 4: TDD Implementation (12m 34s)
+  ✓ Phase 5: Test Automation (6m 18s)
+  ✓ Phase 6: Quality Review (4m 12s, parallel)
+  ✓ Phase 7: Documentation & PR Prep (4m 05s)
+  ✓ Phase 8: Finalization (10s)
+
+Files Created:
+  - src/features/auth/services/auth-service.ts (87 lines)
+  - tests/unit/auth/auth-service.test.ts (64 lines)
+  - tests/e2e/auth/login-flow.spec.ts (42 lines)
+  - tests/integration/auth/auth-api.test.ts (38 lines)
+  - src/features/auth/_readme.md
+  - 05-documentation/api/auth.md
+
+Quality Metrics:
+  Tests: 17 passing (12 unit, 3 integration, 2 E2E)
+  Coverage: 87% (target: 80%)
+  Quality Issues: 0 CRITICAL, 2 HIGH, 5 MEDIUM
+
+Documentation:
+  ✓ Inline docs complete
+  ✓ Module README generated
+  ✓ API docs generated
+  ✓ PR description ready
+
+Traceability:
+  Pain Points: PP-1.1, PP-1.2 ✅
+  Requirements: REQ-001, REQ-002, REQ-003 ✅
+  User Story: US-001 ✅
+  Module: MOD-AUTH-01 ✅
+  ADRs: ADR-007 ✅
+
+Next Steps:
+  1. Review quality findings (2 HIGH issues)
+  2. Continue with T-002 (or run /htec-sdd-implement --task T-002)
+  3. Or run code review batch after multiple tasks: /htec-sdd-review
+
+PR Ready:
+  Branch: feature/pr-001-auth
+  Title: feat(auth): User authentication system
+  Description: Implementation_InventorySystem/pr-metadata/PR-001-description.md
+═══════════════════════════════════════════════════════════
+```
+
+---
+
+## Parallel Execution (--parallel)
+
+When `--parallel` flag is used:
+
+```bash
+# Execute multiple tasks in parallel
+BATCH=$(get_parallel_tasks "$QUEUE" $MAX_CONCURRENT)
+
+for task in "${BATCH[@]}"; do
+  # Each task runs full orchestration in background
+  /htec-sdd-implement "$SYSTEM_NAME" --task "$task" &
+done
+
+# Wait for all to complete
+wait
+
+# Consolidate results
+consolidate_batch_results
+```
+
+**Note**: Worktree-scoped locking prevents conflicts when modifying "same" files in different worktrees.
+
+---
+
+## Quality Gate
+
+After Phase 6 (Quality Review), check if progression should be blocked:
+
+```bash
+if [ $CRITICAL_COUNT -gt 0 ]; then
+  echo "❌ QUALITY GATE FAILED: $CRITICAL_COUNT CRITICAL issues"
+  echo "   Fix issues before proceeding"
+  exit 1
+fi
+
+if [ $HIGH_COUNT -gt 5 ]; then
+  echo "⚠️  WARNING: $HIGH_COUNT HIGH issues"
+  echo "   Recommend fixing before continuing"
+  # Prompt user
+fi
+```
+
+---
+
+## Files Created
+
+- Source code in `Implementation_<System>/src/`
+- Tests in `Implementation_<System>/tests/`
+- Test specs in `Implementation_<System>/02-implementation/test-specs/`
+- Documentation in `Implementation_<System>/05-documentation/`
+- Module READMEs in `src/features/<feature>/_readme.md`
+- PR descriptions in `Implementation_<System>/pr-metadata/`
+- Updated `traceability/task_registry.json`
+- Updated `traceability/<system>_version_history.json`
+
+---
+
+## Agents Used
+
+1. **planning-code-explorer** - Codebase research
+2. **planning-tech-lead** - Implementation planning
+3. **implementation-test-designer** - Test design
+4. **implementation-developer** - TDD implementation
+5. **implementation-test-automation-engineer** - E2E & integration tests
+6. **quality-bug-hunter** - Bug detection
+7. **quality-security-auditor** - Security review
+8. **quality-code-quality** - Code quality
+9. **quality-test-coverage** - Coverage analysis
+10. **quality-contracts-reviewer** - Contract compliance
+11. **quality-accessibility-auditor** - WCAG 2.1 AA compliance
+12. **implementation-documenter** - Documentation
+13. **implementation-pr-preparer** - PR preparation
+
+---
+
+## Related Commands
+
+- `/htec-sdd-tasks` - Generate task breakdown
+- `/htec-sdd-worktree-setup` - Setup worktrees for parallel PRs
+- `/htec-sdd-review` - Additional code review (if needed)
+- `/htec-sdd-integrate` - Integration test suite (separate)
+- `/htec-sdd-status` - Check progress
+- `/htec-sdd-changerequest` - Process change requests

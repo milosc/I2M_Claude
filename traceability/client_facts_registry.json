@@ -1,0 +1,167 @@
+{
+  "schema_version": "1.0.0",
+  "system_name": "ClaudeManual",
+  "last_updated": "2026-01-31T00:00:00Z",
+  "facts": [
+    {
+      "id": "CF-001",
+      "category": "Technical Context",
+      "description": "The Claude framework consists of organized folders: .claude/skills/, .claude/commands/, .claude/agents/, .claude/rules/, .claude/hooks/, and project files.",
+      "source": "CM-001",
+      "source_line": "2-3",
+      "quote": "I build a Claude framework for doing I to market with AI...showing dot cloud skills. Folder command folder agents folder rules folder hooks folder et cetera.",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-002",
+      "category": "Business Goal",
+      "description": "The framework knowledge needs to be spread to all coworkers, indicating a training/onboarding need.",
+      "source": "CM-001",
+      "source_line": "2",
+      "quote": "now I have to spread this knowledge to all my coworkers",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-003",
+      "category": "User Preference",
+      "description": "The solution must be highly visual to aid understanding.",
+      "source": "CM-001",
+      "source_line": "3",
+      "quote": "I want to have this very visual",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-004",
+      "category": "Technical Constraint",
+      "description": "The solution should be a Node.js application.",
+      "source": "CM-001",
+      "source_line": "3",
+      "quote": "I want you to think about an Node JS app",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-005",
+      "category": "Functional Requirement",
+      "description": "The application must display markdown files with relationships and hierarchies.",
+      "source": "CM-001",
+      "source_line": "3",
+      "quote": "create markdown files through an. Or show markdown files that are in some relations and hierarchies",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-006",
+      "category": "UI Requirement",
+      "description": "The interface should have a master pane and a detail pane for showing hierarchical content.",
+      "source": "CM-001",
+      "source_line": "4",
+      "quote": "So there are like two pains. View. Master and Little Pain.",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-007",
+      "category": "Functional Requirement",
+      "description": "Clicking on items (agents, commands, skills) should open related content in the detail pane.",
+      "source": "CM-001",
+      "source_line": "4-5",
+      "quote": "If you click on command, it opens this command in a pain below",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-008",
+      "category": "Content Structure",
+      "description": "Each item (agent/skill/command) should display multiple sections: frontmatter, purpose, examples, options, and workflow diagrams.",
+      "source": "CM-001",
+      "source_line": "5",
+      "quote": "it has multiple sections explaining the front matter, explaining why and for what is this agent skill or command...showing example how to run what are the options high level workflow diagram",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-009",
+      "category": "Functional Requirement",
+      "description": "The manual must be searchable.",
+      "source": "CM-001",
+      "source_line": "6",
+      "quote": "I want this to have a search page",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-010",
+      "category": "Functional Requirement",
+      "description": "Skills, commands, and agents should support tagging for organization.",
+      "source": "CM-001",
+      "source_line": "6",
+      "quote": "I want this to have text so I can take skills for myself that are useful",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-011",
+      "category": "Organizational Structure",
+      "description": "Content should be organizable by workflow stages: discovery, prototyping, implementation, utilities.",
+      "source": "CM-001",
+      "source_line": "6",
+      "quote": "they could be organized visually into stages like we have in discovery, prototyping, implementation and utilities",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-012",
+      "category": "Functional Requirement",
+      "description": "Users should be able to add items to favorites for quick access.",
+      "source": "CM-001",
+      "source_line": "7",
+      "quote": "I want it to have like a concept of favorites. So everybody can say add to favorites and we move to favorites",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-013",
+      "category": "Developer Feature",
+      "description": "Each item should show its file path so users can copy and edit the source.",
+      "source": "CM-001",
+      "source_line": "7-8",
+      "quote": "those agent skills and commands should always have a reference where they are in route. So a given user could copy the pad and go edit the skills",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-014",
+      "category": "Design Preference",
+      "description": "The UI should have a clean, modern, minimalistic terminal-inspired look.",
+      "source": "CM-001",
+      "source_line": "8",
+      "quote": "use as clean as possible of a newi maybe some modern minimalistic terminal look",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-015",
+      "category": "User Context",
+      "description": "Target users include product people, build client partners, business developers, developers, and executives involved in idea-to-market processes.",
+      "source": "CM-001",
+      "source_line": "8-9",
+      "quote": "consumers will be product people we build client partners, business developers develop secus...all the people involved in a typical idea to market process",
+      "confidence": "explicit",
+      "validated": true
+    },
+    {
+      "id": "CF-016",
+      "category": "UI Requirement",
+      "description": "The application should support light and dark themes.",
+      "source": "CM-001",
+      "source_line": "9",
+      "quote": "It should have a white and black team as usual",
+      "confidence": "explicit",
+      "validated": true
+    }
+  ]
+}

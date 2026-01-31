@@ -1,0 +1,18 @@
+{
+  "current_checkpoint": 0,
+  "checkpoints": {
+    "CP-0": { "status": "completed", "completed_at": "2026-01-31T09:15:00Z" },
+    "CP-1": { "status": "not_started" },
+    "CP-1.5": { "status": "not_applicable", "reason": "No PDF files in input" },
+    "CP-2": { "status": "not_started" },
+    "CP-3": { "status": "not_started" },
+    "CP-4": { "status": "not_started" },
+    "CP-5": { "status": "not_started" },
+    "CP-6": { "status": "not_started" },
+    "CP-7": { "status": "not_started" },
+    "CP-8": { "status": "not_started" },
+    "CP-9": { "status": "not_started" },
+    "CP-10": { "status": "not_started" },
+    "CP-11": { "status": "not_started" }
+  }
+}

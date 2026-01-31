@@ -1,0 +1,396 @@
+{
+    "$documentation": {
+        "purpose": "Master index of all traceability JSON schemas. Used by Traceability_Initializer and Traceability_Guard skills to validate and create registry files.",
+        "version": "2.0.0",
+        "updated_at": "2025-12-25",
+        "changelog": [
+            "1.0.0 - Initial version with Discovery through SolArch stages",
+            "2.0.0 - Added Implementation stage (task_registry, review_registry, implementation_traceability_register), added discovery_traceability_register"
+        ]
+    },
+    "schema_version": "2.0.0",
+    "registries": {
+        "discovery": [
+            {
+                "file": "client_facts_registry.json",
+                "schema": "client_facts_registry.schema.json",
+                "init": "client_facts_registry.init.json",
+                "required": true,
+                "stage": "Discovery",
+                "description": "Central registry for client-sourced facts (quotes, metrics, observations)"
+            },
+            {
+                "file": "pain_point_registry.json",
+                "schema": "pain_point_registry.schema.json",
+                "init": "pain_point_registry.init.json",
+                "required": true,
+                "stage": "Discovery",
+                "description": "Validated pain points extracted from client facts"
+            },
+            {
+                "file": "jtbd_registry.json",
+                "schema": "jtbd_registry.schema.json",
+                "init": "jtbd_registry.init.json",
+                "required": true,
+                "stage": "Discovery",
+                "description": "Jobs-To-Be-Done statements in 'When...I want...so I can' format"
+            },
+            {
+                "file": "product_roadmap.json",
+                "schema": "product_roadmap.schema.json",
+                "init": "product_roadmap.init.json",
+                "required": false,
+                "stage": "Discovery",
+                "description": "Product roadmap with phases, epics, milestones, and dependencies"
+            },
+            {
+                "file": "user_type_registry.json",
+                "schema": "user_type_registry.schema.json",
+                "init": "user_type_registry.init.json",
+                "required": true,
+                "stage": "Discovery",
+                "description": "User types (personas) with roles and categories"
+            },
+            {
+                "file": "discovery_traceability_register.json",
+                "schema": "discovery_traceability_register.schema.json",
+                "init": "discovery_traceability_register.init.json",
+                "required": false,
+                "stage": "Discovery",
+                "description": "Discovery phase aggregation - consolidates facts, pain points, JTBDs, and personas"
+            },
+            {
+                "file": "{{SYSTEM_NAME}}_version_history.json",
+                "schema": "version_history.schema.json",
+                "init": "version_history.init.json",
+                "required": true,
+                "stage": "Governance",
+                "description": "Global version history and audit trail for all framework actions"
+            }
+        ],
+        "prototype": [
+            {
+                "file": "requirements_registry.json",
+                "schema": "requirements_registry.schema.json",
+                "init": "requirements_registry.init.json",
+                "required": true,
+                "stage": "Prototype",
+                "description": "Epics and User Stories with traceability"
+            },
+            {
+                "file": "screen_registry.json",
+                "schema": "screen_registry.schema.json",
+                "init": "screen_registry.init.json",
+                "required": true,
+                "stage": "Prototype",
+                "description": "UI screens with spec/code/test status tracking"
+            },
+            {
+                "file": "prototype_traceability_register.json",
+                "schema": "prototype_traceability_register.schema.json",
+                "init": "prototype_traceability_register.init.json",
+                "required": false,
+                "stage": "Prototype",
+                "description": "Prototype phase progress tracking"
+            }
+        ],
+        "productspecs": [
+            {
+                "file": "module_registry.json",
+                "schema": "module_registry.schema.json",
+                "init": "module_registry.init.json",
+                "required": true,
+                "stage": "ProductSpecs",
+                "description": "Functional modules grouping screens and APIs"
+            },
+            {
+                "file": "nfr_registry.json",
+                "schema": "nfr_registry.schema.json",
+                "init": "nfr_registry.init.json",
+                "required": true,
+                "stage": "ProductSpecs",
+                "description": "Non-Functional Requirements with SMART metrics"
+            },
+            {
+                "file": "epic_registry.json",
+                "schema": "epic_registry.schema.json",
+                "init": "epic_registry.init.json",
+                "required": true,
+                "stage": "ProductSpecs",
+                "description": "JIRA Epics for project management"
+            },
+            {
+                "file": "user_story_registry.json",
+                "schema": "user_story_registry.schema.json",
+                "init": "user_story_registry.init.json",
+                "required": true,
+                "stage": "ProductSpecs",
+                "description": "User Stories with acceptance criteria"
+            },
+            {
+                "file": "test_scenario_registry.json",
+                "schema": "test_scenario_registry.schema.json",
+                "init": "test_scenario_registry.init.json",
+                "required": true,
+                "stage": "ProductSpecs",
+                "description": "Gherkin BDD test scenarios"
+            },
+            {
+                "file": "test_case_registry.json",
+                "schema": "test_case_registry.schema.json",
+                "init": "test_case_registry.init.json",
+                "required": true,
+                "stage": "ProductSpecs",
+                "description": "Executable test cases for verification"
+            },
+            {
+                "file": "productspecs_traceability_register.json",
+                "schema": "productspecs_traceability_register.schema.json",
+                "init": "productspecs_traceability_register.init.json",
+                "required": false,
+                "stage": "ProductSpecs",
+                "description": "Product Specs phase aggregation"
+            }
+        ],
+        "solarch": [
+            {
+                "file": "component_registry.json",
+                "schema": "component_registry.schema.json",
+                "init": "component_registry.init.json",
+                "required": true,
+                "stage": "SolutionArchitecture",
+                "description": "Architecture components (services, databases, modules)"
+            },
+            {
+                "file": "adr_registry.json",
+                "schema": "adr_registry.schema.json",
+                "init": "adr_registry.init.json",
+                "required": true,
+                "stage": "SolutionArchitecture",
+                "description": "Architecture Decision Records with rationale"
+            },
+            {
+                "file": "solarch_traceability_register.json",
+                "schema": "solarch_traceability_register.schema.json",
+                "init": "solarch_traceability_register.init.json",
+                "required": false,
+                "stage": "SolutionArchitecture",
+                "description": "Solution Architecture phase aggregation"
+            }
+        ],
+        "implementation": [
+            {
+                "file": "task_registry.json",
+                "schema": "task_registry.schema.json",
+                "init": "task_registry.init.json",
+                "required": true,
+                "stage": "Implementation",
+                "description": "Implementation tasks decomposed from modules, tracked via TDD workflow"
+            },
+            {
+                "file": "review_registry.json",
+                "schema": "review_registry.schema.json",
+                "init": "review_registry.init.json",
+                "required": true,
+                "stage": "Implementation",
+                "description": "Code review sessions and findings from multi-agent review at CP4"
+            },
+            {
+                "file": "reports/review-findings.json",
+                "schema": "review_findings.schema.json",
+                "init": "review_findings.init.json",
+                "required": true,
+                "stage": "Implementation",
+                "description": "Consolidated code review findings from /htec-sdd-review with all agent issues, metrics, and recommendations"
+            },
+            {
+                "file": "implementation_traceability_register.json",
+                "schema": "implementation_traceability_register.schema.json",
+                "init": "implementation_traceability_register.init.json",
+                "required": false,
+                "stage": "Implementation",
+                "description": "Implementation phase aggregation - tracks tasks, code, tests, and validation"
+            }
+        ],
+        "aggregation": [
+            {
+                "file": "trace_links.json",
+                "schema": "trace_links.schema.json",
+                "init": "trace_links.init.json",
+                "required": true,
+                "stage": "Cross-cutting",
+                "description": "Graph of all artifact relationships (edges)"
+            },
+            {
+                "file": "traceability_matrix_master.json",
+                "schema": "traceability_matrix_master.schema.json",
+                "init": "traceability_matrix_master.init.json",
+                "required": true,
+                "stage": "Cross-cutting",
+                "description": "Master consolidated matrix with all coverage metrics"
+            }
+        ],
+        "feedback": [
+            {
+                "file": "feedback_sessions/discovery/discover_feedback_register.json",
+                "schema": "discover_feedback_register.schema.json",
+                "init": "discover_feedback_register.init.json",
+                "required": false,
+                "stage": "Discovery",
+                "description": "Registry of Discovery phase stakeholder feedback items"
+            },
+            {
+                "file": "feedback_sessions/prototype/prototype_feedback_register.json",
+                "schema": "prototype_feedback_register.schema.json",
+                "init": "prototype_feedback_register.init.json",
+                "required": false,
+                "stage": "Prototype",
+                "description": "Registry of Prototype phase stakeholder feedback items"
+            },
+            {
+                "file": "feedback_sessions/productspecs/productspecs_feedback_register.json",
+                "schema": "productspecs_feedback_register.schema.json",
+                "init": "productspecs_feedback_register.init.json",
+                "required": false,
+                "stage": "ProductSpecs",
+                "description": "Registry of ProductSpecs phase stakeholder feedback items"
+            },
+            {
+                "file": "feedback_sessions/solarch/solarch_feedback_register.json",
+                "schema": "solarch_feedback_register.schema.json",
+                "init": "solarch_feedback_register.init.json",
+                "required": false,
+                "stage": "SolutionArchitecture",
+                "description": "Registry of SolutionArchitecture phase stakeholder feedback items"
+            },
+            {
+                "file": "feedback_sessions/implementation/implementation_feedback_register.json",
+                "schema": "implementation_feedback_register.schema.json",
+                "init": "implementation_feedback_register.init.json",
+                "required": false,
+                "stage": "Implementation",
+                "description": "Registry of Implementation phase change requests with Kaizen analysis"
+            }
+        ]
+    },
+    "markdown_files": [
+        {
+            "file": "README.md",
+            "init": "README.init.md",
+            "required": true,
+            "description": "Master documentation for traceability folder"
+        },
+        {
+            "file": "TRACEABILITY_MATRIX_MASTER.md",
+            "init": "TRACEABILITY_MATRIX_MASTER.init.md",
+            "required": false,
+            "description": "Human-readable traceability matrix"
+        },
+        {
+            "file": "TRACEABILITY_ASSESSMENT_REPORT.md",
+            "init": "TRACEABILITY_ASSESSMENT_REPORT.init.md",
+            "required": false,
+            "description": "Formal traceability assessment report"
+        }
+    ],
+    "folders": [
+        {
+            "path": "feedback_sessions/",
+            "required": true,
+            "description": "Root folder for feedback session data"
+        },
+        {
+            "path": "feedback_sessions/discovery/",
+            "required": true,
+            "description": "Discovery phase feedback sessions"
+        },
+        {
+            "path": "feedback_sessions/prototype/",
+            "required": true,
+            "description": "Prototype phase feedback sessions"
+        },
+        {
+            "path": "feedback_sessions/productspecs/",
+            "required": true,
+            "description": "ProductSpecs phase feedback sessions"
+        },
+        {
+            "path": "feedback_sessions/solarch/",
+            "required": true,
+            "description": "SolutionArchitecture phase feedback sessions"
+        },
+        {
+            "path": "feedback_sessions/implementation/",
+            "required": true,
+            "description": "Implementation phase change request sessions"
+        }
+    ],
+    "state_files": {
+        "description": "Configuration and progress files stored in _state/ folder (shared across all stages)",
+        "files": [
+            {
+                "file": "discovery_config.json",
+                "stage": "Discovery",
+                "description": "Discovery phase configuration (input/output paths, checkpoints)"
+            },
+            {
+                "file": "discovery_progress.json",
+                "stage": "Discovery",
+                "description": "Discovery phase progress tracking"
+            },
+            {
+                "file": "prototype_config.json",
+                "stage": "Prototype",
+                "description": "Prototype phase configuration"
+            },
+            {
+                "file": "prototype_progress.json",
+                "stage": "Prototype",
+                "description": "Prototype phase progress tracking"
+            },
+            {
+                "file": "productspecs_config.json",
+                "stage": "ProductSpecs",
+                "description": "ProductSpecs phase configuration"
+            },
+            {
+                "file": "productspecs_progress.json",
+                "stage": "ProductSpecs",
+                "description": "ProductSpecs phase progress tracking"
+            },
+            {
+                "file": "solarch_config.json",
+                "stage": "SolutionArchitecture",
+                "description": "SolutionArchitecture phase configuration"
+            },
+            {
+                "file": "solarch_progress.json",
+                "stage": "SolutionArchitecture",
+                "description": "SolutionArchitecture phase progress tracking"
+            },
+            {
+                "file": "implementation_config.json",
+                "stage": "Implementation",
+                "description": "Implementation phase configuration (source paths, target framework, TDD settings)"
+            },
+            {
+                "file": "implementation_progress.json",
+                "stage": "Implementation",
+                "description": "Implementation phase progress (checkpoints, tasks, tests, code review status)"
+            }
+        ]
+    },
+    "validation": {
+        "required_fields": [
+            "$documentation",
+            "schema_version"
+        ],
+        "documentation_fields": [
+            "purpose",
+            "stage",
+            "upstream",
+            "downstream"
+        ],
+        "checksum_algorithm": "sha256"
+    }
+}

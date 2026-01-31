@@ -1,0 +1,89 @@
+# Prototype Progress: {{PROJECT_NAME}}
+
+> Generated: {{TIMESTAMP}}  
+> Discovery: `{{DISCOVERY_PATH}}`  
+> Output: `{{OUTPUT_PATH}}`
+
+---
+
+## Overall Progress
+
+```
+[{{PROGRESS_BAR}}] {{PERCENT}}%
+```
+
+**Status**: {{STATUS}}  
+**Current Phase**: {{CURRENT_PHASE}}  
+**Next Action**: {{NEXT_ACTION}}
+
+---
+
+## Phase Status
+
+| Phase | Skill | Status | Duration |
+|-------|-------|--------|----------|
+| Foundation | Prototype_ValidateDiscovery | {{VALIDATE_STATUS}} | {{VALIDATE_DURATION}} |
+| Requirements | Prototype_Requirements | {{REQ_STATUS}} | {{REQ_DURATION}} |
+| Data Model | Prototype_DataModel | {{DM_STATUS}} | {{DM_DURATION}} |
+| API Contracts | Prototype_ApiContracts | {{API_STATUS}} | {{API_DURATION}} |
+| Test Data | Prototype_TestData | {{TD_STATUS}} | {{TD_DURATION}} |
+| Design Brief | Prototype_DesignBrief | {{DB_STATUS}} | {{DB_DURATION}} |
+| Design Tokens | Prototype_DesignTokens | {{DT_STATUS}} | {{DT_DURATION}} |
+| Components | Prototype_Components | {{COMP_STATUS}} | {{COMP_DURATION}} |
+| Screens | Prototype_Screens | {{SCR_STATUS}} | {{SCR_DURATION}} |
+| Interactions | Prototype_Interactions | {{INT_STATUS}} | {{INT_DURATION}} |
+| Sequencer | Prototype_Sequencer | {{SEQ_STATUS}} | {{SEQ_DURATION}} |
+| Code Gen | Prototype_CodeGen | {{CG_STATUS}} | {{CG_DURATION}} |
+| QA | Prototype_QA | {{QA_STATUS}} | {{QA_DURATION}} |
+| UI Audit | Prototype_UIAudit | {{AUDIT_STATUS}} | {{AUDIT_DURATION}} |
+
+---
+
+## Project Context
+
+| Metric | Value |
+|--------|-------|
+| Product | {{PRODUCT_NAME}} |
+| Domain | {{DOMAIN}} |
+| Personas | {{PERSONA_COUNT}} |
+| Pain Points | {{PAIN_POINT_COUNT}} |
+| JTBD | {{JTBD_COUNT}} |
+| Screens | {{SCREEN_COUNT}} |
+| Entities | {{ENTITY_COUNT}} |
+| Components | {{COMPONENT_COUNT}} |
+
+---
+
+## Checkpoints (Option B)
+
+| # | Name | Status | Tested |
+|---|------|--------|--------|
+| 1 | Infrastructure | {{CP1_STATUS}} | {{CP1_TESTED}} |
+| 2 | Data Layer | {{CP2_STATUS}} | {{CP2_TESTED}} |
+| 3 | List Screens | {{CP3_STATUS}} | {{CP3_TESTED}} |
+| 4 | Dashboard | {{CP4_STATUS}} | {{CP4_TESTED}} |
+| 5 | Final | {{CP5_STATUS}} | {{CP5_TESTED}} |
+
+---
+
+## UI Audit Summary
+
+**Last Run**: {{AUDIT_LAST_RUN}}  
+**Score**: {{AUDIT_SCORE}}/100  
+**Open Issues**: {{AUDIT_OPEN_ISSUES}}
+
+---
+
+## Generated Files
+
+{{FILE_LIST}}
+
+---
+
+## Commands
+
+```
+Resume:  "Resume prototype"
+Status:  "Prototype status"
+Next:    "{{NEXT_COMMAND}}"
+```

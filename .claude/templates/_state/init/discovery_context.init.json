@@ -1,0 +1,47 @@
+{
+    "$documentation": {
+        "purpose": "Runtime context for the active discovery session. Tracks session metadata, analyzed materials, and cumulative findings during discovery execution.",
+        "stage": "Discovery",
+        "phase_position": "Created at CP0, updated throughout discovery phases",
+        "upstream": [
+            "discovery_config.json",
+            "discovery_materials_inventory.json"
+        ],
+        "downstream": [
+            "discovery_progress.json",
+            "client_facts_registry.json"
+        ],
+        "commands": [
+            "/discovery",
+            "/discovery-analyze"
+        ],
+        "skills": [
+            "Discovery_Orchestrator",
+            "Discovery_AnalyzeDocument"
+        ],
+        "key_attributes": {
+            "session_id": "Unique identifier for this discovery session",
+            "started_at": "ISO timestamp when session began",
+            "system_name": "Name of the system being analyzed",
+            "materials_analyzed": "List of files that have been processed",
+            "key_findings": "Summary of major discoveries during analysis",
+            "personas_identified": "User types found during analysis",
+            "pain_points_count": "Running count of pain points extracted",
+            "jtbd_count": "Running count of jobs-to-be-done identified"
+        },
+        "validation_rules": [
+            "session_id MUST be unique per discovery run",
+            "started_at MUST be a valid ISO timestamp",
+            "system_name MUST match discovery_config.json"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "session_id": "{{SESSION_ID}}",
+    "started_at": "{{STARTED_AT}}",
+    "system_name": "{{SYSTEM_NAME}}",
+    "materials_analyzed": [],
+    "key_findings": [],
+    "personas_identified": [],
+    "pain_points_count": 0,
+    "jtbd_count": 0
+}

@@ -1,0 +1,80 @@
+{
+    "$documentation": {
+        "purpose": "Registry of product requirements (Epics) and their associated User Stories. Requirements translate JTBDs into implementable features with clear acceptance criteria.",
+        "stage": "Prototype",
+        "phase_position": "Created at Prototype CP2 - derived from jtbd_registry.json, consumed by screen/module registries and downstream stages",
+        "upstream": [
+            "jtbd_registry.json",
+            "pain_point_registry.json"
+        ],
+        "downstream": [
+            "screen_registry.json",
+            "module_registry.json",
+            "test_case_registry.json"
+        ],
+        "commands": [
+            "/prototype-requirements",
+            "/productspecs"
+        ],
+        "skills": [
+            "ProductSpecs_Generator",
+            "Prototype_Requirements"
+        ],
+        "id_pattern": {
+            "epics": {
+                "format": "REQ-{NNN}",
+                "example": "REQ-001"
+            },
+            "user_stories": {
+                "format": "US-{NNN}",
+                "example": "US-007"
+            }
+        },
+        "key_attributes": {
+            "items[].id": "REQ-NNN for epics, US-NNN for user stories",
+            "items[].title": "Concise feature/capability name",
+            "items[].type": "'epic' (parent feature) or 'user_story' (atomic deliverable)",
+            "items[].priority": "P0 (MVP), P1 (important), P2 (nice-to-have)",
+            "items[].pain_point_refs": "Array of PP-X.X IDs this addresses",
+            "items[].jtbd_refs": "Array of JTBD-X.X IDs this fulfills",
+            "items[].screen_refs": "Array of screen IDs implementing this"
+        },
+        "validation_rules": [
+            "Every REQ MUST link to at least one JTBD or pain point",
+            "P0 requirements MUST have screens defined in screen_registry.json"
+        ]
+    },
+    
+    "schema_version": "1.0.0",
+    "description": "Registry of Requirements (Epics & User Stories) with traceability",
+    "stage": "Prototype",
+    "checkpoint": 2,
+    "source_file": "traceability/requirements_registry.json",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "traceability_chain": {
+        "upstream": [
+            "pain_point_registry.json",
+            "jtbd_registry.json"
+        ],
+        "downstream": [
+            "screen_registry.json",
+            "module_registry.json",
+            "test_case_registry.json"
+        ]
+    },
+    "items": [],
+    "summary": {
+        "total": 0,
+        "by_type": {
+            "epic": 0,
+            "user_story": 0
+        },
+        "by_priority": {
+            "P0": 0,
+            "P1": 0,
+            "P2": 0
+        }
+    }
+}

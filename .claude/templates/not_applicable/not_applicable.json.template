@@ -1,0 +1,24 @@
+{
+  "$documentation": {
+    "purpose": "{{PURPOSE}}",
+    "stage": "{{STAGE}}",
+    "status": "NOT_APPLICABLE",
+    "reason": "{{REASON}}"
+  },
+  "schema_version": "1.0.0",
+  "status": "NOT_APPLICABLE",
+  "reason": "{{REASON}}",
+  "project_type": "{{PROJECT_TYPE}}",
+  "detected_signals": {{SIGNALS_ARRAY}},
+  "decision_metadata": {
+    "decision_date": "{{DECISION_DATE}}",
+    "deciding_skill": "{{SKILL_NAME}}",
+    "checkpoint": {{CHECKPOINT}},
+    "confidence": "{{CONFIDENCE}}"
+  },
+  "traceability": {
+    "analysis_summary_ref": "{{ANALYSIS_SUMMARY_REF}}",
+    "config_ref": "_state/discovery_config.json#project_classification"
+  },
+  "items": []
+}

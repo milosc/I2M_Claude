@@ -1,0 +1,367 @@
+{
+  "schema_version": "2.0.0",
+  "stage": "discovery",
+  "total_agents": 16,
+  "notes": "v2.1: Added VP PM reviewer (opus) at CP-10 for strategic review before validation. All other agents use sonnet except cross-ref-validator (haiku)",
+  "agents": [
+    {
+      "agent_id": "interview-analyst",
+      "checkpoint": 1,
+      "model": "sonnet",
+      "context_window": "1M",
+      "subagent_type": "general-purpose",
+      "parallel_group": "material_analysis",
+      "description": "Extract pain points, workflows, quotes from interview transcripts",
+      "skills_required": [
+        "Discovery_InterviewAnalyst"
+      ],
+      "input_file_patterns": [
+        "*.md",
+        "*.txt"
+      ],
+      "output_files": [
+        "01-analysis/interviews/[Interview_Name]_Analysis.md"
+      ],
+      "spawn_per_instance": true,
+      "instance_key": "interview_file",
+      "agent_definition_file": ".claude/agents/discovery-interview-analyst.md"
+    },
+    {
+      "agent_id": "data-analyst",
+      "checkpoint": 1,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": "material_analysis",
+      "description": "Extract business rules, field definitions from spreadsheets",
+      "skills_required": [
+        "Discovery_DataAnalyst"
+      ],
+      "input_file_patterns": [
+        "*.xlsx",
+        "*.csv"
+      ],
+      "output_files": [
+        "01-analysis/data/DATA_ANALYSIS.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-data-analyst.md"
+    },
+    {
+      "agent_id": "design-analyst",
+      "checkpoint": 1,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": "material_analysis",
+      "description": "Extract component inventory, navigation patterns from screenshots",
+      "skills_required": [
+        "Discovery_DesignAnalyst"
+      ],
+      "input_file_patterns": [
+        "*.png",
+        "*.jpg"
+      ],
+      "output_files": [
+        "01-analysis/design/DESIGN_ANALYSIS.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-design-analyst.md"
+    },
+    {
+      "agent_id": "pdf-analyst",
+      "checkpoint": 1.5,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": "pdf_analysis",
+      "description": "Deep analysis of PDF technical documentation",
+      "skills_required": [
+        "Discovery_PdfAnalyst"
+      ],
+      "input_file_patterns": [
+        "*.pdf"
+      ],
+      "output_files": [
+        "01-analysis/[PDF_Name]_Analysis/SYSTEM_KNOWLEDGE.md",
+        "01-analysis/[PDF_Name]_Analysis/TERMINOLOGY.md",
+        "01-analysis/[PDF_Name]_Analysis/GAP_ANALYSIS.md"
+      ],
+      "spawn_per_instance": true,
+      "instance_key": "pdf_name",
+      "agent_definition_file": ".claude/agents/discovery-pdf-analyst.md"
+    },
+    {
+      "agent_id": "pain-point-validator",
+      "checkpoint": 2,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": null,
+      "description": "Extract and validate pain points with citations",
+      "skills_required": [
+        "Discovery_PainPointValidator",
+        "five-whys"
+      ],
+      "output_files": [
+        "01-analysis/PAIN_POINTS.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-pain-point-validator.md"
+    },
+    {
+      "agent_id": "persona-generator",
+      "checkpoint": 3,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": "personas",
+      "description": "Generate rich persona documents",
+      "skills_required": [
+        "Discovery_PersonaGenerator",
+        "jobs-to-be-done",
+        "fogg-behavior-model",
+        "hooked-model",
+        "loss-aversion-psychology",
+        "curiosity-gap",
+        "self-initiated-triggers",
+        "status-quo-bias"
+      ],
+      "output_files": [
+        "02-research/personas/PERSONA_[ROLE].md"
+      ],
+      "spawn_per_instance": true,
+      "instance_key": "user_type",
+      "agent_definition_file": ".claude/agents/discovery-persona-generator.md"
+    },
+    {
+      "agent_id": "jtbd-extractor",
+      "checkpoint": 4,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": null,
+      "description": "Transform pain points to JTBD statements",
+      "skills_required": [
+        "Discovery_JTBDExtractor"
+      ],
+      "output_files": [
+        "02-research/JOBS_TO_BE_DONE.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-jtbd-extractor.md"
+    },
+    {
+      "agent_id": "vision-generator",
+      "checkpoint": 5,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": null,
+      "description": "Articulate product vision and value proposition",
+      "skills_required": [
+        "Discovery_VisionGenerator"
+      ],
+      "output_files": [
+        "03-strategy/PRODUCT_VISION.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-vision-generator.md"
+    },
+    {
+      "agent_id": "strategy-generator",
+      "checkpoint": 6,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": null,
+      "description": "Define product strategy and competitive positioning",
+      "skills_required": [
+        "Discovery_StrategyGenerator"
+      ],
+      "output_files": [
+        "03-strategy/PRODUCT_STRATEGY.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-strategy-generator.md"
+    },
+    {
+      "agent_id": "roadmap-generator",
+      "checkpoint": 7,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": null,
+      "description": "Create phased roadmap with prioritization",
+      "skills_required": [
+        "Discovery_RoadmapGenerator",
+        "theme-epic-story",
+        "kanban",
+        "hypothesis-tree"
+      ],
+      "output_files": [
+        "03-strategy/PRODUCT_ROADMAP.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-roadmap-generator.md"
+    },
+    {
+      "agent_id": "kpis-generator",
+      "checkpoint": 8,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": null,
+      "description": "Define measurable KPIs and success metrics",
+      "skills_required": [
+        "Discovery_KPIsGenerator"
+      ],
+      "output_files": [
+        "03-strategy/KPIS_AND_GOALS.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-kpis-generator.md"
+    },
+    {
+      "agent_id": "screen-specifier",
+      "checkpoint": 9,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": "design_specs",
+      "description": "Generate screen definitions with flows",
+      "skills_required": [
+        "Discovery_ScreenSpecifier",
+        "hicks-law",
+        "cognitive-load",
+        "progressive-disclosure",
+        "visual-cues-cta-psychology",
+        "cognitive-fluency-psychology",
+        "halo-effect-psychology",
+        "social-proof-psychology",
+        "trust-psychology",
+        "user-story-fundamentals"
+      ],
+      "output_files": [
+        "04-design-specs/screen-definitions.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-screen-specifier.md"
+    },
+    {
+      "agent_id": "navigation-specifier",
+      "checkpoint": 9,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": "design_specs",
+      "description": "Generate navigation structure and menu hierarchy",
+      "skills_required": [
+        "Discovery_NavigationSpecifier",
+        "graph-thinking"
+      ],
+      "output_files": [
+        "04-design-specs/navigation-structure.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-navigation-specifier.md"
+    },
+    {
+      "agent_id": "data-fields-specifier",
+      "checkpoint": 9,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": "design_specs",
+      "description": "Generate data field definitions and validation rules",
+      "skills_required": [
+        "Discovery_DataFieldsSpecifier"
+      ],
+      "output_files": [
+        "04-design-specs/data-fields.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-data-fields-specifier.md"
+    },
+    {
+      "agent_id": "interaction-specifier",
+      "checkpoint": 9,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": "design_specs",
+      "description": "Generate interaction patterns catalog",
+      "skills_required": [
+        "Discovery_InteractionSpecifier",
+        "curiosity-gap",
+        "social-proof-psychology"
+      ],
+      "output_files": [
+        "04-design-specs/interaction-patterns.md"
+      ],
+      "agent_definition_file": ".claude/agents/discovery-interaction-specifier.md"
+    },
+    {
+      "agent_id": "vp-pm-reviewer",
+      "checkpoint": 10,
+      "model": "opus",
+      "subagent_type": "general-purpose",
+      "parallel_group": null,
+      "description": "VP Product Manager strategic review with 30-year experience - applies 15-step critical thinking framework",
+      "skills_required": [
+        "thinking-critically",
+        "project-orchestration",
+        "business-model-canvas",
+        "game-theory-tit-for-tat",
+        "cognitive-biases",
+        "what-not-to-do-as-product-manager",
+        "making-product-decisions"
+      ],
+      "output_files": [
+        "05-documentation/VP_PM_STRATEGIC_REVIEW.md"
+      ],
+      "blocking": false,
+      "agent_definition_file": ".claude/agents/discovery-vp-pm-reviewer.md",
+      "notes": "Uses Opus model for deep analysis and strategic insight"
+    },
+    {
+      "agent_id": "cross-reference-validator",
+      "checkpoint": 11,
+      "model": "haiku",
+      "subagent_type": "general-purpose",
+      "parallel_group": null,
+      "description": "Validate traceability chains (BLOCKING)",
+      "skills_required": [
+        "Discovery_CrossReferenceValidator",
+        "reinforce"
+      ],
+      "output_files": [
+        "05-documentation/VALIDATION_REPORT.md"
+      ],
+      "blocking": true,
+      "agent_definition_file": ".claude/agents/discovery-cross-reference-validator.md"
+    }
+  ],
+  "parallel_groups": {
+    "material_analysis": {
+      "checkpoint": 1,
+      "agents": [
+        "interview-analyst",
+        "data-analyst",
+        "design-analyst"
+      ],
+      "execution": "parallel",
+      "notes": "interview-analyst spawns one instance per interview file",
+      "spawn_per_instance_agents": [
+        "interview-analyst"
+      ],
+      "merge_strategy": "separate_files_then_merge"
+    },
+    "pdf_analysis": {
+      "checkpoint": 1.5,
+      "agents": [
+        "pdf-analyst"
+      ],
+      "execution": "parallel",
+      "spawn_per_instance": true,
+      "instance_key": "pdf_name",
+      "merge_strategy": "separate_folders"
+    },
+    "personas": {
+      "checkpoint": 3,
+      "agents": [
+        "persona-generator"
+      ],
+      "execution": "parallel",
+      "spawn_per_instance": true,
+      "instance_key": "user_type",
+      "merge_strategy": "separate_files"
+    },
+    "design_specs": {
+      "checkpoint": 9,
+      "agents": [
+        "screen-specifier",
+        "navigation-specifier",
+        "data-fields-specifier",
+        "interaction-specifier"
+      ],
+      "execution": "parallel",
+      "merge_strategy": "separate_files"
+    }
+  }
+}

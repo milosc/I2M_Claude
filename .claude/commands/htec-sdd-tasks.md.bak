@@ -1,0 +1,721 @@
+---
+description: Decompose module specs into TDD implementation tasks (reuses ProductSpecs JIRA export if available)
+argument-hint: None
+model: claude-sonnet-4-5-20250929
+allowed-tools: Read, Write, Edit, Bash, Grep, Glob
+hooks:
+  PreToolUse:
+    - matcher: "*"
+      once: true
+      hooks:
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /htec-sdd-tasks started '{"stage": "implementation"}'
+  Stop:
+    - hooks:
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /htec-sdd-tasks ended '{"stage": "implementation"}'
+---
+
+## FIRST ACTION (MANDATORY)
+
+Before doing ANYTHING else, run these commands:
+
+```bash
+# 1. Update session context
+bash "$CLAUDE_PROJECT_DIR/.claude/hooks/session-update.sh" --project "{SystemName}" --stage "implementation"
+
+# 2. Log command start
+bash .claude/hooks/log-lifecycle.sh command /htec-sdd-tasks instruction_start '{"stage": "implementation", "method": "instruction-based"}'
+```
+
+
+---
+
+## 🎯 Guiding Architectural Principle
+
+**Optimize for maintainability, not simplicity.**
+
+When making architectural and implementation decisions:
+
+1. **Prioritize long-term maintainability** over short-term simplicity
+2. **Minimize complexity** by being strategic with dependencies and libraries
+3. **Avoid "simplicity traps"** - adding libraries without considering downstream debugging and maintenance burden
+4. **Think 6 months ahead** - will this decision make debugging easier or harder?
+5. **Use libraries strategically** - not avoided, but chosen carefully with justification
+
+### Decision-Making Protocol
+
+When facing architectural trade-offs between complexity and maintainability:
+
+**If the decision is clear** → Make the decision autonomously and document the rationale
+
+**If the decision is unclear** → Use `AskUserQuestion` tool with:
+- Minimum 3 alternative scenarios
+- Clear trade-off analysis for each option
+- Maintainability impact assessment (short-term vs long-term)
+- Complexity implications (cognitive load, debugging difficulty, dependency graph)
+- Recommendation with reasoning
+
+---
+
+## Rules Loading (On-Demand)
+
+This command requires Implementation stage rules:
+
+```bash
+# Load TDD and quality gate rules
+/rules-process-integrity
+
+# Load multi-agent coordination rules (if spawning agents)
+/rules-agent-coordination
+
+# Load Traceability rules for task IDs
+/rules-traceability
+```
+
+## Usage
+
+```
+/htec-sdd-tasks <SystemName>
+/htec-sdd-tasks <SystemName> --module MOD-MOB-INV-01
+/htec-sdd-tasks <SystemName> --priority P0
+```
+
+## Arguments
+
+- `SystemName`: Name of the system (e.g., InventorySystem)
+
+## Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--module <MOD-ID>` | Decompose specific module only | All modules |
+| `--priority <P0\|P1\|P2>` | Filter by priority | All |
+| `--parallel` | Enable parallel task markers | true |
+| `--jira-link` | Include JIRA references | true |
+
+## Prerequisites
+
+- `/htec-sdd-init` completed
+- `/htec-sdd-validate` passed
+
+**Recommended (Greenfield Projects)**:
+- `/productspecs <SystemName>` completed (generates JIRA export at Phase 8)
+- This enables **reuse mode** where tasks are transformed from JIRA export
+
+**Alternative (Brownfield Projects)**:
+- Module specifications available at `ProductSpecs_<SystemName>/01-modules/MOD-*.md`
+- This enables **generate mode** where tasks are created from module specs
+
+## Procedure
+
+### 1. Load Module Specifications
+
+```
+READ _state/implementation_config.json
+GLOB ProductSpecs_<SystemName>/01-modules/MOD-*.md
+
+FOR EACH module_file:
+    PARSE module specification:
+        - Module ID
+        - User stories
+        - Acceptance criteria
+        - Screen references
+        - API dependencies
+        - Priority
+```
+
+### 2. Collect Implementation Strategy
+
+Invoke tech-lead agent with interactive strategy selection:
+
+```
+INVOKE: .claude/agents/planning-tech-lead.md
+CONTEXT: "User Interaction Phase"
+
+PRESENT 4 strategy questions to user:
+    1. Decomposition approach:
+        - Vertical slicing (User journey flows)
+        - Layer-by-layer (Infrastructure → Features → Integration)
+        - Feature-by-feature (Complete modules sequentially)
+        - Hybrid (Infrastructure first, then vertical slices)
+
+    2. PR grouping:
+        - Per-task (Each task = 1 PR, fine-grained)
+        - Per-story (User story = 1 PR, feature-complete)
+        - Per-epic (Epic = 1 PR, larger scope)
+        - Per-phase (Phase = 1 PR, milestone-based)
+
+    3. Worktree strategy:
+        - Single branch (All work in main worktree)
+        - Per-task worktrees (Each task isolated, max parallelism)
+        - Per-PR worktrees (PR group isolated, balanced)
+
+    4. Review strategy:
+        - Per-PR (Review each PR independently)
+        - Batch review (Review multiple PRs together)
+        - Milestone review (Review at phase completion)
+
+WAIT for user responses
+VALIDATE selections are compatible
+STORE in _state/implementation_config.json:
+```json
+{
+  "implementation_strategy": {
+    "decomposition": "vertical-slicing",
+    "pr_grouping": "per-story",
+    "worktree_strategy": "per-pr",
+    "review_strategy": "per-pr",
+    "selected_at": "2026-01-26T10:30:00Z"
+  }
+}
+```
+
+### 3. Detect Task Source Mode
+
+Check if ProductSpecs JIRA export exists (recommended for greenfield):
+
+```
+JIRA_EXPORT = ProductSpecs_<SystemName>/04-jira/jira-import.json
+
+IF EXISTS(JIRA_EXPORT):
+    MODE = "reuse"
+    LOG "✓ Detected ProductSpecs JIRA export - reusing tasks"
+ELSE:
+    MODE = "generate"
+    LOG "⚠ No JIRA export found - generating tasks from module specs"
+```
+
+### 4A. Reuse Tasks from JIRA Export (MODE = "reuse")
+
+If JIRA export exists, transform it into task registry:
+
+```
+READ ProductSpecs_<SystemName>/04-jira/jira-import.json
+
+FOR EACH issue IN jira_export.projects[0].issues:
+    IF issue.issueType == "Epic":
+        # Map Epic to Module
+        module_id = issue.externalId  # MOD-XXX-YYY-NN
+        epic_metadata = {
+            "module_ref": module_id,
+            "epic_name": issue.epicName,
+            "jira_ref": issue.key (if imported)
+        }
+
+    IF issue.issueType == "Story":
+        # Map Story to User Story
+        user_story_id = issue.externalId  # US-XXX or REQ-XXX
+        story_metadata = {
+            "user_story": user_story_id,
+            "epic_link": issue.epicLink,
+            "requirement_refs": issue.links.requirement_refs,
+            "screen_refs": issue.links.screen_refs,
+            "pain_point_refs": issue.links.pain_point_refs
+        }
+
+        # Transform each Sub-task to Task
+        FOR EACH subtask IN issue.subtasks:
+            task_id = NEXT_TASK_ID()  # T-NNN
+
+            CREATE task:
+                id: task_id
+                title: subtask.summary
+                description: subtask.description
+                priority: issue.priority
+                module_ref: module_id (from epic)
+                user_story: user_story_id
+                jira_ref: subtask.key (if imported)
+                acceptance_criteria: issue.customFields.acceptanceCriteria
+                # Inherit traceability from parent story
+                requirement_refs: story_metadata.requirement_refs
+                screen_refs: story_metadata.screen_refs
+                pain_point_refs: story_metadata.pain_point_refs
+                # Estimate from subtask
+                estimated_complexity: PARSE(subtask.originalEstimate)
+                # Determine phase from subtask summary prefix
+                phase: DETECT_PHASE(subtask.summary)
+                # Dependencies (determined in Step 5)
+                dependencies: []
+                parallel: false (determined in Step 5)
+
+            ADD to tasks list
+
+# Apply interactive strategy selection (Step 2)
+# Apply PR grouping based on selected strategy
+# Determine dependencies and parallel execution (Step 5)
+```
+
+**Phase Detection from Sub-task Summary**:
+```
+IF summary starts with "[INFRA]" or "[Setup]": phase = 3
+ELSE IF summary starts with "[FE]" or "[BE]" or "[Service]": phase = 4
+ELSE IF summary starts with "[Integration]" or "[E2E]": phase = 5
+ELSE: phase = 4 (default)
+```
+
+**Traceability Preservation**:
+- All traceability chains from ProductSpecs are preserved
+- Task IDs are new (T-NNN format) but link back to JIRA refs
+- Module refs, requirement refs, screen refs all carried forward
+
+### 4B. Generate Tasks from Module Specs (MODE = "generate")
+
+If no JIRA export exists, generate tasks from module specifications:
+
+For each module, create tasks following this hierarchy:
+
+```
+Module (MOD-MOB-INV-01)
+    │
+    ├── Infrastructure Task (T-001)
+    │   └── Setup feature folder structure
+    │
+    ├── Type Definitions Task (T-002)
+    │   └── Create TypeScript interfaces
+    │
+    ├── Service Layer Tasks (T-003..T-00N)
+    │   ├── API client functions
+    │   └── Business logic services
+    │
+    ├── Component Tasks (T-00N+1..T-00M)
+    │   ├── UI components
+    │   └── Custom hooks
+    │
+    ├── Screen Tasks (T-00M+1..T-00P)
+    │   └── Page components
+    │
+    └── Integration Task (T-00P+1)
+        └── Wire up and test
+```
+
+### 5. Determine Parallel Execution
+
+```
+FOR EACH task:
+    IF task has no dependencies:
+        SET parallel = true
+        ADD marker [P]
+    ELSE IF all dependencies are completed:
+        SET parallel = true
+        ADD marker [P]
+    ELSE:
+        SET parallel = false
+        SET dependencies = [list of blocking tasks]
+```
+
+### 6. Generate TDD Specifications
+
+For each task, generate test specifications:
+
+```json
+{
+  "tdd_spec": {
+    "test_file": "tests/unit/<feature>/<component>.test.ts",
+    "test_cases": [
+      {
+        "name": "should <expected behavior>",
+        "type": "unit",
+        "acceptance_criteria": "AC-1"
+      }
+    ],
+    "setup_required": ["mock api client", "test data"],
+    "coverage_target": 80
+  }
+}
+```
+
+### 7. Build Task Registry and PR Groups
+
+```json
+// traceability/task_registry.json
+{
+  "implementation_strategy": {
+    "decomposition": "vertical-slicing",
+    "pr_grouping": "per-story",
+    "worktree_strategy": "per-pr",
+    "review_strategy": "per-pr",
+    "selected_at": "2026-01-26T10:30:00Z"
+  },
+  "pr_groups": {
+    "PR-001": {
+      "id": "PR-001",
+      "title": "feat(auth): User authentication system",
+      "tasks": ["T-001", "T-002", "T-003"],
+      "estimated_loc": 350,
+      "worktree_path": "../worktrees/pr-001-auth",
+      "branch": "feature/pr-001-auth",
+      "base_branch": "main",
+      "status": "pending",
+      "metadata": {
+        "module_refs": ["MOD-AUTH-01"],
+        "user_story": "US-001",
+        "screen_refs": ["SCR-001"],
+        "requirement_refs": ["REQ-001", "REQ-002"],
+        "pain_point_refs": ["PP-1.1"]
+      }
+    }
+  },
+  "tasks": {
+    "T-001": {
+      "id": "T-001",
+      "title": "Setup inventory scanning feature structure",
+      "description": "Create folder structure and base files for inventory scanning",
+      "phase": 3,
+      "priority": "P0",
+      "status": "pending",
+      "parallel": true,
+      "estimated_complexity": "low",
+      "module_ref": "MOD-MOB-INV-01",
+      "user_story": "US-001",
+      "jira_ref": "INV-015",
+      "screen_refs": ["SCR-001"],
+      "requirement_refs": ["REQ-001", "REQ-002"],
+      "pain_point_refs": ["PP-1.1"],
+      "pr_group": "PR-001",
+      "dependencies": [],
+      "acceptance_criteria": [
+        {
+          "id": "AC-1",
+          "description": "Feature folder exists with index.ts",
+          "status": "pending",
+          "test_location": null
+        }
+      ],
+      "tdd_spec": {
+        "test_file": "tests/unit/inventory/setup.test.ts",
+        "test_cases": ["folder structure exists", "exports are valid"]
+      },
+      "implementation": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_created": [],
+        "completed_at": null
+      }
+    }
+  },
+  "dependency_graph": {
+    "T-001": [],
+    "T-002": ["T-001"],
+    "T-003": ["T-001", "T-002"]
+  },
+  "execution_order": ["T-001", "T-002", "T-003", "..."]
+}
+```
+
+### 8. Generate Worktree Setup Scripts
+
+Based on the selected `worktree_strategy`, generate setup scripts:
+
+```bash
+# Implementation_<SystemName>/scripts/setup-worktrees.sh
+
+#!/bin/bash
+# Auto-generated worktree setup script
+# Generated: <timestamp>
+# Strategy: per-pr
+
+set -e
+
+BASE_BRANCH="${1:-main}"
+WORKTREE_DIR="../worktrees"
+
+echo "Setting up worktrees for InventorySystem"
+echo "Base branch: $BASE_BRANCH"
+
+# Create worktree directory
+mkdir -p "$WORKTREE_DIR"
+
+# PR-001: Authentication system
+echo "Creating worktree: pr-001-auth"
+git worktree add "$WORKTREE_DIR/pr-001-auth" -b feature/pr-001-auth "$BASE_BRANCH"
+
+# PR-002: Inventory scanning
+echo "Creating worktree: pr-002-inventory"
+git worktree add "$WORKTREE_DIR/pr-002-inventory" -b feature/pr-002-inventory "$BASE_BRANCH"
+
+echo ""
+echo "Worktrees created successfully:"
+git worktree list
+echo ""
+echo "Next steps:"
+echo "  cd $WORKTREE_DIR/pr-001-auth"
+echo "  /htec-sdd-implement --pr-group PR-001"
+```
+
+Make script executable:
+```bash
+chmod +x Implementation_<SystemName>/scripts/setup-worktrees.sh
+```
+
+### 9. Generate PR Metadata Files
+
+For each PR group, create a metadata file with full traceability:
+
+```markdown
+<!-- Implementation_<SystemName>/pr-metadata/PR-001.md -->
+
+# PR-001: User Authentication System
+
+## Metadata
+
+| Field | Value |
+|-------|-------|
+| PR ID | PR-001 |
+| Branch | feature/pr-001-auth |
+| Base Branch | main |
+| Status | pending |
+| Estimated LOC | 350 |
+
+## Tasks Included
+
+- T-001: Setup auth feature structure
+- T-002: Create auth types and interfaces
+- T-003: Implement login service
+
+## Traceability Matrix
+
+| Level | IDs | Description |
+|-------|-----|-------------|
+| Pain Points | PP-1.1 | Manual login slow |
+| JTBD | JTBD-1.1 | Securely access system |
+| Requirements | REQ-001, REQ-002 | Authentication flow |
+| Screens | SCR-001 | Login screen |
+| Modules | MOD-AUTH-01 | Auth module |
+| Tasks | T-001, T-002, T-003 | Implementation tasks |
+
+## Acceptance Criteria
+
+- [ ] AC-1: User can login with email/password
+- [ ] AC-2: Invalid credentials show error
+- [ ] AC-3: Successful login stores token
+
+## Test Summary
+
+- Unit tests: 12 expected
+- Integration tests: 3 expected
+- Coverage target: 80%+
+
+## File Changes
+
+**Created:**
+- `src/features/auth/types.ts`
+- `src/features/auth/services/login.ts`
+- `tests/unit/auth/login.test.ts`
+
+**Modified:**
+- `src/app.tsx` (add auth routes)
+- `src/router.tsx` (add protected routes)
+
+## Review Checklist
+
+- [ ] All tests passing
+- [ ] Coverage >= 80%
+- [ ] No security vulnerabilities
+- [ ] Follows architecture patterns (ADR-002, ADR-007)
+- [ ] Traceability complete
+```
+
+### 10. Generate Task Index
+
+```markdown
+<!-- Implementation_<SystemName>/tasks/TASK_INDEX.md -->
+
+# Implementation Tasks
+
+## System: InventorySystem
+## Generated: <Date>
+## Total Tasks: 47
+
+## Summary by Phase
+
+| Phase | Tasks | Parallel | Dependencies |
+|-------|-------|----------|--------------|
+| 3 (Infrastructure) | 8 | 6 [P] | 2 |
+| 4 (Features) | 31 | 18 [P] | 13 |
+| 5 (Integration) | 8 | 2 [P] | 6 |
+
+## Summary by Priority
+
+| Priority | Count |
+|----------|-------|
+| P0 | 23 |
+| P1 | 16 |
+| P2 | 8 |
+
+## Task List
+
+### Phase 3: Infrastructure
+
+| ID | Title | [P] | Depends | Priority |
+|----|-------|-----|---------|----------|
+| T-001 | Setup project structure | [P] | - | P0 |
+| T-002 | Configure TypeScript | [P] | - | P0 |
+| T-003 | Setup Vitest | [P] | - | P0 |
+| T-004 | Configure Tailwind | [P] | - | P0 |
+| T-005 | Setup API client | | T-001,T-002 | P0 |
+| ... | | | | |
+
+### Phase 4: Features
+
+| ID | Title | [P] | Depends | Module |
+|----|-------|-----|---------|--------|
+| T-010 | Barcode scanner types | [P] | T-002 | MOD-MOB-INV-01 |
+| T-011 | Barcode scanner service | | T-010 | MOD-MOB-INV-01 |
+| ... | | | | |
+
+### Phase 5: Integration
+
+| ID | Title | [P] | Depends |
+|----|-------|-----|---------|
+| T-040 | E2E: Inventory workflow | | T-035..T-039 |
+| ... | | | |
+```
+
+### 11. Generate Individual Task Files
+
+For each task, create a detailed specification:
+
+```markdown
+<!-- Implementation_<SystemName>/tasks/T-015.md -->
+
+# Task T-015: Implement Barcode Scanner Service
+
+## Metadata
+
+| Field | Value |
+|-------|-------|
+| ID | T-015 |
+| Module | MOD-MOB-INV-01 |
+| User Story | US-003 |
+| JIRA | INV-015 |
+| Priority | P0 |
+| Phase | 4 |
+| Parallel | Yes [P] |
+| Dependencies | T-010, T-012 |
+
+## Description
+
+Implement the barcode scanning service that handles camera integration,
+barcode detection, and validation.
+
+## Acceptance Criteria
+
+- [ ] **AC-1**: Scan and decode EAN-13 barcodes
+- [ ] **AC-2**: Scan and decode QR codes
+- [ ] **AC-3**: Handle invalid/unreadable barcodes gracefully
+- [ ] **AC-4**: Return structured scan result with timestamp
+
+## TDD Specification
+
+### Test File
+`tests/unit/inventory/barcode-scanner.test.ts`
+
+### Test Cases
+
+```typescript
+describe('BarcodeScanner', () => {
+  it('should decode valid EAN-13 barcode', () => {
+    // AC-1
+  });
+
+  it('should decode valid QR code', () => {
+    // AC-2
+  });
+
+  it('should return error for invalid barcode', () => {
+    // AC-3
+  });
+
+  it('should include timestamp in scan result', () => {
+    // AC-4
+  });
+});
+```
+
+## Implementation Notes
+
+- Use native camera API via capacitor
+- Leverage existing camera permission handling from T-012
+- Follow error handling patterns from ADR-007
+
+## Traceability
+
+```
+PP-1.1 (Manual data entry slow)
+    ↓
+JTBD-1.1 (Quickly record inventory)
+    ↓
+REQ-003 (Barcode scanning)
+    ↓
+T-015 (This task)
+```
+```
+
+## Output
+
+```
+Task Decomposition Complete
+═══════════════════════════════════════
+System: InventorySystem
+Mode: Reuse (from ProductSpecs JIRA export)  # OR "Generate (from module specs)"
+
+Modules Processed: 12
+Tasks Generated: 47
+
+By Phase:
+  Phase 3 (Infrastructure): 8 tasks (6 parallel)
+  Phase 4 (Features): 31 tasks (18 parallel)
+  Phase 5 (Integration): 8 tasks (2 parallel)
+
+By Priority:
+  P0: 23 tasks (critical path)
+  P1: 16 tasks
+  P2: 8 tasks
+
+Implementation Strategy:
+  Decomposition: Vertical slicing
+  PR Grouping: Per-story
+  Worktree Strategy: Per-PR worktrees
+  Review Strategy: Per-PR
+
+Files Created:
+  ✓ traceability/task_registry.json (with pr_groups)
+  ✓ Implementation_InventorySystem/scripts/setup-worktrees.sh
+  ✓ Implementation_InventorySystem/pr-metadata/PR-001.md through PR-008.md
+  ✓ Implementation_InventorySystem/tasks/TASK_INDEX.md
+  ✓ Implementation_InventorySystem/tasks/T-001.md through T-047.md
+
+PR Groups:
+  PR-001: Authentication (3 tasks)
+  PR-002: Inventory (8 tasks)
+  ...
+  Total: 8 PR groups
+
+Execution Order:
+  1. T-001, T-002, T-003, T-004 [parallel]
+  2. T-005 (depends on T-001, T-002)
+  ...
+
+Next Steps:
+  1. Run /htec-sdd-worktree-setup to create worktrees
+  2. Run /htec-sdd-implement to start TDD implementation
+
+Notes:
+  • Both modes (reuse/generate) produce identical task_registry.json structure
+  • Both go through same traceability pipeline (traceability/task_registry.json)
+  • Reuse mode preserves full traceability from ProductSpecs Stage 3
+```
+
+## Skills Used
+
+- `Implementation_TaskDecomposer`
+
+
+---
+
+## Related Commands
+
+- `/htec-sdd-worktree-setup` - Setup worktrees (next step)
+- `/htec-sdd-implement` - Start implementation
+- `/htec-sdd-status` - View task status

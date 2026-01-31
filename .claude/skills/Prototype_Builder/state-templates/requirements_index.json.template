@@ -1,0 +1,39 @@
+{
+  "$schema": "requirements-index-v1",
+  "$metadata": {
+    "created_at": null,
+    "updated_at": null,
+    "created_by": "Prototype_Requirements",
+    "source": "_state/requirements_registry.json"
+  },
+  "by_id": {},
+  "by_type": {
+    "user_story": [],
+    "functional": [],
+    "non_functional": [],
+    "accessibility": [],
+    "constraint": []
+  },
+  "by_priority": {
+    "P0": [],
+    "P1": [],
+    "P2": []
+  },
+  "by_screen": {},
+  "by_component": {},
+  "statistics": {
+    "total": 0,
+    "by_type": {
+      "user_story": 0,
+      "functional": 0,
+      "non_functional": 0,
+      "accessibility": 0,
+      "constraint": 0
+    },
+    "by_priority": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0
+    }
+  }
+}

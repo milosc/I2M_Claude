@@ -1,0 +1,137 @@
+{
+    "$documentation": {
+        "purpose": "Progress tracking for the Discovery phase. Tracks checkpoint completion, N/A artifacts, and overall status.",
+        "stage": "Discovery",
+        "phase_position": "Created at CP0, updated throughout discovery",
+        "upstream": [
+            "discovery_config.json"
+        ],
+        "downstream": [
+            "prototype_config.json"
+        ],
+        "commands": [
+            "/discovery-init",
+            "/discovery-status",
+            "/discovery-resume"
+        ],
+        "skills": [
+            "Discovery_Orchestrator",
+            "Discovery_ClassifyProject"
+        ],
+        "key_attributes": {
+            "overall_progress": "Percentage of discovery completion (0-100)",
+            "current_checkpoint": "Currently active checkpoint number",
+            "resumable_from": "Phase ID to resume from if interrupted",
+            "checkpoints": "Status of each checkpoint (pending|in_progress|completed|skipped)",
+            "na_artifacts": "List of artifacts marked as NOT_APPLICABLE with reasons"
+        },
+        "validation_rules": [
+            "overall_progress MUST be 0-100",
+            "current_checkpoint MUST match a valid checkpoint ID",
+            "na_artifacts entries MUST have artifact, reason, project_type, and timestamp fields"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "started_at": "{{STARTED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "overall_progress": 0,
+    "current_checkpoint": 0,
+    "resumable_from": "0_init",
+    "status": "initialized",
+    "checkpoints": {
+        "0_init": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "1_analyze": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "1.5_pdf": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "2_pain_points": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "3_personas": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "4_jtbd": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "5_vision": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "6_strategy": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "7_roadmap": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "8_kpis": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "9_specs": {
+            "status": "pending",
+            "started": null,
+            "completed": null,
+            "artifacts": {
+                "screen-definitions": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "navigation-flows": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "ui-components": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "interaction-patterns": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "data-fields": {
+                    "status": "pending",
+                    "na_status": null
+                }
+            }
+        },
+        "10_docs": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "11_validate": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        }
+    },
+    "na_artifacts": [],
+    "na_summary": {
+        "total_na_artifacts": 0,
+        "project_type": null,
+        "ui_artifacts_applicable": true
+    }
+}

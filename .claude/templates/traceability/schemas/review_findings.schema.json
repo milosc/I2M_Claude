@@ -1,0 +1,256 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://htec.ai/schemas/review-findings.schema.json",
+  "title": "Code Review Findings",
+  "description": "Schema for consolidated code review findings from /htec-sdd-review command. Contains all issues found by specialized reviewer agents with severity classification and resolution status.",
+  "type": "object",
+  "required": ["$documentation", "schema_version", "system_name", "findings", "metrics", "agents"],
+  "properties": {
+    "$documentation": {
+      "type": "object",
+      "description": "Self-documenting metadata about this file's purpose and relationships",
+      "required": ["purpose", "stage", "upstream", "downstream"],
+      "properties": {
+        "purpose": { "type": "string" },
+        "stage": { "type": "string", "enum": ["Implementation"] },
+        "phase_position": { "type": "string" },
+        "upstream": { "type": "array", "items": { "type": "string" } },
+        "downstream": { "type": "array", "items": { "type": "string" } },
+        "commands": { "type": "array", "items": { "type": "string" } },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "agents": { "type": "array", "items": { "type": "string" } },
+        "finding_id_patterns": { "type": "object" },
+        "key_attributes": { "type": "object" },
+        "severity_levels": { "type": "object" },
+        "blocking_criteria": { "type": "object" },
+        "validation_rules": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version of this schema"
+    },
+    "system_name": {
+      "type": "string",
+      "description": "The name of the system being reviewed (e.g., ERTriage, InventorySystem)"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^REV-[0-9]{3}$",
+      "description": "Unique review session identifier"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this report was generated"
+    },
+    "scope": {
+      "type": "string",
+      "enum": ["all", "changed", "module"],
+      "description": "Scope of the review (all files, changed files, or specific module)"
+    },
+    "traceability_chain": {
+      "type": "object",
+      "description": "Links to upstream and downstream artifacts",
+      "properties": {
+        "upstream": { "type": "array", "items": { "type": "string" } },
+        "downstream": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "description": "All findings from review agents",
+      "items": {
+        "type": "object",
+        "required": ["id", "agent", "severity", "confidence", "file", "issue"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique finding ID (SEC-001, CQ-001, TC-001, A11Y-001, BH-001, CR-001)",
+            "pattern": "^(SEC|CQ|TC|A11Y|BH|CR)-[0-9]{3}$"
+          },
+          "agent": {
+            "type": "string",
+            "description": "Agent that found this issue",
+            "enum": ["security", "code_quality", "test_coverage", "accessibility", "bug_hunter", "contracts_reviewer"]
+          },
+          "severity": {
+            "type": "string",
+            "description": "Issue severity",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "confidence": {
+            "type": "integer",
+            "description": "Confidence score 0-100",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "category": {
+            "type": "string",
+            "description": "Issue category (e.g., OWASP category, SOLID principle, WCAG criterion)"
+          },
+          "owasp": {
+            "type": ["string", "null"],
+            "description": "OWASP Top 10 reference (e.g., A01:2021)"
+          },
+          "cwe": {
+            "type": ["string", "null"],
+            "description": "CWE reference (e.g., CWE-79)"
+          },
+          "wcag": {
+            "type": ["string", "null"],
+            "description": "WCAG criterion (e.g., 1.4.3, 2.1.1)"
+          },
+          "file": {
+            "type": "string",
+            "description": "File path relative to Implementation_<System>/"
+          },
+          "line": {
+            "type": ["integer", "null"],
+            "description": "Line number in the file"
+          },
+          "issue": {
+            "type": "string",
+            "description": "Description of the issue"
+          },
+          "remediation": {
+            "type": "string",
+            "description": "How to fix the issue"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority for fixing",
+            "enum": ["P0", "P1", "P2", "P3"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Resolution status",
+            "enum": ["open", "fixed", "wontfix", "false_positive"]
+          },
+          "blocking": {
+            "type": "boolean",
+            "description": "Whether this finding blocks the review"
+          },
+          "references": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Reference URLs for more information"
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Code review metrics",
+      "properties": {
+        "files_reviewed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of files reviewed"
+        },
+        "test_coverage": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Test coverage percentage"
+        },
+        "tests_passing": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Number of passing tests"
+        },
+        "tests_failing": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Number of failing tests"
+        },
+        "tests_skipped": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Number of skipped tests"
+        },
+        "code_quality_score": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Code quality score 0-100"
+        },
+        "accessibility_score": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Accessibility compliance score 0-100"
+        },
+        "security_risk_level": {
+          "type": ["string", "null"],
+          "enum": ["low", "medium", "high", "critical", null],
+          "description": "Overall security risk level"
+        }
+      }
+    },
+    "agents": {
+      "type": "object",
+      "description": "Summary per review agent",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["pending", "completed", "failed", "skipped"],
+            "description": "Agent execution status"
+          },
+          "findings_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of findings from this agent"
+          },
+          "risk_level": {
+            "type": ["string", "null"],
+            "description": "Risk level assessed by this agent"
+          },
+          "score": {
+            "type": ["integer", "null"],
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Quality score from this agent"
+          }
+        }
+      }
+    },
+    "positive_findings": {
+      "type": "object",
+      "description": "Good practices found by each agent",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "recommendations": {
+      "type": "object",
+      "description": "Prioritized recommendations by priority level",
+      "properties": {
+        "P0": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Must fix before production - blocking issues"
+        },
+        "P1": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Should fix before launch"
+        },
+        "P2": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Fix in next sprint"
+        },
+        "P3": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Technical debt - low priority"
+        }
+      }
+    }
+  }
+}

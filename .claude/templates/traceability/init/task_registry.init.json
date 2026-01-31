@@ -1,0 +1,91 @@
+{
+    "$documentation": {
+        "purpose": "Registry of implementation tasks decomposed from module specifications. Each task represents a TDD-implementable unit with acceptance criteria, dependencies, and traceability to upstream artifacts.",
+        "stage": "Implementation",
+        "phase_position": "Ninth layer - tasks implement modules via TDD workflow",
+        "upstream": [
+            "module_registry.json",
+            "component_registry.json",
+            "adr_registry.json",
+            "productspecs_traceability_register.json"
+        ],
+        "downstream": [
+            "Source code files (src/)",
+            "Test files (tests/)"
+        ],
+        "commands": [
+            "/htec-sdd",
+            "/htec-sdd-tasks",
+            "/htec-sdd-implement"
+        ],
+        "skills": [
+            "Implementation_TaskDecomposer",
+            "Implementation_Developer"
+        ],
+        "id_pattern": {
+            "format": "T-{NNN}",
+            "description": "Sequential task identifier starting from T-001",
+            "example": "T-015"
+        },
+        "key_attributes": {
+            "tasks[].id": "Task identifier T-NNN",
+            "tasks[].name": "Short descriptive name for the task",
+            "tasks[].module_ref": "Parent module MOD-* or SHARED",
+            "tasks[].component_refs": "SolArch components this task implements",
+            "tasks[].adr_refs": "ADRs guiding implementation decisions",
+            "tasks[].requirement_refs": "Requirements this task satisfies",
+            "tasks[].phase": "Execution phase (3=infrastructure, 4=features)",
+            "tasks[].priority": "P0 (critical), P1 (high), P2 (nice-to-have)",
+            "tasks[].status": "pending | in_progress | completed | blocked",
+            "tasks[].files": "Source files created/modified",
+            "tasks[].test_files": "Test files for this task",
+            "tasks[].acceptance_criteria": "TDD criteria for completion",
+            "tasks[].dependencies": "Task IDs that must complete first",
+            "tasks[].parallel": "Boolean - can run in parallel with other tasks"
+        },
+        "validation_rules": [
+            "Every task MUST link to a module (module_ref)",
+            "Completed tasks MUST have files array populated",
+            "All P0 tasks MUST be complete for CP5 (blocking)",
+            "Tasks with dependencies cannot start until deps complete"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "generated_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "traceability_chain": {
+        "upstream": [
+            "traceability/module_registry.json",
+            "traceability/component_registry.json",
+            "traceability/adr_registry.json"
+        ],
+        "downstream": [
+            "Implementation_{{SYSTEM_NAME}}/src/",
+            "Implementation_{{SYSTEM_NAME}}/tests/"
+        ]
+    },
+    "task_count": 0,
+    "statistics": {
+        "total": 0,
+        "by_status": {
+            "completed": 0,
+            "pending": 0,
+            "in_progress": 0,
+            "blocked": 0
+        },
+        "by_priority": {
+            "P0": 0,
+            "P1": 0,
+            "P2": 0
+        },
+        "by_phase": {
+            "3": 0,
+            "4": 0
+        },
+        "p0_completion": "0%",
+        "p1_completion": "0%",
+        "p2_completion": "0%"
+    },
+    "tasks": []
+}

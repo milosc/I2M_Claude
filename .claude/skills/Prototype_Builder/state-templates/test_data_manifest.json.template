@@ -1,0 +1,30 @@
+{
+  "$schema": "test-data-manifest-v1",
+  "$metadata": {
+    "created_at": null,
+    "updated_at": null,
+    "created_by": "Prototype_TestData",
+    "source": ["data_model.json", "discovery_summary.json"]
+  },
+  "datasets": {
+    "catalog": {},
+    "core": {},
+    "junction": {},
+    "transactional": {}
+  },
+  "personas": {},
+  "scenarios": [],
+  "combined_file": null,
+  "statistics": {
+    "total_datasets": 0,
+    "total_records": 0,
+    "by_type": {
+      "catalog": 0,
+      "core": 0,
+      "junction": 0,
+      "transactional": 0
+    },
+    "personas_covered": 0,
+    "scenarios_covered": 0
+  }
+}

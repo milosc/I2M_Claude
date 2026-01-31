@@ -1,0 +1,106 @@
+[
+  {
+    "agent_name": "discovery-interview-analyst",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:15:30.454641",
+    "call_stack": [
+      "discovery-interview-analyst"
+    ]
+  },
+  {
+    "agent_name": "discovery-pain-point-validator",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:19:45.725946",
+    "call_stack": [
+      "discovery-pain-point-validator"
+    ]
+  },
+  {
+    "agent_name": "discovery-persona-generator",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:21:41.083559",
+    "call_stack": [
+      "discovery-persona-generator"
+    ]
+  },
+  {
+    "agent_name": "discovery-jtbd-extractor",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:21:50.152690",
+    "call_stack": [
+      "discovery-jtbd-extractor"
+    ]
+  },
+  {
+    "agent_name": "discovery-vision-generator",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:26:51.177445",
+    "call_stack": [
+      "discovery-vision-generator"
+    ]
+  },
+  {
+    "agent_name": "discovery-strategy-generator",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:27:02.234160",
+    "call_stack": [
+      "discovery-strategy-generator"
+    ]
+  },
+  {
+    "agent_name": "discovery-roadmap-generator",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:29:56.683638",
+    "call_stack": [
+      "discovery-roadmap-generator"
+    ]
+  },
+  {
+    "agent_name": "discovery-kpis-generator",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:30:12.843273",
+    "call_stack": [
+      "discovery-kpis-generator"
+    ]
+  },
+  {
+    "agent_name": "discovery-screen-specifier",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:33:23.732163",
+    "call_stack": [
+      "discovery-screen-specifier"
+    ]
+  },
+  {
+    "agent_name": "discovery-navigation-specifier",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:33:36.534893",
+    "call_stack": [
+      "discovery-navigation-specifier"
+    ]
+  },
+  {
+    "agent_name": "discovery-data-fields-specifier",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:33:49.895869",
+    "call_stack": [
+      "discovery-data-fields-specifier"
+    ]
+  },
+  {
+    "agent_name": "discovery-interaction-specifier",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:34:09.547740",
+    "call_stack": [
+      "discovery-interaction-specifier"
+    ]
+  },
+  {
+    "agent_name": "discovery-vp-pm-reviewer",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:40:34.633030",
+    "call_stack": [
+      "discovery-vp-pm-reviewer"
+    ]
+  }
+]

@@ -1,0 +1,76 @@
+{
+    "$documentation": {
+        "purpose": "Registry of Non-Functional Requirements (NFRs) - quality attributes with SMART metrics for performance, availability, security, etc.",
+        "stage": "ProductSpecs",
+        "phase_position": "Quality layer - derived from modules and requirements, drives ADR decisions",
+        "upstream": [
+            "requirements_registry.json",
+            "module_registry.json"
+        ],
+        "downstream": [
+            "adr_registry.json",
+            "test_case_registry.json"
+        ],
+        "commands": [
+            "/productspecs",
+            "/productspecs-nfr"
+        ],
+        "skills": [
+            "ProductSpecs_Generator",
+            "ProductSpecs_NFRGenerator"
+        ],
+        "id_pattern": {
+            "format": "NFR-{CATEGORY}-{NNN}",
+            "categories": {
+                "PERF": "Performance - response time, throughput",
+                "AVAIL": "Availability - uptime, failover",
+                "SEC": "Security - authentication, authorization",
+                "SCALE": "Scalability - load handling",
+                "A11Y": "Accessibility - WCAG compliance",
+                "MAINT": "Maintainability - code quality"
+            },
+            "example": "NFR-PERF-003"
+        },
+        "key_attributes": {
+            "items[].id": "NFR identifier following NFR-{CAT}-{NNN} pattern",
+            "items[].smart_metric": "Specific, Measurable target",
+            "items[].verification_method": "How to test/verify this NFR"
+        },
+        "validation_rules": [
+            "Every NFR MUST have a SMART metric",
+            "P0 NFRs MUST have verification_method defined"
+        ]
+    },
+    
+    "schema_version": "1.0.0",
+    "description": "Registry of Non-Functional Requirements with traceability",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "traceability_chain": {
+        "upstream": [
+            "requirements_registry.json",
+            "module_registry.json"
+        ],
+        "downstream": [
+            "adr_registry.json",
+            "test_case_registry.json"
+        ]
+    },
+    "schema": {
+        "id": "NFR-{CATEGORY}-{NNN}",
+        "category": "Performance|Availability|Security|Scalability|Accessibility|Maintainability",
+        "smart_metric": "Specific measurable target",
+        "priority": "P0|P1|P2",
+        "verification_method": "How to test/verify"
+    },
+    "category_codes": {
+        "PERF": "Performance",
+        "AVAIL": "Availability",
+        "SEC": "Security",
+        "SCALE": "Scalability",
+        "A11Y": "Accessibility",
+        "MAINT": "Maintainability"
+    },
+    "items": []
+}

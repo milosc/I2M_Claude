@@ -1,0 +1,70 @@
+{
+    "$documentation": {
+        "purpose": "Registry of stakeholder feedback received during Prototype phase. Tracks feedback items (screen additions, component changes, code fixes) through their lifecycle.",
+        "stage": "Prototype",
+        "phase_position": "Feedback loop - captures and tracks changes to prototype artifacts",
+        "upstream": [],
+        "downstream": [
+            "screen_registry.json",
+            "prototype_traceability_register.json"
+        ],
+        "commands": [
+            "/prototype-feedback",
+            "/prototype-feedback-implement"
+        ],
+        "skills": [
+            "Prototype_FeedbackRegister",
+            "Prototype_FeedbackImplementer",
+            "Prototype_FeedbackValidator"
+        ],
+        "folder_structure": {
+            "base_path": "traceability/feedback_sessions/prototype/",
+            "session_folder": "{YYYY-MM-DD}_PrototypeFeedback_{NNN}/",
+            "files": {
+                "FEEDBACK_ORIGINAL.md": "Original feedback text",
+                "FEEDBACK_SUMMARY.md": "Classified summary",
+                "IMPACT_ANALYSIS.md": "Impact assessment",
+                "IMPLEMENTATION_PLAN.md": "Change implementation plan",
+                "IMPLEMENTATION_LOG.md": "Execution log",
+                "VALIDATION_REPORT.md": "Verification results"
+            }
+        },
+        "id_pattern": {
+            "format": "PF-{NNN}",
+            "example": "PF-001"
+        },
+        "feedback_categories": {
+            "CAT-SCR": "Screen-related changes",
+            "CAT-COMP": "Component changes",
+            "CAT-CODE": "Code modifications",
+            "CAT-DATA": "Data/mock data changes",
+            "CAT-REG": "Registry updates"
+        },
+        "validation_rules": [
+            "Every feedback item MUST have a session folder with artifacts",
+            "Implemented items MUST update screen_registry.json",
+            "Session folders MUST follow {YYYY-MM-DD}_PrototypeFeedback_{NNN} naming"
+        ]
+    },
+    "$metadata": {
+        "schema_version": "1.0.0",
+        "created_at": "{{CREATED_AT}}",
+        "updated_at": "{{UPDATED_AT}}",
+        "generated_by": "Traceability_Initializer"
+    },
+    "statistics": {
+        "total": 0,
+        "by_status": {
+            "pending": 0,
+            "approved": 0,
+            "in_progress": 0,
+            "implemented": 0,
+            "validated": 0,
+            "rejected": 0,
+            "failed": 0
+        },
+        "by_category": {},
+        "by_type": {}
+    },
+    "feedback_items": []
+}

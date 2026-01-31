@@ -1,0 +1,50 @@
+{
+    "$documentation": {
+        "purpose": "Stage-specific traceability register for the Solution Architecture phase. Consolidates ADR and component mappings.",
+        "stage": "SolutionArchitecture",
+        "phase_position": "Stage register - aggregates ADRs, components, and quality scenarios with coverage",
+        "upstream": [
+            "productspecs_traceability_register.json",
+            "module_registry.json",
+            "requirements_registry.json"
+        ],
+        "downstream": [],
+        "commands": [
+            "/solarch",
+            "/solarch-validate"
+        ],
+        "skills": [
+            "SolutionArchitecture_AdrGenerator",
+            "SolutionArchitecture_C4Generator"
+        ],
+        "validation_rules": [
+            "Pain point coverage = 100%",
+            "Requirement coverage = 100%",
+            "Module architecture coverage = 100%"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "stage": "SolutionArchitecture",
+    "checkpoint": 11,
+    "upstream_links": {
+        "discovery_folder": "",
+        "prototype_folder": "",
+        "productspecs_folder": "",
+        "productspecs_register": "traceability/productspecs_traceability_register.json"
+    },
+    "local_registry": "",
+    "coverage": {
+        "painPointsCovered": 0,
+        "requirementsCovered": 0,
+        "modulesArchitected": 0,
+        "adrsWithTraceability": 0
+    },
+    "pain_point_to_adr": {},
+    "requirement_to_adr": {},
+    "module_to_component": {},
+    "adr_to_quality_scenario": {},
+    "adr_index": []
+}

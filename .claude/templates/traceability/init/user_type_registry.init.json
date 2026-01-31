@@ -1,0 +1,46 @@
+{
+    "$documentation": {
+        "purpose": "Registry of user types (personas) identified during discovery. User types represent distinct roles with unique needs, workflows, and pain points.",
+        "stage": "Discovery",
+        "phase_position": "Supporting registry - populated alongside pain points and JTBDs",
+        "upstream": [
+            "client_facts_registry.json"
+        ],
+        "downstream": [
+            "jtbd_registry.json",
+            "screen_registry.json",
+            "epic_registry.json"
+        ],
+        "commands": [
+            "/discovery",
+            "/discovery-personas"
+        ],
+        "skills": [
+            "Discovery_ExtractUserTypes",
+            "Discovery_Orchestrator"
+        ],
+        "id_pattern": {
+            "format": "UT-{NN}",
+            "example": "UT-03"
+        },
+        "key_attributes": {
+            "items[].id": "User type identifier following UT-{NN} pattern",
+            "items[].name": "Human-readable persona name",
+            "items[].role": "Job title or role description",
+            "items[].category": "'Primary' (core users) or 'Secondary' (occasional users)",
+            "items[].source": "Source document where persona was defined"
+        },
+        "validation_rules": [
+            "All personas referenced in JTBDs MUST exist in this registry",
+            "Each persona MUST have at least one JTBD associated",
+            "Primary personas MUST have corresponding screens in screen_registry"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "description": "Registry of User Types (Personas) with traceability",
+    "stage": "Discovery",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "items": []
+}

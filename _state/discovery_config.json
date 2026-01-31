@@ -1,0 +1,8 @@
+{
+  "system_name": "ClaudeManual",
+  "input_path": "Client_Materials",
+  "output_path": "ClientAnalysis_ClaudeManual",
+  "started_at": "2026-01-31T09:15:00Z",
+  "mode": "multi_agent",
+  "version": "2.0.0"
+}

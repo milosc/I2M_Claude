@@ -1,0 +1,155 @@
+{
+  "version": "1.0.0",
+  "stage": "utility",
+  "updated": "2026-01-30",
+  "description": "Agent registry for Traceability Audit (/trace-audit) - Multi-agent traceability validation",
+  "command": "/trace-audit",
+  "architecture": {
+    "type": "parallel-then-consolidate",
+    "description": "Three scanner agents run in parallel, then consolidator merges findings",
+    "diagram": "orchestrator → [registry-scanner | state-analyzer | json-discovery] → consolidator → reports"
+  },
+  "agents": {
+    "trace-audit-registry-scanner": {
+      "path": ".claude/agents/trace-audit-registry-scanner.md",
+      "description": "Scans traceability/ folder to analyze all registry files, validate cross-references, detect orphaned IDs and broken links",
+      "spawned_by": ["/trace-audit"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "scope": "traceability/",
+      "phase": 1,
+      "parallel_group": "scanners",
+      "inputs": ["PROJECT_ROOT", "SYSTEM_NAME"],
+      "outputs": {
+        "format": "json",
+        "content": [
+          "inventory",
+          "id_format_issues",
+          "broken_links",
+          "orphaned_artifacts",
+          "coverage",
+          "consistency_issues"
+        ]
+      },
+      "no_hallucination_policy": true,
+      "evidence_required": ["file_path", "line_number", "actual_values"]
+    },
+    "trace-audit-state-analyzer": {
+      "path": ".claude/agents/trace-audit-state-analyzer.md",
+      "description": "Analyzes _state/ folder to validate pipeline state, session integrity, checkpoint consistency",
+      "spawned_by": ["/trace-audit"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "scope": "_state/",
+      "phase": 1,
+      "parallel_group": "scanners",
+      "inputs": ["PROJECT_ROOT", "SYSTEM_NAME"],
+      "outputs": {
+        "format": "json",
+        "content": [
+          "inventory",
+          "checkpoint_issues",
+          "session_issues",
+          "lifecycle_analysis",
+          "config_issues",
+          "lock_issues"
+        ]
+      },
+      "no_hallucination_policy": true,
+      "evidence_required": ["file_path", "actual_values"]
+    },
+    "trace-audit-json-discovery": {
+      "path": ".claude/agents/trace-audit-json-discovery.md",
+      "description": "Discovers and analyzes all .json files outside traceability/ and _state/ to identify shadow registries and untracked references",
+      "spawned_by": ["/trace-audit"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "scope": "**/*.json (excluding traceability/, _state/, .claude/, node_modules/)",
+      "phase": 1,
+      "parallel_group": "scanners",
+      "inputs": ["PROJECT_ROOT", "SYSTEM_NAME"],
+      "outputs": {
+        "format": "json",
+        "content": [
+          "discovery_summary",
+          "registry_candidates",
+          "shadow_registries",
+          "untracked_references",
+          "bypass_chains",
+          "stage_anomalies",
+          "configuration_files"
+        ]
+      },
+      "no_hallucination_policy": true,
+      "evidence_required": ["file_path", "sample_content"]
+    },
+    "trace-audit-consolidator": {
+      "path": ".claude/agents/trace-audit-consolidator.md",
+      "description": "Consolidates findings from all scanner agents, performs cross-validation, generates final reports",
+      "spawned_by": ["/trace-audit"],
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "scope": "synthesis",
+      "phase": 2,
+      "depends_on": [
+        "trace-audit-registry-scanner",
+        "trace-audit-state-analyzer",
+        "trace-audit-json-discovery"
+      ],
+      "inputs": [
+        "PROJECT_ROOT",
+        "SYSTEM_NAME",
+        "REGISTRY_FINDINGS",
+        "STATE_FINDINGS",
+        "JSON_FINDINGS"
+      ],
+      "outputs": {
+        "files": [
+          "traceability/TRACEABILITY_AUDIT_REPORT.md",
+          "traceability/TRACEABILITY_MATRIX_MASTER.md"
+        ],
+        "format": "json",
+        "content": [
+          "files_written",
+          "summary",
+          "cross_validation_conflicts"
+        ]
+      },
+      "no_hallucination_policy": true,
+      "synthesis_rules": [
+        "Only synthesize from provided agent findings",
+        "Note when agents provide conflicting information",
+        "Mark uncertain synthesis as NEEDS_VERIFICATION"
+      ]
+    }
+  },
+  "execution_modes": {
+    "full": {
+      "description": "Complete audit with visual matrix",
+      "agents": ["all scanners → consolidator"],
+      "outputs": ["TRACEABILITY_AUDIT_REPORT.md", "TRACEABILITY_MATRIX_MASTER.md"]
+    },
+    "quick": {
+      "description": "Quick health check, no consolidator",
+      "agents": ["all scanners"],
+      "outputs": ["console summary only"]
+    },
+    "section": {
+      "description": "Single section audit",
+      "agents": ["one scanner only"],
+      "options": ["registry", "state", "json"]
+    }
+  },
+  "severity_levels": {
+    "CRITICAL": "Blocks framework progression (broken links, data integrity)",
+    "HIGH": "Should be fixed before next stage (orphaned P0, sync issues)",
+    "MEDIUM": "Quality issue, fix when possible (format inconsistencies)",
+    "LOW": "Informational (style, optional metadata)"
+  },
+  "quality_guarantees": {
+    "no_hallucination": "All agents must only report verified findings with evidence",
+    "evidence_chains": "Every finding includes file path and actual values",
+    "cross_validation": "Consolidator validates findings across agents",
+    "conflict_detection": "Contradictory findings are flagged, not hidden"
+  }
+}

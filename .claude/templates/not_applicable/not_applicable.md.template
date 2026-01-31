@@ -1,0 +1,51 @@
+---
+document_id: {{DOCUMENT_ID}}
+version: 1.0.0
+created_at: {{CREATED_AT}}
+updated_at: {{UPDATED_AT}}
+generated_by: {{SKILL_NAME}}
+status: NOT_APPLICABLE
+---
+
+# {{ARTIFACT_TITLE}}
+
+## Status: NOT APPLICABLE
+
+This artifact has been marked as **NOT APPLICABLE** for the current project.
+
+### Reason
+
+{{REASON}}
+
+### Project Classification
+
+- **Project Type**: {{PROJECT_TYPE}}
+- **Detected Signals**:
+{{SIGNALS}}
+
+### Decision Metadata
+
+| Field | Value |
+|-------|-------|
+| Decision Date | {{DECISION_DATE}} |
+| Deciding Skill | {{SKILL_NAME}} |
+| Checkpoint | {{CHECKPOINT}} |
+| Confidence | {{CONFIDENCE}} |
+
+### Traceability
+
+This decision traces to:
+- **Analysis Summary**: {{ANALYSIS_SUMMARY_REF}}
+- **Project Type Detection**: `_state/discovery_config.json#project_classification`
+
+### Override Instructions
+
+If this artifact becomes applicable in the future:
+
+1. Update `_state/discovery_config.json` → `project_classification.type` to `FULL_STACK`
+2. Re-run: `{{REGENERATE_COMMAND}}`
+3. Or manually create the artifact following the standard template
+
+---
+
+*This placeholder maintains framework integrity while acknowledging that not all artifacts apply to every project type.*

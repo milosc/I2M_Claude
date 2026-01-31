@@ -1,0 +1,224 @@
+{
+    "$documentation": {
+        "purpose": "Progress tracking for the Prototype phase. Tracks checkpoint completion, N/A artifacts, and overall status.",
+        "stage": "Prototype",
+        "phase_position": "Created at CP0, updated throughout prototype generation",
+        "upstream": [
+            "prototype_config.json",
+            "discovery_config.json",
+            "discovery_progress.json"
+        ],
+        "downstream": [
+            "productspecs_config.json"
+        ],
+        "commands": [
+            "/prototype-init",
+            "/prototype-status",
+            "/prototype-resume"
+        ],
+        "skills": [
+            "Prototype_Builder",
+            "Prototype_ValidateDiscovery"
+        ],
+        "key_attributes": {
+            "overall_progress": "Percentage of prototype completion (0-100)",
+            "current_checkpoint": "Currently active checkpoint number",
+            "resumable_from": "Phase ID to resume from if interrupted",
+            "checkpoints": "Status of each checkpoint (pending|in_progress|completed|skipped)",
+            "na_artifacts": "List of artifacts marked as NOT_APPLICABLE with reasons",
+            "project_type_context": "Inherited project type from Discovery for N/A handling"
+        },
+        "validation_rules": [
+            "overall_progress MUST be 0-100",
+            "current_checkpoint MUST match a valid checkpoint ID",
+            "na_artifacts entries MUST have artifact, reason, project_type, and timestamp fields",
+            "If project_type != FULL_STACK, UI artifacts should be marked N/A"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "started_at": "{{STARTED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "overall_progress": 0,
+    "current_checkpoint": 0,
+    "resumable_from": "0_init",
+    "status": "initialized",
+    "project_type_context": {
+        "type": null,
+        "confidence": null,
+        "inherited_from": "discovery_config.json",
+        "ui_artifacts_applicable": true
+    },
+    "checkpoints": {
+        "0_init": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "1_validate_discovery": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "2_requirements": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "3_data_model": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "4_api_contracts": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "5_test_data": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "6_design_brief": {
+            "status": "pending",
+            "started": null,
+            "completed": null,
+            "na_applicable": true,
+            "na_status": null
+        },
+        "7_design_tokens": {
+            "status": "pending",
+            "started": null,
+            "completed": null,
+            "na_applicable": true,
+            "na_status": null,
+            "artifacts": {
+                "design-tokens": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "colors": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "typography": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "spacing-layout": {
+                    "status": "pending",
+                    "na_status": null
+                }
+            }
+        },
+        "8_components": {
+            "status": "pending",
+            "started": null,
+            "completed": null,
+            "na_applicable": true,
+            "na_status": null,
+            "artifacts": {
+                "component-library": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "primitives": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "data-display": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "feedback": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "navigation": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "overlays": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "patterns": {
+                    "status": "pending",
+                    "na_status": null
+                }
+            }
+        },
+        "9_screens": {
+            "status": "pending",
+            "started": null,
+            "completed": null,
+            "na_applicable": true,
+            "na_status": null,
+            "artifacts": {
+                "screen-specifications": {
+                    "status": "pending",
+                    "na_status": null
+                }
+            }
+        },
+        "10_interactions": {
+            "status": "pending",
+            "started": null,
+            "completed": null,
+            "na_applicable": true,
+            "na_status": null
+        },
+        "11_build_sequence": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "12_codegen": {
+            "status": "pending",
+            "started": null,
+            "completed": null,
+            "na_applicable": true,
+            "na_status": null,
+            "mode": null,
+            "artifacts": {
+                "ui-components": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "screens": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "api-layer": {
+                    "status": "pending",
+                    "na_status": null
+                },
+                "data-layer": {
+                    "status": "pending",
+                    "na_status": null
+                }
+            }
+        },
+        "13_qa": {
+            "status": "pending",
+            "started": null,
+            "completed": null
+        },
+        "14_ui_audit": {
+            "status": "pending",
+            "started": null,
+            "completed": null,
+            "na_applicable": true,
+            "na_status": null
+        }
+    },
+    "na_artifacts": [],
+    "na_summary": {
+        "total_na_artifacts": 0,
+        "project_type": null,
+        "ui_artifacts_applicable": true,
+        "api_only_mode": false,
+        "skipped_phases": []
+    }
+}

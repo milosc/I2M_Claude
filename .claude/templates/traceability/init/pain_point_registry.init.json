@@ -1,0 +1,79 @@
+{
+    "$documentation": {
+        "purpose": "Registry of validated pain points extracted from client facts. Pain points represent user problems that need solving, categorized by domain and prioritized by impact.",
+        "stage": "Discovery",
+        "phase_position": "Second layer - derived from client_facts_registry.json",
+        "upstream": [
+            "client_facts_registry.json"
+        ],
+        "downstream": [
+            "jtbd_registry.json",
+            "requirements_registry.json",
+            "adr_registry.json"
+        ],
+        "commands": [
+            "/discovery",
+            "/discovery-painpoints"
+        ],
+        "skills": [
+            "Discovery_ExtractPainPoints",
+            "Discovery_Orchestrator"
+        ],
+        "id_pattern": {
+            "format": "PP-{CATEGORY}.{NUMBER}",
+            "categories": {
+                "1": "Performance & Speed",
+                "2": "Usability & UX",
+                "3": "Visibility & Reporting",
+                "4": "Process & Workflow",
+                "5": "Configuration & Flexibility",
+                "6": "Integration & Data",
+                "7": "Compliance & Audit"
+            },
+            "example": "PP-2.4"
+        },
+        "key_attributes": {
+            "pain_points[].id": "Unique identifier following PP-{CAT}.{NUM} pattern",
+            "pain_points[].title": "Short descriptive title",
+            "pain_points[].description": "Full problem description",
+            "pain_points[].priority": "P0 (critical), P1 (high), P2 (medium), P3 (low)",
+            "pain_points[].impact": "Business impact description",
+            "pain_points[].affected_users": "Array of affected user types",
+            "pain_points[].source": "Array of CF-* IDs providing evidence"
+        },
+        "validation_rules": [
+            "Every pain point MUST link to at least one client fact",
+            "P0 pain points MUST be addressed by at least one JTBD",
+            "Impact descriptions MUST be quantifiable where possible"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "description": "Registry of Pain Points with traceability to client facts",
+    "stage": "Discovery",
+    "checkpoint": 2,
+    "source_file": "traceability/pain_point_registry.json",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "traceability_chain": {
+        "upstream": [
+            "client_facts_registry.json"
+        ],
+        "downstream": [
+            "jtbd_registry.json",
+            "requirements_registry.json",
+            "adr_registry.json"
+        ]
+    },
+    "pain_points": [],
+    "summary": {
+        "total": 0,
+        "by_priority": {
+            "P0": 0,
+            "P1": 0,
+            "P2": 0,
+            "P3": 0
+        },
+        "by_category": {}
+    }
+}

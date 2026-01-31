@@ -1,0 +1,71 @@
+{
+    "$documentation": {
+        "purpose": "Registry of stakeholder feedback received during SolutionArchitecture phase. Tracks feedback items (ADR changes, component adjustments, architecture decisions) through their lifecycle.",
+        "stage": "SolutionArchitecture",
+        "phase_position": "Feedback loop - captures and tracks changes to solution architecture artifacts",
+        "upstream": [],
+        "downstream": [
+            "adr_registry.json",
+            "component_registry.json",
+            "solarch_traceability_register.json"
+        ],
+        "commands": [
+            "/solarch-feedback",
+            "/solarch-feedback-implement"
+        ],
+        "skills": [
+            "SolutionArchitecture_FeedbackRegister",
+            "SolutionArchitecture_FeedbackImplementer",
+            "SolutionArchitecture_FeedbackValidator"
+        ],
+        "folder_structure": {
+            "base_path": "traceability/feedback_sessions/solarch/",
+            "session_folder": "{YYYY-MM-DD}_SolArchFeedback_{NNN}/",
+            "files": {
+                "FEEDBACK_ORIGINAL.md": "Original feedback text",
+                "FEEDBACK_SUMMARY.md": "Classified summary",
+                "IMPACT_ANALYSIS.md": "Impact assessment",
+                "IMPLEMENTATION_PLAN.md": "Change implementation plan",
+                "IMPLEMENTATION_LOG.md": "Execution log",
+                "VALIDATION_REPORT.md": "Verification results"
+            }
+        },
+        "id_pattern": {
+            "format": "SAF-{NNN}",
+            "example": "SAF-001"
+        },
+        "feedback_categories": {
+            "CAT-ADR": "Architecture decision changes",
+            "CAT-COMP": "Component modifications",
+            "CAT-INT": "Integration changes",
+            "CAT-SEC": "Security updates",
+            "CAT-PERF": "Performance optimizations"
+        },
+        "validation_rules": [
+            "Every feedback item MUST have a session folder with artifacts",
+            "Implemented items MUST update relevant registry files",
+            "Session folders MUST follow {YYYY-MM-DD}_SolArchFeedback_{NNN} naming"
+        ]
+    },
+    "$metadata": {
+        "schema_version": "1.0.0",
+        "created_at": "{{CREATED_AT}}",
+        "updated_at": "{{UPDATED_AT}}",
+        "generated_by": "Traceability_Initializer"
+    },
+    "statistics": {
+        "total": 0,
+        "by_status": {
+            "pending": 0,
+            "approved": 0,
+            "in_progress": 0,
+            "implemented": 0,
+            "validated": 0,
+            "rejected": 0,
+            "failed": 0
+        },
+        "by_category": {},
+        "by_type": {}
+    },
+    "feedback_items": []
+}

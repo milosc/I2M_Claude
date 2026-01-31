@@ -1,0 +1,67 @@
+{
+    "$documentation": {
+        "purpose": "Registry of Epics that group related user stories for JIRA export and project management.",
+        "stage": "ProductSpecs",
+        "phase_position": "Export layer - created from module groupings for JIRA integration",
+        "upstream": [
+            "jtbd_registry.json",
+            "pain_point_registry.json",
+            "module_registry.json"
+        ],
+        "downstream": [
+            "user_story_registry.json"
+        ],
+        "commands": [
+            "/productspecs-jira",
+            "/jira-export"
+        ],
+        "skills": [
+            "ProductSpecs_JIRAExporter"
+        ],
+        "id_pattern": {
+            "format": "EPIC-{NNN}",
+            "example": "EPIC-004"
+        },
+        "key_attributes": {
+            "items[].id": "Epic identifier following EPIC-{NNN} pattern",
+            "items[].title": "Epic title for JIRA",
+            "items[].priority": "P0 (MVP), P1 (important), P2 (nice-to-have)",
+            "items[].jtbd_refs": "Array of JTBD-X.X IDs this epic addresses",
+            "items[].user_story_ids": "Array of child US-XXX IDs",
+            "items[].jira_key": "JIRA issue key after export (null if not exported)"
+        },
+        "validation_rules": [
+            "Every epic MUST have at least one user story",
+            "Every epic MUST trace to at least one JTBD or pain point"
+        ]
+    },
+    
+    "schema_version": "1.0.0",
+    "description": "Registry of Epics for JIRA export",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "created_by": "ProductSpecs_JIRAExporter",
+    "schema": {
+        "id": "EPIC-XXX",
+        "title": "Epic title",
+        "priority": "P0|P1|P2",
+        "status": "Backlog|In Progress|Done",
+        "jtbd_refs": [
+            "JTBD-X.X"
+        ],
+        "user_story_ids": [
+            "US-XXX"
+        ],
+        "jira_key": "PRJ-XXX"
+    },
+    "items": [],
+    "summary": {
+        "total_epics": 0,
+        "by_priority": {
+            "P0": 0,
+            "P1": 0,
+            "P2": 0
+        }
+    }
+}

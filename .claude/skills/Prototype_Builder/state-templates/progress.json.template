@@ -1,0 +1,128 @@
+{
+  "$schema": "progress-schema-v2.2",
+  "version": "2.2",
+  "project": {
+    "name": null,
+    "discovery_path": null,
+    "output_path": null,
+    "created_at": null,
+    "updated_at": null
+  },
+  "phases": {
+    "validate_discovery": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "requirements": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "data_model": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "api_contracts": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "test_data": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "design_brief": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "design_tokens": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "components": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "screens": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "interactions": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "sequencer": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "codegen": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "subPhase": null,
+      "outputs": []
+    },
+    "qa": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    },
+    "ui_audit": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "outputs": []
+    }
+  },
+  "context": {
+    "product_name": null,
+    "domain": null,
+    "personas": [],
+    "persona_count": 0,
+    "pain_point_count": 0,
+    "jtbd_count": 0,
+    "screen_count": 0,
+    "entity_count": 0,
+    "component_count": 0
+  },
+  "checkpoints": {
+    "CP01": { "status": "pending", "tested_at": null, "feedback": null },
+    "CP02": { "status": "pending", "tested_at": null, "feedback": null },
+    "CP03": { "status": "pending", "tested_at": null, "feedback": null },
+    "CP04": { "status": "pending", "tested_at": null, "feedback": null },
+    "CP05": { "status": "pending", "tested_at": null, "feedback": null }
+  },
+  "audit": {
+    "enabled": true,
+    "autoRunAtCheckpoints": [3, 4, 5],
+    "passThreshold": 70,
+    "blockOnCritical": true,
+    "lastRun": null,
+    "history": [],
+    "openIssues": [],
+    "skippedIssues": []
+  },
+  "migrations": [],
+  "errors": []
+}

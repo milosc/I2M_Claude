@@ -1,0 +1,174 @@
+# _state/ - Machine State Directory (ROOT Level)
+
+> **Purpose**: Central hub for cross-skill communication and pipeline progress tracking
+
+> **⚠️ IMPORTANT**: This folder is located at the **PROJECT ROOT level**, NOT inside `Prototype_<SystemName>/`. It is **SHARED** between all pipeline stages (Discovery, Prototype, ProductSpecs, SolArch).
+
+---
+
+## What Is This?
+
+The `_state/` directory contains **machine-readable JSON files** that enable skills to communicate with each other without re-parsing all upstream outputs. Think of it as the "memory" of the entire pipeline (not just prototype).
+
+Every skill reads from and writes to this directory. If you delete files here, downstream skills may fail or produce incomplete outputs.
+
+---
+
+## File Index
+
+| File | Created By | Used By | Purpose |
+|------|------------|---------|---------|
+| `README.md` | Initialize | All | Documentation (this file) |
+| `prototype_config.json` | Initialize | All | System configuration |
+| `prototype_progress.json` | All skills | Builder | **Pipeline completion tracking** |
+| `discovery_summary.json` | ValidateDiscovery | All skills | Extracted personas, pain points, entities, screens from discovery docs |
+| `screen_registry.json` | ValidateDiscovery | Screens, QA | Master screen tracking |
+| `requirements_registry.json` | Requirements | Components, Screens, QA | Single source of truth for all requirements |
+| `requirements_index.json` | Requirements | Quick lookups | Fast requirement retrieval by ID/type/priority |
+| `jtbd_map.json` | Requirements | Screens | Jobs-to-be-done mapped to screens |
+| `screen_requirements_map.json` | Screens | QA | Which requirements apply to which screen |
+| `data_model.json` | DataModel | ApiContracts, TestData | Entity definitions and relationships |
+| `api_contracts.json` | ApiContracts | CodeGen | Endpoint registry |
+| `test_data_manifest.json` | TestData | CodeGen | Inventory of generated test data |
+| `implementation_sequence.json` | Sequencer | CodeGen | Build order with dependencies |
+| `codegen_state.json` | CodeGen | QA | Code generation status |
+| `qa_validation_state.json` | QA | UIAudit | QA validation results |
+| `ui_audit_state.json` | UIAudit | Deliverables | Visual audit results |
+| `change_requests.json` | ChangeManager | All post-build | Active change requests |
+| `PROGRESS.md` | All skills | Human | Human-readable progress |
+| `REQUIREMENTS_REGISTRY.md` | Requirements | Human | Human-readable registry |
+| `FAILURES_LOG.md` | All skills | Human | Skip and error log |
+
+---
+
+## Key File: prototype_progress.json
+
+This is the **most important file** - it tracks the entire pipeline's status:
+
+```json
+{
+  "pipeline_status": "completed",
+  "phases": {
+    "validate_discovery": { "status": "complete", "completed_at": "..." },
+    "requirements": { "status": "complete", "completed_at": "..." },
+    ...
+  },
+  "requirements_progress": {
+    "p0_total": 35,
+    "p0_addressed": 35,
+    "p0_coverage": "100%"
+  }
+}
+```
+
+Use this to:
+- Resume interrupted builds
+- Check which phases completed
+- Verify P0 coverage before delivery
+
+---
+
+## Key File: requirements_registry.json
+
+The **single source of truth** for what must be built:
+
+```json
+{
+  "requirements": [
+    {
+      "id": "US-001",
+      "type": "user_story",
+      "priority": "P0",
+      "title": "Search and select items quickly",
+      "addressed_by": ["S-01", "ItemCard"],
+      "trace_to": ["PP-001", "JTBD-1.1"]
+    }
+  ]
+}
+```
+
+Every component and screen spec **must** reference requirements from this registry.
+
+---
+
+## Human-Readable Companions
+
+For key files, we also generate Markdown versions:
+
+| JSON File | Markdown Companion |
+|-----------|-------------------|
+| `prototype_progress.json` | `PROGRESS.md` |
+| `requirements_registry.json` | `REQUIREMENTS_REGISTRY.md` |
+
+---
+
+## State File Lifecycle
+
+```
+Initialize
+    │
+    ├──► prototype_config.json
+    ├──► prototype_progress.json
+    ├──► README.md
+    │
+    ▼
+ValidateDiscovery
+    │
+    ├──► discovery_summary.json
+    ├──► screen_registry.json
+    │
+    ▼
+Requirements
+    │
+    ├──► requirements_registry.json
+    ├──► requirements_index.json
+    ├──► jtbd_map.json
+    ├──► REQUIREMENTS_REGISTRY.md
+    │
+    ▼
+DataModel ──► data_model.json
+    │
+    ▼
+ApiContracts ──► api_contracts.json
+    │
+    ▼
+TestData ──► test_data_manifest.json
+    │
+    ▼
+Components ──► (updates requirements addressed)
+    │
+    ▼
+Screens ──► screen_requirements_map.json
+    │
+    ▼
+Sequencer ──► implementation_sequence.json
+    │
+    ▼
+CodeGen ──► codegen_state.json
+    │
+    ▼
+QA ──► qa_validation_state.json
+    │
+    ▼
+UIAudit ──► ui_audit_state.json
+    │
+    ▼
+(Each skill updates prototype_progress.json and PROGRESS.md)
+```
+
+---
+
+## Recovery Notes
+
+If the pipeline fails mid-way:
+
+1. Check `prototype_progress.json` to see which phase failed
+2. Check `FAILURES_LOG.md` for specific errors
+3. Fix the issue and run `/prototype-resume`
+4. The Builder will resume from the failed phase
+
+---
+
+## Warning
+
+⚠️ **Do not manually edit** these files unless you understand the full pipeline. Invalid JSON or missing fields will cause downstream skills to fail.

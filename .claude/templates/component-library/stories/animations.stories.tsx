@@ -1,0 +1,40 @@
+import {
+  Button,
+  Dialog,
+  DialogTrigger,
+  Heading,
+  Modal,
+  ModalOverlay
+} from '../src';
+import React from 'react';
+import './styles.css';
+
+
+export default {
+  title: 'React Aria Components - Animations'
+};
+
+export let ModalAnimation = {
+  render: (): React.ReactElement => {
+    return (
+      <div className="App">
+        <DialogTrigger>
+          <Button>Open modal</Button>
+          <ModalOverlay className="my-overlay">
+            <Modal isDismissable className="my-modal">
+              <Dialog>
+                {({close}) => (
+                  <>
+                    <Heading slot="title">Notice</Heading>
+                    <p>This is a modal with a custom modal overlay.</p>
+                    <Button onPress={close}>Close</Button>
+                  </>
+                )}
+              </Dialog>
+            </Modal>
+          </ModalOverlay>
+        </DialogTrigger>
+      </div>
+    );
+  }
+};

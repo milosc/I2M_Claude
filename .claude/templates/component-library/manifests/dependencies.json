@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "description": "Component Library Dependency Manifest - defines all required dependencies for prototypes using the Assembly-First component library",
+  "updated": "2025-01-03",
+
+  "categories": {
+    "required": {
+      "description": "MUST be included in every prototype package.json",
+      "dependencies": {
+        "clsx": {
+          "version": "^2.0.0",
+          "reason": "Required by cn() utility function for conditional class names",
+          "used_in": ["src/lib/utils.ts", "all components"]
+        },
+        "tailwind-merge": {
+          "version": "^2.0.0",
+          "reason": "Required by cn() utility function for Tailwind class merging",
+          "used_in": ["src/lib/utils.ts", "all components"]
+        },
+        "react-aria": {
+          "version": "^3.45.0",
+          "reason": "Core React Aria library providing accessible component primitives",
+          "used_in": ["all interactive components"]
+        },
+        "react-stately": {
+          "version": "^3.43.0",
+          "reason": "State management for React Aria components",
+          "used_in": ["forms", "collections", "overlays"]
+        },
+        "tailwindcss": {
+          "version": "^3.4.0",
+          "reason": "Styling framework used by component library",
+          "used_in": ["all components", "tailwind.config.js"]
+        }
+      }
+    },
+
+    "peer": {
+      "description": "Peer dependencies that prototypes typically already have",
+      "dependencies": {
+        "react": {
+          "version": "^18.0.0",
+          "reason": "React framework - component library requires React 18+",
+          "note": "Usually already in prototype via CodeGen"
+        },
+        "react-dom": {
+          "version": "^18.0.0",
+          "reason": "React DOM rendering - required for web applications",
+          "note": "Usually already in prototype via CodeGen"
+        }
+      }
+    },
+
+    "optional": {
+      "description": "Optional dependencies for specific features",
+      "dependencies": {
+        "@internationalized/date": {
+          "version": "^3.10.1",
+          "reason": "Date manipulation and formatting",
+          "required_if": "using DatePicker, DateField, TimeField, or Calendar components",
+          "used_in": ["DatePicker", "DateField", "TimeField", "Calendar"]
+        },
+        "@internationalized/number": {
+          "version": "^3.6.0",
+          "reason": "Number formatting and parsing",
+          "required_if": "using NumberField or currency formatting",
+          "used_in": ["NumberField", "Meter"]
+        },
+        "@react-aria/dnd": {
+          "version": "^3.11.4",
+          "reason": "Drag and drop functionality",
+          "required_if": "using drag-and-drop features (e.g., sortable lists, kanban boards)",
+          "used_in": ["GridList with drag-drop", "custom sortable components"]
+        },
+        "framer-motion": {
+          "version": "^10.16.0",
+          "reason": "Animation library for transitions and motion",
+          "required_if": "using custom animations beyond CSS transitions",
+          "note": "Usually already in prototype via CodeGen for general animations"
+        }
+      }
+    },
+
+    "dev": {
+      "description": "Development dependencies for building and styling",
+      "dependencies": {
+        "autoprefixer": {
+          "version": "^10.4.19",
+          "reason": "PostCSS plugin for vendor prefixes",
+          "used_in": ["postcss.config.js"]
+        },
+        "postcss": {
+          "version": "^8.4.38",
+          "reason": "CSS processing tool",
+          "used_in": ["tailwind compilation"]
+        },
+        "@types/react": {
+          "version": "^18.0.0",
+          "reason": "TypeScript types for React",
+          "note": "Usually already in prototype via CodeGen"
+        },
+        "@types/react-dom": {
+          "version": "^18.0.0",
+          "reason": "TypeScript types for React DOM",
+          "note": "Usually already in prototype via CodeGen"
+        }
+      }
+    }
+  },
+
+  "validation_rules": {
+    "blocking": [
+      {
+        "rule": "required_dependencies_present",
+        "description": "All dependencies in 'required' category MUST be in package.json",
+        "severity": "CRITICAL",
+        "checkpoint": "CP12 (Build)"
+      },
+      {
+        "rule": "peer_dependencies_version_compatible",
+        "description": "react and react-dom MUST be version 18.0.0 or higher",
+        "severity": "HIGH",
+        "checkpoint": "CP12 (Build)"
+      }
+    ],
+    "warning": [
+      {
+        "rule": "optional_dependencies_for_features",
+        "description": "If using date/number components, include @internationalized packages",
+        "severity": "MEDIUM",
+        "checkpoint": "CP9 (Screens)"
+      }
+    ]
+  },
+
+  "usage_notes": {
+    "for_codegen_skill": "Read this manifest during package.json generation. Include all 'required' dependencies.",
+    "for_component_specs": "Reference this when documenting component requirements in specs.",
+    "for_qa_validation": "Validate generated package.json includes all required dependencies before build.",
+    "version_updates": "When component library updates, update this manifest first, then CodeGen templates."
+  },
+
+  "references": {
+    "component_library": ".claude/templates/component-library/package.json",
+    "codegen_skill": ".claude/skills/Prototype_CodeGen/SKILL.md",
+    "assembly_first_rule": ".claude/commands/_assembly_first_rules.md"
+  }
+}

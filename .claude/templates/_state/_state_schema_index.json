@@ -1,0 +1,146 @@
+{
+    "$documentation": {
+        "purpose": "Master index of all _state/ folder files used across stages. Documents the purpose, stage, and relationships for each state file. Used by Traceability_Initializer for repair mode.",
+        "version": "1.0.0",
+        "created_at": "2025-12-25",
+        "note": "State files are created by their respective stage commands, not by /traceability-init. This index is for documentation and repair purposes only."
+    },
+    "schema_version": "1.0.0",
+    "state_files": {
+        "discovery": [
+            {
+                "file": "discovery_config.json",
+                "init": "discovery_config.init.json",
+                "required": true,
+                "description": "Discovery phase configuration (input/output paths, checkpoints)",
+                "created_by": "/discovery-init"
+            },
+            {
+                "file": "discovery_progress.json",
+                "init": "discovery_progress.init.json",
+                "required": true,
+                "description": "Discovery phase progress tracking",
+                "created_by": "/discovery-init"
+            },
+            {
+                "file": "discovery_context.json",
+                "init": "discovery_context.init.json",
+                "required": false,
+                "description": "Runtime context tracking session metadata and cumulative findings",
+                "created_by": "/discovery-init"
+            },
+            {
+                "file": "discovery_materials_inventory.json",
+                "init": "discovery_materials_inventory.init.json",
+                "required": false,
+                "description": "Inventory of client materials categorized by type",
+                "created_by": "/discovery-init"
+            },
+            {
+                "file": "pipeline_config.json",
+                "init": "pipeline_config.init.json",
+                "required": false,
+                "description": "Active pipeline configuration and paths",
+                "created_by": "/discovery-init"
+            },
+            {
+                "file": "discovery_summary.json",
+                "init": null,
+                "required": false,
+                "description": "Discovery summary for downstream stages (created at completion)",
+                "created_by": "/discovery-export"
+            }
+        ],
+        "prototype": [
+            {
+                "file": "prototype_config.json",
+                "init": "prototype_config.init.json",
+                "required": true,
+                "description": "Prototype phase configuration",
+                "created_by": "/prototype-init"
+            },
+            {
+                "file": "prototype_progress.json",
+                "init": "prototype_progress.init.json",
+                "required": true,
+                "description": "Prototype phase progress tracking",
+                "created_by": "/prototype-init"
+            }
+        ],
+        "productspecs": [
+            {
+                "file": "productspecs_config.json",
+                "init": "productspecs_config.init.json",
+                "required": true,
+                "description": "ProductSpecs phase configuration",
+                "created_by": "/productspecs-init"
+            },
+            {
+                "file": "productspecs_progress.json",
+                "init": "productspecs_progress.init.json",
+                "required": true,
+                "description": "ProductSpecs phase progress tracking",
+                "created_by": "/productspecs-init"
+            }
+        ],
+        "solarch": [
+            {
+                "file": "solarch_config.json",
+                "init": "solarch_config.init.json",
+                "required": true,
+                "description": "SolutionArchitecture phase configuration",
+                "created_by": "/solarch-init"
+            },
+            {
+                "file": "solarch_progress.json",
+                "init": "solarch_progress.init.json",
+                "required": true,
+                "description": "SolutionArchitecture phase progress tracking",
+                "created_by": "/solarch-init"
+            },
+            {
+                "file": "solarch_input_validation.json",
+                "init": null,
+                "required": false,
+                "description": "Input validation results (created at CP1)",
+                "created_by": "/solarch-validate"
+            }
+        ],
+        "implementation": [
+            {
+                "file": "implementation_config.json",
+                "init": "implementation_config.init.json",
+                "required": true,
+                "description": "Implementation phase configuration (source paths, target framework, TDD settings)",
+                "created_by": "/htec-sdd-init"
+            },
+            {
+                "file": "implementation_progress.json",
+                "init": "implementation_progress.init.json",
+                "required": true,
+                "description": "Implementation phase progress (checkpoints, tasks, tests, code review status)",
+                "created_by": "/htec-sdd-init"
+            },
+            {
+                "file": "implementation_input_validation.json",
+                "init": null,
+                "required": false,
+                "description": "Input validation results (created at CP1)",
+                "created_by": "/htec-sdd-validate"
+            }
+        ],
+        "shared": [
+            {
+                "file": "FAILURES_LOG.md",
+                "init": "FAILURES_LOG.init.md",
+                "required": false,
+                "description": "Shared error log across all stages",
+                "created_by": "Any stage on first failure"
+            }
+        ]
+    },
+    "lifecycle": {
+        "description": "State files are created lazily when their stage is initiated",
+        "flow": "Stage command (e.g., /discovery-init) → Creates config → Creates progress → Updates throughout stage → Exports summary for downstream"
+    }
+}

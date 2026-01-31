@@ -1,0 +1,72 @@
+{
+    "$documentation": {
+        "purpose": "Central registry for client-sourced facts (quotes, metrics, observations, constraints). Raw data extracted from interviews, documents, and stakeholder communications.",
+        "stage": "Discovery",
+        "phase_position": "First layer - raw input from client materials",
+        "upstream": [],
+        "downstream": [
+            "pain_point_registry.json",
+            "jtbd_registry.json",
+            "user_type_registry.json"
+        ],
+        "commands": [
+            "/discovery",
+            "/discovery-analyze"
+        ],
+        "skills": [
+            "Discovery_AnalyzeDocument",
+            "Discovery_ExtractFacts"
+        ],
+        "id_pattern": {
+            "format": "CF-{TYPE}-{NNN}",
+            "types": {
+                "Q": "Quote - direct stakeholder statement",
+                "M": "Metric - quantitative data point",
+                "R": "Requirement - explicit need statement",
+                "C": "Constraint - limitation or boundary",
+                "O": "Observation - inferred insight"
+            },
+            "example": "CF-Q-001"
+        },
+        "key_attributes": {
+            "facts[].id": "Unique fact identifier following CF-{TYPE}-{NNN} pattern",
+            "facts[].content": "The actual quote, metric, or observation text",
+            "facts[].stakeholder": "Role or name of the source person",
+            "facts[].source": "Document or meeting where captured",
+            "facts[].confidence": "Confidence level: high, medium, low",
+            "facts[].referenced_by": "Array of downstream IDs that cite this fact"
+        },
+        "validation_rules": [
+            "Every fact MUST have a source reference",
+            "Quotes MUST be verbatim with stakeholder attribution",
+            "Metrics MUST include units and context"
+        ]
+    },
+    
+    "schema_version": "1.0.0",
+    "description": "Registry of Client Facts with traceability to source materials",
+    "stage": "Discovery",
+    "checkpoint": 1,
+    "source_file": "traceability/client_facts_registry.json",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "traceability_chain": {
+        "upstream": [],
+        "downstream": [
+            "pain_point_registry.json",
+            "jtbd_registry.json"
+        ]
+    },
+    "facts": [],
+    "summary": {
+        "total_facts": 0,
+        "by_type": {
+            "quote": 0,
+            "metric": 0,
+            "requirement": 0,
+            "constraint": 0,
+            "observation": 0
+        }
+    }
+}

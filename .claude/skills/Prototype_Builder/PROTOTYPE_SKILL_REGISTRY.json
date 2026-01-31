@@ -1,0 +1,1820 @@
+{
+  "$schema": "skill-registry-v1",
+  "version": "2.0.0",
+  "description": "Central registry of all available skills and agents for dynamic invocation",
+  "base_path": ".claude/skills",
+  "agents_path": ".claude/agents/prototype",
+  "updated": "2025-12-27",
+  "changes": "v2.0.0: Added 10 parallel execution agents (5 specifiers + 5 validators)",
+  "skills": {
+    "prototype-validate-discovery": {
+      "folder": "Prototype_ValidateDiscovery",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "foundation",
+      "description": "Validate discovery documentation and extract structured data",
+      "inputs": {
+        "required": [
+          "discovery/"
+        ],
+        "optional": [
+          "discovery_path"
+        ]
+      },
+      "outputs": [
+        "_state/discovery_summary.json",
+        "_state/GAP_REMEDIATION_PLAN.md"
+      ],
+      "can_invoke": [
+        "markitdown",
+        "brainstorming"
+      ],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-requirements": {
+      "folder": "Prototype_Requirements",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "foundation",
+      "description": "Create requirements registry from discovery",
+      "inputs": {
+        "required": [
+          "_state/discovery_summary.json"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "_state/requirements_registry.json",
+        "00-foundation/REQUIREMENTS.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-builder",
+        "prototype-validate-discovery"
+      ]
+    },
+    "prototype-data-model": {
+      "folder": "Prototype_DataModel",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "foundation",
+      "description": "Generate entity schemas and relationships",
+      "inputs": {
+        "required": [
+          "_state/discovery_summary.json",
+          "_state/requirements_registry.json"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "00-foundation/data-model/",
+        "00-foundation/data-model/ERD_VISUAL.html"
+      ],
+      "can_invoke": [
+        "visual-documentation-plugin"
+      ],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-api-contracts": {
+      "folder": "Prototype_ApiContracts",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "foundation",
+      "description": "Define API endpoints and contracts",
+      "inputs": {
+        "required": [
+          "00-foundation/data-model/"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "00-foundation/api-contracts/"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-test-data": {
+      "folder": "Prototype_TestData",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "foundation",
+      "description": "Generate test data sets",
+      "inputs": {
+        "required": [
+          "00-foundation/data-model/"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "00-foundation/test-data/"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-design-brief": {
+      "folder": "Prototype_DesignBrief",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "design",
+      "description": "Create design direction document",
+      "inputs": {
+        "required": [
+          "_state/discovery_summary.json"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "00-foundation/DESIGN_BRIEF.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-design-tokens": {
+      "folder": "Prototype_DesignTokens",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "design",
+      "description": "Generate design tokens with optional theme selection and visual assets",
+      "inputs": {
+        "required": [
+          "00-foundation/DESIGN_BRIEF.md"
+        ],
+        "optional": [
+          "theme_name",
+          "visual_assets"
+        ]
+      },
+      "outputs": [
+        "00-foundation/DESIGN_TOKENS.md",
+        "00-foundation/colors.md",
+        "00-foundation/typography.md",
+        "00-foundation/spacing-layout.md",
+        "00-foundation/VISUAL_PHILOSOPHY.md",
+        "00-foundation/assets/"
+      ],
+      "can_invoke": [
+        "theme-factory",
+        "canvas-design"
+      ],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-components": {
+      "folder": "Prototype_Components",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "design",
+      "description": "Generate component specifications with aesthetic direction",
+      "inputs": {
+        "required": [
+          "00-foundation/DESIGN_TOKENS.md",
+          "_state/requirements_registry.json"
+        ],
+        "optional": [
+          "aesthetic_direction"
+        ]
+      },
+      "outputs": [
+        "01-components/",
+        "00-foundation/AESTHETIC_DIRECTION.md"
+      ],
+      "can_invoke": [
+        "frontend-design",
+        "prototype-decomposition"
+      ],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-screens": {
+      "folder": "Prototype_Screens",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "design",
+      "description": "Generate screen specifications",
+      "inputs": {
+        "required": [
+          "01-components/",
+          "_state/requirements_registry.json"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "02-screens/"
+      ],
+      "can_invoke": [
+        "prototype-decomposition"
+      ],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-interactions": {
+      "folder": "Prototype_Interactions",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "design",
+      "description": "Generate motion and animation specifications",
+      "inputs": {
+        "required": [
+          "01-components/"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "03-interactions/"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-sequencer": {
+      "folder": "Prototype_Sequencer",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "implementation",
+      "description": "Generate implementation sequence with task plans and visual roadmap",
+      "inputs": {
+        "required": [
+          "01-components/",
+          "02-screens/"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "04-implementation/SEQUENCE.md",
+        "04-implementation/plans/",
+        "04-implementation/ROADMAP_VISUAL.html"
+      ],
+      "can_invoke": [
+        "visual-documentation-plugin",
+        "writing-plans"
+      ],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-prompts": {
+      "folder": "Prototype_Prompts",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "implementation",
+      "description": "Generate external code generation prompts",
+      "inputs": {
+        "required": [
+          "04-implementation/SEQUENCE.md"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "04-implementation/prompts/"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-codegen": {
+      "folder": "Prototype_CodeGen",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "implementation",
+      "description": "Generate runnable prototype code with TDD and optional advanced stack",
+      "inputs": {
+        "required": [
+          "00-foundation/",
+          "01-components/",
+          "02-screens/",
+          "03-interactions/"
+        ],
+        "optional": [
+          "stack_type",
+          "bundle_artifact"
+        ]
+      },
+      "outputs": [
+        "prototype/",
+        "prototype/bundle.html"
+      ],
+      "can_invoke": [
+        "test-driven-development",
+        "frontend-design",
+        "web-artifacts-builder",
+        "prototype-decomposition"
+      ],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-qa": {
+      "folder": "Prototype_QA",
+      "file": "SKILL.md",
+      "category": "validation",
+      "phase": "validation",
+      "description": "Validate requirements coverage with automated testing and root cause tracing",
+      "inputs": {
+        "required": [
+          "_state/requirements_registry.json",
+          "prototype/"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "05-validation/VALIDATION_REPORT.md",
+        "05-validation/TRACEABILITY_MATRIX.md",
+        "05-validation/AUTOMATED_TEST_RESULTS.md",
+        "05-validation/screenshots/"
+      ],
+      "can_invoke": [
+        "webapp-testing",
+        "root-cause-tracing",
+        "verification-before-completion"
+      ],
+      "invoked_by": [
+        "prototype-builder",
+        "prototype-change-manager"
+      ]
+    },
+    "prototype-ui-audit": {
+      "folder": "Prototype_UIAudit",
+      "file": "SKILL.md",
+      "category": "validation",
+      "phase": "validation",
+      "description": "Visual and accessibility QA",
+      "inputs": {
+        "required": [
+          "prototype/"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "05-validation/accessibility/"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-decomposition": {
+      "folder": "Prototype_Decomposition",
+      "file": "SKILL.md",
+      "category": "documentation",
+      "phase": "documentation",
+      "description": "Generate OPML mindmap of structure",
+      "inputs": {
+        "required": [
+          "01-components/",
+          "02-screens/"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "outputs/09-decomposition/"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-components",
+        "prototype-screens",
+        "prototype-codegen",
+        "prototype-qa",
+        "prototype-change-manager"
+      ]
+    },
+    "prototype-prompt-log": {
+      "folder": "Prototype_PromptLog",
+      "file": "SKILL.md",
+      "category": "documentation",
+      "phase": "documentation",
+      "description": "Log all executed prompts",
+      "inputs": {
+        "required": [
+          "_state/prompt_log.json"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "_state/PROMPT_LOG.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": []
+    },
+    "prototype-change-manager": {
+      "folder": "Prototype_ChangeManager",
+      "file": "SKILL.md",
+      "category": "management",
+      "phase": "post-build",
+      "description": "Post-feedback change management with systematic debugging",
+      "inputs": {
+        "required": [
+          "prototype/",
+          "_state/feedback_sessions.json"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "outputs/change-reports/"
+      ],
+      "can_invoke": [
+        "systematic-debugging",
+        "prototype-qa",
+        "prototype-decomposition"
+      ],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "prototype-migrate": {
+      "folder": "Prototype_Migrate",
+      "file": "SKILL.md",
+      "category": "management",
+      "phase": "utility",
+      "description": "Version migration utility",
+      "inputs": {
+        "required": [],
+        "optional": []
+      },
+      "outputs": [],
+      "can_invoke": [],
+      "invoked_by": []
+    },
+    "prototype-builder": {
+      "folder": "Prototype_Builder",
+      "file": "SKILL.md",
+      "category": "management",
+      "phase": "meta",
+      "description": "Pipeline orchestrator - coordinates all skills",
+      "inputs": {
+        "required": [
+          "discovery/"
+        ],
+        "optional": [
+          "mode",
+          "from_skill",
+          "only_skill"
+        ]
+      },
+      "outputs": [
+        "_state/progress.json"
+      ],
+      "can_invoke": [
+        "prototype-validate-discovery",
+        "prototype-requirements",
+        "prototype-data-model",
+        "prototype-api-contracts",
+        "prototype-test-data",
+        "prototype-design-brief",
+        "prototype-design-tokens",
+        "prototype-components",
+        "prototype-screens",
+        "prototype-interactions",
+        "prototype-sequencer",
+        "prototype-prompts",
+        "prototype-codegen",
+        "prototype-qa",
+        "prototype-ui-audit",
+        "prototype-change-manager",
+        "prototype-deliverables"
+      ],
+      "invoked_by": []
+    },
+    "prototype-deliverables": {
+      "folder": "Prototype_Deliverables",
+      "file": "SKILL.md",
+      "category": "documentation",
+      "phase": "delivery",
+      "description": "Export prototype as professional documents",
+      "inputs": {
+        "required": [
+          "_state/progress.json",
+          "_state/requirements_registry.json",
+          "05-validation/"
+        ],
+        "optional": [
+          "deliverable_types"
+        ]
+      },
+      "outputs": [
+        "06-deliverables/presentations/",
+        "06-deliverables/documents/",
+        "06-deliverables/reports/",
+        "06-deliverables/DELIVERABLES_MANIFEST.md"
+      ],
+      "can_invoke": [
+        "pptx",
+        "docx",
+        "pdf"
+      ],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "frontend-design": {
+      "folder": "frontend-design",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Create distinctive, production-grade frontend interfaces",
+      "inputs": {
+        "required": [],
+        "optional": [
+          "aesthetic_direction",
+          "forbidden_patterns"
+        ]
+      },
+      "outputs": [],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-components",
+        "prototype-codegen"
+      ]
+    },
+    "theme-factory": {
+      "folder": "theme-factory",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Apply pre-set themes or generate custom themes",
+      "inputs": {
+        "required": [],
+        "optional": [
+          "theme_name",
+          "custom_description"
+        ]
+      },
+      "outputs": [
+        "theme_colors",
+        "theme_fonts"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-design-tokens"
+      ]
+    },
+    "canvas-design": {
+      "folder": "canvas-design",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Create visual art with design philosophy approach",
+      "inputs": {
+        "required": [
+          "design_philosophy"
+        ],
+        "optional": [
+          "asset_type"
+        ]
+      },
+      "outputs": [
+        "*.png",
+        "*.pdf",
+        "*.svg"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-design-tokens"
+      ]
+    },
+    "web-artifacts-builder": {
+      "folder": "web-artifacts-builder",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "implementation",
+      "description": "Build React/shadcn/ui artifacts with bundling",
+      "inputs": {
+        "required": [
+          "project_name"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "bundle.html"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-codegen"
+      ]
+    },
+    "test-driven-development": {
+      "folder": "test-driven-development",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "implementation",
+      "description": "Enforce Red-Green-Refactor TDD cycle",
+      "inputs": {
+        "required": [
+          "component_spec"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "*.test.tsx"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-codegen"
+      ]
+    },
+    "webapp-testing": {
+      "folder": "webapp-testing",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "validation",
+      "description": "Playwright-based automated testing",
+      "inputs": {
+        "required": [
+          "prototype_url"
+        ],
+        "optional": [
+          "test_scenarios"
+        ]
+      },
+      "outputs": [
+        "test_results",
+        "screenshots/"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-qa"
+      ]
+    },
+    "systematic-debugging": {
+      "folder": "systematic-debugging",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "validation",
+      "description": "Four-phase debugging framework",
+      "inputs": {
+        "required": [
+          "bug_description"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "root_cause",
+        "fix_variants"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-change-manager"
+      ]
+    },
+    "root-cause-tracing": {
+      "folder": "root-cause-tracing",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "validation",
+      "description": "Trace validation failures to root cause",
+      "inputs": {
+        "required": [
+          "failure_symptom"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "trace_chain",
+        "fix_recommendation"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-qa"
+      ]
+    },
+    "verification-before-completion": {
+      "folder": "verification-before-completion",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "validation",
+      "description": "Evidence-based completion verification",
+      "inputs": {
+        "required": [
+          "verification_commands"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "verification_evidence"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "brainstorming": {
+      "folder": "brainstorming",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Interactive gap filling with focused questions",
+      "inputs": {
+        "required": [
+          "gap_type"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "filled_data"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-validate-discovery"
+      ]
+    },
+    "markitdown": {
+      "folder": "markitdown",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Convert documents to markdown",
+      "inputs": {
+        "required": [
+          "file_path"
+        ],
+        "optional": [
+          "ai_descriptions"
+        ]
+      },
+      "outputs": [
+        "*.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-validate-discovery"
+      ]
+    },
+    "visual-documentation-plugin": {
+      "folder": "visual-documentation-plugin",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "documentation",
+      "description": "Generate interactive HTML diagrams",
+      "inputs": {
+        "required": [
+          "diagram_type",
+          "data"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "*.html"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-data-model",
+        "prototype-sequencer"
+      ]
+    },
+    "writing-plans": {
+      "folder": "writing-plans",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "implementation",
+      "description": "Generate bite-sized implementation plans",
+      "inputs": {
+        "required": [
+          "task_list"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "plans/*.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-sequencer"
+      ]
+    },
+    "executing-plans": {
+      "folder": "executing-plans",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "implementation",
+      "description": "Batch execution with checkpoints",
+      "inputs": {
+        "required": [
+          "plan_path"
+        ],
+        "optional": [
+          "batch_size"
+        ]
+      },
+      "outputs": [
+        "execution_log"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-builder"
+      ]
+    },
+    "pptx": {
+      "folder": "pptx",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "delivery",
+      "description": "Create PowerPoint presentations",
+      "inputs": {
+        "required": [
+          "slides_content"
+        ],
+        "optional": [
+          "design_approach"
+        ]
+      },
+      "outputs": [
+        "*.pptx"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-deliverables"
+      ]
+    },
+    "docx": {
+      "folder": "docx",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "delivery",
+      "description": "Create Word documents",
+      "inputs": {
+        "required": [
+          "document_content"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "*.docx"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-deliverables"
+      ]
+    },
+    "pdf": {
+      "folder": "pdf",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "delivery",
+      "description": "Create PDF reports",
+      "inputs": {
+        "required": [
+          "report_content"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "*.pdf"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "prototype-deliverables"
+      ]
+    },
+    "five-whys": {
+      "folder": "five-whys",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Root cause analysis using the Five Whys technique",
+      "inputs": {
+        "required": [
+          "problem_statement"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "root_cause_analysis.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "business-model-canvas": {
+      "folder": "business-model-canvas",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "discovery",
+      "description": "Strategic business model design using the Business Model Canvas",
+      "inputs": {
+        "required": [
+          "value_proposition",
+          "customer_segments"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "BUSINESS_MODEL_CANVAS.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "cognitive-biases": {
+      "folder": "cognitive-biases",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Understanding and applying cognitive biases in product design",
+      "inputs": {
+        "required": [
+          "context"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "bias_audit.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "cognitive-fluency-psychology": {
+      "folder": "cognitive-fluency-psychology",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Apply cognitive fluency principles to improve clarity and trust",
+      "inputs": {
+        "required": [
+          "ui_description"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "fluency_recommendations.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "cognitive-load": {
+      "folder": "cognitive-load",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Design experiences that optimize mental resources",
+      "inputs": {
+        "required": [
+          "flow_description"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "load_reduction_plan.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "curiosity-gap": {
+      "folder": "curiosity-gap",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Create engagement through strategic information gaps",
+      "inputs": {
+        "required": [
+          "interaction_point"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "engagement_triggers.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "fogg-behavior-model": {
+      "folder": "fogg-behavior-model",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Design behavior change using B=MAP (Motivation, Ability, Prompt)",
+      "inputs": {
+        "required": [
+          "target_behavior"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "behavioral_strategy.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "game-theory-tit-for-tat": {
+      "folder": "game-theory-tit-for-tat",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Apply Tit for Tat strategy for negotiations and repeated interactions",
+      "inputs": {
+        "required": [
+          "scenario"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "negotiation_strategy.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "graph-thinking": {
+      "folder": "graph-thinking",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Non-linear problem solving using graph-based mental models",
+      "inputs": {
+        "required": [
+          "complex_problem"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "relationship_map.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "halo-effect-psychology": {
+      "folder": "halo-effect-psychology",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Apply the halo effect in product design, UX, and first impressions",
+      "inputs": {
+        "required": [
+          "first_touchpoint"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "impression_strategy.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "hicks-law": {
+      "folder": "hicks-law",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Optimize decision-making speed by managing choice quantity",
+      "inputs": {
+        "required": [
+          "choice_set"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "decision_optimization.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "hooked-model": {
+      "folder": "hooked-model",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Design habit-forming products using the Hook cycle",
+      "inputs": {
+        "required": [
+          "product_concept"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "hook_canvas.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "hypothesis-tree": {
+      "folder": "hypothesis-tree",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Structure complex questions into testable hypotheses using MECE",
+      "inputs": {
+        "required": [
+          "core_question"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "HYPOTHESIS_TREE.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "jobs-to-be-done": {
+      "folder": "jobs-to-be-done",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "discovery",
+      "description": "Understand customer motivations through job theory",
+      "inputs": {
+        "required": [
+          "user_data"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "JOBS_TO_BE_DONE.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "kanban": {
+      "folder": "kanban",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "implementation",
+      "description": "Visualize and optimize workflow with Kanban boards and WIP limits",
+      "inputs": {
+        "required": [
+          "tasks"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "KANBAN_BOARD.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "loss-aversion-psychology": {
+      "folder": "loss-aversion-psychology",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Leverage loss aversion in product design, messaging, and retention",
+      "inputs": {
+        "required": [
+          "user_action"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "framing_recommendations.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "making-product-decisions": {
+      "folder": "making-product-decisions",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "discovery",
+      "description": "Framework for structured product decision-making",
+      "inputs": {
+        "required": [
+          "decision_options"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "DECISION_LOG.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "progressive-disclosure": {
+      "folder": "progressive-disclosure",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Reduce complexity by revealing information progressively",
+      "inputs": {
+        "required": [
+          "complex_ui"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "disclosure_strategy.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "self-initiated-triggers": {
+      "folder": "self-initiated-triggers",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Design internal triggers for sustained user engagement",
+      "inputs": {
+        "required": [
+          "habit_loop"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "trigger_map.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "thinking-critically": {
+      "folder": "thinking-critically",
+      "file": "thinking-critically.md",
+      "category": "3rdparty",
+      "phase": "meta",
+      "description": "Senior staff-level architectural thinking framework. Use when planning systems, evaluating changes, or analyzing problems that require deep tradeoff analysis and failure-first thinking.",
+      "inputs": {
+        "required": [
+          "problem_or_system"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "critical_analysis.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "reinforce": {
+      "folder": "reinforce",
+      "file": "reinforce.md",
+      "category": "documentation",
+      "phase": "post-build",
+      "description": "Self-reinforcing review and fix cycle until code passes quality checks",
+      "inputs": {
+        "required": [
+          "code",
+          "tests"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "REINFORCE_REPORT.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "social-proof-psychology": {
+      "folder": "social-proof-psychology",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Leverage social proof to build trust and influence user behavior",
+      "inputs": {
+        "required": [
+          "trust_barrier"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "social_proof_elements.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "status-quo-bias": {
+      "folder": "status-quo-bias",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "discovery",
+      "description": "Design for users' preference for current state over change",
+      "inputs": {
+        "required": [
+          "change_context"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "mitigation_plan.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "theme-epic-story": {
+      "folder": "theme-epic-story",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "discovery",
+      "description": "Structure product work using themes, epics, and stories",
+      "inputs": {
+        "required": [
+          "roadmap_items"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "WBS_HIERARCHY.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "trust-psychology": {
+      "folder": "trust-psychology",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Build trust signals that reduce risk and enable user action",
+      "inputs": {
+        "required": [
+          "interaction_context"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "trust_indicators.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "user-story-fundamentals": {
+      "folder": "user-story-fundamentals",
+      "file": "SKILL.md",
+      "category": "generation",
+      "phase": "discovery",
+      "description": "Capture requirements from user perspective with structured stories",
+      "inputs": {
+        "required": [
+          "user_needs"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "USER_STORIES.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "visual-cues-cta-psychology": {
+      "folder": "visual-cues-cta-psychology",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "design",
+      "description": "Design CTAs using visual attention and gaze psychology",
+      "inputs": {
+        "required": [
+          "page_layout"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "cta_optimization_report.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    },
+    "what-not-to-do-as-product-manager": {
+      "folder": "what-not-to-do-as-product-manager",
+      "file": "SKILL.md",
+      "category": "3rdparty",
+      "phase": "meta",
+      "description": "Anti-patterns and mistakes to avoid as a product manager",
+      "inputs": {
+        "required": [
+          "strategy_draft"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "anti_pattern_audit.md"
+      ],
+      "can_invoke": [],
+      "invoked_by": [
+        "*"
+      ]
+    }
+  },
+  "agents": {
+    "design-token-generator": {
+      "file": "design-token-generator.md",
+      "category": "specification",
+      "phase": "design-spec",
+      "model": "sonnet",
+      "parallel_group": "design-spec",
+      "description": "Generates design tokens from design brief with color, typography, spacing systems",
+      "inputs": {
+        "required": [
+          "00-foundation/DESIGN_BRIEF.md"
+        ],
+        "optional": [
+          "brand_guidelines",
+          "existing_tokens"
+        ]
+      },
+      "outputs": [
+        "00-foundation/DESIGN_TOKENS.md",
+        "00-foundation/colors.md",
+        "00-foundation/typography.md",
+        "00-foundation/spacing-layout.md"
+      ],
+      "id_namespace": "TOK-XXX",
+      "can_parallel_with": [
+        "component-specifier",
+        "data-model-specifier"
+      ],
+      "merge_gate": "merge-gate-design"
+    },
+    "component-specifier": {
+      "file": "component-specifier.md",
+      "category": "specification",
+      "phase": "design-spec",
+      "model": "sonnet",
+      "parallel_group": "design-spec",
+      "description": "Generates component specifications from requirements with props, variants, accessibility",
+      "inputs": {
+        "required": [
+          "_state/requirements_registry.json",
+          "00-foundation/DESIGN_TOKENS.md"
+        ],
+        "optional": [
+          "aesthetic_direction"
+        ]
+      },
+      "outputs": [
+        "01-components/component-index.md",
+        "01-components/primitives/",
+        "01-components/data-display/",
+        "01-components/feedback/",
+        "01-components/navigation/",
+        "01-components/overlays/"
+      ],
+      "id_namespace": "COMP-XXX",
+      "can_parallel_with": [
+        "design-token-generator",
+        "data-model-specifier"
+      ],
+      "merge_gate": "merge-gate-design"
+    },
+    "data-model-specifier": {
+      "file": "data-model-specifier.md",
+      "category": "specification",
+      "phase": "design-spec",
+      "model": "sonnet",
+      "parallel_group": "design-spec",
+      "description": "Generates entity schemas, relationships, and ERD from discovery data",
+      "inputs": {
+        "required": [
+          "_state/discovery_summary.json",
+          "_state/requirements_registry.json"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "00-foundation/data-model/",
+        "00-foundation/data-model/ERD_VISUAL.html"
+      ],
+      "id_namespace": "ENT-XXX",
+      "can_parallel_with": [
+        "design-token-generator",
+        "component-specifier"
+      ],
+      "merge_gate": "merge-gate-design"
+    },
+    "screen-specifier": {
+      "file": "screen-specifier.md",
+      "category": "specification",
+      "phase": "screen-api",
+      "model": "sonnet",
+      "parallel_group": "screen-api",
+      "description": "Generates screen specifications with layouts, component usage, data binding",
+      "inputs": {
+        "required": [
+          "01-components/",
+          "_state/requirements_registry.json"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "02-screens/screen-index.md",
+        "02-screens/*/",
+        "traceability/screen_registry.json"
+      ],
+      "id_namespace": "SCR-XXX",
+      "can_parallel_with": [
+        "api-contract-specifier"
+      ],
+      "merge_gate": "merge-gate-screen",
+      "depends_on": [
+        "merge-gate-design"
+      ]
+    },
+    "api-contract-specifier": {
+      "file": "api-contract-specifier.md",
+      "category": "specification",
+      "phase": "screen-api",
+      "model": "sonnet",
+      "parallel_group": "screen-api",
+      "description": "Generates API endpoint contracts with OpenAPI specs",
+      "inputs": {
+        "required": [
+          "00-foundation/data-model/"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "00-foundation/api-contracts/",
+        "00-foundation/api-contracts/openapi.yaml"
+      ],
+      "id_namespace": "API-XXX",
+      "can_parallel_with": [
+        "screen-specifier"
+      ],
+      "merge_gate": "merge-gate-screen",
+      "depends_on": [
+        "merge-gate-design"
+      ]
+    },
+    "ux-validator": {
+      "file": "ux-validator.md",
+      "category": "validation",
+      "phase": "validation",
+      "model": "sonnet",
+      "parallel_group": "validation",
+      "description": "Validates UX patterns, usability heuristics, and user flow consistency",
+      "inputs": {
+        "required": [
+          "02-screens/",
+          "prototype/"
+        ],
+        "optional": [
+          "prototype_url"
+        ]
+      },
+      "outputs": [
+        "05-validation/ux-validation.md",
+        "05-validation/usability-findings.md"
+      ],
+      "can_parallel_with": [
+        "component-validator",
+        "screen-validator",
+        "accessibility-auditor",
+        "visual-qa-tester"
+      ],
+      "depends_on": [
+        "merge-gate-screen"
+      ]
+    },
+    "component-validator": {
+      "file": "component-validator.md",
+      "category": "validation",
+      "phase": "validation",
+      "model": "haiku",
+      "parallel_group": "validation",
+      "description": "Validates component implementations against specifications",
+      "inputs": {
+        "required": [
+          "01-components/",
+          "prototype/src/components/"
+        ],
+        "optional": []
+      },
+      "outputs": [
+        "05-validation/component-validation.md",
+        "05-validation/component-coverage.md"
+      ],
+      "can_parallel_with": [
+        "ux-validator",
+        "screen-validator",
+        "accessibility-auditor",
+        "visual-qa-tester"
+      ],
+      "depends_on": [
+        "merge-gate-screen"
+      ]
+    },
+    "screen-validator": {
+      "file": "screen-validator.md",
+      "category": "validation",
+      "phase": "validation",
+      "model": "haiku",
+      "parallel_group": "validation",
+      "description": "Validates screen implementations against specifications",
+      "inputs": {
+        "required": [
+          "02-screens/",
+          "prototype/src/pages/"
+        ],
+        "optional": [
+          "prototype_url"
+        ]
+      },
+      "outputs": [
+        "05-validation/screen-validation.md",
+        "05-validation/screen-coverage.md",
+        "05-validation/navigation-test.md"
+      ],
+      "can_parallel_with": [
+        "ux-validator",
+        "component-validator",
+        "accessibility-auditor",
+        "visual-qa-tester"
+      ],
+      "depends_on": [
+        "merge-gate-screen"
+      ]
+    },
+    "accessibility-auditor": {
+      "file": "accessibility-auditor.md",
+      "category": "validation",
+      "phase": "validation",
+      "model": "haiku",
+      "parallel_group": "validation",
+      "description": "WCAG 2.1 AA compliance audit using axe-core",
+      "inputs": {
+        "required": [
+          "prototype/"
+        ],
+        "optional": [
+          "prototype_url",
+          "wcag_level"
+        ]
+      },
+      "outputs": [
+        "05-validation/accessibility-audit.md",
+        "05-validation/wcag-checklist.md",
+        "05-validation/a11y-results.json"
+      ],
+      "cli_tool": ".claude/skills/tools/accessibility_tester.py",
+      "can_parallel_with": [
+        "ux-validator",
+        "component-validator",
+        "screen-validator",
+        "visual-qa-tester"
+      ],
+      "depends_on": [
+        "merge-gate-screen"
+      ]
+    },
+    "visual-qa-tester": {
+      "file": "visual-qa-tester.md",
+      "category": "validation",
+      "phase": "validation",
+      "model": "sonnet",
+      "parallel_group": "validation",
+      "description": "Visual regression testing using Playwright screenshots and multimodal analysis",
+      "inputs": {
+        "required": [
+          "prototype_url",
+          "baseline_path"
+        ],
+        "optional": [
+          "viewports",
+          "browsers",
+          "diff_threshold"
+        ]
+      },
+      "outputs": [
+        "05-validation/visual-qa-report.md",
+        "05-validation/visual-qa-results.json",
+        "05-validation/screenshots/current/",
+        "05-validation/screenshots/baseline/",
+        "05-validation/screenshots/diff/"
+      ],
+      "cli_tool": ".claude/skills/tools/playwright_visual_qa.py",
+      "can_parallel_with": [
+        "ux-validator",
+        "component-validator",
+        "screen-validator",
+        "accessibility-auditor"
+      ],
+      "depends_on": [
+        "merge-gate-screen"
+      ]
+    }
+  },
+  "parallel_groups": {
+    "design-spec": {
+      "description": "Design specification agents (Phase 6-7)",
+      "agents": [
+        "design-token-generator",
+        "component-specifier",
+        "data-model-specifier"
+      ],
+      "merge_gate": "merge-gate-design"
+    },
+    "screen-api": {
+      "description": "Screen and API specification agents (Phase 8-9)",
+      "agents": [
+        "screen-specifier",
+        "api-contract-specifier"
+      ],
+      "merge_gate": "merge-gate-screen",
+      "depends_on": "merge-gate-design"
+    },
+    "validation": {
+      "description": "Validation agents (Phase 13-14)",
+      "agents": [
+        "ux-validator",
+        "component-validator",
+        "screen-validator",
+        "accessibility-auditor",
+        "visual-qa-tester"
+      ],
+      "depends_on": "merge-gate-screen"
+    }
+  },
+  "merge_gates": {
+    "merge-gate-design": {
+      "description": "Merge design artifacts before screen/API phase",
+      "required_agents": [
+        "design-token-generator",
+        "component-specifier",
+        "data-model-specifier"
+      ],
+      "validation": [
+        "00-foundation/DESIGN_TOKENS.md",
+        "01-components/component-index.md",
+        "00-foundation/data-model/"
+      ]
+    },
+    "merge-gate-screen": {
+      "description": "Merge screen/API artifacts before validation phase",
+      "required_agents": [
+        "screen-specifier",
+        "api-contract-specifier"
+      ],
+      "validation": [
+        "02-screens/screen-index.md",
+        "00-foundation/api-contracts/"
+      ]
+    }
+  },
+  "categories": {
+    "generation": "Skills that generate artifacts",
+    "validation": "Skills that validate outputs",
+    "documentation": "Skills that create documentation",
+    "management": "Skills that orchestrate or manage",
+    "specification": "Agents that generate specifications",
+    "3rdparty": "External capability skills"
+  },
+  "phases": {
+    "foundation": 1,
+    "design": 2,
+    "implementation": 3,
+    "validation": 4,
+    "documentation": 5,
+    "delivery": 6,
+    "post-build": 7,
+    "meta": 0,
+    "utility": 99,
+    "discovery": 0
+  }
+}

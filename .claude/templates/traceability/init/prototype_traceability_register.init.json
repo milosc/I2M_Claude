@@ -1,0 +1,52 @@
+{
+    "$documentation": {
+        "purpose": "Stage-specific traceability register for the Prototype phase. Tracks screen progress from discovery through implementation.",
+        "stage": "Prototype",
+        "phase_position": "Stage register - aggregates screen_registry data with implementation status",
+        "upstream": [
+            "screen_registry.json",
+            "requirements_registry.json"
+        ],
+        "downstream": [
+            "productspecs_traceability_register.json"
+        ],
+        "commands": [
+            "/prototype",
+            "/prototype-validate"
+        ],
+        "skills": [
+            "Prototype_Validator",
+            "Prototype_Screens"
+        ],
+        "checkpoints": {
+            "9": "ALL Discovery screens MUST have spec folders",
+            "12": "ALL screen specs MUST have React component code",
+            "13": "ALL React screens MUST have test files"
+        },
+        "validation_rules": [
+            "Blocking checkpoints MUST pass before progressing to next stage"
+        ]
+    },
+    "schema_version": "2.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "discovery_link": {
+        "folder": "",
+        "register": "traceability/discovery_traceability_register.json"
+    },
+    "screen_traceability": {
+        "source": "",
+        "coverage": {
+            "total": 0,
+            "generated": 0,
+            "missing": []
+        },
+        "validation_rules": {}
+    },
+    "screens": [],
+    "coverage": {
+        "pain_points_total": 0,
+        "pain_points_addressed": 0
+    }
+}

@@ -1,0 +1,269 @@
+---
+name: image-ocr-table-extraction
+description: Extract text and tabular data from images/scans using Tesseract and OpenCV with preprocessing.
+model: sonnet
+allowed-tools: Read, Bash
+hooks:
+  PreToolUse:
+    - matcher: "*"
+      once: true
+      hooks:
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" skill image-ocr-table-extraction started '{"stage": "utility"}'
+  Stop:
+    - hooks:
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" skill image-ocr-table-extraction ended '{"stage": "utility"}'
+---
+
+## FIRST ACTION (MANDATORY)
+
+Before doing ANYTHING else, run this command:
+
+```bash
+"$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" skill image-ocr-table-extraction instruction_start '{"stage": "utility", "method": "instruction-based"}'
+```
+
+---
+
+# Image OCR & Table Extraction Skill
+
+## What This Skill Enables
+
+Claude can extract text and tables from images, screenshots, scanned documents, and PDFs using OCR (Optical Character Recognition). Convert images of receipts, invoices, forms, and tables into editable text and structured data.
+
+## Prerequisites
+
+**Required:**
+- Claude Pro subscription
+- Code Interpreter feature enabled
+- Image file uploaded (PNG, JPG, PDF with images)
+
+**What Claude handles:**
+- Installing Tesseract OCR and vision libraries
+- Image preprocessing and enhancement
+- Text recognition and layout analysis
+- Table structure detection
+- Data extraction and formatting
+
+## How to Use This Skill
+
+### Basic Text Extraction
+
+**Prompt:** "Extract all text from this screenshot and give me the content as plain text."
+
+Claude will:
+1. Preprocess the image
+2. Run OCR
+3. Extract text with layout preservation
+4. Return formatted text
+
+### Table Extraction
+
+**Prompt:** "Extract the table from this image and export it as CSV."
+
+Claude will:
+1. Detect table boundaries
+2. Identify rows and columns
+3. Extract cell contents
+4. Structure as tabular data
+5. Export as CSV
+
+### Form Data Extraction
+
+**Prompt:** "Extract data from this invoice image:
+- Invoice number
+- Date
+- Vendor name
+- Line items (description, quantity, price)
+- Total amount
+Format as JSON."
+
+Claude will:
+1. OCR the entire image
+2. Identify fields by labels
+3. Extract values
+4. Structure as JSON
+5. Validate data format
+
+### Receipt Processing
+
+**Prompt:** "Process this receipt image and extract:
+- Merchant name
+- Date and time
+- All item names and prices
+- Subtotal, tax, total
+Create a structured expense record."
+
+Claude will:
+1. OCR the receipt
+2. Parse line items
+3. Extract financial data
+4. Calculate totals
+5. Format as structured data
+
+## Common Workflows
+
+### Batch Invoice Processing
+```
+"Process all invoice images I upload and:
+1. Extract: invoice #, date, vendor, total
+2. Create a master spreadsheet with all invoices
+3. Flag any invoices where OCR confidence is low
+4. Export as invoices_data.csv"
+```
+
+### Screenshot Text Recovery
+```
+"Extract all code from this screenshot of a terminal:
+1. Recognize monospace text accurately
+2. Preserve indentation
+3. Clean up any OCR artifacts
+4. Save as code.py"
+```
+
+### Business Card Digitization
+```
+"Extract contact information from this business card:
+1. Name
+2. Title/Position
+3. Company
+4. Email
+5. Phone
+6. Address
+Format as vCard or CSV for import to contacts."
+```
+
+### Table from PDF Extraction
+```
+"This PDF contains a table that I can't copy/paste properly:
+1. Extract the table using OCR
+2. Recognize the column headers
+3. Parse all rows
+4. Handle multi-line cells
+5. Export as clean CSV"
+```
+
+## Tips for Best Results
+
+1. **Image Quality Matters**: Higher resolution, clear contrast, straight orientation = better OCR
+2. **Preprocessing**: Ask Claude to enhance/preprocess low-quality images first
+3. **Language**: Specify if text isn't in English ("OCR this German document...")
+4. **Table Complexity**: For complex tables, describe the structure ("5 columns, headers in first row")
+5. **Multiple Pages**: Upload one page at a time for best results, or ask Claude to process sequentially
+6. **Handwriting**: Note that OCR works best on printed text; handwriting recognition is limited
+7. **Confidence Thresholds**: Ask Claude to report OCR confidence scores for verification
+
+## Image Quality Enhancements
+
+### Preprocessing Options
+- Rotate/deskew images
+- Increase contrast
+- Remove noise and artifacts
+- Binarization (convert to black/white)
+- Upscale low-resolution images
+- Crop to region of interest
+
+### Common Issues Claude Can Fix
+- Skewed/rotated images
+- Low contrast
+- Background noise
+- Poor lighting
+- Watermarks (some removal possible)
+
+## Advanced Extraction
+
+### Multi-Column Layouts
+- Newspaper-style columns
+- Magazine layouts
+- Academic papers
+- Forms with complex layouts
+
+### Special Document Types
+- Passports and IDs
+- Medical forms
+- Financial statements
+- Legal documents
+- Shipping labels
+
+## Troubleshooting
+
+**Issue:** OCR results are garbled or inaccurate
+**Solution:** Ask Claude to preprocess the image first: "Enhance this image (increase contrast, deskew) and then run OCR"
+
+**Issue:** Table structure not recognized properly
+**Solution:** Describe the table: "This is a 4-column table with headers in row 1. Extract it as CSV."
+
+**Issue:** Numbers recognized as letters (0 as O, 1 as I)
+**Solution:** Tell Claude what type of data to expect: "Extract invoice number (numeric only) and date"
+
+**Issue:** Multi-page document results are mixed up
+**Solution:** Process pages individually: "Extract text from page 1 only" then "Now page 2"
+
+**Issue:** Handwriting not recognized
+**Solution:** OCR works best on printed text. For handwriting, describe it: "This is handwritten notes, do your best to extract text"
+
+**Issue:** Foreign language not recognized
+**Solution:** Specify language explicitly: "OCR this Japanese document using Japanese language model"
+
+## Learn More
+
+- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) - Open-source OCR engine
+- [pytesseract Documentation](https://pypi.org/project/pytesseract/) - Python wrapper for Tesseract
+- [OpenCV for Image Processing](https://opencv.org/) - Image preprocessing techniques
+- [Table Detection Methods](https://nanonets.com/blog/table-extraction-deep-learning/) - How table extraction works
+- [Claude Vision Capabilities](https://www.anthropic.com/news/claude-3-family) - Claude's image understanding
+
+
+## Key Features
+
+- OpenCV preprocessing recipes
+- Pytesseract OCR with language packs
+- Export tables to CSV/JSON
+- Confidence-aware extraction
+
+## Use Cases
+
+- Digitize receipts and invoices
+- Extract tables from scans
+- Searchable archives
+
+## Examples
+
+### Example 1: OCR with preprocessing (Python)
+
+```python
+import cv2, pytesseract
+img = cv2.imread('scan.png', cv2.IMREAD_GRAYSCALE)
+img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+text = pytesseract.image_to_string(img, lang='eng')
+print(text[:300])
+```
+
+## Troubleshooting
+
+### Garbled or incorrect text from low-contrast scans
+
+Apply OpenCV adaptive thresholding with cv2.THRESH_BINARY + cv2.THRESH_OTSU, or increase DPI via resampling before OCR.
+
+### TesseractNotFoundError when running pytesseract
+
+Install Tesseract OCR binary separately: apt-get install tesseract-ocr or brew install tesseract, then set path if needed.
+
+### OCR returns empty string for valid image with text
+
+Check image preprocessing: convert to grayscale, apply binarization, ensure correct page segmentation mode (--psm) parameter.
+
+### Numbers confused with letters (0 vs O, 1 vs l)
+
+Use config='--psm 6 --oem 3 -c tessedit_char_whitelist=0123456789' to restrict character set for numeric-only fields.
+
+### Non-English text recognition fails or returns gibberish
+
+Install language data with apt-get install tesseract-ocr-[lang] or brew install tesseract-lang, then use lang='fra' parameter.
+
+## Learn More
+
+For additional documentation and resources, visit:
+
+https://tesseract-ocr.github.io/

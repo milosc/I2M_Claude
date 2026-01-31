@@ -1,0 +1,16 @@
+{
+  "$schema": "../schemas/version_history.schema.json",
+  "system_name": "{{SYSTEM_NAME}}",
+  "history": [
+    {
+      "timestamp": "{{TIMESTAMP}}",
+      "stage": "discovery",
+      "author": "System",
+      "version": "1.0.0",
+      "action": "creation",
+      "file": "traceability/{{SYSTEM_NAME}}_version_history.json",
+      "reason": "Initial creation of global version history for project traceability.",
+      "references": []
+    }
+  ]
+}

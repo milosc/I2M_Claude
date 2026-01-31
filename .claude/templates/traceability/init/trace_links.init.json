@@ -1,0 +1,48 @@
+{
+    "$documentation": {
+        "purpose": "Graph of explicit relationships (links) between artifacts across all traceability layers.",
+        "stage": "Cross-cutting",
+        "phase_position": "Meta-layer - updated by all stages when relationships are created",
+        "upstream": [
+            "All registry files contribute links as relationships are established"
+        ],
+        "downstream": [
+            "traceability_matrix_master.json"
+        ],
+        "commands": [
+            "/discovery",
+            "/prototype",
+            "/productspecs",
+            "/solarch"
+        ],
+        "skills": [
+            "Discovery_Orchestrator",
+            "Prototype_Validator",
+            "ProductSpecs_Generator"
+        ],
+        "link_format": {
+            "id": "LINK-{SOURCE}-{TARGET} - unique link identifier",
+            "source": "Source artifact ID",
+            "target": "Target artifact ID",
+            "type": "Relationship type: addresses, implements, derives, validates",
+            "timestamp": "ISO 8601 timestamp when link was created"
+        },
+        "relationship_types": {
+            "addresses": "Source artifact directly addresses/solves target",
+            "implements": "Source artifact implements target functionality",
+            "derives": "Source is derived from target",
+            "validates": "Source validates/tests target",
+            "supports": "Source supports target without direct implementation"
+        },
+        "validation_rules": [
+            "Link IDs MUST be unique",
+            "Source and target MUST reference valid artifact IDs"
+        ]
+    },
+    "items": [],
+    "meta": {
+        "schema_version": "1.0",
+        "created_at": "{{CREATED_AT}}",
+        "updated_at": "{{UPDATED_AT}}"
+    }
+}

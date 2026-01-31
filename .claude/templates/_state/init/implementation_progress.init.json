@@ -1,0 +1,94 @@
+{
+    "$documentation": {
+        "purpose": "Progress tracking file for the Implementation phase. Records checkpoint completion status, task metrics (completed/pending/deferred), test results, code review status, and documentation completion state.",
+        "stage": "Implementation",
+        "phase_position": "Created at CP0, updated throughout implementation, finalized at CP9",
+        "upstream": [
+            "implementation_config.json",
+            "task_registry.json"
+        ],
+        "downstream": [
+            "implementation_traceability_register.json"
+        ],
+        "commands": [
+            "/htec-sdd-status"
+        ],
+        "skills": [
+            "Implementation_Developer",
+            "Implementation_CodeReview",
+            "Implementation_Integrator",
+            "Implementation_Validator"
+        ],
+        "key_attributes": {
+            "current_checkpoint": "Current checkpoint number (0-9)",
+            "status": "Overall status (IN_PROGRESS, BLOCKED, COMPLETE)",
+            "checkpoints.N.status": "Per-checkpoint status (pending, in_progress, completed, failed)",
+            "metrics.tasks_total": "Total number of implementation tasks",
+            "metrics.tasks_completed": "Completed task count",
+            "metrics.tasks_deferred": "Deferred task count with reasons",
+            "priority_status.P0.coverage": "P0 task completion percentage",
+            "code_review.status": "Code review gate status",
+            "documentation.*": "Per-document completion status"
+        },
+        "validation_rules": [
+            "current_checkpoint MUST match highest completed checkpoint",
+            "metrics.tasks_completed + tasks_deferred MUST equal checkpoint progress",
+            "P0 coverage >= 95% required for CP5",
+            "code_review.critical MUST be 0 for CP6",
+            "All documentation MUST be complete for CP8"
+        ]
+    },
+    "schema_version": "1.0.0",
+    "system_name": "{{SYSTEM_NAME}}",
+    "current_checkpoint": 0,
+    "started_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "status": "NOT_STARTED",
+    "checkpoints": {
+        "0": {"status": "pending", "timestamp": "", "notes": ""},
+        "1": {"status": "pending", "timestamp": "", "notes": ""},
+        "2": {"status": "pending", "timestamp": "", "notes": ""},
+        "3": {"status": "pending", "timestamp": "", "notes": ""},
+        "4": {"status": "pending", "timestamp": "", "notes": ""},
+        "5": {"status": "pending", "timestamp": "", "notes": ""},
+        "6": {"status": "pending", "timestamp": "", "notes": ""},
+        "7": {"status": "pending", "timestamp": "", "notes": ""},
+        "8": {"status": "pending", "timestamp": "", "notes": ""},
+        "9": {"status": "pending", "timestamp": "", "notes": ""}
+    },
+    "metrics": {
+        "tasks_total": 0,
+        "tasks_completed": 0,
+        "tasks_deferred": 0,
+        "modules_total": 0,
+        "modules_complete": 0,
+        "test_files": 0,
+        "tests_passing": 0,
+        "tests_total": 0,
+        "build_status": "pending",
+        "api_contracts_validated": 0,
+        "adr_compliance": "0/0"
+    },
+    "priority_status": {
+        "P0": {"total": 0, "completed": 0, "pending": 0, "coverage": "0%", "notes": ""},
+        "P1": {"total": 0, "completed": 0, "pending": 0, "coverage": "0%", "notes": ""},
+        "P2": {"total": 0, "completed": 0, "pending": 0, "coverage": "0%", "notes": ""}
+    },
+    "code_review": {
+        "status": "pending",
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+    },
+    "documentation": {
+        "API_DOCUMENTATION.md": "pending",
+        "COMPONENT_LIBRARY.md": "pending",
+        "DEPLOYMENT_GUIDE.md": "pending",
+        "README.md": "pending",
+        "QUALITY_METRICS.md": "pending",
+        "VALIDATION_REPORT.md": "pending",
+        "IMPLEMENTATION_SUMMARY.md": "pending"
+    },
+    "deferred_items": []
+}

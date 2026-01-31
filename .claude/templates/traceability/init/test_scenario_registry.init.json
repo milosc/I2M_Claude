@@ -1,0 +1,65 @@
+{
+    "$documentation": {
+        "purpose": "Registry of Test Scenarios in Gherkin format (Given/When/Then) for BDD testing.",
+        "stage": "ProductSpecs",
+        "phase_position": "BDD layer - derived from user story acceptance criteria for automation",
+        "upstream": [
+            "user_story_registry.json",
+            "requirements_registry.json"
+        ],
+        "downstream": [
+            "test_case_registry.json"
+        ],
+        "commands": [
+            "/productspecs-jira",
+            "/productspecs-scenarios"
+        ],
+        "skills": [
+            "ProductSpecs_JIRAExporter",
+            "ProductSpecs_ScenarioGenerator"
+        ],
+        "id_pattern": {
+            "format": "TS-{NNN}",
+            "example": "TS-012"
+        },
+        "key_attributes": {
+            "items[].id": "Test scenario ID following TS-{NNN} pattern",
+            "items[].gherkin.given": "Array of Given statements (context)",
+            "items[].gherkin.when": "Array of When statements (action)",
+            "items[].gherkin.then": "Array of Then statements (expected outcome)",
+            "items[].user_story_id": "Parent US-XXX this scenario tests"
+        },
+        "scenario_types": {
+            "Happy Path": "Normal successful flow",
+            "Edge Case": "Boundary conditions",
+            "Error Case": "Error handling"
+        },
+        "validation_rules": [
+            "Every user story MUST have at least one test scenario",
+            "Gherkin MUST have at least one Given, When, and Then"
+        ]
+    },
+    
+    "schema_version": "1.0.0",
+    "description": "Registry of Test Scenarios (Gherkin format)",
+    "system_name": "{{SYSTEM_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "schema": {
+        "id": "TS-XXX",
+        "gherkin": {
+            "given": [
+                "Given context statement"
+            ],
+            "when": [
+                "When action statement"
+            ],
+            "then": [
+                "Then expected outcome"
+            ]
+        },
+        "type": "Happy Path|Edge Case|Error Case",
+        "user_story_id": "US-XXX"
+    },
+    "items": []
+}
