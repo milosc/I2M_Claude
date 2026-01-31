@@ -1,8 +1,63 @@
 {
   "schema_version": "1.0.0",
   "system_name": "ClaudeManual",
-  "chains": [],
+  "last_validated": "2026-01-31T09:45:00Z",
+  "validation_checkpoint": "CP-11",
+  "validation_status": "CONDITIONAL_PASS",
+  "chains": [
+    {
+      "id": "CHAIN-001",
+      "name": "MVP Core Flow",
+      "steps": [
+        "CF-001",
+        "PP-1.1",
+        "JTBD-1.1",
+        "SCR-001"
+      ],
+      "complete": true
+    }
+  ],
   "coverage": {
-    "p0_coverage_percent": 0
+    "client_facts_total": 16,
+    "client_facts_referenced": 16,
+    "client_facts_coverage_percent": 100.0,
+    "pain_points_total": 6,
+    "pain_points_referenced": 6,
+    "pain_points_coverage_percent": 100.0,
+    "jtbd_total": 12,
+    "jtbd_to_screens": 10,
+    "jtbd_coverage_percent": 83.3,
+    "jtbd_to_user_types": 0,
+    "user_type_coverage_percent": 0.0,
+    "p0_jtbd_total": 4,
+    "p0_jtbd_with_screens": 4,
+    "p0_coverage_percent": 100.0,
+    "mvp_screens": 3,
+    "total_screens": 8
+  },
+  "issues": [
+    {
+      "id": "ISSUE-001",
+      "severity": "CRITICAL",
+      "title": "User Type JTBD Mapping Missing",
+      "description": "All user types have empty jtbd_refs arrays",
+      "affected_items": ["UT-001", "UT-002", "UT-003", "UT-004", "UT-005", "UT-006"],
+      "blocking": false,
+      "remediation": "Populate jtbd_refs in user_types_registry.json"
+    },
+    {
+      "id": "ISSUE-002",
+      "severity": "MEDIUM",
+      "title": "2 JTBDs Not Addressed by MVP",
+      "description": "JTBD-3.1 and JTBD-3.2 are social jobs not in MVP screen roadmap",
+      "affected_items": ["JTBD-3.1", "JTBD-3.2"],
+      "blocking": false,
+      "remediation": "Confirm these are Phase 2+ items; document as future phases"
+    }
+  ],
+  "readiness": {
+    "for_prototype": true,
+    "for_productspecs": true,
+    "notes": "Discovery output is ready for prototype stage. User type mappings should be completed before they are actively used in design decisions."
   }
 }
