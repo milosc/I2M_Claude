@@ -102,5 +102,13 @@
     "call_stack": [
       "discovery-vp-pm-reviewer"
     ]
+  },
+  {
+    "agent_name": "discovery-cross-reference-validator",
+    "parent_session": "cb991eef-f8da-4cdc-9b89-38e56fab01ad",
+    "timestamp": "2026-01-31T09:44:23.055325",
+    "call_stack": [
+      "discovery-cross-reference-validator"
+    ]
   }
 ]
