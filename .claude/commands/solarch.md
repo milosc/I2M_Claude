@@ -1,4 +1,5 @@
 ---
+name: solarch
 description: Generate solution architecture with arc42 docs, C4 diagrams, and ADRs
 argument-hint: <SystemName>
 model: claude-sonnet-4-5-20250929

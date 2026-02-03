@@ -1,4 +1,5 @@
 ---
+name: sdd-specify
 description: Create or update the feature specification from a natural language feature description.
 argument-hint: Feature description
 model: claude-haiku-4-5-20250515

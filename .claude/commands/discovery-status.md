@@ -1,4 +1,5 @@
 ---
+name: discovery-status
 description: Display current Discovery stage status and progress
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Grep, Glob

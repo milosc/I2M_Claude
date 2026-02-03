@@ -1,0 +1,53 @@
+[
+  {
+    "id": "CORE_RULES",
+    "name": "Core Framework Rules",
+    "description": "Essential rules for interaction style, error handling, traceability, and execution logging",
+    "path": ".claude/rules/CORE_RULES.md",
+    "auto_load_paths": ["**/*"],
+    "version": "3.0.0",
+    "category": "core"
+  },
+  {
+    "id": "traceability",
+    "name": "Traceability Rules",
+    "description": "ID formats, chains, version logging, and validation for traceability system",
+    "path": ".claude/rules/traceability.md",
+    "auto_load_paths": [
+      "ClientAnalysis_*/**/*",
+      "Prototype_*/**/*",
+      "ProductSpecs_*/**/*",
+      "traceability/**/*",
+      "_state/**/*"
+    ],
+    "version": "3.0.0",
+    "category": "quality"
+  },
+  {
+    "id": "discovery",
+    "name": "Discovery Stage Rules",
+    "description": "Input processing, output structure, checkpoints, and source linking for Discovery analysis",
+    "path": ".claude/rules/discovery.md",
+    "auto_load_paths": ["ClientAnalysis_*/**/*", "Client_Materials/**/*"],
+    "version": "3.0.0",
+    "category": "stage-specific"
+  },
+  {
+    "id": "process-integrity",
+    "name": "Process Integrity Rules",
+    "description": "TDD cycle, quality gates, veto protocol, and checkpoint requirements for Implementation stage",
+    "path": ".claude/rules/process-integrity.md",
+    "auto_load_paths": ["Implementation_*/**/*", "**/*.test.ts", "**/*.spec.ts"],
+    "version": "3.0.0",
+    "category": "quality"
+  },
+  {
+    "id": "agent-coordination",
+    "name": "Agent Coordination Rules",
+    "description": "Spawning protocol, locks, sessions, and monitoring for multi-agent systems",
+    "path": ".claude/rules/agent-coordination.md",
+    "auto_load_paths": [".claude/agents/**/*", ".claude/skills/**/*"],
+    "version": "3.0.0",
+    "category": "process"
+  }
+]

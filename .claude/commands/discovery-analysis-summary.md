@@ -1,4 +1,5 @@
 ---
+name: discovery-analysis-summary
 description: Generate Discovery analysis summary documentation
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

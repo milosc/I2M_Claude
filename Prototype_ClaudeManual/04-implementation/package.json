@@ -1,0 +1,52 @@
+{
+  "name": "claudemanual-prototype",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
+  },
+  "dependencies": {
+    "@adobe/react-spectrum": "^3.36.1",
+    "@tanstack/react-query": "^5.59.0",
+    "clsx": "^2.1.1",
+    "dompurify": "^3.3.1",
+    "marked": "^17.0.1",
+    "mermaid": "^11.12.2",
+    "next": "^15.1.6",
+    "prismjs": "^1.30.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "rehype-highlight": "^7.0.2",
+    "remark-gfm": "^4.0.1",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@adobe/spectrum-tokens": "^13.0.0-beta.61",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/dompurify": "^3.0.5",
+    "@types/node": "^22.10.5",
+    "@types/prismjs": "^1.26.5",
+    "@types/react": "^19.0.6",
+    "@types/react-dom": "^19.0.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.18.0",
+    "eslint-config-next": "^15.1.6",
+    "jsdom": "^25.0.1",
+    "msw": "^2.7.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8"
+  }
+}

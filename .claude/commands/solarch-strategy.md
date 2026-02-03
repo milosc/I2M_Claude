@@ -1,4 +1,5 @@
 ---
+name: solarch-strategy
 description: Generate architecture strategy document
 argument-hint: None
 model: claude-haiku-4-5-20250515

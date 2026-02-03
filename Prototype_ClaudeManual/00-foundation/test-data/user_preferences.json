@@ -1,0 +1,57 @@
+[
+  {
+    "user_id": "user_001",
+    "username": "framework_creator",
+    "theme": "dark",
+    "favorites": ["Discovery_JTBD", "Prototype_DesignSystem", "discovery-multiagent", "trace-audit"],
+    "collapsed_nodes": ["commands", "rules"],
+    "last_viewed": "Discovery_JTBD",
+    "search_history": ["persona", "TDD", "security", "GDPR", "traceability"],
+    "stage_filter": ["Discovery", "Prototype"],
+    "type_filter": ["Skill", "Command"]
+  },
+  {
+    "user_id": "user_002",
+    "username": "product_manager",
+    "theme": "light",
+    "favorites": ["Discovery_GeneratePersona", "discovery", "prototype"],
+    "collapsed_nodes": ["hooks"],
+    "last_viewed": "discovery-multiagent",
+    "search_history": ["discovery", "persona", "JTBD", "pain points"],
+    "stage_filter": ["Discovery"],
+    "type_filter": ["Command", "Agent"]
+  },
+  {
+    "user_id": "user_003",
+    "username": "developer",
+    "theme": "system",
+    "favorites": ["Implementation_Developer", "htec-sdd-implement", "quality-bug-hunter", "SECURITY_vulnerability-scanner"],
+    "collapsed_nodes": [],
+    "last_viewed": "Implementation_Developer",
+    "search_history": ["TDD", "test", "implement", "quality", "security"],
+    "stage_filter": ["Implementation"],
+    "type_filter": ["Skill", "Command", "Agent"]
+  },
+  {
+    "user_id": "user_004",
+    "username": "security_expert",
+    "theme": "dark",
+    "favorites": ["SECURITY_vulnerability-scanner", "GRC_gdpr-compliance", "quality-security-auditor"],
+    "collapsed_nodes": ["skills"],
+    "last_viewed": "quality-security-auditor",
+    "search_history": ["security", "OWASP", "vulnerability", "GDPR", "compliance"],
+    "stage_filter": ["Security", "GRC"],
+    "type_filter": ["Skill", "Agent"]
+  },
+  {
+    "user_id": "user_005",
+    "username": "executive",
+    "theme": "light",
+    "favorites": ["discovery", "prototype"],
+    "collapsed_nodes": ["agents", "rules", "hooks"],
+    "last_viewed": "discovery",
+    "search_history": ["overview", "workflow", "capabilities"],
+    "stage_filter": [],
+    "type_filter": ["Command"]
+  }
+]

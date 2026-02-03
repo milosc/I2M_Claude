@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-init
 description: Initialize Implementation stage folder structure with placeholder files
 argument-hint: <SystemName>
 model: claude-sonnet-4-5-20250929

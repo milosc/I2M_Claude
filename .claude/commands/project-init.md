@@ -1,4 +1,5 @@
 ---
+name: project-init
 description: Initialize project metadata (name, user, stage)
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, AskUserQuestion

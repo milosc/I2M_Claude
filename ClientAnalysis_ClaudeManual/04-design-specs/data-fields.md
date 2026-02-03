@@ -6,19 +6,20 @@ checkpoint: CP-9
 date_created: 2026-01-31
 created_by: discovery-data-fields-specifier
 session: disc-claude-manual-009c
-total_entities: 6
+total_entities: 9
 ---
 
 ## Executive Summary
 
-This document defines all data fields, types, validation rules, and relationships for the ClaudeManual interactive documentation system. The specification covers six core entities (Skill, Command, Agent, Rule, Hook, UserPreferences) with complete traceability to client facts, pain points, and Jobs To Be Done.
+This document defines all data fields, types, validation rules, and relationships for the ClaudeManual interactive documentation system. The specification covers nine core entities (Skill, Command, Agent, Rule, Hook, UserPreferences, Workflow, WaysOfWorking, ArchitectureDoc) with complete traceability to client facts, pain points, and Jobs To Be Done.
 
 **Key Design Decisions**:
-- **File-system-first architecture**: All entities read from `.claude/` folders (CF-001)
+- **File-system-first architecture**: All entities read from `.claude/` and `architecture/` folders (CF-001)
 - **Frontmatter-driven metadata**: YAML frontmatter provides structured data (observed pattern)
 - **Searchable content**: Indexed fields enable fast search (JTBD-1.3)
 - **Stage-based organization**: Workflow stage as primary filter (JTBD-1.4)
 - **Visual hierarchy support**: Parent-child relationships for tree views (JTBD-1.7)
+- **Multi-format diagram support**: Mermaid and PlantUML rendering for visual documentation (JTBD-1.9)
 
 ---
 
@@ -323,6 +324,133 @@ This document defines all data fields, types, validation rules, and relationship
 
 ---
 
+## Entity 7: Workflow
+
+**Definition**: Process and workflow diagrams stored in markdown, Mermaid, or PlantUML format
+
+**Traces To**:
+- CF-001 (Technical Context - .claude/ or project folders)
+- JTBD-1.9 (Visualize Process and Architecture Diagrams)
+- JTBD-1.2 (Understand Component Context)
+
+### Core Fields
+
+| Field ID | Field Name | Type | Required | Description | Default | Validation |
+|----------|------------|------|----------|-------------|---------|------------|
+| DF-WFL-001 | id | string | Yes | Unique workflow identifier | N/A | Pattern: `^[a-z0-9-]+$` |
+| DF-WFL-002 | name | string | Yes | Display name | N/A | 2-100 chars |
+| DF-WFL-003 | description | string | Yes | Workflow purpose | N/A | 10-500 chars |
+| DF-WFL-004 | format | enum | Yes | Diagram format | "md" | Values: `md`, `mermaid`, `plantuml` |
+| DF-WFL-005 | path | string | Yes | Absolute file path | N/A | Valid file path ending in .md, .mermaid, or .plantuml |
+| DF-WFL-006 | stage | enum | No | Related workflow stage | null | Values: `Discovery`, `Prototype`, `ProductSpecs`, `SolArch`, `Implementation`, `Utility` |
+| DF-WFL-007 | category | enum | No | Workflow category | "process" | Values: `process`, `integration`, `decision`, `data-flow` |
+| DF-WFL-008 | tags | string[] | No | Searchable tags | [] | Array of strings |
+
+### Content Sections
+
+| Section ID | Section Name | Presence | Description |
+|------------|--------------|----------|-------------|
+| DF-WFL-C01 | Overview | Optional | Brief workflow description |
+| DF-WFL-C02 | Diagram | Required | Mermaid/PlantUML diagram code or embedded image |
+| DF-WFL-C03 | Steps | Optional | Numbered workflow steps |
+| DF-WFL-C04 | Related | Optional | Links to related workflows |
+
+### Validation Rules
+
+| Rule ID | Field | Validation | Error Message |
+|---------|-------|------------|---------------|
+| VR-WFL-001 | path | File must exist | "Workflow file not found: {path}" |
+| VR-WFL-002 | format | File extension must match format | "Format mismatch: expected {format}, got {extension}" |
+| VR-WFL-003 | content | Must have Diagram section for mermaid/plantuml | "Missing diagram content" |
+
+---
+
+## Entity 8: WaysOfWorking
+
+**Definition**: Team practices, guidelines, and process documentation stored in markdown format
+
+**Traces To**:
+- CF-001 (Technical Context - documentation folders)
+- JTBD-1.9 (Visualize Process and Architecture Diagrams)
+- JTBD-1.1 (Enable Self-Service Learning)
+
+### Core Fields
+
+| Field ID | Field Name | Type | Required | Description | Default | Validation |
+|----------|------------|------|----------|-------------|---------|------------|
+| DF-WOW-001 | id | string | Yes | Unique identifier | N/A | Pattern: `^[a-z0-9-]+$` |
+| DF-WOW-002 | name | string | Yes | Display name | N/A | 2-100 chars |
+| DF-WOW-003 | description | string | Yes | Document purpose | N/A | 10-500 chars |
+| DF-WOW-004 | path | string | Yes | Absolute file path | N/A | Valid file path ending in .md |
+| DF-WOW-005 | category | enum | No | Document category | "practices" | Values: `practices`, `guidelines`, `processes`, `checklists` |
+| DF-WOW-006 | audience | enum | No | Target audience | "all" | Values: `developers`, `product`, `all`, `leads` |
+| DF-WOW-007 | tags | string[] | No | Searchable tags | [] | Array of strings |
+
+### Content Sections
+
+| Section ID | Section Name | Presence | Description |
+|------------|--------------|----------|-------------|
+| DF-WOW-C01 | Overview | Required | Brief document summary |
+| DF-WOW-C02 | Guidelines | Optional | Specific rules or guidelines |
+| DF-WOW-C03 | Examples | Optional | Good/bad examples |
+| DF-WOW-C04 | Checklist | Optional | Action items or verification list |
+
+### Validation Rules
+
+| Rule ID | Field | Validation | Error Message |
+|---------|-------|------------|---------------|
+| VR-WOW-001 | path | File must exist | "Document file not found: {path}" |
+| VR-WOW-002 | content | Must have Overview section | "Missing required Overview section" |
+
+---
+
+## Entity 9: ArchitectureDoc
+
+**Definition**: Architecture diagrams and documentation including C4 diagrams, ADRs, and technical patterns
+
+**Traces To**:
+- CF-001 (Technical Context - architecture/ folder)
+- JTBD-1.9 (Visualize Process and Architecture Diagrams)
+- JTBD-1.2 (Understand Component Context)
+- JTBD-2.1 (Feel Confident Using the Framework)
+
+### Core Fields
+
+| Field ID | Field Name | Type | Required | Description | Default | Validation |
+|----------|------------|------|----------|-------------|---------|------------|
+| DF-ARC-001 | id | string | Yes | Unique identifier | N/A | Pattern: `^[a-zA-Z0-9-_]+$` |
+| DF-ARC-002 | name | string | Yes | Display name | N/A | 2-100 chars |
+| DF-ARC-003 | description | string | Yes | Document purpose | N/A | 10-500 chars |
+| DF-ARC-004 | format | enum | Yes | Document format | "md" | Values: `md`, `mermaid`, `plantuml` |
+| DF-ARC-005 | path | string | Yes | Absolute file path | N/A | Valid file path |
+| DF-ARC-006 | category | enum | No | Architecture category | "diagram" | Values: `c4`, `adr`, `patterns`, `infrastructure`, `data-model` |
+| DF-ARC-007 | c4_level | enum | No | C4 diagram level (if applicable) | null | Values: `context`, `container`, `component`, `code` |
+| DF-ARC-008 | adr_status | enum | No | ADR status (if applicable) | null | Values: `proposed`, `accepted`, `deprecated`, `superseded` |
+| DF-ARC-009 | tags | string[] | No | Searchable tags | [] | Array of strings |
+| DF-ARC-010 | related_adrs | string[] | No | Related ADR IDs | [] | Array of ADR IDs |
+
+### Content Sections
+
+| Section ID | Section Name | Presence | Description |
+|------------|--------------|----------|-------------|
+| DF-ARC-C01 | Overview | Required | Brief document summary |
+| DF-ARC-C02 | Diagram | Required for c4/diagram types | Visual diagram (Mermaid/PlantUML) |
+| DF-ARC-C03 | Context | Optional | Decision context (for ADRs) |
+| DF-ARC-C04 | Decision | Optional | Decision made (for ADRs) |
+| DF-ARC-C05 | Consequences | Optional | Impact of decision (for ADRs) |
+| DF-ARC-C06 | Related | Optional | Links to related documents |
+
+### Validation Rules
+
+| Rule ID | Field | Validation | Error Message |
+|---------|-------|------------|---------------|
+| VR-ARC-001 | path | File must exist | "Architecture file not found: {path}" |
+| VR-ARC-002 | format | File extension must match format | "Format mismatch: expected {format}, got {extension}" |
+| VR-ARC-003 | category | If category is 'c4', c4_level should be set | "C4 diagrams should specify c4_level" |
+| VR-ARC-004 | category | If category is 'adr', adr_status should be set | "ADRs should specify adr_status" |
+
+---
+
 ## Indexes and Search
 
 ### Search Index Configuration
@@ -342,6 +470,12 @@ This document defines all data fields, types, validation rules, and relationship
 | IDX-007 | Agent | id, role, stage | 0.8 | Filter search |
 | IDX-008 | Rule | name, description | 0.7 | Secondary search |
 | IDX-009 | Hook | name, description | 0.5 | Advanced search |
+| IDX-010 | Workflow | name, description, tags | 1.0 | Primary search |
+| IDX-011 | Workflow | category, stage, format | 0.8 | Filter search |
+| IDX-012 | WaysOfWorking | name, description, tags | 1.0 | Primary search |
+| IDX-013 | WaysOfWorking | category, audience | 0.8 | Filter search |
+| IDX-014 | ArchitectureDoc | name, description, tags | 1.0 | Primary search |
+| IDX-015 | ArchitectureDoc | category, c4_level, adr_status, format | 0.8 | Filter search |
 
 ### Filter Configuration
 
@@ -352,10 +486,14 @@ This document defines all data fields, types, validation rules, and relationship
 | Filter ID | Filter Name | Type | Values | Default |
 |-----------|-------------|------|--------|---------|
 | FLT-001 | Stage | multi-select | `Discovery`, `Prototype`, `ProductSpecs`, `SolArch`, `Implementation`, `Utility`, `GRC`, `Security` | All |
-| FLT-002 | Type | multi-select | `Skill`, `Command`, `Agent`, `Rule`, `Hook` | All |
+| FLT-002 | Type | multi-select | `Skill`, `Command`, `Agent`, `Rule`, `Hook`, `Workflow`, `WaysOfWorking`, `ArchitectureDoc` | All |
 | FLT-003 | Model | multi-select | `sonnet`, `opus`, `haiku` | All |
 | FLT-004 | Has Example | boolean | `true`, `false` | All |
 | FLT-005 | Favorited | boolean | `true`, `false` | `false` |
+| FLT-006 | Format | multi-select | `md`, `mermaid`, `plantuml` | All |
+| FLT-007 | Architecture Category | multi-select | `c4`, `adr`, `patterns`, `infrastructure`, `data-model` | All |
+| FLT-008 | C4 Level | multi-select | `context`, `container`, `component`, `code` | All |
+| FLT-009 | ADR Status | multi-select | `proposed`, `accepted`, `deprecated`, `superseded` | All |
 
 ---
 
@@ -399,7 +537,10 @@ erDiagram
 | Rule | 7 | 4 | 1 | 12 |
 | Hook | 6 | 0 | 2 | 8 |
 | UserPreferences | 7 | 0 | 0 | 7 |
-| **TOTAL** | **48** | **21** | **14** | **83** |
+| Workflow | 8 | 4 | 0 | 12 |
+| WaysOfWorking | 7 | 4 | 0 | 11 |
+| ArchitectureDoc | 10 | 6 | 0 | 16 |
+| **TOTAL** | **73** | **35** | **14** | **122** |
 
 ### Validation Rules Summary
 
@@ -411,7 +552,10 @@ erDiagram
 | Rule | 2 | VR-RUL-001 |
 | Hook | 2 | VR-HKS-001 |
 | UserPreferences | 3 | VR-USR-002 |
-| **TOTAL** | **18** | **10** |
+| Workflow | 3 | VR-WFL-001, VR-WFL-002 |
+| WaysOfWorking | 2 | VR-WOW-001 |
+| ArchitectureDoc | 4 | VR-ARC-001, VR-ARC-002 |
+| **TOTAL** | **27** | **15** |
 
 ---
 
@@ -456,4 +600,4 @@ erDiagram
 
 ---
 
-*83 data fields defined across 6 entities. All fields traced to client facts, pain points, or JTBD. 18 validation rules ensure data integrity.*
+*122 data fields defined across 9 entities. All fields traced to client facts, pain points, or JTBD. 27 validation rules ensure data integrity. New entities (Workflow, WaysOfWorking, ArchitectureDoc) support diagram visualization (JTBD-1.9).*

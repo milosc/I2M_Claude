@@ -1,4 +1,5 @@
 ---
+name: solarch-status
 description: Display Solution Architecture generation status and progress
 argument-hint: None
 model: claude-haiku-4-5-20250515

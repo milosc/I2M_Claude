@@ -1,4 +1,5 @@
 ---
+name: solarch-deploy
 description: Generate deployment view from infrastructure requirements
 argument-hint: None
 model: claude-haiku-4-5-20250515

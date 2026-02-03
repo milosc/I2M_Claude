@@ -1,4 +1,5 @@
 ---
+name: discovery-readme
 description: Generate Discovery README with overview and structure
 argument-hint: None
 model: claude-haiku-4-5-20250515

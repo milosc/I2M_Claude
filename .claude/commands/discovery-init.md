@@ -1,4 +1,5 @@
 ---
+name: discovery-init
 description: Initialize Discovery session folder structure and state files
 argument-hint: <SystemName> <InputPath>
 model: claude-haiku-4-5-20250515

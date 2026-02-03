@@ -1,4 +1,5 @@
 ---
+name: discovery-files-created
 description: Generate list of all files created during Discovery
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

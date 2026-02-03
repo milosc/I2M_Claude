@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-documenter
 description: Generate comprehensive documentation for implemented features using the implementation-documenter agent
 argument-hint: <SystemName> [--task <T-ID>] [--module <MOD-ID>] [--scope all|task|module]
 model: claude-sonnet-4-5-20250929

@@ -1,4 +1,5 @@
 ---
+name: prototype
 description: Generate complete working prototype from Discovery with full traceability
 argument-hint: <SystemName>
 model: claude-sonnet-4-5-20250929

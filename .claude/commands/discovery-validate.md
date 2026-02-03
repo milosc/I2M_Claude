@@ -1,4 +1,5 @@
 ---
+name: discovery-validate
 description: Validate Discovery checkpoint requirements and quality gates
 argument-hint: --checkpoint <N>
 model: claude-sonnet-4-5-20250929

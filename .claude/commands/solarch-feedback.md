@@ -1,4 +1,5 @@
 ---
+name: solarch-feedback
 description: Process feedback on Solution Architecture with reflexion-enhanced ADR consistency and component alignment validation
 argument-hint: [feedback-text] | --feedback-id <ID> | resume <ID> | status | list
 model: claude-sonnet-4-5-20250929

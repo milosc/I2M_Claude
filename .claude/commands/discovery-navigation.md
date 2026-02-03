@@ -1,4 +1,5 @@
 ---
+name: discovery-navigation
 description: Generate navigation structure from discovery materials
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

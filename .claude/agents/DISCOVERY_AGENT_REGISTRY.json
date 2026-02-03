@@ -350,6 +350,9 @@
       "execution": "parallel",
       "spawn_per_instance": true,
       "instance_key": "user_type",
+      "instance_source": "traceability/user_types_registry.json",
+      "instance_filter": "all validated user_types (primary AND secondary)",
+      "note": "CRITICAL: Spawn for ALL user types with validated: true, not just those with persona_id already set. Secondary user types should have synthesized personas.",
       "merge_strategy": "separate_files"
     },
     "design_specs": {

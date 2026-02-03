@@ -63,6 +63,9 @@ graph TD
 | `/agents` | Agents | 🤖 | JTBD-1.7, JTBD-1.3 | Multi-agent orchestrators |
 | `/rules` | Rules | 📋 | JTBD-1.7, JTBD-1.3 | Framework rules and policies |
 | `/hooks` | Hooks | 🔗 | JTBD-1.7, JTBD-1.3 | Execution lifecycle hooks |
+| `/workflows` | Workflows | 📊 | JTBD-1.7, JTBD-1.9 | Process and workflow diagrams (.md, .mermaid) |
+| `/ways-of-working` | Ways of Working | 📖 | JTBD-1.7, JTBD-1.9 | Team practices and methodology documentation |
+| `/architecture` | Architecture | 🏛️ | JTBD-1.7, JTBD-1.9 | Architecture diagrams and docs (.md, .mermaid, .plantuml) |
 | `/search` | Search | 🔍 | JTBD-1.3 | Global search interface |
 | `/favorites` | Favorites | ⭐ | JTBD-1.6 | User-curated quick access |
 
@@ -70,6 +73,7 @@ graph TD
 - Icons provide visual recognition (CF-003: highly visual)
 - Addresses JTBD-1.7 (Navigate Framework Hierarchies Visually)
 - Supports JTBD-1.3 (Quickly Find Relevant Framework Tools)
+- New document types (Workflows, Ways of Working, Architecture) address JTBD-1.9 (Visualize Process and Architecture Diagrams)
 
 ---
 
@@ -109,10 +113,36 @@ graph TD
 | `/agents/implementation` | Implementation | Purple | implementation-developer, test-automation-engineer |
 | `/agents/quality` | Quality | Red (#DC2626) | bug-hunter, security-auditor, code-reviewer |
 
+#### Workflows by Category
+
+| Node | Label | Badge Color | Example Workflows |
+|------|-------|-------------|-------------------|
+| `/workflows/process` | Process Flows | Blue (#2563EB) | discovery-process, prototype-workflow, feedback-loop |
+| `/workflows/integration` | Integration | Green (#059669) | api-integration-flow, data-pipeline |
+| `/workflows/decision` | Decision Trees | Orange (#EA580C) | tool-selection-guide, error-handling-flow |
+
+#### Ways of Working by Category
+
+| Node | Label | Badge Color | Example Documents |
+|------|-------|-------------|-------------------|
+| `/ways-of-working/practices` | Practices | Teal (#0891B2) | tdd-practices, code-review-checklist |
+| `/ways-of-working/guidelines` | Guidelines | Purple (#9333EA) | naming-conventions, commit-standards |
+| `/ways-of-working/processes` | Processes | Gray (#6B7280) | sprint-process, release-process |
+
+#### Architecture by Category
+
+| Node | Label | Badge Color | Example Documents |
+|------|-------|-------------|-------------------|
+| `/architecture/c4` | C4 Diagrams | Blue (#2563EB) | context-diagram, container-diagram, component-diagram |
+| `/architecture/adr` | ADRs | Green (#059669) | ADR-001-architecture-style, ADR-002-data-storage |
+| `/architecture/patterns` | Patterns | Orange (#EA580C) | repository-pattern, event-sourcing |
+| `/architecture/infrastructure` | Infrastructure | Purple (#9333EA) | deployment-diagram, network-topology |
+
 **Design Notes**:
 - Stage badges match framework conventions (CF-011: organized by stages)
 - Addresses JTBD-1.4 (Understand Which Tools Apply to Current Workflow Stage)
 - Visual color coding reduces cognitive load
+- New document types (Workflows, Ways of Working, Architecture) address JTBD-1.9
 
 ---
 
@@ -162,14 +192,23 @@ graph TD
 | `/manual/commands/discovery-multiagent` | Discovery-multiagent command detail |
 | `/manual/agents` | Agents landing page |
 | `/manual/agents/interview-analyst` | Interview-analyst agent detail |
+| `/manual/workflows` | Workflows landing page (process diagrams) |
+| `/manual/workflows/discovery-process` | Specific workflow diagram |
+| `/manual/ways-of-working` | Ways of Working landing page |
+| `/manual/ways-of-working/tdd-practices` | Specific practices document |
+| `/manual/architecture` | Architecture documentation landing page |
+| `/manual/architecture/c4/context-diagram` | C4 context diagram |
+| `/manual/architecture/adr/ADR-001` | Architecture Decision Record |
 | `/manual/search?q={query}` | Global search results |
 | `/manual/search?q={query}&stage=discovery` | Stage-filtered search |
+| `/manual/search?q={query}&type=workflow` | Type-filtered search (workflows) |
 | `/manual/favorites` | User favorites list |
 
 **Query Parameters**:
 - `q`: Search query string
 - `stage`: Filter by stage (discovery, prototype, productspecs, solarch, implementation, utility)
-- `type`: Filter by type (skill, command, agent, rule, hook)
+- `type`: Filter by type (skill, command, agent, rule, hook, workflow, ways-of-working, architecture)
+- `format`: Filter by format (md, mermaid, plantuml) - applies to workflows/architecture
 - `sort`: Sort order (name, stage, recent)
 
 **Design Notes**:
@@ -558,11 +597,11 @@ graph TD
 
 | Level | Example | Description |
 |-------|---------|-------------|
-| **L1: Component Type** | `/skills`, `/commands`, `/agents` | Top-level categories (7 nodes) |
-| **L2: Stage Group** | `/skills/discovery`, `/commands/prototype` | Workflow stage grouping (5-6 stages per type) |
-| **L3: Individual Item** | `/skills/discovery/Discovery_JTBD` | Specific component detail view |
+| **L1: Component Type** | `/skills`, `/commands`, `/agents`, `/workflows`, `/architecture` | Top-level categories (10 nodes) |
+| **L2: Stage Group** | `/skills/discovery`, `/commands/prototype`, `/workflows/process` | Workflow stage or category grouping (5-6 stages per type) |
+| **L3: Individual Item** | `/skills/discovery/Discovery_JTBD`, `/architecture/c4/context-diagram` | Specific component or document detail view |
 
-**Total Navigation Nodes**: ~300+ (115+ skills + 50+ commands + 40+ agents + 10+ rules + 10+ hooks)
+**Total Navigation Nodes**: ~350+ (115+ skills + 50+ commands + 40+ agents + 10+ rules + 10+ hooks + 20+ workflows + 15+ ways-of-working + 30+ architecture)
 
 ---
 

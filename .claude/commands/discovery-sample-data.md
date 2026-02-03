@@ -1,4 +1,5 @@
 ---
+name: discovery-sample-data
 description: Generate sample data from discovery specifications
 argument-hint: None
 model: claude-haiku-4-5-20250515

@@ -1,4 +1,5 @@
 ---
+name: prototype-interactions
 description: Generate interaction specifications and motion system
 argument-hint: None
 model: claude-haiku-4-5-20250515

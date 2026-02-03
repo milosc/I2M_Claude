@@ -1,4 +1,5 @@
 ---
+name: prototype-init
 description: Initialize Prototype folder structure and state files from Discovery
 argument-hint: <SystemName>
 model: claude-haiku-4-5-20250515

@@ -1,4 +1,5 @@
 ---
+name: productspecs
 description: Generate production-ready specifications from Prototype with JIRA export
 argument-hint: <SystemName>
 model: claude-sonnet-4-5-20250929

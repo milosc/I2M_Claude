@@ -1,4 +1,5 @@
 ---
+name: prototype-qa
 description: Run comprehensive QA testing with Playwright and validation
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob

@@ -1,4 +1,5 @@
 ---
+name: analyze-issue
 description: Analyze a GitHub issue and create a detailed technical specification
 argument-hint: Issue number (e.g., 42)
 model: claude-sonnet-4-5-20250929

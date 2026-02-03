@@ -1,4 +1,5 @@
 ---
+name: integrity-check
 description: Comprehensive integrity check for all stages - state, traceability, build artifacts, and template drift
 argument-hint: None
 model: claude-sonnet-4-5-20250929

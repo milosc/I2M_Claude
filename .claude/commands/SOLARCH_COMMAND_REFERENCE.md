@@ -1,4 +1,5 @@
 ---
+name: SOLARCH_COMMAND_REFERENCE
 description: Complete reference for Solution Architecture stage commands
 argument-hint: None
 model: claude-haiku-4-5-20250515

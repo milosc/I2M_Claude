@@ -1,4 +1,5 @@
 ---
+name: productspecs-tests
 description: Generate comprehensive test specifications (unit, integration, E2E)
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob

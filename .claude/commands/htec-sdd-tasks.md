@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-tasks
 description: Decompose module specs into TDD implementation tasks (reuses ProductSpecs JIRA export if available)
 argument-hint: None
 model: claude-sonnet-4-5-20250929

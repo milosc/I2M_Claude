@@ -1,4 +1,5 @@
 ---
+name: discovery-summary
 description: Generate Discovery executive summary document
 argument-hint: None
 model: claude-haiku-4-5-20250515

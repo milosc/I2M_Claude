@@ -1,4 +1,5 @@
 ---
+name: solarch-multiagent
 description: Generate Solution Architecture using multi-agent parallel execution with Architecture Board
 argument-hint: <SystemName>
 model: claude-sonnet-4-5-20250929

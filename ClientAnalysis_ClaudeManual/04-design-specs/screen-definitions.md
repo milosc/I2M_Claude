@@ -3,7 +3,7 @@
 ---
 system_name: ClaudeManual
 checkpoint: CP-9
-total_screens: 8
+total_screens: 11
 date_created: 2026-01-31
 session: disc-claude-manual-009a
 created_by: discovery-screen-specifier
@@ -21,6 +21,9 @@ created_by: discovery-screen-specifier
 | SCR-006 | Component Detail Modal | P0 | MVP | JTBD-1.2, JTBD-2.1 | All personas |
 | SCR-007 | Settings Panel | P1 | Phase 2 | CF-016 | All personas |
 | SCR-008 | Mobile Explorer View | P2 | Phase 3 | JTBD-3.1 | PER-002, PER-004 |
+| SCR-009 | Workflow Viewer | P1 | Phase 2 | JTBD-1.9, JTBD-1.2 | All personas |
+| SCR-010 | Architecture Browser | P1 | Phase 2 | JTBD-1.9, JTBD-1.2 | All personas |
+| SCR-011 | Document Preview Modal | P1 | Phase 2 | JTBD-1.9, JTBD-1.2 | All personas |
 
 ---
 
@@ -831,6 +834,300 @@ Drawer Open:
 
 ---
 
+## SCR-009: Workflow Viewer
+
+### Overview
+
+- **Purpose**: Display and interact with workflow diagrams (Mermaid, PlantUML) with zoom/pan controls
+- **Layout**: Full-width diagram viewer with floating toolbar
+- **JTBD**: JTBD-1.9 (Visualize Process and Architecture Diagrams), JTBD-1.2 (Component Context)
+- **User Types**: All personas
+- **Entry Points**: Click workflow in navigation tree, search results, related links
+- **Exit Points**: Back to Explorer, navigate to related workflows
+
+### Wireframe Description
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Header (Same as SCR-001)                                                     │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│ [← Back to Explorer]   Workflow: Discovery Process Flow                      │
+│                        [Mermaid] [Discovery] ⭐                              │
+│                                                                              │
+│ ┌────────────────────────────────────────────────────────────────────────┐  │
+│ │                                                                        │  │
+│ │                      ┌─────────────┐                                   │  │
+│ │                      │   Start     │                                   │  │
+│ │                      └──────┬──────┘                                   │  │
+│ │                             │                                          │  │
+│ │                      ┌──────▼──────┐                                   │  │
+│ │                      │ Input Files │                                   │  │
+│ │                      └──────┬──────┘                                   │  │
+│ │                             │                                          │  │
+│ │              ┌──────────────┼──────────────┐                           │  │
+│ │              │              │              │                           │  │
+│ │       ┌──────▼──────┐ ┌─────▼─────┐ ┌─────▼─────┐                     │  │
+│ │       │ Pain Points │ │  JTBDs    │ │ Personas  │                     │  │
+│ │       └─────────────┘ └───────────┘ └───────────┘                     │  │
+│ │                                                                        │  │
+│ │                                                                        │  │
+│ │ ┌──────────────────────────────────────────────────────────────────┐  │  │
+│ │ │ [−] [100%] [+]  [Reset]  [Export ▾]       [Minimap ☐]           │  │  │
+│ │ └──────────────────────────────────────────────────────────────────┘  │  │
+│ └────────────────────────────────────────────────────────────────────────┘  │
+│                                                                              │
+│ ## Description                                                               │
+│ This workflow shows the Discovery phase process flow from client             │
+│ materials input through to deliverable generation.                           │
+│                                                                              │
+│ ## Related Workflows                                                         │
+│ [Prototype Process] [ProductSpecs Flow] [Implementation Cycle]               │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+### UI Components
+
+| Component | Type | Behavior | UX Psychology Applied |
+|---|---|---|---|
+| **Diagram Canvas** | SVG/Canvas container | Render Mermaid/PlantUML diagrams, support zoom/pan | **Visual Learning**: Diagrams communicate complex processes faster than text (JTBD-1.9). |
+| **Zoom Controls** | Floating toolbar | +/- buttons, percentage display, reset button | **Progressive Disclosure**: Controls appear on hover, don't clutter initial view. |
+| **Export Button** | Dropdown menu | PNG, SVG, PDF export options | **Developer UX**: Enable sharing diagrams in presentations and documentation. |
+| **Format Badge** | Tag/chip | Show Mermaid or PlantUML format | **Transparency**: Users know what rendering engine is used. |
+| **Minimap Toggle** | Checkbox | Show/hide thumbnail navigation for large diagrams | **Navigation Aid**: Large diagrams need spatial context. |
+
+### States
+
+| State | Condition | UI Behavior |
+|---|---|---|
+| **Loading** | Diagram rendering | Skeleton placeholder with shimmer animation |
+| **Success** | Diagram rendered | Show interactive SVG with zoom/pan enabled |
+| **Error** | Rendering failed | Show code block with syntax highlighting and error message |
+| **Zoomed** | Zoom > 100% or < 100% | Show zoom percentage, enable pan mode |
+| **Exporting** | Export in progress | Show spinner in export button |
+
+### User Flows
+
+#### Flow 1: Developer Explores Discovery Workflow
+1. Developer (PER-003) clicks "Workflows" in navigation
+2. Expands "Process" category → sees "discovery-process"
+3. Clicks workflow → SCR-009 loads with Mermaid diagram
+4. **UX Psychology - Visual Learning**: Diagram shows process at a glance
+5. Uses scroll wheel to zoom into "Pain Points" step
+6. Clicks related "prototype-process" workflow → navigates to that diagram
+7. **Success Metric**: User understands workflow in < 2 minutes
+
+### Acceptance Criteria
+
+- [ ] Mermaid diagrams render correctly with theme support
+- [ ] PlantUML diagrams render via Kroki or configured server
+- [ ] Zoom controls work with mouse wheel and buttons
+- [ ] Pan works with click-and-drag
+- [ ] Export generates PNG, SVG, PDF files
+- [ ] Format badge shows "Mermaid" or "PlantUML"
+- [ ] Related workflows link to other workflow documents
+- [ ] Loading state shows skeleton placeholder
+- [ ] Error state shows code block with error message
+
+### UX Psychology Summary
+
+| Principle | Application | User Benefit |
+|---|---|---|
+| **Visual Learning** | Diagrams over text for process understanding | Faster comprehension (JTBD-1.9) |
+| **Progressive Disclosure** | Zoom controls appear on interaction | Clean initial view, power features accessible |
+| **Spatial Navigation** | Minimap for large diagrams | Maintain orientation in complex workflows |
+
+### Traceability
+
+- **Addresses Pain Points**: PP-1.2 (Lack of Contextual Documentation)
+- **Enables JTBD**: JTBD-1.9 (Visualize Diagrams), JTBD-1.2 (Component Context)
+- **Roadmap Features**: F-NEW-01 (Workflow Visualization)
+
+---
+
+## SCR-010: Architecture Browser
+
+### Overview
+
+- **Purpose**: Navigate and view architecture documentation including C4 diagrams and ADRs
+- **Layout**: Dual-pane with category navigation and diagram/document viewer
+- **JTBD**: JTBD-1.9 (Visualize Architecture), JTBD-1.2 (Component Context), JTBD-2.1 (Confidence)
+- **User Types**: All personas
+- **Entry Points**: Click "Architecture" in navigation, search results, related links
+- **Exit Points**: Back to Explorer, navigate to related ADRs/diagrams
+
+### Wireframe Description
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Header (Same as SCR-001)                                                     │
+├──────────────────────────────────┬───────────────────────────────────────────┤
+│                                  │                                           │
+│ Architecture                     │ Context Diagram - ClaudeManual            │
+│ ────────────────────────────────│ ──────────────────────────────────────── │
+│                                  │                                           │
+│ ▼ C4 Diagrams (4)           [i]  │ [C4] [Context] [Mermaid]                  │
+│   ├ Context Diagram         ←    │                                           │
+│   ├ Container Diagram            │ ┌──────────────────────────────────────┐ │
+│   ├ Component Diagram            │ │                                      │ │
+│   └ Code Diagram                 │ │      [Person]                        │ │
+│                                  │ │     Framework                        │ │
+│ ▼ ADRs (12)                 [i]  │ │      User                            │ │
+│   ├ ADR-001: Architecture Style  │ │        │                             │ │
+│   ├ ADR-002: Data Storage        │ │        ▼                             │ │
+│   ├ ADR-003: API Design          │ │ ┌─────────────┐                      │ │
+│   └ ...                          │ │ │ClaudeManual │                      │ │
+│                                  │ │ │   System    │                      │ │
+│ ▼ Patterns (8)              [i]  │ │ └─────────────┘                      │ │
+│   ├ Repository Pattern           │ │                                      │ │
+│   ├ Event Sourcing               │ │                                      │ │
+│   └ ...                          │ └──────────────────────────────────────┘ │
+│                                  │                                           │
+│ ▼ Infrastructure (3)        [i]  │ ## Context                                │
+│   ├ Deployment Diagram           │ Shows ClaudeManual system in context     │
+│   ├ Network Topology             │ with external actors and systems.        │
+│   └ ...                          │                                           │
+│                                  │ ## Related                                │
+│                                  │ [Container Diagram] [ADR-001]            │
+│                                  │                                           │
+│ [Collapse All] [Expand All]      │ [Copy Path] [Export]                     │
+│                                  │                                           │
+└──────────────────────────────────┴───────────────────────────────────────────┘
+```
+
+### UI Components
+
+| Component | Type | Behavior | UX Psychology Applied |
+|---|---|---|---|
+| **Category Tree** | Hierarchical navigation | Expand/collapse C4, ADRs, Patterns, Infrastructure | **Cognitive Load Reduction**: Organize by architecture type (JTBD-1.7). |
+| **C4 Level Badge** | Tag/chip | Show Context/Container/Component/Code level | **Visual Cues**: Quick identification of diagram scope. |
+| **ADR Status Badge** | Tag/chip | Show Proposed/Accepted/Deprecated/Superseded | **Decision Context**: Users see current status immediately (JTBD-2.1). |
+| **Diagram Viewer** | Mermaid/PlantUML renderer | Render C4 diagrams with zoom/pan | **Visual Learning**: Architecture diagrams clarify system structure. |
+| **ADR Viewer** | Markdown renderer | Show Context, Decision, Consequences sections | **Progressive Disclosure**: ADR structure reveals decision rationale. |
+
+### States
+
+| State | Condition | UI Behavior |
+|---|---|---|
+| **Category View** | No item selected | Show category overview with document counts |
+| **Diagram View** | C4 diagram selected | Show rendered diagram with zoom/pan controls |
+| **ADR View** | ADR selected | Show ADR content with Context/Decision/Consequences tabs |
+| **Empty Category** | Category has no documents | "No documents in this category" message |
+
+### User Flows
+
+#### Flow 1: Developer Reviews Architecture Before Implementation
+1. Developer (PER-003) starting new feature
+2. Clicks "Architecture" in navigation
+3. Expands "C4 Diagrams" → selects "Container Diagram"
+4. **UX Psychology - Visual Learning**: Sees system components at a glance
+5. Notes relevant container for feature
+6. Clicks "ADR-003: API Design" in related links
+7. Reads Decision section → understands API patterns to follow
+8. **Success Metric**: Developer finds relevant architecture docs in < 5 minutes
+
+### Acceptance Criteria
+
+- [ ] Category tree shows C4, ADRs, Patterns, Infrastructure
+- [ ] C4 diagrams render with level badge (Context/Container/Component/Code)
+- [ ] ADRs show status badge (Proposed/Accepted/Deprecated/Superseded)
+- [ ] Diagram zoom/pan works consistently with SCR-009
+- [ ] ADR viewer shows Context, Decision, Consequences sections
+- [ ] Related links connect diagrams to related ADRs
+- [ ] Copy Path button copies file path for editing
+- [ ] Export button generates PNG/SVG/PDF
+
+### Traceability
+
+- **Addresses Pain Points**: PP-1.2 (Lack of Contextual Documentation)
+- **Enables JTBD**: JTBD-1.9 (Visualize Architecture), JTBD-2.1 (Confidence)
+- **Roadmap Features**: F-NEW-02 (Architecture Documentation)
+
+---
+
+## SCR-011: Document Preview Modal
+
+### Overview
+
+- **Purpose**: Full-screen modal for viewing diagrams and documents with maximum canvas space
+- **Layout**: Full-screen overlay with floating toolbar
+- **JTBD**: JTBD-1.9 (Visualize Diagrams), JTBD-3.1 (Professional Presentation)
+- **User Types**: All personas
+- **Entry Points**: "Expand" button on any diagram, double-click diagram
+- **Exit Points**: Close button, Esc key, click outside modal
+
+### Wireframe Description
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ┌─────────────────────────────────────────────────────────────────────────┐  │
+│ │ [×]                           Discovery Process Flow                [⭐] │  │
+│ ├─────────────────────────────────────────────────────────────────────────┤  │
+│ │                                                                         │  │
+│ │                                                                         │  │
+│ │                         ┌─────────────┐                                 │  │
+│ │                         │   Start     │                                 │  │
+│ │                         └──────┬──────┘                                 │  │
+│ │                                │                                        │  │
+│ │                         ┌──────▼──────┐                                 │  │
+│ │                         │ Input Files │                                 │  │
+│ │                         └──────┬──────┘                                 │  │
+│ │                                │                                        │  │
+│ │                 ┌──────────────┼──────────────┐                         │  │
+│ │                 │              │              │                         │  │
+│ │          ┌──────▼──────┐ ┌─────▼─────┐ ┌─────▼─────┐                   │  │
+│ │          │ Pain Points │ │  JTBDs    │ │ Personas  │                   │  │
+│ │          └─────────────┘ └───────────┘ └───────────┘                   │  │
+│ │                                                                         │  │
+│ │                                                                         │  │
+│ │                                                                         │  │
+│ │                                                                         │  │
+│ │                                                                         │  │
+│ │ ┌───────────────────────────────────────────────────────────────────┐  │  │
+│ │ │ [−] [150%] [+]  [Fit]  [Export ▾]  [Copy]                         │  │  │
+│ │ └───────────────────────────────────────────────────────────────────┘  │  │
+│ └─────────────────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+### UI Components
+
+| Component | Type | Behavior | UX Psychology Applied |
+|---|---|---|---|
+| **Full-Screen Canvas** | SVG/Canvas container | Maximum viewport for diagram viewing | **Focus**: Remove distractions for detailed analysis. |
+| **Floating Toolbar** | Fixed bottom toolbar | Zoom, export, copy controls | **Accessibility**: Controls always visible regardless of zoom level. |
+| **Close Button** | Icon button | Dismiss modal, return to previous view | **Escape Hatch**: Easy way to exit full-screen mode. |
+| **Fit Button** | Icon button | Fit diagram to viewport | **Quick Reset**: Restore optimal view after zooming. |
+| **Copy Button** | Icon button | Copy diagram as image to clipboard | **Sharing**: Easy copying for presentations and documentation. |
+
+### States
+
+| State | Condition | UI Behavior |
+|---|---|---|
+| **Open** | Modal visible | Dark backdrop, full-screen diagram |
+| **Zoomed** | User has zoomed | Show zoom percentage, enable pan |
+| **Exporting** | Export in progress | Show spinner in export button |
+| **Copying** | Copy in progress | Show "Copied!" toast notification |
+
+### Acceptance Criteria
+
+- [ ] Modal opens with 200ms fade-in animation
+- [ ] Esc key closes modal
+- [ ] Click outside modal closes modal
+- [ ] Zoom/pan controls work in modal view
+- [ ] Fit button returns to optimal zoom level
+- [ ] Export button generates PNG/SVG/PDF
+- [ ] Copy button copies diagram as PNG to clipboard
+- [ ] Mobile: Full viewport, swipe down to close
+
+### Traceability
+
+- **Enables JTBD**: JTBD-1.9 (Visualize Diagrams), JTBD-3.1 (Professional Presentation)
+- **Roadmap Features**: F-NEW-03 (Full-Screen Document Preview)
+
+---
+
 ## Cross-Screen UX Psychology Summary
 
 ### Hicks Law (Simplify Choices) Application Across Screens
@@ -892,7 +1189,7 @@ Drawer Open:
 | PP-1.5 (Lack of Personalization) | SCR-004 (Favorites) | 100% |
 | PP-1.6 (Developer Friction) | SCR-001 (Copy Path), SCR-002 (File paths in results) | 100% |
 
-**Total Coverage**: 6/6 pain points (100%)
+**Total Coverage**: 6/6 pain points (100%) + 1 user feedback (FB-001)
 
 ### JTBD Coverage
 
@@ -909,8 +1206,9 @@ Drawer Open:
 | JTBD-2.1 (Confidence) | SCR-006 (Workflow diagrams, examples) | 100% |
 | JTBD-2.2 (Autonomous exploration) | SCR-001, SCR-002 | 100% |
 | JTBD-3.1 (Perceived competence) | SCR-008 (Mobile for presentations) | 100% |
+| JTBD-1.9 (Visualize diagrams) | SCR-009, SCR-010, SCR-011 | 100% |
 
-**Total Coverage**: 11/12 JTBD (91.7%) - JTBD-3.2 (Contribution workflow) deferred to Phase 3
+**Total Coverage**: 12/13 JTBD (92.3%) - JTBD-3.2 (Contribution workflow) deferred to Phase 3
 
 ### Client Facts Coverage
 
@@ -940,4 +1238,4 @@ Drawer Open:
 
 ---
 
-*8 screens defined with comprehensive UX psychology principles applied. 100% pain point coverage, 91.7% JTBD coverage. All screens trace to validated client facts and roadmap features.*
+*11 screens defined with comprehensive UX psychology principles applied. 100% pain point coverage, 92.3% JTBD coverage. All screens trace to validated client facts and roadmap features. SCR-009, SCR-010, SCR-011 added via feedback FB-001 to support workflow, ways of working, and architecture document visualization.*

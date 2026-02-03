@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-changerequest
 description: Process change requests using Kaizen PDCA and Reflexion loop
 argument-hint: <change-description>
 model: claude-sonnet-4-5-20250929

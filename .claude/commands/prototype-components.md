@@ -1,4 +1,5 @@
 ---
+name: prototype-components
 description: Generate component specifications from discovery design specs
 argument-hint: None
 model: claude-haiku-4-5-20250515

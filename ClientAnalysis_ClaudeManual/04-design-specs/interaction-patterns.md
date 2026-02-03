@@ -3,8 +3,8 @@
 ---
 system_name: ClaudeManual
 checkpoint: CP-9
-total_patterns: 14
-pattern_categories: 5
+total_patterns: 18
+pattern_categories: 6
 date_created: 2026-01-31
 session: disc-claude-manual-009d
 created_by: discovery-interaction-specifier
@@ -28,12 +28,13 @@ traceability:
 
 ## Executive Summary
 
-This document defines **14 interaction patterns** across 5 categories for the ClaudeManual interface. Patterns prioritize **self-service learning** (JTBD-1.1), **visual hierarchy navigation** (JTBD-1.7), and **quick tool discovery** (JTBD-1.3). All interactions support both keyboard and mouse input to meet developer efficiency needs.
+This document defines **18 interaction patterns** across 6 categories for the ClaudeManual interface. Patterns prioritize **self-service learning** (JTBD-1.1), **visual hierarchy navigation** (JTBD-1.7), **quick tool discovery** (JTBD-1.3), and **diagram visualization** (JTBD-1.9). All interactions support both keyboard and mouse input to meet developer efficiency needs.
 
 **Pattern Distribution**:
 - **Navigation Interactions**: 4 patterns (tree, tabs, breadcrumbs, keyboard)
 - **Search & Discovery**: 3 patterns (instant search, stage filtering, comparison)
 - **Data Management**: 3 patterns (favorites, copy path, theme toggle)
+- **Diagram Rendering**: 4 patterns (mermaid, plantuml, zoom/pan, export)
 - **Feedback Patterns**: 2 patterns (toast notifications, loading states)
 - **Responsive Behavior**: 2 patterns (desktop/tablet/mobile, accessibility)
 
@@ -450,7 +451,199 @@ This document defines **14 interaction patterns** across 5 categories for the Cl
 
 ---
 
-### 4. Feedback Patterns
+### 4. Diagram Rendering
+
+#### PAT-015: Mermaid Diagram Rendering
+
+**ID**: PAT-015
+**Type**: Diagram Rendering
+**Priority**: P1
+**Traces To**: JTBD-1.9, JTBD-1.2, CF-003
+**Used In**: SCR-009 (Workflow Viewer), SCR-010 (Architecture Browser), Detail views
+
+**Trigger**: User navigates to workflow, architecture, or any document containing Mermaid diagrams
+
+**Behavior**:
+1. **Detection**: Parse markdown for ```mermaid code blocks or .mermaid files
+2. **Rendering**: Use mermaid.js library to render SVG in-place
+3. **Theme integration**: Apply light/dark theme to diagram colors
+4. **Error handling**: Show fallback text if rendering fails
+5. **Caching**: Cache rendered SVG for performance
+
+**Supported Diagram Types**:
+- Flowcharts (`graph TD`, `graph LR`)
+- Sequence diagrams (`sequenceDiagram`)
+- Class diagrams (`classDiagram`)
+- State diagrams (`stateDiagram-v2`)
+- Entity-relationship diagrams (`erDiagram`)
+- Journey diagrams (`journey`)
+- Gantt charts (`gantt`)
+- Pie charts (`pie`)
+- C4 diagrams (using mermaid-c4 extension)
+
+**Visual States**:
+- **Loading**: Skeleton placeholder with shimmer
+- **Success**: Rendered SVG diagram
+- **Error**: Code block with error message and syntax highlighting
+- **Hover**: Subtle highlight border
+
+**Animation**: Fade-in 200ms on render complete
+
+**Performance**:
+- Initial render: < 500ms for diagrams with < 50 nodes
+- Re-render on theme change: < 100ms
+- Cache hit: < 10ms
+
+**Accessibility**:
+- ARIA label describing diagram type
+- Alt text for screen readers (generated from diagram title)
+- High contrast mode support
+
+---
+
+#### PAT-016: PlantUML Diagram Rendering
+
+**ID**: PAT-016
+**Type**: Diagram Rendering
+**Priority**: P1
+**Traces To**: JTBD-1.9, JTBD-1.2
+**Used In**: SCR-009 (Workflow Viewer), SCR-010 (Architecture Browser)
+
+**Trigger**: User navigates to document containing PlantUML diagrams (.plantuml files or ```plantuml blocks)
+
+**Behavior**:
+1. **Detection**: Parse for @startuml/@enduml blocks or .plantuml files
+2. **Rendering**: Send to PlantUML server (Kroki.io or self-hosted) for PNG/SVG generation
+3. **Caching**: Cache rendered images with content hash key
+4. **Fallback**: Show code block if server unavailable
+5. **Theme**: Request light/dark variant based on current theme
+
+**Supported Diagram Types**:
+- Sequence diagrams
+- Use case diagrams
+- Class diagrams
+- Activity diagrams
+- Component diagrams
+- State diagrams
+- Object diagrams
+- Deployment diagrams
+- Timing diagrams
+- C4 diagrams (PlantUML C4 stdlib)
+
+**Visual States**:
+- **Loading**: Spinner with "Rendering diagram..." text
+- **Success**: Rendered PNG/SVG image
+- **Error**: Code block with "Server unavailable" message
+- **Offline**: Show cached version if available, otherwise code block
+
+**Animation**: Fade-in 300ms on load complete
+
+**Performance**:
+- Server render: < 2s (network dependent)
+- Cache hit: < 50ms
+- Fallback threshold: 5s timeout
+
+**Configuration**:
+- Server URL: Configurable (default: kroki.io)
+- Output format: SVG preferred, PNG fallback
+- Max diagram size: 4096x4096 pixels
+
+---
+
+#### PAT-017: Diagram Zoom and Pan
+
+**ID**: PAT-017
+**Type**: Diagram Rendering
+**Priority**: P1
+**Traces To**: JTBD-1.9, JTBD-1.2
+**Used In**: SCR-009 (Workflow Viewer), SCR-010 (Architecture Browser), SCR-011 (Document Preview Modal)
+
+**Trigger**: User interacts with rendered diagram
+
+**Behavior**:
+1. **Zoom controls**: + / - buttons and mouse wheel/pinch gesture
+2. **Pan**: Click and drag to pan viewport
+3. **Reset**: Double-click or "Reset View" button returns to fit-to-container
+4. **Zoom levels**: 25%, 50%, 75%, 100%, 150%, 200%, 300%
+5. **Minimap**: Optional thumbnail showing current viewport position (large diagrams)
+
+**Controls**:
+| Control | Desktop | Mobile |
+|---------|---------|--------|
+| Zoom in | `+` button, Ctrl+scroll up | Pinch out |
+| Zoom out | `-` button, Ctrl+scroll down | Pinch in |
+| Pan | Click + drag | Touch drag |
+| Reset | Double-click, `0` key | Double-tap |
+| Fit width | `W` key | - |
+| Fit height | `H` key | - |
+
+**Visual**:
+- Zoom controls: Floating toolbar (bottom-right of diagram)
+- Current zoom level: Badge showing percentage
+- Pan cursor: Grab cursor on hover, grabbing on drag
+- Minimap: Semi-transparent overlay (top-right, opt-in)
+
+**Animation**:
+- Zoom: 150ms ease-out transition
+- Pan: Immediate (no animation)
+- Reset: 300ms ease-in-out
+
+**Keyboard Shortcuts**:
+- `+` / `=`: Zoom in
+- `-`: Zoom out
+- `0`: Reset to fit
+- Arrow keys: Pan (when diagram focused)
+
+**Performance**:
+- Zoom transition: 60fps target
+- Pan: Immediate response
+- Large diagrams: Use canvas-based rendering for 500+ nodes
+
+---
+
+#### PAT-018: Diagram Export
+
+**ID**: PAT-018
+**Type**: Diagram Rendering
+**Priority**: P2
+**Traces To**: JTBD-1.9, JTBD-3.1
+**Used In**: SCR-009, SCR-010, SCR-011
+
+**Trigger**: User clicks "Export" button in diagram toolbar
+
+**Behavior**:
+1. **Format selection**: Dropdown with PNG, SVG, PDF options
+2. **PNG export**: Render at 2x resolution for print quality
+3. **SVG export**: Copy raw SVG with embedded fonts
+4. **PDF export**: Generate single-page PDF with diagram centered
+5. **Copy to clipboard**: Copy as image (PNG) for pasting
+
+**Export Options**:
+| Format | Use Case | Quality |
+|--------|----------|---------|
+| PNG | Quick sharing, presentations | 2x resolution |
+| SVG | Web embedding, editing | Vector, scalable |
+| PDF | Documentation, printing | 300 DPI |
+| Clipboard | Paste into other apps | 2x PNG |
+
+**Visual**:
+- Export button: Download icon in toolbar
+- Format dropdown: PNG (default), SVG, PDF
+- Progress: Show "Exporting..." spinner for large diagrams
+- Success: Toast notification with "Diagram exported"
+
+**File Naming**: `{diagram_name}_{timestamp}.{extension}`
+
+**Keyboard Shortcut**: `Ctrl+E` / `Cmd+E` opens export dropdown
+
+**Performance**:
+- PNG export: < 1s for typical diagrams
+- PDF export: < 2s
+- SVG export: < 100ms (no conversion needed)
+
+---
+
+### 5. Feedback Patterns
 
 #### PAT-011: Toast Notifications
 

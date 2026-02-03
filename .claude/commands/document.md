@@ -1,4 +1,5 @@
 ---
+name: document
 description: Create inline documentation for code units (components, hooks, services) as <unit_name>_readme.md files placed alongside the code
 argument-hint: <file-or-folder-path> [--depth brief|standard|comprehensive] [--type component|hook|service|utility|module] [--force]
 model: claude-haiku-4-5-20250515

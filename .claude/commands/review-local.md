@@ -1,4 +1,5 @@
 ---
+name: review-local
 description: Comprehensive review of local uncommitted changes using specialized agents with code improvement suggestions
 argument-hint: "[review-aspects]"
 model: claude-sonnet-4-5-20250929

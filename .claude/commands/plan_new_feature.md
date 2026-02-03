@@ -1,4 +1,5 @@
 ---
+name: plan_new_feature
 description: Creates a concise engineering implementation plan based on user requirements and saves it to specs directory
 argument-hint: [run-name]
 ---

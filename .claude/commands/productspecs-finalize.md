@@ -1,4 +1,5 @@
 ---
+name: productspecs-finalize
 description: Finalize ProductSpecs with traceability validation and JIRA export
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob

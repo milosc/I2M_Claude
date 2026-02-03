@@ -1,4 +1,5 @@
 ---
+name: productspecs-init
 description: Initialize ProductSpecs folder structure and state files from Prototype
 argument-hint: <SystemName>
 model: claude-haiku-4-5-20250515

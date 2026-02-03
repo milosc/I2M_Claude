@@ -1,4 +1,5 @@
 ---
+name: productspecs-status
 description: Display ProductSpecs generation status and progress
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Grep, Glob

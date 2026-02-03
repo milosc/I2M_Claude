@@ -1,4 +1,5 @@
 ---
+name: productspecs-feedback
 description: Process feedback on ProductSpecs with reflexion-enhanced impact analysis and JIRA regeneration tracking
 argument-hint: [feedback-text] | --feedback-id <ID> | resume <ID> | status | list
 model: claude-sonnet-4-5-20250929

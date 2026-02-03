@@ -1,4 +1,5 @@
 ---
+name: review-pr
 description: Comprehensive pull request review using specialized agents
 argument-hint: "[review-aspects]"
 model: claude-sonnet-4-5-20250929

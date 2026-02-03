@@ -1,0 +1,2078 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ClaudeManual API",
+    "description": "API for ClaudeManual framework explorer - provides access to skills, commands, agents, rules, hooks, workflows, ways of working, and architecture documentation with hot-reload file watching.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "HTEC Framework Team"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001/api/v1",
+      "description": "Development server with hot-reload"
+    },
+    {
+      "url": "https://api.claudemanual.dev/v1",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Skills",
+      "description": "Reusable AI prompt templates for specific tasks"
+    },
+    {
+      "name": "Commands",
+      "description": "Slash commands executable in Claude Code"
+    },
+    {
+      "name": "Agents",
+      "description": "Specialized AI personas with specific expertise"
+    },
+    {
+      "name": "Rules",
+      "description": "Framework rules and conventions"
+    },
+    {
+      "name": "Hooks",
+      "description": "Lifecycle hooks for commands, skills, and agents"
+    },
+    {
+      "name": "Workflows",
+      "description": "Process and workflow diagrams"
+    },
+    {
+      "name": "WaysOfWorking",
+      "description": "Team practices, guidelines, and process documentation"
+    },
+    {
+      "name": "Architecture",
+      "description": "Architecture diagrams and documentation (C4, ADRs)"
+    },
+    {
+      "name": "Search",
+      "description": "Full-text search across all entities"
+    },
+    {
+      "name": "Preferences",
+      "description": "User preferences and settings"
+    },
+    {
+      "name": "FileWatch",
+      "description": "File system watching for hot-reload"
+    }
+  ],
+  "security": [
+    {
+      "localStorage": []
+    }
+  ],
+  "paths": {
+    "/skills": {
+      "get": {
+        "tags": ["Skills"],
+        "summary": "List skills with filters",
+        "operationId": "listSkills",
+        "parameters": [
+          {
+            "name": "stage",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["Discovery", "Prototype", "ProductSpecs", "SolArch", "Implementation", "Utility", "GRC", "Security"]
+              }
+            },
+            "description": "Filter by workflow stage"
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["sonnet", "opus", "haiku"]
+              }
+            },
+            "description": "Filter by recommended model"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Full-text search query"
+          },
+          {
+            "name": "has_example",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Filter skills with examples"
+          },
+          {
+            "name": "favorited",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Show only favorited skills"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          },
+          {
+            "$ref": "#/components/parameters/SortBy"
+          },
+          {
+            "$ref": "#/components/parameters/SortOrder"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkillListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/skills/{id}": {
+      "get": {
+        "tags": ["Skills"],
+        "summary": "Get skill by ID with relationships",
+        "operationId": "getSkill",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkillDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/commands": {
+      "get": {
+        "tags": ["Commands"],
+        "summary": "List commands with filters",
+        "operationId": "listCommands",
+        "parameters": [
+          {
+            "name": "stage",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["Discovery", "Prototype", "ProductSpecs", "SolArch", "Implementation", "Utility"]
+              }
+            }
+          },
+          {
+            "name": "requires_system_name",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "has_options",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          },
+          {
+            "$ref": "#/components/parameters/SortBy"
+          },
+          {
+            "$ref": "#/components/parameters/SortOrder"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/commands/{id}": {
+      "get": {
+        "tags": ["Commands"],
+        "summary": "Get command by ID with relationships",
+        "operationId": "getCommand",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/agents": {
+      "get": {
+        "tags": ["Agents"],
+        "summary": "List agents with filters",
+        "operationId": "listAgents",
+        "parameters": [
+          {
+            "name": "stage",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["Discovery", "Prototype", "ProductSpecs", "SolArch", "Implementation", "Utility", "GRC", "Security"]
+              }
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["sonnet", "opus", "haiku"]
+              }
+            }
+          },
+          {
+            "name": "checkpoint",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          },
+          {
+            "$ref": "#/components/parameters/SortBy"
+          },
+          {
+            "$ref": "#/components/parameters/SortOrder"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/agents/{id}": {
+      "get": {
+        "tags": ["Agents"],
+        "summary": "Get agent by ID with relationships",
+        "operationId": "getAgent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/rules": {
+      "get": {
+        "tags": ["Rules"],
+        "summary": "List rules",
+        "operationId": "listRules",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["core", "stage-specific", "quality", "process"]
+              }
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/rules/{id}": {
+      "get": {
+        "tags": ["Rules"],
+        "summary": "Get rule by ID",
+        "operationId": "getRule",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rule"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/hooks": {
+      "get": {
+        "tags": ["Hooks"],
+        "summary": "List hooks",
+        "operationId": "listHooks",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["PreToolUse", "PostToolUse", "Stop", "lifecycle"]
+              }
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["python", "bash"]
+              }
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HookListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/hooks/{id}": {
+      "get": {
+        "tags": ["Hooks"],
+        "summary": "Get hook by ID",
+        "operationId": "getHook",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hook"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/workflows": {
+      "get": {
+        "tags": ["Workflows"],
+        "summary": "List workflows",
+        "operationId": "listWorkflows",
+        "parameters": [
+          {
+            "name": "stage",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["Discovery", "Prototype", "ProductSpecs", "SolArch", "Implementation", "Utility"]
+              }
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["process", "integration", "decision", "data-flow"]
+              }
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["md", "mermaid", "plantuml"]
+              }
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/workflows/{id}": {
+      "get": {
+        "tags": ["Workflows"],
+        "summary": "Get workflow by ID",
+        "operationId": "getWorkflow",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workflow"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/ways-of-working": {
+      "get": {
+        "tags": ["WaysOfWorking"],
+        "summary": "List ways of working documents",
+        "operationId": "listWaysOfWorking",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["practices", "guidelines", "processes", "checklists"]
+              }
+            }
+          },
+          {
+            "name": "audience",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["developers", "product", "all", "leads"]
+              }
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaysOfWorkingListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/ways-of-working/{id}": {
+      "get": {
+        "tags": ["WaysOfWorking"],
+        "summary": "Get ways of working document by ID",
+        "operationId": "getWaysOfWorking",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaysOfWorking"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/architecture": {
+      "get": {
+        "tags": ["Architecture"],
+        "summary": "List architecture documents",
+        "operationId": "listArchitecture",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["c4", "adr", "patterns", "infrastructure", "data-model"]
+              }
+            }
+          },
+          {
+            "name": "c4_level",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["context", "container", "component", "code"]
+              }
+            }
+          },
+          {
+            "name": "adr_status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["proposed", "accepted", "deprecated", "superseded"]
+              }
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["md", "mermaid", "plantuml"]
+              }
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArchitectureDocListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/architecture/{id}": {
+      "get": {
+        "tags": ["Architecture"],
+        "summary": "Get architecture document by ID",
+        "operationId": "getArchitecture",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArchitectureDoc"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/search": {
+      "post": {
+        "tags": ["Search"],
+        "summary": "Global search across all entities",
+        "operationId": "search",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/preferences": {
+      "get": {
+        "tags": ["Preferences"],
+        "summary": "Get user preferences",
+        "operationId": "getPreferences",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPreferences"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Preferences"],
+        "summary": "Update user preferences",
+        "operationId": "updatePreferences",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePreferencesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPreferences"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/watch": {
+      "get": {
+        "tags": ["FileWatch"],
+        "summary": "Subscribe to file system changes (SSE)",
+        "operationId": "watchFileSystem",
+        "responses": {
+          "200": {
+            "description": "Server-Sent Events stream",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "localStorage": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Auth-Token",
+        "description": "JWT token stored in browser localStorage (placeholder for future auth)"
+      }
+    },
+    "parameters": {
+      "Page": {
+        "name": "page",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1
+        },
+        "description": "Page number"
+      },
+      "PageSize": {
+        "name": "pageSize",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20
+        },
+        "description": "Items per page"
+      },
+      "SortBy": {
+        "name": "sortBy",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        },
+        "description": "Field to sort by"
+      },
+      "SortOrder": {
+        "name": "sortOrder",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["asc", "desc"],
+          "default": "asc"
+        },
+        "description": "Sort order"
+      }
+    },
+    "schemas": {
+      "Skill": {
+        "type": "object",
+        "required": ["id", "name", "description", "stage", "path"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "example": "Discovery_JTBD"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Discovery_JTBD"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 500,
+            "example": "Extracts Jobs To Be Done from pain points and client facts"
+          },
+          "stage": {
+            "type": "string",
+            "enum": ["Discovery", "Prototype", "ProductSpecs", "SolArch", "Implementation", "Utility", "GRC", "Security"]
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^\\.claude/skills/[^/]+/SKILL\\.md$",
+            "example": ".claude/skills/Discovery_JTBD/SKILL.md"
+          },
+          "model": {
+            "type": "string",
+            "enum": ["sonnet", "opus", "haiku"]
+          },
+          "context": {
+            "type": "string",
+            "enum": ["fork"],
+            "nullable": true
+          },
+          "agent": {
+            "type": "string"
+          },
+          "allowed_tools": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "skills_required": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "hooks": {
+            "type": "object"
+          },
+          "stage_prefix": {
+            "type": "string",
+            "description": "Derived from stage"
+          },
+          "category": {
+            "type": "string",
+            "description": "Derived from folder structure"
+          },
+          "file_size": {
+            "type": "number",
+            "description": "File size in bytes"
+          },
+          "last_modified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "content_hash": {
+            "type": "string",
+            "description": "SHA256 hash of content"
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "purpose": {
+                "type": "string"
+              },
+              "usage": {
+                "type": "string"
+              },
+              "options": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string"
+              },
+              "workflow": {
+                "type": "string"
+              },
+              "related": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Command": {
+        "type": "object",
+        "required": ["id", "name", "description", "stage", "path"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "example": "discovery"
+          },
+          "name": {
+            "type": "string",
+            "example": "discovery"
+          },
+          "description": {
+            "type": "string",
+            "example": "Complete end-to-end discovery analysis"
+          },
+          "stage": {
+            "type": "string",
+            "enum": ["Discovery", "Prototype", "ProductSpecs", "SolArch", "Implementation", "Utility"]
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^\\.claude/commands/[^/]+\\.md$",
+            "example": ".claude/commands/discovery.md"
+          },
+          "model": {
+            "type": "string"
+          },
+          "allowed_tools": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "argument_hint": {
+            "type": "string"
+          },
+          "invocation_syntax": {
+            "type": "string",
+            "description": "Derived from content"
+          },
+          "requires_system_name": {
+            "type": "boolean"
+          },
+          "has_options": {
+            "type": "boolean"
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "usage": {
+                "type": "string"
+              },
+              "arguments": {
+                "type": "string"
+              },
+              "options": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string"
+              },
+              "execution": {
+                "type": "string"
+              },
+              "related": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Agent": {
+        "type": "object",
+        "required": ["id", "name", "description", "model", "path", "stage"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "example": "discovery-persona-synthesizer"
+          },
+          "name": {
+            "type": "string",
+            "example": "Persona Synthesizer"
+          },
+          "description": {
+            "type": "string",
+            "example": "Multi-agent coordinator for persona synthesis"
+          },
+          "model": {
+            "type": "string",
+            "enum": ["sonnet", "opus", "haiku"]
+          },
+          "checkpoint": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^\\.claude/agents/[^/]+\\.md$",
+            "example": ".claude/agents/discovery/persona-synthesizer.md"
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "color": {
+            "type": "string",
+            "enum": ["blue", "green", "purple", "orange", "red"]
+          },
+          "stage": {
+            "type": "string",
+            "enum": ["Discovery", "Prototype", "ProductSpecs", "SolArch", "Implementation", "Utility", "GRC", "Security"]
+          },
+          "stage_prefix": {
+            "type": "string",
+            "description": "Derived from id"
+          },
+          "role": {
+            "type": "string",
+            "description": "Derived from id"
+          },
+          "subagent_type": {
+            "type": "string",
+            "enum": ["general-purpose", "Explore", "Plan", "Bash"]
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "expertise": {
+                "type": "string"
+              },
+              "approach": {
+                "type": "string"
+              },
+              "skills_to_load": {
+                "type": "string"
+              },
+              "output_format": {
+                "type": "string"
+              },
+              "related": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Rule": {
+        "type": "object",
+        "required": ["id", "name", "description", "path"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "example": "CORE_RULES"
+          },
+          "name": {
+            "type": "string",
+            "example": "HTEC Framework Core Rules"
+          },
+          "description": {
+            "type": "string",
+            "example": "Essential rules for interaction style, error handling, traceability"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^\\.claude/rules/[^/]+\\.md$",
+            "example": ".claude/rules/CORE_RULES.md"
+          },
+          "auto_load_paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "example": "3.0.0"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["core", "stage-specific", "quality", "process"]
+          },
+          "applies_to_stages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "overview": {
+                "type": "string"
+              },
+              "rules": {
+                "type": "string"
+              },
+              "examples": {
+                "type": "string"
+              },
+              "related": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Hook": {
+        "type": "object",
+        "required": ["id", "name", "description", "path", "type", "language"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$",
+            "example": "version_history_logger"
+          },
+          "name": {
+            "type": "string",
+            "example": "Version History Logger"
+          },
+          "description": {
+            "type": "string",
+            "example": "Logs all file changes to traceability version history"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^\\.claude/hooks/[^/]+\\.(py|sh)$",
+            "example": ".claude/hooks/version_history_logger.py"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["PreToolUse", "PostToolUse", "Stop", "lifecycle"]
+          },
+          "language": {
+            "type": "string",
+            "enum": ["python", "bash"]
+          },
+          "executable": {
+            "type": "boolean"
+          },
+          "has_shebang": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Workflow": {
+        "type": "object",
+        "required": ["id", "name", "description", "format", "path"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "example": "discovery-process"
+          },
+          "name": {
+            "type": "string",
+            "example": "Discovery Process Flow"
+          },
+          "description": {
+            "type": "string",
+            "example": "End-to-end Discovery phase workflow from client materials to deliverables"
+          },
+          "format": {
+            "type": "string",
+            "enum": ["md", "mermaid", "plantuml"]
+          },
+          "path": {
+            "type": "string",
+            "example": ".claude/architecture/workflows/discovery-process.md"
+          },
+          "stage": {
+            "type": "string",
+            "enum": ["Discovery", "Prototype", "ProductSpecs", "SolArch", "Implementation", "Utility"]
+          },
+          "category": {
+            "type": "string",
+            "enum": ["process", "integration", "decision", "data-flow"]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "overview": {
+                "type": "string"
+              },
+              "diagram": {
+                "type": "string"
+              },
+              "steps": {
+                "type": "string"
+              },
+              "related": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "WaysOfWorking": {
+        "type": "object",
+        "required": ["id", "name", "description", "path"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "example": "tdd-practices"
+          },
+          "name": {
+            "type": "string",
+            "example": "TDD Practices"
+          },
+          "description": {
+            "type": "string",
+            "example": "Test-Driven Development practices and guidelines"
+          },
+          "path": {
+            "type": "string",
+            "example": ".claude/ways-of-working/tdd-practices.md"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["practices", "guidelines", "processes", "checklists"]
+          },
+          "audience": {
+            "type": "string",
+            "enum": ["developers", "product", "all", "leads"]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "overview": {
+                "type": "string"
+              },
+              "guidelines": {
+                "type": "string"
+              },
+              "examples": {
+                "type": "string"
+              },
+              "checklist": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ArchitectureDoc": {
+        "type": "object",
+        "required": ["id", "name", "description", "format", "path"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_]+$",
+            "example": "c4-context"
+          },
+          "name": {
+            "type": "string",
+            "example": "C4 Context Diagram"
+          },
+          "description": {
+            "type": "string",
+            "example": "System context showing ClaudeManual and external actors"
+          },
+          "format": {
+            "type": "string",
+            "enum": ["md", "mermaid", "plantuml"]
+          },
+          "path": {
+            "type": "string",
+            "example": ".claude/architecture/c4/context.md"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["c4", "adr", "patterns", "infrastructure", "data-model"]
+          },
+          "c4_level": {
+            "type": "string",
+            "enum": ["context", "container", "component", "code"]
+          },
+          "adr_status": {
+            "type": "string",
+            "enum": ["proposed", "accepted", "deprecated", "superseded"]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "related_adrs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "overview": {
+                "type": "string"
+              },
+              "diagram": {
+                "type": "string"
+              },
+              "context": {
+                "type": "string"
+              },
+              "decision": {
+                "type": "string"
+              },
+              "consequences": {
+                "type": "string"
+              },
+              "related": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "UserPreferences": {
+        "type": "object",
+        "required": ["theme", "favorites", "collapsed_nodes", "search_history", "stage_filter", "type_filter"],
+        "properties": {
+          "theme": {
+            "type": "string",
+            "enum": ["light", "dark", "system"],
+            "default": "system"
+          },
+          "favorites": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "collapsed_nodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "last_viewed": {
+            "type": "string",
+            "nullable": true
+          },
+          "search_history": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "default": []
+          },
+          "stage_filter": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "type_filter": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["Skill", "Command", "Agent", "Rule", "Hook", "Workflow", "WaysOfWorking", "ArchitectureDoc"]
+            },
+            "default": []
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "required": ["page", "pageSize", "totalItems", "totalPages"],
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "totalItems": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "totalPages": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "SkillListResponse": {
+        "type": "object",
+        "required": ["data", "pagination"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Skill"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "SkillDetailResponse": {
+        "type": "object",
+        "required": ["skill"],
+        "properties": {
+          "skill": {
+            "$ref": "#/components/schemas/Skill"
+          },
+          "related_skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Skill"
+            }
+          },
+          "used_by_commands": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Command"
+            }
+          },
+          "used_by_agents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Agent"
+            }
+          }
+        }
+      },
+      "CommandListResponse": {
+        "type": "object",
+        "required": ["data", "pagination"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Command"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "CommandDetailResponse": {
+        "type": "object",
+        "required": ["command"],
+        "properties": {
+          "command": {
+            "$ref": "#/components/schemas/Command"
+          },
+          "invoked_skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Skill"
+            }
+          },
+          "spawned_agents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Agent"
+            }
+          }
+        }
+      },
+      "AgentListResponse": {
+        "type": "object",
+        "required": ["data", "pagination"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Agent"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "AgentDetailResponse": {
+        "type": "object",
+        "required": ["agent"],
+        "properties": {
+          "agent": {
+            "$ref": "#/components/schemas/Agent"
+          },
+          "loaded_skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Skill"
+            }
+          },
+          "spawned_by_commands": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Command"
+            }
+          }
+        }
+      },
+      "RuleListResponse": {
+        "type": "object",
+        "required": ["data", "pagination"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Rule"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "HookListResponse": {
+        "type": "object",
+        "required": ["data", "pagination"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Hook"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "WorkflowListResponse": {
+        "type": "object",
+        "required": ["data", "pagination"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Workflow"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "WaysOfWorkingListResponse": {
+        "type": "object",
+        "required": ["data", "pagination"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WaysOfWorking"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "ArchitectureDocListResponse": {
+        "type": "object",
+        "required": ["data", "pagination"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArchitectureDoc"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "SearchRequest": {
+        "type": "object",
+        "required": ["query"],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "example": "persona"
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["Skill", "Command", "Agent", "Rule", "Hook", "Workflow", "WaysOfWorking", "ArchitectureDoc"]
+            }
+          },
+          "stage": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20
+          }
+        }
+      },
+      "SearchResponse": {
+        "type": "object",
+        "required": ["results", "total"],
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "type", "name", "description", "score"],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["Skill", "Command", "Agent", "Rule", "Hook", "Workflow", "WaysOfWorking", "ArchitectureDoc"]
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "stage": {
+                  "type": "string"
+                },
+                "score": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "description": "Relevance score (0-1)"
+                }
+              }
+            }
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "UpdatePreferencesRequest": {
+        "type": "object",
+        "properties": {
+          "theme": {
+            "type": "string",
+            "enum": ["light", "dark", "system"]
+          },
+          "favorites": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "collapsed_nodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "last_viewed": {
+            "type": "string",
+            "nullable": true
+          },
+          "stage_filter": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type_filter": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["error", "message", "code"],
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "BadRequest"
+          },
+          "message": {
+            "type": "string",
+            "example": "Invalid request parameters"
+          },
+          "code": {
+            "type": "string",
+            "example": "INVALID_PARAMS"
+          },
+          "details": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request - invalid parameters",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "BadRequest",
+              "message": "Invalid stage filter value",
+              "code": "INVALID_STAGE",
+              "details": {
+                "valid_stages": ["Discovery", "Prototype", "ProductSpecs", "SolArch", "Implementation", "Utility"]
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "NotFound",
+              "message": "Skill not found",
+              "code": "SKILL_NOT_FOUND",
+              "details": {
+                "id": "NonExistentSkill"
+              }
+            }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "InternalServerError",
+              "message": "An unexpected error occurred",
+              "code": "INTERNAL_ERROR"
+            }
+          }
+        }
+      }
+    }
+  }
+}

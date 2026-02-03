@@ -1,4 +1,5 @@
 ---
+name: productspecs-modules
 description: Generate module specifications from prototype screens
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-review
 description: Perform multi-agent code review with specialized quality reviewers
 argument-hint: <SystemName> [--scope all|changed] [--agent <name>] [--threshold 70]
 model: claude-sonnet-4-5-20250929

@@ -1,4 +1,5 @@
 ---
+name: kaizen-pdca
 description: Iterative PDCA cycle for systematic experimentation and continuous improvement
 argument-hint: Optional improvement goal or problem to address
 model: claude-sonnet-4-5-20250929

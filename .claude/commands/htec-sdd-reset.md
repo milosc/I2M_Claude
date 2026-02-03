@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-reset
 description: Reset Implementation session by removing all generated files and state
 argument-hint: <SystemName>
 model: claude-haiku-4-5-20250515

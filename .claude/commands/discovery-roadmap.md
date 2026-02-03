@@ -1,4 +1,5 @@
 ---
+name: discovery-roadmap
 description: Generate product roadmap from discovery strategy
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

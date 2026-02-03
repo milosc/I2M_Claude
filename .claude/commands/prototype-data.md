@@ -1,4 +1,5 @@
 ---
+name: prototype-data
 description: Generate data models from discovery specifications
 argument-hint: None
 model: claude-haiku-4-5-20250515

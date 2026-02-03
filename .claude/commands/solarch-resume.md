@@ -1,4 +1,5 @@
 ---
+name: solarch-resume
 description: Resume Solution Architecture generation from last completed checkpoint
 argument-hint: None
 model: claude-haiku-4-5-20250515

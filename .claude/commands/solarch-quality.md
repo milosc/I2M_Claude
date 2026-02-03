@@ -1,4 +1,5 @@
 ---
+name: solarch-quality
 description: Perform quality review of Solution Architecture documentation
 argument-hint: None
 model: claude-sonnet-4-5-20250929

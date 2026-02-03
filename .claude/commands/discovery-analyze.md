@@ -1,4 +1,5 @@
 ---
+name: discovery-analyze
 description: Analyze raw client materials and generate discovery documentation
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob

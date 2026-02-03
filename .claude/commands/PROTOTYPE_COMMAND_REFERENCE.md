@@ -1,4 +1,5 @@
 ---
+name: PROTOTYPE_COMMAND_REFERENCE
 description: Complete reference for Prototype stage commands
 argument-hint: None
 model: claude-haiku-4-5-20250515

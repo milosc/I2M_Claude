@@ -1,4 +1,5 @@
 ---
+name: discovery-export
 description: Export Discovery outputs to package for Prototype stage
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

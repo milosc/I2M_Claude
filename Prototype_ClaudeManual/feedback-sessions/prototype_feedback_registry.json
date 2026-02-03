@@ -1,0 +1,129 @@
+{
+  "schema_version": "2.0.0",
+  "system_name": "ClaudeManual",
+  "stage": "prototype",
+  "feedback_items": {
+    "PF-001": {
+      "title": "Display actual markdown content for skills/commands/agents",
+      "type": "Enhancement",
+      "severity": "Medium",
+      "status": "in_progress",
+      "categories": ["CAT-CODE", "CAT-DATA"],
+      "impact": {
+        "chains_affected": 1,
+        "artifacts_affected": 7,
+        "layer_1_discovery": 0,
+        "layer_2_specs": 2,
+        "layer_3_code": 4,
+        "layer_4_registries": 1,
+        "layer_5_matrices": 0,
+        "confidence_level": "HIGH",
+        "reflexion_score": 80
+      },
+      "source": {
+        "person": "User",
+        "role": "Stakeholder",
+        "inputter": "User"
+      },
+      "lifecycle": {
+        "created_at": "2026-02-01T00:00:00Z",
+        "analyzed_at": "2026-02-01T00:05:00Z",
+        "approved_at": "2026-02-01T00:10:00Z",
+        "approved_by": "User"
+      },
+      "implementation": {
+        "plan_selected": "Option B",
+        "steps_total": 10,
+        "steps_completed": 0,
+        "resume_point": null,
+        "files_changed": []
+      },
+      "validation": {},
+      "session_folder": "feedback-sessions/2026-02-01_PrototypeFeedback-PF-001/"
+    },
+    "PF-002": {
+      "title": "Add tagging system for skills, commands, and agents",
+      "type": "NewFeature",
+      "severity": "Medium",
+      "status": "validated",
+      "categories": ["CAT-DISC", "CAT-CODE", "CAT-DATA", "CAT-SCR", "CAT-REG"],
+      "impact": {
+        "chains_affected": 2,
+        "artifacts_affected": 17,
+        "layer_1_discovery": 2,
+        "layer_2_specs": 4,
+        "layer_3_code": 8,
+        "layer_4_registries": 2,
+        "layer_5_matrices": 1,
+        "confidence_level": "HIGH",
+        "reflexion_score": 93
+      },
+      "source": {
+        "person": "User",
+        "role": "Stakeholder",
+        "inputter": "User"
+      },
+      "lifecycle": {
+        "created_at": "2026-02-01T12:00:00Z",
+        "analyzed_at": "2026-02-01T12:10:00Z",
+        "approved_at": "2026-02-01T12:15:00Z",
+        "approved_by": "User",
+        "implemented_at": "2026-02-01T13:30:00Z"
+      },
+      "implementation": {
+        "plan_selected": "Option B",
+        "steps_total": 15,
+        "steps_completed": 15,
+        "resume_point": null,
+        "files_changed": [
+          "04-implementation/src/types/index.ts",
+          "04-implementation/src/components/TagDisplay.tsx",
+          "04-implementation/src/components/TagInput.tsx",
+          "04-implementation/src/components/TagFilter.tsx",
+          "04-implementation/src/mocks/mockData.ts",
+          "04-implementation/src/lib/localStorage.ts",
+          "01-components/specs/COMP-AGG-002-DetailPane.md",
+          "01-components/specs/COMP-AGG-003-SearchResultCard.md",
+          "01-components/component-index.md"
+        ]
+      },
+      "validation": {
+        "validated_at": "2026-02-01T13:45:00Z",
+        "build_status": "PASSED",
+        "regression_check": "PASSED",
+        "traceability_verified": true,
+        "report_path": "validation_report.md"
+      },
+      "session_folder": "feedback-sessions/2026-02-01_PrototypeFeedback-PF-002/"
+    }
+  },
+  "statistics": {
+    "total_feedback": 2,
+    "by_status": {
+      "analyzing": 0,
+      "approved": 0,
+      "in_progress": 1,
+      "implemented": 0,
+      "validated": 1,
+      "completed": 0,
+      "closed": 0,
+      "rejected": 0,
+      "failed": 0
+    },
+    "by_type": {
+      "Bug": 0,
+      "Enhancement": 1,
+      "NewFeature": 1,
+      "UXIssue": 0,
+      "VisualIssue": 0,
+      "Clarification": 0
+    },
+    "by_severity": {
+      "Critical": 0,
+      "High": 0,
+      "Medium": 2,
+      "Low": 0
+    },
+    "average_reflexion_score": 86.5
+  }
+}

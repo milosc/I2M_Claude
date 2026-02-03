@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-validate
 description: Validate Implementation checkpoint requirements and TDD compliance
 argument-hint: --checkpoint <N>
 model: claude-sonnet-4-5-20250929

@@ -1,4 +1,5 @@
 ---
+name: kaizen-problem
 description: Comprehensive A3 one-page problem analysis with root cause and action plan
 argument-hint: Optional problem description to document
 model: claude-haiku-4-5-20250515

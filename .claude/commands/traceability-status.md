@@ -1,4 +1,5 @@
 ---
+name: traceability-status
 description: Display global traceability registry status and health
 argument-hint: None
 model: claude-haiku-4-5-20250515

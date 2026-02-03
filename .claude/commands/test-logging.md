@@ -1,4 +1,5 @@
 ---
+name: test-logging
 description: Test the execution logging framework by triggering start/end hooks and verifying lifecycle.json
 argument-hint: None required - runs self-test automatically
 model: claude-haiku-4-5-20250515

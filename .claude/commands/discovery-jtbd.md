@@ -1,4 +1,5 @@
 ---
+name: discovery-jtbd
 description: Generate Jobs-To-Be-Done from pain points and research
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

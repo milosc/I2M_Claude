@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-worktree-setup
 description: Execute worktree setup script for parallel PR development
 argument-hint: <SystemName> [--base <branch>]
 model: claude-sonnet-4-5-20250929

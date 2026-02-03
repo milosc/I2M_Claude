@@ -1,4 +1,5 @@
 ---
+name: solarch-blocks
 description: Generate building blocks from ProductSpecs modules
 argument-hint: None
 model: claude-haiku-4-5-20250515

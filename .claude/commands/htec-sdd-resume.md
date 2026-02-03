@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-resume
 description: Resume Implementation from last completed checkpoint
 argument-hint: None
 model: claude-haiku-4-5-20250515

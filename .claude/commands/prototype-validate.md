@@ -1,4 +1,5 @@
 ---
+name: prototype-validate
 description: Validate Prototype checkpoint requirements and build status
 argument-hint: --checkpoint <N>
 model: claude-sonnet-4-5-20250929

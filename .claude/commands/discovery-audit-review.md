@@ -1,4 +1,5 @@
 ---
+name: discovery-audit-review
 description: Review Discovery audit results and validate zero-hallucination compliance
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob

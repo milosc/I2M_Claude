@@ -1,4 +1,5 @@
 ---
+name: prototype-feedback
 description: Process feedback on Prototype with systematic debugging and reflexion-enhanced change management
 argument-hint: [feedback-text] | --feedback-id <ID> | resume <ID> | status | list
 model: claude-sonnet-4-5-20250929

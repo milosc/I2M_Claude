@@ -1,4 +1,5 @@
 ---
+name: productspecs-extract
 description: Extract module specifications from prototype
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

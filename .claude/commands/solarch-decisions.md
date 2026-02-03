@@ -1,4 +1,5 @@
 ---
+name: solarch-decisions
 description: Generate Architecture Decision Records with traceability
 argument-hint: None
 model: claude-sonnet-4-5-20250929

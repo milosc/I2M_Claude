@@ -1,4 +1,5 @@
 ---
+name: discovery-persona
 description: Generate single persona file for specific role
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

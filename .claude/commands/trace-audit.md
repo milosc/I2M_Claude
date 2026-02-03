@@ -1,4 +1,5 @@
 ---
+name: trace-audit
 description: Comprehensive traceability audit orchestrator - spawns specialized agents to analyze traceability/, _state/, and all JSON registries, then consolidates findings into a unified health report and visual matrix
 argument-hint: <SystemName>
 model: claude-sonnet-4-5-20250929

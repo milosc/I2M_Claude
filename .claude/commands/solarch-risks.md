@@ -1,4 +1,5 @@
 ---
+name: solarch-risks
 description: Generate risk assessment and mitigation strategies
 argument-hint: None
 model: claude-sonnet-4-5-20250929

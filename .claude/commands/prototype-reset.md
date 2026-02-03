@@ -1,4 +1,5 @@
 ---
+name: prototype-reset
 description: Reset Prototype session by removing all generated files and state
 argument-hint: <SystemName>
 model: claude-haiku-4-5-20250515

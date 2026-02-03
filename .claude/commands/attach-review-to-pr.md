@@ -1,4 +1,5 @@
 ---
+name: attach-review-to-pr
 description: Add line-specific review comments to pull requests using GitHub CLI API
 argument-hint: PR number or URL (optional - can work with current branch)
 model: claude-sonnet-4-5-20250929

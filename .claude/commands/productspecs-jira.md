@@ -1,4 +1,5 @@
 ---
+name: productspecs-jira
 description: Generate JIRA-ready CSV/JSON export with full traceability
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob

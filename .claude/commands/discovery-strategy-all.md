@@ -1,4 +1,5 @@
 ---
+name: discovery-strategy-all
 description: Generate all strategy documents (vision, roadmap, KPIs)
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob

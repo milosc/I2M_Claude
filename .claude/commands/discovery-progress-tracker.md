@@ -1,4 +1,5 @@
 ---
+name: discovery-progress-tracker
 description: Display Discovery checkpoint progress and completion status
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Grep, Glob

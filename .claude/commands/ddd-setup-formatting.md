@@ -1,4 +1,5 @@
 ---
+name: ddd-setup-formatting
 description: Sets up code formatting rules and style guidelines in CLAUDE.md
 argument-hint: None required - creates standard formatting configuration
 model: claude-haiku-4-5-20250515

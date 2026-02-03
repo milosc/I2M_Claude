@@ -1,4 +1,5 @@
 ---
+name: solarch-finalize
 description: Finalize Solution Architecture with validation and documentation
 argument-hint: None
 model: claude-sonnet-4-5-20250929

@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "system_name": "ClaudeManual",
+  "created_at": "2026-01-31",
+  "discovery_source": "ClientAnalysis_ClaudeManual/",
+  "output_path": "Prototype_ClaudeManual/",
+  "framework": "react",
+  "styling": "tailwind",
+  "assembly_first": {
+    "enabled": true,
+    "component_library_path": ".claude/templates/component-library/",
+    "detected_at": "2026-01-31T13:00:00Z",
+    "reason": "enabled"
+  },
+  "settings": {
+    "skip_failures": true,
+    "generate_tests": true,
+    "accessibility_level": "AA"
+  }
+}

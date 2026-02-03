@@ -1,0 +1,173 @@
+[
+  {
+    "id": "discovery-domain-researcher",
+    "name": "Discovery Domain Researcher",
+    "type": "agent",
+    "description": "Analyzes interview transcripts to extract domain knowledge, client facts, and technical context",
+    "stage": "discovery",
+    "path": ".claude/agents/discovery/domain-researcher.md",
+    "frontmatter": {
+      "name": "discovery-domain-researcher",
+      "description": "Extracts domain knowledge from client materials",
+      "model": "sonnet",
+      "checkpoint": 1,
+      "color": "blue",
+      "loads_skills": ["Discovery_InterviewAnalysis", "Discovery_ClientFacts"],
+      "spawned_by": ["discovery", "discovery-multiagent"]
+    },
+    "rawContent": "# discovery-domain-researcher\n\n## Role\n\nSpecialized agent for extracting domain knowledge from client materials during Discovery phase.\n\n## Capabilities\n\n- Interview transcript analysis\n- Domain terminology extraction\n- Business rule identification\n- Technical context mapping\n\n## Workflow\n\n1. Receive input files from orchestrator\n2. Parse and analyze each document\n3. Extract:\n   - Domain terms and definitions\n   - Business rules and constraints\n   - Technical requirements\n   - Integration points\n4. Generate CLIENT_FACTS.md\n5. Return structured findings\n\n## Output\n\nGenerates:\n- `01-client-facts/CLIENT_FACTS.md`\n- Domain glossary entries\n- Technical context notes\n\n## Traceability\n\nAll extracted facts linked to source via CM-XXX IDs.",
+    "isFavorite": false
+  },
+  {
+    "id": "discovery-persona-synthesizer",
+    "name": "Discovery Persona Synthesizer",
+    "type": "agent",
+    "description": "Multi-agent coordinator for persona synthesis from pain points and user research",
+    "stage": "discovery",
+    "path": ".claude/agents/discovery/persona-synthesizer.md",
+    "frontmatter": {
+      "name": "discovery-persona-synthesizer",
+      "description": "Coordinates persona generation from research",
+      "model": "sonnet",
+      "checkpoint": 3,
+      "color": "blue",
+      "loads_skills": ["Discovery_GeneratePersona"],
+      "spawned_by": ["discovery-multiagent"]
+    },
+    "rawContent": "# discovery-persona-synthesizer\n\n## Role\n\nCoordinates multi-agent persona synthesis from pain points, interviews, and user research data.\n\n## Architecture\n\nSpawns sub-agents for parallel persona generation:\n- One agent per distinct user type\n- Consolidates results into unified persona set\n\n## Workflow\n\n1. Receive user types from pain point analysis\n2. Spawn persona-generator agent per type\n3. Collect generated personas\n4. Cross-reference for consistency\n5. Consolidate into final persona set\n\n## Output\n\nGenerates:\n- `02-research/personas/PERSONA_{Name}.md` per user type\n- Persona summary in research index\n\n## Validation\n\n- Each persona has minimum 3 pain points\n- Demographics complete\n- Goals and frustrations balanced",
+    "isFavorite": false
+  },
+  {
+    "id": "prototype-screen-specifier",
+    "name": "Prototype Screen Specifier",
+    "type": "agent",
+    "description": "Generates detailed screen specifications from discovery screens with layout, components, and data requirements",
+    "stage": "prototype",
+    "path": ".claude/agents/prototype/screen-specifier.md",
+    "frontmatter": {
+      "name": "prototype-screen-specifier",
+      "description": "Generates screen specifications from Discovery",
+      "model": "sonnet",
+      "checkpoint": 9,
+      "color": "green",
+      "loads_skills": ["Prototype_ScreenSpecifier"],
+      "spawned_by": ["prototype"]
+    },
+    "rawContent": "# prototype-screen-specifier\n\n## Role\n\nTransforms Discovery screen definitions into detailed implementation specifications.\n\n## Specification Contents\n\n### Layout\n- Grid structure\n- Responsive breakpoints\n- Component placement\n\n### Components\n- Component list with variants\n- Props and state requirements\n- Interaction handlers\n\n### Data\n- Data requirements\n- API endpoints needed\n- State management\n\n### Navigation\n- Entry points\n- Exit transitions\n- Deep linking\n\n## Output\n\nGenerates:\n- `02-screens/{screen-id}/spec.md`\n- Component dependency graph\n- Data flow diagram\n\n## Traceability\n\nLinked to SCR-XXX from Discovery.",
+    "isFavorite": false
+  },
+  {
+    "id": "prototype-code-generator",
+    "name": "Prototype Code Generator",
+    "type": "agent",
+    "description": "Generates React component code from component specifications with TypeScript and Tailwind CSS",
+    "stage": "prototype",
+    "path": ".claude/agents/prototype/code-generator.md",
+    "frontmatter": {
+      "name": "prototype-code-generator",
+      "description": "Generates React code from specifications",
+      "model": "sonnet",
+      "checkpoint": 12,
+      "color": "green",
+      "loads_skills": ["Prototype_CodeGenerator"],
+      "spawned_by": ["prototype"]
+    },
+    "rawContent": "# prototype-code-generator\n\n## Role\n\nGenerates production-quality React components from component specifications.\n\n## Code Standards\n\n### TypeScript\n- Strict mode\n- Props interfaces\n- No any types\n- Proper generics\n\n### Tailwind CSS\n- Design token usage\n- Responsive utilities\n- Dark mode support\n- Custom CSS minimal\n\n### Accessibility\n- ARIA labels\n- Keyboard nav\n- Focus management\n- Screen reader support\n\n## Output Structure\n\n```\n04-implementation/src/components/\n├── {ComponentName}/\n│   ├── index.tsx\n│   ├── {ComponentName}.test.tsx\n│   └── types.ts\n```\n\n## Validation\n\n- TypeScript compiles\n- Tests pass\n- Accessibility audit clean",
+    "isFavorite": true
+  },
+  {
+    "id": "implementation-developer",
+    "name": "Implementation Developer",
+    "type": "agent",
+    "description": "Implements features using TDD methodology with Red-Green-Refactor cycle and quality validation",
+    "stage": "implementation",
+    "path": ".claude/agents/implementation/developer.md",
+    "frontmatter": {
+      "name": "implementation-developer",
+      "description": "TDD implementation agent",
+      "model": "sonnet",
+      "checkpoint": null,
+      "color": "purple",
+      "loads_skills": ["Implementation_Developer"],
+      "spawned_by": ["htec-sdd-implement"]
+    },
+    "rawContent": "# implementation-developer\n\n## Role\n\nExecutes TDD implementation following strict Red-Green-Refactor cycle.\n\n## TDD Protocol\n\n### RED Phase\n1. Read task specification\n2. Write failing test first\n3. Verify failure is correct\n4. Never skip to implementation\n\n### GREEN Phase\n1. Minimum code to pass\n2. No gold-plating\n3. Run tests after each change\n4. Commit when green\n\n### REFACTOR Phase\n1. Identify code smells\n2. Apply SOLID principles\n3. Extract duplication\n4. Verify tests still pass\n\n## Quality Gates\n\n- Coverage > 80%\n- No TypeScript errors\n- ESLint clean\n- No CRITICAL findings\n\n## Output\n\n- Implementation files\n- Test files\n- Updated task status",
+    "isFavorite": false
+  },
+  {
+    "id": "quality-bug-hunter",
+    "name": "Quality Bug Hunter",
+    "type": "agent",
+    "description": "Performs code review and quality validation with automated linting, type checking, and test coverage analysis",
+    "stage": "implementation",
+    "path": ".claude/agents/quality/bug-hunter.md",
+    "frontmatter": {
+      "name": "quality-bug-hunter",
+      "description": "Code quality validation agent",
+      "model": "haiku",
+      "checkpoint": null,
+      "color": "orange",
+      "loads_skills": [],
+      "spawned_by": ["htec-sdd-review"]
+    },
+    "rawContent": "# quality-bug-hunter\n\n## Role\n\nPerforms comprehensive code quality validation and bug detection.\n\n## Validation Areas\n\n### Static Analysis\n- TypeScript strict mode\n- ESLint rule compliance\n- Import organization\n- Unused code detection\n\n### Test Coverage\n- Line coverage analysis\n- Branch coverage\n- Uncovered code paths\n- Missing edge cases\n\n### Code Smells\n- Complexity metrics\n- Duplication detection\n- SOLID violations\n- Naming conventions\n\n## Output\n\nGenerates quality report with:\n- Finding list by severity\n- Code locations\n- Suggested fixes\n- Coverage summary\n\n## Severity Levels\n\n- CRITICAL: Block merge\n- HIGH: Should fix\n- MEDIUM: Consider fixing\n- LOW: Optional",
+    "isFavorite": false
+  },
+  {
+    "id": "quality-security-auditor",
+    "name": "Quality Security Auditor",
+    "type": "agent",
+    "description": "Performs security vulnerability scanning using OWASP 2025 guidelines and security best practices",
+    "stage": "implementation",
+    "path": ".claude/agents/quality/security-auditor.md",
+    "frontmatter": {
+      "name": "quality-security-auditor",
+      "description": "OWASP security vulnerability scanner",
+      "model": "sonnet",
+      "checkpoint": null,
+      "color": "red",
+      "loads_skills": ["SECURITY_vulnerability-scanner", "SECURITY_api-security-best-practices"],
+      "spawned_by": ["htec-sdd-review"]
+    },
+    "rawContent": "# quality-security-auditor\n\n## Role\n\nPerforms security vulnerability scanning following OWASP 2025 guidelines.\n\n## Scan Categories\n\n### Injection\n- SQL injection patterns\n- Command injection\n- NoSQL injection\n- LDAP injection\n\n### Authentication\n- Broken authentication\n- Session fixation\n- Credential exposure\n- Password policies\n\n### XSS\n- Reflected XSS\n- Stored XSS\n- DOM-based XSS\n- Template injection\n\n### Access Control\n- IDOR vulnerabilities\n- Privilege escalation\n- Missing authorization\n- CORS misconfiguration\n\n## Severity Matrix\n\n| Severity | Action | SLA |\n|----------|--------|-----|\n| CRITICAL | Block merge | Immediate |\n| HIGH | Must fix | 24h |\n| MEDIUM | Should fix | 1 week |\n| LOW | Optional | Backlog |",
+    "isFavorite": false
+  },
+  {
+    "id": "privacy-officer",
+    "name": "Privacy Officer",
+    "type": "agent",
+    "description": "Data privacy assessment agent for GDPR, DPIA, and data subject rights evaluation",
+    "stage": "solarch",
+    "path": ".claude/agents/grc/privacy-officer.md",
+    "frontmatter": {
+      "name": "privacy-officer",
+      "description": "GDPR and data privacy assessment",
+      "model": "haiku",
+      "checkpoint": null,
+      "color": "blue",
+      "loads_skills": ["GRC_gdpr-compliance", "GRC_data-classification"],
+      "spawned_by": ["grc-assess-gdpr"]
+    },
+    "rawContent": "# privacy-officer\n\n## Role\n\nAssesses data privacy compliance with focus on GDPR requirements.\n\n## Assessment Areas\n\n### Data Mapping\n- Personal data inventory\n- Processing activities\n- Data flows and transfers\n- Retention periods\n\n### Lawful Basis\n- Consent mechanisms\n- Contractual necessity\n- Legal obligations\n- Legitimate interests\n\n### Rights Management\n- Access requests\n- Rectification\n- Erasure (RTBF)\n- Portability\n- Objection\n\n### DPIA Triggers\n- Large-scale processing\n- Sensitive categories\n- Systematic monitoring\n- Automated decisions\n\n## Output\n\nGenerates compliance assessment with:\n- Risk matrix\n- Required controls\n- Documentation gaps\n- Remediation plan",
+    "isFavorite": false
+  },
+  {
+    "id": "traceability-consolidator",
+    "name": "Traceability Consolidator",
+    "type": "agent",
+    "description": "Consolidates traceability findings from multiple scanner agents and generates health report with visual matrix",
+    "stage": "discovery",
+    "path": ".claude/agents/traceability/consolidator.md",
+    "frontmatter": {
+      "name": "traceability-consolidator",
+      "description": "Consolidates traceability scan results",
+      "model": "sonnet",
+      "checkpoint": null,
+      "color": "green",
+      "loads_skills": [],
+      "spawned_by": ["trace-audit"]
+    },
+    "rawContent": "# traceability-consolidator\n\n## Role\n\nConsolidates findings from parallel traceability scanners and generates comprehensive health report.\n\n## Input Sources\n\n- Registry scanner findings\n- State analyzer findings\n- JSON discovery findings\n\n## Processing\n\n### Cross-Validation\n- Detect conflicting findings\n- Resolve duplicates\n- Verify evidence chains\n\n### Risk Assessment\n- Severity classification\n- Impact analysis\n- Prioritization\n\n### Matrix Generation\n- End-to-end trace chains\n- Coverage visualization\n- Gap identification\n\n## Output\n\nGenerates:\n- `TRACEABILITY_AUDIT_REPORT.md`\n- `TRACEABILITY_MATRIX_MASTER.md`\n- JSON summary for CI/CD\n\n## Health Metrics\n\n- Chain completeness %\n- Orphan count\n- Broken link count\n- Coverage score",
+    "isFavorite": false
+  }
+]

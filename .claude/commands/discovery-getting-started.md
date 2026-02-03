@@ -1,4 +1,5 @@
 ---
+name: discovery-getting-started
 description: Generate Discovery getting started guide
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

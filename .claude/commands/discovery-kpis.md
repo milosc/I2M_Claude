@@ -1,4 +1,5 @@
 ---
+name: discovery-kpis
 description: Generate KPI definitions from discovery materials
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

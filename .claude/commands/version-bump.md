@@ -1,4 +1,5 @@
 ---
+name: version-bump
 description: Increment framework version (major, minor, or patch)
 argument-hint: major|minor|patch
 model: claude-haiku-4-5-20250515

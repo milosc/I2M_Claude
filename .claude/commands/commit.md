@@ -1,4 +1,5 @@
 ---
+name: commit
 description: Create well-formatted commits with conventional commit messages and emoji
 argument-hint: Optional flags like --no-verify to skip pre-commit checks
 model: claude-sonnet-4-5-20250929

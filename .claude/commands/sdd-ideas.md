@@ -1,4 +1,5 @@
 ---
+name: sdd-ideas
 description: Generate ideas in one shot using creative sampling
 argument-hint: Topic or problem to generate ideas for. Optional amount of ideas to generate.
 model: claude-haiku-4-5-20250515

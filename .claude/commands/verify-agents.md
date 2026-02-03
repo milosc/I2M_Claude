@@ -1,4 +1,5 @@
 ---
+name: verify-agents
 description: Verify all agent definitions and validate agent coordination rules
 argument-hint: None
 model: claude-sonnet-4-5-20250929

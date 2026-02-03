@@ -1,4 +1,5 @@
 ---
+name: prototype-export
 description: Export Prototype outputs for ProductSpecs stage
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

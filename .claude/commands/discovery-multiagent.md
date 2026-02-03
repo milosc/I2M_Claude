@@ -1,4 +1,5 @@
 ---
+name: discovery-multiagent
 description: Generate Discovery using multi-agent parallel execution
 argument-hint: <SystemName> <InputPath>
 model: claude-sonnet-4-5-20250929
@@ -558,9 +559,12 @@ CP-2: Pain Point Validation [AGENT]
   Agent: pain-point-validator | Model: sonnet
   Dependencies: CP-1 + CP-1.5 completed
 
-CP-3: Persona Generation [PARALLEL]
-  - Spawn one persona-generator agent per user type (all in parallel)
+CP-3: Persona Generation [PARALLEL] [ALL USER TYPES]
+  - CRITICAL: Read user_types_registry.json and spawn persona-generator for ALL user types
+  - Include primary user types (directly interviewed) AND secondary user types (derived from context)
+  - Secondary personas should be marked as "Synthesized" in the document
   - Model: sonnet
+  - Source: traceability/user_types_registry.json (all entries with validated: true)
 
 CP-4: JTBD Extraction [AGENT]
   Agent: jtbd-extractor | Model: sonnet
@@ -739,11 +743,27 @@ for CHECKPOINT in $(seq $START_CP 11); do
         mkdir -p "ClientAnalysis_${SYSTEM_NAME}/02-research/personas"
         mkdir -p "_state" "traceability"
         echo "   ✅ Initialization complete"
+
+        # Update progress for CP-0
+        python3 .claude/hooks/progress_lock.py discovery \
+          --checkpoint 0 \
+          --update-phase "CP-0" \
+          --status "completed" \
+          --field "completed_at=$(date -Iseconds)"
+        echo "   ✅ Progress updated: CP-0 completed"
         ;;
       10)
         echo "   Generating documentation index..."
         # Generate INDEX.md, README.md, etc.
         echo "   ✅ Documentation complete"
+
+        # Update progress for CP-10
+        python3 .claude/hooks/progress_lock.py discovery \
+          --checkpoint 10 \
+          --update-phase "CP-10" \
+          --status "completed" \
+          --field "completed_at=$(date -Iseconds)"
+        echo "   ✅ Progress updated: CP-10 completed"
         ;;
     esac
 
@@ -764,6 +784,23 @@ for CHECKPOINT in $(seq $START_CP 11); do
   echo ""
   echo "   ⏳ Spawning agents... (IMPLEMENTATION PENDING)"
   echo ""
+
+  #────────────────────────────────────────────────────────────────────────────
+  # UPDATE PROGRESS (MANDATORY after each checkpoint)
+  #────────────────────────────────────────────────────────────────────────────
+
+  # Update discovery_progress.json using progress_lock.py for atomic updates
+  python3 .claude/hooks/progress_lock.py discovery \
+    --checkpoint "$CHECKPOINT" \
+    --update-phase "CP-${CHECKPOINT}" \
+    --status "completed" \
+    --field "completed_at=$(date -Iseconds)"
+
+  if [ $? -eq 0 ]; then
+    echo "   ✅ Progress updated: CP-${CHECKPOINT} completed"
+  else
+    echo "   ⚠️ Progress update failed - continuing anyway"
+  fi
 
 done
 

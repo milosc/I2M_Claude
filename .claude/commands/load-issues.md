@@ -1,4 +1,5 @@
 ---
+name: load-issues
 description: Load all open issues from GitHub and save them as markdown files
 argument-hint: None required - loads all open issues automatically
 model: claude-haiku-4-5-20250515

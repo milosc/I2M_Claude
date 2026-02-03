@@ -1,4 +1,5 @@
 ---
+name: discovery-feedback
 description: Process feedback on Discovery artifacts with reflexion-enhanced impact analysis and traceability
 argument-hint: [feedback_text | file.md | resume FB-NNN | status | list]
 model: claude-sonnet-4-5-20250929

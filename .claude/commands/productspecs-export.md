@@ -1,4 +1,5 @@
 ---
+name: productspecs-export
 description: Export ProductSpecs outputs for Implementation stage
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

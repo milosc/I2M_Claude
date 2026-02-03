@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-status
 description: Display Implementation stage status and progress
 argument-hint: None
 model: claude-haiku-4-5-20250515

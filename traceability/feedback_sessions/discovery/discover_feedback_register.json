@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "stage": "discovery",
+  "system_name": "ClaudeManual",
+  "feedback_items": [
+    {
+      "id": "FB-001",
+      "status": "completed",
+      "type": "feature_enhancement",
+      "severity": "medium",
+      "categories": ["navigation", "data_model", "ui_screens"],
+      "created_at": "2026-01-31T10:30:00Z",
+      "source": {
+        "person": "User",
+        "inputter": "Claude"
+      },
+      "summary": "Add visualization for Workflows, Ways of Working, and Architecture documents",
+      "impact": {
+        "chains_affected": 3,
+        "artifacts_affected": 7,
+        "confidence_level": "HIGH",
+        "confidence_percentage": 85
+      },
+      "implementation": {
+        "plan_selected": "Option B (Comprehensive)",
+        "steps_total": 15,
+        "steps_completed": 15,
+        "files_modified": [
+          "ClientAnalysis_ClaudeManual/04-design-specs/navigation-structure.md",
+          "ClientAnalysis_ClaudeManual/04-design-specs/screen-definitions.md",
+          "ClientAnalysis_ClaudeManual/04-design-specs/data-fields.md",
+          "ClientAnalysis_ClaudeManual/04-design-specs/interaction-patterns.md",
+          "ClientAnalysis_ClaudeManual/02-research/JOBS_TO_BE_DONE.md"
+        ],
+        "new_jtbd": "JTBD-1.9",
+        "new_screens": ["SCR-009", "SCR-010", "SCR-011"],
+        "new_entities": ["Workflow", "WaysOfWorking", "ArchitectureDoc"],
+        "new_patterns": ["PAT-015", "PAT-016", "PAT-017", "PAT-018"]
+      },
+      "lifecycle": {
+        "analyzed_at": "2026-01-31T10:30:00Z",
+        "approved_at": "2026-01-31T10:35:00Z",
+        "approved_by": "user",
+        "implemented_at": "2026-01-31T10:50:00Z",
+        "validated_at": "2026-01-31T10:52:00Z",
+        "completed_at": "2026-01-31T10:55:00Z"
+      }
+    }
+  ]
+}

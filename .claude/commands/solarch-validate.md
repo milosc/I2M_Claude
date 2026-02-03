@@ -1,4 +1,5 @@
 ---
+name: solarch-validate
 description: Validate Solution Architecture checkpoint requirements and coverage
 argument-hint: --checkpoint <N>
 model: claude-sonnet-4-5-20250929

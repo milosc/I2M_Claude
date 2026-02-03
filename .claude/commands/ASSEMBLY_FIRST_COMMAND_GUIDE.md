@@ -1,4 +1,5 @@
 ---
+name: ASSEMBLY_FIRST_COMMAND_GUIDE
 description: Guide for Assembly-First prototype generation mode
 argument-hint: None
 model: claude-haiku-4-5-20250515

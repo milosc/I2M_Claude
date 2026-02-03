@@ -1,4 +1,5 @@
 ---
+name: traceability-init
 description: Initialize or repair the traceability folder backbone for a project
 argument-hint: None
 model: claude-haiku-4-5-20250515

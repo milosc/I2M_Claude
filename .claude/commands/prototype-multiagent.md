@@ -1,4 +1,5 @@
 ---
+name: prototype-multiagent
 description: Generate prototype using multi-agent parallel execution
 argument-hint: <SystemName>
 model: claude-sonnet-4-5-20250929

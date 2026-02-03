@@ -1,4 +1,5 @@
 ---
+name: memorize
 description: Curates insights from reflections and critiques into CLAUDE.md using Agentic Context Engineering
 argument-hint: Optional source specification (last, selection, chat:<id>) or --dry-run for preview
 model: claude-haiku-4-5-20250515

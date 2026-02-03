@@ -1,4 +1,5 @@
 ---
+name: discovery
 description: Complete Discovery analysis from client materials to specifications
 argument-hint: <SystemName> <InputPath>
 model: claude-sonnet-4-5-20250929

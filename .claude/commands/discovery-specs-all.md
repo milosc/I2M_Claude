@@ -1,4 +1,5 @@
 ---
+name: discovery-specs-all
 description: Generate all discovery specifications in sequence
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob

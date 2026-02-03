@@ -1,0 +1,601 @@
+{
+  "schema_version": "1.0.0",
+  "system_name": "ClaudeManual",
+  "created_at": "2026-01-31",
+  "checkpoint": "CP-2",
+  "total_requirements": 42,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "priority": "P0",
+      "category": "Navigation",
+      "description": "Display hierarchical tree navigation showing all framework components (115+ skills, 30+ commands, 25+ agents, 5+ rules, 8+ hooks)",
+      "source_pain_point": "PP-1.1",
+      "source_jtbd": "JTBD-1.7",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Tree supports expand/collapse with visual indentation (2-level hierarchy minimum)",
+        "Tree displays accurate count badges (e.g., 'Skills (85)')",
+        "Categories are collapsible to reduce cognitive load"
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "priority": "P0",
+      "category": "Navigation",
+      "description": "Implement dual-pane master-detail layout with navigation tree on left and detail content on right",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.2",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Clicking item updates detail pane within 200ms",
+        "Responsive layout: master pane collapses to drawer on mobile (<768px)",
+        "Layout persists navigation state across sessions"
+      ]
+    },
+    {
+      "id": "REQ-003",
+      "priority": "P0",
+      "category": "Documentation",
+      "description": "Render component details with tabbed interface showing Purpose, Examples, Options, Workflow, Traceability",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.2",
+      "screens": ["SCR-001", "SCR-006"],
+      "acceptance_criteria": [
+        "Detail pane renders markdown with syntax highlighting for code blocks",
+        "Tabs support progressive disclosure (Purpose as default)",
+        "Workflow tab displays Mermaid diagrams"
+      ]
+    },
+    {
+      "id": "REQ-004",
+      "priority": "P0",
+      "category": "Search",
+      "description": "Provide instant full-text search across all framework components with <2s response time",
+      "source_pain_point": "PP-1.3",
+      "source_jtbd": "JTBD-1.3",
+      "screens": ["SCR-002"],
+      "acceptance_criteria": [
+        "Search results appear within 2 seconds of typing query",
+        "Search includes skill/command/agent names, descriptions, and keywords",
+        "Keyboard shortcut Cmd+K focuses search bar"
+      ]
+    },
+    {
+      "id": "REQ-005",
+      "priority": "P0",
+      "category": "Search",
+      "description": "Implement search filters for Type (Skill/Command/Agent), Stage (Discovery/Prototype/etc.), and Sort (Relevance/Alphabetical)",
+      "source_pain_point": "PP-1.3",
+      "source_jtbd": "JTBD-1.3",
+      "screens": ["SCR-002"],
+      "acceptance_criteria": [
+        "Can filter by stage (Discovery, Prototype, Implementation, Utility)",
+        "Can filter by component type (Skill, Command, Agent, Rule, Hook)",
+        "Filters reduce visible results from 115+ to ~10-20 items"
+      ]
+    },
+    {
+      "id": "REQ-006",
+      "priority": "P1",
+      "category": "Organization",
+      "description": "Enable stage-based filtering to show only Discovery, Prototype, ProductSpecs, SolArch, or Implementation components",
+      "source_pain_point": "PP-1.4",
+      "source_jtbd": "JTBD-1.4",
+      "screens": ["SCR-003"],
+      "acceptance_criteria": [
+        "Components are visually grouped by stages",
+        "Stage badges are visible on every component card",
+        "Can toggle stage filter to hide irrelevant tools"
+      ]
+    },
+    {
+      "id": "REQ-007",
+      "priority": "P1",
+      "category": "Organization",
+      "description": "Display stage badges (color-coded) on all component cards and tree items",
+      "source_pain_point": "PP-1.4",
+      "source_jtbd": "JTBD-1.4",
+      "screens": ["SCR-001", "SCR-003"],
+      "acceptance_criteria": [
+        "Badges use distinct colors per stage (Discovery=blue, Prototype=green, etc.)",
+        "Badges visible in tree view and card view",
+        "Stage filtering updates badge visibility"
+      ]
+    },
+    {
+      "id": "REQ-008",
+      "priority": "P1",
+      "category": "Developer Tools",
+      "description": "Provide one-click file path copy for all framework components with clipboard confirmation",
+      "source_pain_point": "PP-1.6",
+      "source_jtbd": "JTBD-1.5",
+      "screens": ["SCR-001", "SCR-002"],
+      "acceptance_criteria": [
+        "Copy Path button copies full file path to clipboard",
+        "Toast notification confirms copy action",
+        "Paths are shown in detail view (e.g., '.claude/skills/Discovery_JTBD/SKILL.md')"
+      ]
+    },
+    {
+      "id": "REQ-009",
+      "priority": "P1",
+      "category": "Personalization",
+      "description": "Enable favorites functionality to bookmark frequently-used components with persistence",
+      "source_pain_point": "PP-1.5",
+      "source_jtbd": "JTBD-1.6",
+      "screens": ["SCR-001", "SCR-004"],
+      "acceptance_criteria": [
+        "Every component has 'Add to Favorites' toggle",
+        "Favorites persist across sessions (localStorage)",
+        "Can reorder and remove favorites"
+      ]
+    },
+    {
+      "id": "REQ-010",
+      "priority": "P1",
+      "category": "Personalization",
+      "description": "Create dedicated Favorites page showing all bookmarked components with quick access",
+      "source_pain_point": "PP-1.5",
+      "source_jtbd": "JTBD-1.6",
+      "screens": ["SCR-004"],
+      "acceptance_criteria": [
+        "Favorites appear in persistent sidebar or quick-access panel",
+        "Clicking favorite navigates to component in main view",
+        "Empty state message when no favorites"
+      ]
+    },
+    {
+      "id": "REQ-011",
+      "priority": "P0",
+      "category": "UI/Themes",
+      "description": "Implement light/dark theme toggle with system preference detection and persistence",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.2",
+      "screens": ["SCR-001", "SCR-007"],
+      "acceptance_criteria": [
+        "Theme toggle switches between light/dark mode",
+        "Persists preference to localStorage",
+        "Detects system preference on first load"
+      ]
+    },
+    {
+      "id": "REQ-012",
+      "priority": "P1",
+      "category": "Comparison",
+      "description": "Enable side-by-side comparison of similar components with feature/use case highlighting",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.8",
+      "screens": ["SCR-005"],
+      "acceptance_criteria": [
+        "Related components are linked in detail view",
+        "Comparison view shows features, performance, use cases",
+        "Decision guidance: 'Use X when..., Use Y when...'"
+      ]
+    },
+    {
+      "id": "REQ-013",
+      "priority": "P1",
+      "category": "Diagrams",
+      "description": "Render Mermaid diagrams in Workflow tabs with zoom/pan controls",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.9",
+      "screens": ["SCR-009", "SCR-011"],
+      "acceptance_criteria": [
+        "Mermaid diagrams render correctly with syntax highlighting",
+        "Users can zoom, pan diagrams",
+        "Diagrams support light/dark theme"
+      ]
+    },
+    {
+      "id": "REQ-014",
+      "priority": "P1",
+      "category": "Diagrams",
+      "description": "Render PlantUML diagrams via Kroki integration with export capabilities",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.9",
+      "screens": ["SCR-009", "SCR-011"],
+      "acceptance_criteria": [
+        "PlantUML diagrams render via server integration",
+        "Can export diagrams (PNG, SVG, PDF)",
+        "Architecture documentation (C4 diagrams, ADRs) is browsable"
+      ]
+    },
+    {
+      "id": "REQ-015",
+      "priority": "P1",
+      "category": "Documentation",
+      "description": "Browse architecture documentation (C4 diagrams, ADRs, Ways of Working) in category hierarchy",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.9",
+      "screens": ["SCR-010"],
+      "acceptance_criteria": [
+        "Architecture documents are searchable and filterable",
+        "Category navigation matches framework structure",
+        "Ways of Working documents are browsable by audience/category"
+      ]
+    },
+    {
+      "id": "REQ-016",
+      "priority": "P0",
+      "category": "Performance",
+      "description": "Ensure tree navigation response time <200ms for expand/collapse actions",
+      "source_pain_point": "PP-1.1",
+      "source_jtbd": "JTBD-1.1",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Clicking item updates detail pane within 200ms",
+        "Tree expand/collapse animations complete within 150ms",
+        "Lazy loading for large categories"
+      ]
+    },
+    {
+      "id": "REQ-017",
+      "priority": "P0",
+      "category": "Performance",
+      "description": "Search results must appear within 2 seconds of query submission",
+      "source_pain_point": "PP-1.3",
+      "source_jtbd": "JTBD-1.3",
+      "screens": ["SCR-002"],
+      "acceptance_criteria": [
+        "Real-time results as user types (debounced 300ms)",
+        "Performance indicator shows 'X results in <0.8s'",
+        "Fast results validate tool responsiveness"
+      ]
+    },
+    {
+      "id": "REQ-018",
+      "priority": "P0",
+      "category": "Accessibility",
+      "description": "Support keyboard navigation for all tree and detail pane interactions (WCAG AA)",
+      "source_pain_point": "PP-1.1",
+      "source_jtbd": "JTBD-1.1",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Arrow keys navigate tree items",
+        "Enter key expands/collapses categories",
+        "Tab key moves focus to detail pane",
+        "Cmd+K focuses search bar"
+      ]
+    },
+    {
+      "id": "REQ-019",
+      "priority": "P0",
+      "category": "Accessibility",
+      "description": "Ensure WCAG 2.1 AA color contrast ratios for all text and UI elements",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.2",
+      "screens": ["SCR-001", "SCR-002"],
+      "acceptance_criteria": [
+        "Text contrast ratio ≥ 4.5:1 for normal text",
+        "Text contrast ratio ≥ 3:1 for large text (18pt+)",
+        "Theme toggle maintains contrast ratios in both modes"
+      ]
+    },
+    {
+      "id": "REQ-020",
+      "priority": "P2",
+      "category": "Mobile",
+      "description": "Provide mobile-optimized view with drawer navigation and touch-friendly controls",
+      "source_pain_point": "PP-1.1",
+      "source_jtbd": "JTBD-3.1",
+      "screens": ["SCR-008"],
+      "acceptance_criteria": [
+        "Master pane collapses to drawer on mobile (<768px)",
+        "Touch targets ≥44px for all interactive elements",
+        "Swipe gestures to open/close drawer"
+      ]
+    },
+    {
+      "id": "REQ-021",
+      "priority": "P0",
+      "category": "Data Loading",
+      "description": "Parse and index all framework components from .claude/ folder on startup",
+      "source_pain_point": "PP-1.1",
+      "source_jtbd": "JTBD-1.1",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Auto-discover skills from .claude/skills/",
+        "Auto-discover commands from .claude/commands/",
+        "Auto-discover agents from .claude/agents/",
+        "Auto-discover rules from .claude/rules/",
+        "Auto-discover hooks from .claude/hooks/"
+      ]
+    },
+    {
+      "id": "REQ-022",
+      "priority": "P0",
+      "category": "Data Loading",
+      "description": "Extract frontmatter metadata (name, description, stage, tags) from all markdown files",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.2",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Parse YAML frontmatter from SKILL.md files",
+        "Extract name, description, context, agent fields",
+        "Extract stage tags (Discovery, Prototype, etc.)",
+        "Gracefully handle missing frontmatter"
+      ]
+    },
+    {
+      "id": "REQ-023",
+      "priority": "P0",
+      "category": "Data Loading",
+      "description": "Build search index from component names, descriptions, keywords, and content",
+      "source_pain_point": "PP-1.3",
+      "source_jtbd": "JTBD-1.3",
+      "screens": ["SCR-002"],
+      "acceptance_criteria": [
+        "Full-text index includes all markdown content",
+        "Index updates on file system changes (watch mode)",
+        "Index optimized for <2s search response"
+      ]
+    },
+    {
+      "id": "REQ-024",
+      "priority": "P1",
+      "category": "UI Components",
+      "description": "Display count badges showing number of items in each category (e.g., 'Skills (85)')",
+      "source_pain_point": "PP-1.4",
+      "source_jtbd": "JTBD-1.7",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Badges show accurate item counts",
+        "Counts update when filters applied",
+        "Badges visible in collapsed state"
+      ]
+    },
+    {
+      "id": "REQ-025",
+      "priority": "P1",
+      "category": "UI Components",
+      "description": "Show info icons with hover tooltips for category descriptions",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.2",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Hover to show category description",
+        "Tooltips appear within 500ms",
+        "Tooltips do not obstruct navigation"
+      ]
+    },
+    {
+      "id": "REQ-026",
+      "priority": "P0",
+      "category": "State Management",
+      "description": "Persist navigation state (expanded categories, selected item) across sessions",
+      "source_pain_point": "PP-1.1",
+      "source_jtbd": "JTBD-1.1",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Restore last selected item on page load",
+        "Restore expanded categories",
+        "Store state in localStorage"
+      ]
+    },
+    {
+      "id": "REQ-027",
+      "priority": "P1",
+      "category": "State Management",
+      "description": "Persist user preferences (theme, stage filter, favorites) to localStorage",
+      "source_pain_point": "PP-1.5",
+      "source_jtbd": "JTBD-1.6",
+      "screens": ["SCR-007"],
+      "acceptance_criteria": [
+        "Favorites persist across sessions",
+        "Theme preference persists",
+        "Stage filter selection persists"
+      ]
+    },
+    {
+      "id": "REQ-028",
+      "priority": "P0",
+      "category": "Markdown Rendering",
+      "description": "Render markdown content with syntax highlighting for code blocks (Prism.js or similar)",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.2",
+      "screens": ["SCR-001", "SCR-006"],
+      "acceptance_criteria": [
+        "Code blocks have syntax highlighting for bash, javascript, typescript, json",
+        "Supports GFM (GitHub Flavored Markdown)",
+        "Renders tables, lists, headings correctly"
+      ]
+    },
+    {
+      "id": "REQ-029",
+      "priority": "P1",
+      "category": "Markdown Rendering",
+      "description": "Render Mermaid diagrams inline with theme-aware styling",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.9",
+      "screens": ["SCR-009"],
+      "acceptance_criteria": [
+        "Mermaid diagrams render on page load",
+        "Diagrams adapt to light/dark theme",
+        "Supports flowcharts, sequence diagrams, class diagrams"
+      ]
+    },
+    {
+      "id": "REQ-030",
+      "priority": "P0",
+      "category": "Error Handling",
+      "description": "Show graceful error messages for missing files or markdown parsing failures",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-2.1",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Error message in detail pane with 'Retry' button",
+        "Fallback to raw markdown text on render failure",
+        "Log errors to console for debugging"
+      ]
+    },
+    {
+      "id": "REQ-031",
+      "priority": "P1",
+      "category": "Error Handling",
+      "description": "Handle empty search results with helpful suggestions",
+      "source_pain_point": "PP-1.3",
+      "source_jtbd": "JTBD-1.3",
+      "screens": ["SCR-002"],
+      "acceptance_criteria": [
+        "Show 'No results found' message",
+        "Suggest alternative search terms or filters",
+        "Provide link back to main explorer"
+      ]
+    },
+    {
+      "id": "REQ-032",
+      "priority": "P0",
+      "category": "Navigation UX",
+      "description": "Implement breadcrumb navigation showing current component hierarchy",
+      "source_pain_point": "PP-1.4",
+      "source_jtbd": "JTBD-1.7",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Breadcrumbs show: Home > Skills > Discovery > Discovery_JTBD",
+        "Clicking breadcrumb navigates to parent category",
+        "Breadcrumbs update on item selection"
+      ]
+    },
+    {
+      "id": "REQ-033",
+      "priority": "P1",
+      "category": "Navigation UX",
+      "description": "Provide 'Back to Explorer' button from search results to main view",
+      "source_pain_point": "PP-1.3",
+      "source_jtbd": "JTBD-1.3",
+      "screens": ["SCR-002"],
+      "acceptance_criteria": [
+        "Button returns to SCR-001 with previous state",
+        "Preserves navigation state (expanded categories)",
+        "Keyboard shortcut Esc returns to explorer"
+      ]
+    },
+    {
+      "id": "REQ-034",
+      "priority": "P1",
+      "category": "Examples",
+      "description": "Display real-world usage examples with command syntax and expected output",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-2.1",
+      "screens": ["SCR-006"],
+      "acceptance_criteria": [
+        "Every component has at least one example",
+        "Examples show command syntax, expected output, and common pitfalls",
+        "Examples are copyable with syntax highlighting"
+      ]
+    },
+    {
+      "id": "REQ-035",
+      "priority": "P1",
+      "category": "Comparison",
+      "description": "Link related components in detail view with 'See also' section",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.8",
+      "screens": ["SCR-005", "SCR-006"],
+      "acceptance_criteria": [
+        "Related components are linked (e.g., '/discovery' → '/discovery-multiagent')",
+        "Links navigate to comparison view or detail view",
+        "Show key differences in tooltips"
+      ]
+    },
+    {
+      "id": "REQ-036",
+      "priority": "P0",
+      "category": "Architecture",
+      "description": "Use Node.js for server-side markdown parsing and file system watching",
+      "source_pain_point": "PP-1.1",
+      "source_jtbd": "JTBD-1.1",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Node.js server watches .claude/ folder for changes",
+        "Auto-reloads component index on file updates",
+        "Serves markdown content via API"
+      ]
+    },
+    {
+      "id": "REQ-037",
+      "priority": "P0",
+      "category": "Architecture",
+      "description": "Implement RESTful API for component data retrieval (GET /api/components, GET /api/components/:id)",
+      "source_pain_point": "PP-1.1",
+      "source_jtbd": "JTBD-1.1",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "API endpoints return JSON component metadata",
+        "Support filtering by stage, type",
+        "Support pagination for large result sets"
+      ]
+    },
+    {
+      "id": "REQ-038",
+      "priority": "P1",
+      "category": "Architecture",
+      "description": "Build React frontend with React Router for client-side navigation",
+      "source_pain_point": "PP-1.1",
+      "source_jtbd": "JTBD-1.1",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Routes: / (main), /search, /favorites, /compare",
+        "Client-side routing for instant navigation",
+        "URL parameters for deep linking"
+      ]
+    },
+    {
+      "id": "REQ-039",
+      "priority": "P1",
+      "category": "Testing",
+      "description": "Ensure 80%+ test coverage for component rendering and navigation logic",
+      "source_pain_point": "PP-1.1",
+      "source_jtbd": "JTBD-1.1",
+      "screens": ["SCR-001"],
+      "acceptance_criteria": [
+        "Unit tests for tree navigation",
+        "Integration tests for search",
+        "E2E tests for critical user flows"
+      ]
+    },
+    {
+      "id": "REQ-040",
+      "priority": "P2",
+      "category": "Export",
+      "description": "Enable export of component descriptions for client-facing materials",
+      "source_pain_point": "PP-1.1",
+      "source_jtbd": "JTBD-3.1",
+      "screens": ["SCR-006"],
+      "acceptance_criteria": [
+        "Can export as PDF, Markdown, or HTML",
+        "Export includes component name, description, examples",
+        "Professional appearance for stakeholder demos"
+      ]
+    },
+    {
+      "id": "REQ-041",
+      "priority": "P2",
+      "category": "Contribution",
+      "description": "Allow team members to annotate components with custom notes",
+      "source_pain_point": "PP-1.6",
+      "source_jtbd": "JTBD-3.2",
+      "screens": ["SCR-007"],
+      "acceptance_criteria": [
+        "Notes persist to shared storage (GitHub repo or database)",
+        "Notes are visible to all team members",
+        "Notes support markdown formatting"
+      ]
+    },
+    {
+      "id": "REQ-042",
+      "priority": "P1",
+      "category": "Settings",
+      "description": "Provide settings panel for theme, layout preferences, and accessibility options",
+      "source_pain_point": "PP-1.2",
+      "source_jtbd": "JTBD-1.2",
+      "screens": ["SCR-007"],
+      "acceptance_criteria": [
+        "Toggle sidebar width (collapsed, default, wide)",
+        "Toggle keyboard shortcuts",
+        "Toggle animations (reduce motion for accessibility)"
+      ]
+    }
+  ]
+}

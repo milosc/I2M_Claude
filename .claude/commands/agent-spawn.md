@@ -1,4 +1,5 @@
 ---
+name: agent-spawn
 description: Spawn specialized agent for specific task with coordination and locking
 argument-hint: <agent-type> <task-id>
 model: claude-sonnet-4-5-20250929

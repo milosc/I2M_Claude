@@ -1,4 +1,5 @@
 ---
+name: discovery-docs-all
 description: Generate all Discovery documentation files
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

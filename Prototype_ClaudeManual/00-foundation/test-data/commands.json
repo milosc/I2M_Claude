@@ -1,0 +1,201 @@
+[
+  {
+    "id": "discovery",
+    "name": "Discovery Analysis",
+    "type": "command",
+    "description": "Complete end-to-end discovery analysis transforming client materials into structured documentation",
+    "stage": "discovery",
+    "path": ".claude/commands/discovery.md",
+    "frontmatter": {
+      "name": "discovery",
+      "description": "Complete end-to-end discovery analysis",
+      "model": "sonnet",
+      "allowed_tools": ["Read", "Write", "Bash"],
+      "argument_hint": "<SystemName> <InputPath>",
+      "invokes_skills": ["Discovery_InterviewAnalysis", "Discovery_PainPoints", "Discovery_JTBD", "Discovery_GeneratePersona"],
+      "orchestrates_agents": ["discovery-domain-researcher", "discovery-persona-synthesizer"]
+    },
+    "rawContent": "# /discovery\n\n## Purpose\n\nOrchestrate complete Discovery analysis workflow from raw client materials to structured documentation.\n\n## Usage\n\n```bash\n/discovery <SystemName> <InputPath>\n```\n\n## Arguments\n\n- **SystemName**: Project identifier (e.g., ERTriage)\n- **InputPath**: Path to client materials folder\n\n## Workflow\n\n1. **Initialize** - Create folder structure, configure session\n2. **Analyze** - Process interviews, documents, screenshots\n3. **Extract** - Generate pain points, JTBD, personas\n4. **Validate** - Run zero-hallucination audit\n5. **Document** - Generate vision, strategy, roadmap\n6. **Export** - Create design specs for Prototype\n\n## Output\n\nCreates `ClientAnalysis_<SystemName>/` with:\n- 01-client-facts/\n- 02-research/\n- 03-strategy/\n- 04-design-specs/\n\n## Example\n\n```bash\n/discovery ERTriage ./Client_Materials/\n```",
+    "purpose": "Orchestrates discovery workflow",
+    "examples": [
+      {
+        "title": "Full Discovery",
+        "language": "bash",
+        "code": "/discovery SystemName ClientMaterials/"
+      }
+    ],
+    "options": [],
+    "isFavorite": true
+  },
+  {
+    "id": "discovery-multiagent",
+    "name": "Discovery (Multi-Agent Parallel)",
+    "type": "command",
+    "description": "Multi-agent discovery with massively parallel execution (60-70% faster than sequential)",
+    "stage": "discovery",
+    "path": ".claude/commands/discovery-multiagent.md",
+    "frontmatter": {
+      "name": "discovery-multiagent",
+      "description": "Multi-agent parallel discovery execution",
+      "model": "sonnet",
+      "allowed_tools": ["Task", "Read", "Write"],
+      "argument_hint": "<SystemName> <InputPath>",
+      "invokes_skills": ["Discovery_MultiAgentOrchestrator"],
+      "orchestrates_agents": ["discovery-orchestrator", "discovery-domain-researcher", "discovery-persona-synthesizer"]
+    },
+    "rawContent": "# /discovery-multiagent\n\n## Purpose\n\nRun Discovery analysis with massively parallel agent execution for 60-70% faster completion.\n\n## Usage\n\n```bash\n/discovery-multiagent <SystemName> <InputPath>\n```\n\n## Architecture\n\nSpawns specialized agents in parallel:\n- **domain-researcher**: Extracts domain knowledge\n- **interview-analyst**: Processes transcripts (1 per file)\n- **persona-synthesizer**: Generates personas\n- **pain-point-validator**: Validates extraction\n\n## Performance\n\n| Mode | Time | Agents |\n|------|------|--------|\n| Sequential | 45 min | 1 |\n| Multi-Agent | 15 min | 8-12 |\n\n## When to Use\n\n- Large client material sets (10+ files)\n- Time-sensitive projects\n- Multi-source analysis needed",
+    "purpose": "Parallel multi-agent discovery execution",
+    "examples": [
+      {
+        "title": "Parallel Discovery",
+        "language": "bash",
+        "code": "/discovery-multiagent ERTriage ./Client_Materials/"
+      }
+    ],
+    "options": [],
+    "isFavorite": false
+  },
+  {
+    "id": "prototype",
+    "name": "Prototype Builder",
+    "type": "command",
+    "description": "Transforms discovery outputs into working React prototype with design tokens, components, and screens",
+    "stage": "prototype",
+    "path": ".claude/commands/prototype.md",
+    "frontmatter": {
+      "name": "prototype",
+      "description": "Build working React prototype from Discovery",
+      "model": "sonnet",
+      "allowed_tools": ["Read", "Write", "Bash", "Task"],
+      "argument_hint": "<SystemName>",
+      "invokes_skills": ["Prototype_DesignSystem", "Prototype_ComponentSpecifier", "Prototype_CodeGenerator"],
+      "orchestrates_agents": ["prototype-screen-specifier", "prototype-code-generator"]
+    },
+    "rawContent": "# /prototype\n\n## Purpose\n\nTransform Discovery outputs into a working React prototype with design tokens, component library, and complete screens.\n\n## Usage\n\n```bash\n/prototype <SystemName>\n```\n\n## Prerequisites\n\n- Completed Discovery (Checkpoint 12+)\n- `ClientAnalysis_<SystemName>/` exists\n\n## Phases\n\n1. **Foundation** - Design tokens, test data\n2. **Components** - Atomic component specs\n3. **Screens** - Screen specifications\n4. **Implementation** - React code generation\n5. **QA** - Accessibility, visual testing\n6. **Deliverables** - Export package\n\n## Output\n\nCreates `Prototype_<SystemName>/` with:\n- 00-foundation/\n- 01-components/\n- 02-screens/\n- 03-accessibility/\n- 04-implementation/\n- 05-qa-validation/\n- 06-deliverables/",
+    "purpose": "Build React prototype from Discovery",
+    "examples": [
+      {
+        "title": "Build Prototype",
+        "language": "bash",
+        "code": "/prototype ERTriage"
+      }
+    ],
+    "options": [],
+    "isFavorite": true
+  },
+  {
+    "id": "htec-sdd-implement",
+    "name": "Implementation (TDD)",
+    "type": "command",
+    "description": "Execute TDD implementation with Red-Green-Refactor cycle, quality validation, and PR preparation",
+    "stage": "implementation",
+    "path": ".claude/commands/htec-sdd-implement.md",
+    "frontmatter": {
+      "name": "htec-sdd-implement",
+      "description": "TDD implementation with quality validation",
+      "model": "sonnet",
+      "allowed_tools": ["Read", "Write", "Edit", "Bash"],
+      "argument_hint": "<SystemName> [--task T-001]",
+      "invokes_skills": ["Implementation_Developer"],
+      "orchestrates_agents": ["implementation-developer", "quality-bug-hunter"]
+    },
+    "rawContent": "# /htec-sdd-implement\n\n## Purpose\n\nExecute TDD implementation following Red-Green-Refactor cycle with quality validation and PR preparation.\n\n## Usage\n\n```bash\n/htec-sdd-implement <SystemName> [--task T-001]\n```\n\n## TDD Cycle\n\n### RED Phase\n1. Read task specification\n2. Write failing test\n3. Verify test fails for right reason\n\n### GREEN Phase\n1. Write minimum implementation\n2. Run tests until passing\n3. No extra features\n\n### REFACTOR Phase\n1. Improve code quality\n2. Extract duplication\n3. Apply SOLID principles\n4. Verify tests still pass\n\n## Quality Gates\n\n- Test coverage > 80%\n- No TypeScript errors\n- ESLint clean\n- No CRITICAL findings\n\n## Options\n\n- `--task T-XXX`: Implement specific task\n- `--pr-group PR-XXX`: All tasks in PR group\n- `--batch N`: Concurrent agents (default: 2)",
+    "purpose": "Execute TDD implementation",
+    "examples": [
+      {
+        "title": "Implement Task",
+        "language": "bash",
+        "code": "/htec-sdd-implement ERTriage --task T-001"
+      }
+    ],
+    "options": [
+      {
+        "parameter": "--task",
+        "type": "string",
+        "required": false,
+        "description": "Specific task ID to implement"
+      },
+      {
+        "parameter": "--pr-group",
+        "type": "string",
+        "required": false,
+        "description": "PR group to process"
+      }
+    ],
+    "isFavorite": false
+  },
+  {
+    "id": "grc-assess-gdpr",
+    "name": "GDPR Compliance Assessment",
+    "type": "command",
+    "description": "GDPR compliance assessment with DPIA and data subject rights evaluation",
+    "stage": "solarch",
+    "path": ".claude/commands/grc-assess-gdpr.md",
+    "frontmatter": {
+      "name": "grc-assess-gdpr",
+      "description": "GDPR compliance and DPIA assessment",
+      "model": "haiku",
+      "allowed_tools": ["Read", "Write"],
+      "argument_hint": "<description>",
+      "invokes_skills": ["GRC_gdpr-compliance", "GRC_data-classification"],
+      "orchestrates_agents": ["privacy-officer"]
+    },
+    "rawContent": "# /grc-assess-gdpr\n\n## Purpose\n\nPerform GDPR compliance assessment with data privacy impact analysis.\n\n## Usage\n\n```bash\n/grc-assess-gdpr \"<system description>\"\n```\n\n## Assessment Areas\n\n### Lawful Basis Analysis\n- Consent mechanisms\n- Contractual necessity\n- Legal obligations\n- Legitimate interests balance\n\n### Data Subject Rights\n- Access request handling\n- Rectification procedures\n- Erasure (right to be forgotten)\n- Portability mechanisms\n\n### DPIA Evaluation\n- High-risk processing triggers\n- Sensitive data categories\n- Systematic monitoring\n- Automated decision-making\n\n## Output\n\nGenerates compliance report with:\n- Risk assessment matrix\n- Required controls\n- Documentation gaps\n- Remediation roadmap",
+    "purpose": "GDPR compliance assessment",
+    "examples": [
+      {
+        "title": "Assess CRM System",
+        "language": "bash",
+        "code": "/grc-assess-gdpr \"CRM system processing EU customer data\""
+      }
+    ],
+    "options": [],
+    "isFavorite": false
+  },
+  {
+    "id": "trace-audit",
+    "name": "Traceability Audit",
+    "type": "command",
+    "description": "Multi-agent traceability audit with comprehensive health report and visual matrix",
+    "stage": "discovery",
+    "path": ".claude/commands/trace-audit.md",
+    "frontmatter": {
+      "name": "trace-audit",
+      "description": "Multi-agent traceability validation",
+      "model": "sonnet",
+      "allowed_tools": ["Task", "Read", "Write"],
+      "argument_hint": "<SystemName> [--quick]",
+      "invokes_skills": [],
+      "orchestrates_agents": ["traceability-registry-scanner", "traceability-state-analyzer", "traceability-consolidator"]
+    },
+    "rawContent": "# /trace-audit\n\n## Purpose\n\nPerform comprehensive traceability validation with multi-agent parallel scanning.\n\n## Usage\n\n```bash\n/trace-audit <SystemName> [--quick]\n```\n\n## Architecture\n\n```\n┌─────────────────────────────────────┐\n│     /trace-audit ORCHESTRATOR       │\n├─────────────────────────────────────┤\n│  PHASE 1: PARALLEL SCANNERS         │\n│  ┌─────────┐ ┌─────────┐ ┌───────┐  │\n│  │registry │ │state    │ │json   │  │\n│  │scanner  │ │analyzer │ │finder │  │\n│  └────┬────┘ └────┬────┘ └───┬───┘  │\n│       └───────────┼──────────┘      │\n│  PHASE 2: CONSOLIDATOR              │\n│  ┌─────────────────────────────┐    │\n│  │ Cross-validate + Report     │    │\n│  └─────────────────────────────┘    │\n└─────────────────────────────────────┘\n```\n\n## Options\n\n- `--quick`: Health check only (no matrix)\n- `--json`: Machine-readable output\n- `--section`: Single section only\n\n## Output\n\n- `TRACEABILITY_AUDIT_REPORT.md`\n- `TRACEABILITY_MATRIX_MASTER.md`",
+    "purpose": "Multi-agent traceability audit",
+    "examples": [
+      {
+        "title": "Full Audit",
+        "language": "bash",
+        "code": "/trace-audit ERTriage"
+      },
+      {
+        "title": "Quick Check",
+        "language": "bash",
+        "code": "/trace-audit ERTriage --quick"
+      }
+    ],
+    "options": [
+      {
+        "parameter": "--quick",
+        "type": "boolean",
+        "required": false,
+        "description": "Health check without matrix"
+      },
+      {
+        "parameter": "--json",
+        "type": "boolean",
+        "required": false,
+        "description": "JSON output for CI/CD"
+      }
+    ],
+    "isFavorite": false
+  }
+]

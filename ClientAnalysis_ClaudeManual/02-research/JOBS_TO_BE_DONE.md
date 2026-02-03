@@ -3,9 +3,9 @@
 ---
 system_name: ClaudeManual
 checkpoint: CP-4
-total_jobs: 12
+total_jobs: 13
 p0_jobs: 4
-p1_jobs: 5
+p1_jobs: 6
 p2_jobs: 3
 date_created: 2026-01-31
 session: disc-claude-manual-004
@@ -206,6 +206,29 @@ This document outlines **12 jobs** derived from 6 validated pain points across t
 
 ---
 
+### JTBD-1.9: Visualize Process and Architecture Diagrams (P1)
+
+**Statement**: When I need to understand project workflows, team practices, or system architecture, I want to browse and preview diagram documents (Mermaid, PlantUML, Markdown) in the same interface as other framework components, so I can have a unified knowledge hub without switching tools.
+
+**Context**:
+- **User Types**: UT-001 (Framework Creators), UT-002 (Product People), UT-003 (Developers), UT-004 (Build/Client Partners)
+- **Traces From**: User feedback (FB-001) - Request for workflow, ways of working, and architecture document visualization
+- **Frequency**: Weekly during project planning, onboarding, and architecture reviews
+- **Importance**: Consolidates documentation into single interface, reduces context switching
+
+**Success Criteria**:
+1. Mermaid diagrams render correctly with syntax highlighting and theme support
+2. PlantUML diagrams render via server integration (Kroki or self-hosted)
+3. Users can zoom, pan, and export diagrams (PNG, SVG, PDF)
+4. Architecture documentation (C4 diagrams, ADRs) is browsable in category hierarchy
+5. Ways of Working documents are searchable and filterable by audience/category
+
+**Current vs. Desired State**:
+- **Current**: Diagrams viewed in separate tools (Mermaid Live Editor, PlantUML server), architecture docs scattered in file system
+- **Desired**: Unified viewer for all diagram formats with zoom/pan, export, and integrated navigation alongside skills/commands/agents
+
+---
+
 ## Emotional Jobs
 
 ### JTBD-2.1: Feel Confident Using the Framework (P0)
@@ -310,6 +333,7 @@ This document outlines **12 jobs** derived from 6 validated pain points across t
 | JTBD-1.4 | Understand Which Tools Apply to Current Workflow Stage | P1 | UT-002, UT-003, UT-004, UT-006 | PP-1.4 | Functional |
 | JTBD-1.5 | Edit Framework Source Files Efficiently | P1 | UT-003, UT-001 | PP-1.6 | Functional |
 | JTBD-1.8 | Compare Similar Framework Components | P1 | UT-002, UT-003, UT-004 | PP-1.2 | Functional |
+| JTBD-1.9 | Visualize Process and Architecture Diagrams | P1 | UT-001, UT-002, UT-003, UT-004 | FB-001 | Functional |
 | JTBD-3.1 | Be Perceived as Framework-Competent | P1 | UT-004, UT-005, UT-006 | PP-1.1, PP-1.3 | Social |
 | JTBD-1.6 | Bookmark Frequently-Used Tools | P2 | UT-003, UT-001 | PP-1.5 | Functional |
 | JTBD-2.2 | Feel Autonomous in Framework Exploration | P2 | UT-002, UT-003, UT-005 | PP-1.1, PP-1.3 | Emotional |
@@ -330,7 +354,7 @@ This document outlines **12 jobs** derived from 6 validated pain points across t
 | PP-1.5 (Lack of Personalization) | JTBD-1.6 | 1 job |
 | PP-1.6 (Developer Friction) | JTBD-1.5, JTBD-3.2 | 2 jobs |
 
-**Total Coverage**: All 6 pain points addressed by 12 jobs.
+**Total Coverage**: All 6 pain points addressed by 13 jobs. JTBD-1.9 addresses user feedback FB-001.
 
 ### User Type → JTBD Mapping
 
@@ -369,4 +393,4 @@ This document outlines **12 jobs** derived from 6 validated pain points across t
 
 ---
 
-*12 jobs derived from 6 validated pain points. 100% pain point coverage. All jobs follow When/Want/So-that framework.*
+*13 jobs derived from 6 validated pain points plus user feedback. 100% pain point coverage. All jobs follow When/Want/So-that framework. JTBD-1.9 added via feedback FB-001.*

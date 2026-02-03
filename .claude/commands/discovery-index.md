@@ -1,4 +1,5 @@
 ---
+name: discovery-index
 description: Generate Discovery master index and navigation
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit

@@ -1,4 +1,5 @@
 ---
+name: discovery-resume
 description: Resume Discovery analysis from last completed checkpoint
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Bash

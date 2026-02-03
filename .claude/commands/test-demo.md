@@ -1,4 +1,5 @@
 ---
+name: test-demo
 description: Framework lifecycle logging demonstration using deterministic hooks
 argument-hint: [--mode command|skill|agent|all]
 model: claude-sonnet-4-5-20250929

@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-implement
 description: Orchestrate complete implementation workflow with specialized agents
 argument-hint: <SystemName> [options]
 model: claude-sonnet-4-5-20250929

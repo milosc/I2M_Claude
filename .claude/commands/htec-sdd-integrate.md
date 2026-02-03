@@ -1,4 +1,5 @@
 ---
+name: htec-sdd-integrate
 description: Validate cross-module integration and E2E flows
 argument-hint: None
 model: claude-sonnet-4-5-20250929

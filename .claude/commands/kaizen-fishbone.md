@@ -1,4 +1,5 @@
 ---
+name: kaizen-fishbone
 description: Systematic Fishbone analysis exploring problem causes across six categories
 argument-hint: Optional problem description to analyze
 model: claude-sonnet-4-5-20250929

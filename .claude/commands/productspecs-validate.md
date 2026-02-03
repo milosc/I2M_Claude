@@ -1,4 +1,5 @@
 ---
+name: productspecs-validate
 description: Validate ProductSpecs checkpoint requirements and P0 coverage
 argument-hint: --checkpoint <N>
 model: claude-sonnet-4-5-20250929

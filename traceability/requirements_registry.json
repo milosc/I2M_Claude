@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "system_name": "ClaudeManual",
+  "created_at": "2026-01-31",
+  "updated_at": "2026-01-31",
+  "description": "Requirements registry - will be populated during Prototype phase",
+  "requirements": [],
+  "summary": {
+    "total": 0,
+    "by_priority": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0
+    }
+  }
+}

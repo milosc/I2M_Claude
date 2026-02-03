@@ -1,0 +1,205 @@
+[
+  {
+    "id": "Discovery_JTBD",
+    "name": "Jobs To Be Done Extractor",
+    "type": "skill",
+    "description": "Extracts Jobs To Be Done from pain points, client facts, and user research. Generates structured JTBD document with functional, emotional, and social jobs.",
+    "stage": "discovery",
+    "path": ".claude/skills/Discovery_JTBD/SKILL.md",
+    "frontmatter": {
+      "name": "Discovery_JTBD",
+      "description": "Extracts Jobs To Be Done from pain points, client facts, and user research",
+      "model": "sonnet",
+      "context": null,
+      "agent": null,
+      "allowed_tools": ["Read", "Write", "Grep"],
+      "skills_required": []
+    },
+    "rawContent": "# Discovery_JTBD\n\n## Purpose\n\nTransform validated pain points into actionable Jobs To Be Done using the When/Want/So-that framework. This skill analyzes client facts and pain points to generate functional, emotional, and social jobs.\n\n## When to Use\n\n- After pain points have been validated\n- During the JTBD extraction phase of Discovery\n- When user needs are not yet expressed as actionable jobs\n\n## Workflow\n\n1. Read pain points from `02-research/PAIN_POINTS.md`\n2. Map pain points to user types\n3. Generate functional jobs (What users want to accomplish)\n4. Generate emotional jobs (How users want to feel)\n5. Generate social jobs (How users want to be perceived)\n6. Validate 100% coverage of P0 pain points\n\n## Output\n\nGenerates `02-research/JOBS_TO_BE_DONE.md` with:\n- Functional JTBD (JTBD-F-X.X)\n- Emotional JTBD (JTBD-E-X.X)\n- Social JTBD (JTBD-S-X.X)\n- Traceability links to source pain points",
+    "purpose": "Transform validated pain points into actionable Jobs To Be Done using When/Want/So-that framework",
+    "examples": [
+      {
+        "title": "Invoke via Discovery Command",
+        "language": "bash",
+        "code": "/discovery ERTriage Client_Materials/"
+      }
+    ],
+    "options": [],
+    "isFavorite": false
+  },
+  {
+    "id": "Discovery_GeneratePersona",
+    "name": "Persona Generator",
+    "type": "skill",
+    "description": "Generates rich persona documents from interview transcripts with demographics, goals, pain points, and workflow patterns",
+    "stage": "discovery",
+    "path": ".claude/skills/Discovery_GeneratePersona/SKILL.md",
+    "frontmatter": {
+      "name": "Discovery_GeneratePersona",
+      "description": "Generates rich persona documents from interview transcripts",
+      "model": "sonnet",
+      "context": "fork",
+      "agent": null,
+      "allowed_tools": ["Read", "Write"],
+      "skills_required": ["Discovery_InterviewAnalysis"]
+    },
+    "rawContent": "# Discovery_GeneratePersona\n\n## Purpose\n\nCreate detailed persona profiles from user research data. Each persona captures demographics, goals, frustrations, and day-in-life scenarios.\n\n## When to Use\n\n- After interview analysis is complete\n- During persona synthesis phase\n- When creating user-centered design artifacts\n\n## Persona Structure\n\n### Demographics\n- Role and title\n- Experience level\n- Technical proficiency\n- Team size and structure\n\n### Goals\n- Primary objectives\n- Success metrics\n- Career aspirations\n\n### Frustrations\n- Current pain points\n- Workarounds used\n- Impact on productivity\n\n### Day-in-Life\n- Typical workflow\n- Tools used\n- Collaboration patterns\n\n## Output\n\nGenerates `02-research/personas/PERSONA_{Name}.md` with structured persona document.",
+    "purpose": "Create detailed persona profiles from user research",
+    "examples": [
+      {
+        "title": "Generate Specific Persona",
+        "language": "bash",
+        "code": "/discovery-persona \"Nurse Manager\""
+      }
+    ],
+    "options": [],
+    "isFavorite": false
+  },
+  {
+    "id": "Prototype_DesignSystem",
+    "name": "Design System Generator",
+    "type": "skill",
+    "description": "Generates comprehensive design token system with colors, typography, spacing, and component patterns",
+    "stage": "prototype",
+    "path": ".claude/skills/Prototype_DesignSystem/SKILL.md",
+    "frontmatter": {
+      "name": "Prototype_DesignSystem",
+      "description": "Generates comprehensive design token system",
+      "model": "sonnet",
+      "context": null,
+      "agent": null,
+      "allowed_tools": ["Read", "Write"],
+      "skills_required": []
+    },
+    "rawContent": "# Prototype_DesignSystem\n\n## Purpose\n\nCreate a comprehensive design token system from Discovery design specifications. Generates colors, typography, spacing, and component patterns following Tailwind CSS v4 conventions.\n\n## Token Categories\n\n### Colors\n- Primary palette (brand colors)\n- Semantic colors (success, warning, error)\n- Neutral grays\n- Surface colors\n\n### Typography\n- Font families\n- Font sizes (rem-based)\n- Line heights\n- Font weights\n\n### Spacing\n- Base unit (4px)\n- Scale (0-96)\n- Component-specific spacing\n\n### Effects\n- Border radii\n- Shadows\n- Transitions\n\n## Output\n\nGenerates `00-foundation/design-tokens/` with:\n- `colors.json`\n- `typography.json`\n- `spacing.json`\n- `tokens.css` (CSS custom properties)",
+    "purpose": "Create design tokens and component library specifications",
+    "examples": [
+      {
+        "title": "Generate Design Tokens",
+        "language": "bash",
+        "code": "/prototype-design ERTriage"
+      }
+    ],
+    "options": [],
+    "isFavorite": true
+  },
+  {
+    "id": "Prototype_CodeGenerator",
+    "name": "React Code Generator",
+    "type": "skill",
+    "description": "Generates React components from component specifications with TypeScript, Tailwind CSS, and accessibility features",
+    "stage": "prototype",
+    "path": ".claude/skills/Prototype_CodeGenerator/SKILL.md",
+    "frontmatter": {
+      "name": "Prototype_CodeGenerator",
+      "description": "Generates React components from specifications",
+      "model": "sonnet",
+      "context": "fork",
+      "agent": null,
+      "allowed_tools": ["Read", "Write", "Bash"],
+      "skills_required": ["Prototype_DesignSystem"]
+    },
+    "rawContent": "# Prototype_CodeGenerator\n\n## Purpose\n\nTransform component specifications into working React code with TypeScript, Tailwind CSS, and accessibility features.\n\n## Code Standards\n\n### TypeScript\n- Strict mode enabled\n- Props interfaces for all components\n- No `any` types\n\n### Tailwind CSS\n- Use design tokens via CSS custom properties\n- Responsive utilities\n- Dark mode support\n\n### Accessibility\n- ARIA attributes\n- Keyboard navigation\n- Focus management\n- Screen reader support\n\n## Output Structure\n\n```\n04-implementation/src/components/\n├── ComponentName/\n│   ├── index.tsx\n│   ├── ComponentName.test.tsx\n│   └── types.ts\n```",
+    "purpose": "Transform component specs into working React code",
+    "examples": [
+      {
+        "title": "Generate Components",
+        "language": "bash",
+        "code": "/prototype-components ERTriage"
+      }
+    ],
+    "options": [],
+    "isFavorite": false
+  },
+  {
+    "id": "Implementation_Developer",
+    "name": "TDD Implementation Developer",
+    "type": "skill",
+    "description": "Implements features using Test-Driven Development with Red-Green-Refactor cycle and quality validation",
+    "stage": "implementation",
+    "path": ".claude/skills/Implementation_Developer/SKILL.md",
+    "frontmatter": {
+      "name": "Implementation_Developer",
+      "description": "TDD Implementation with Red-Green-Refactor cycle",
+      "model": "sonnet",
+      "context": "fork",
+      "agent": "implementation-developer",
+      "allowed_tools": ["Read", "Write", "Edit", "Bash"],
+      "skills_required": []
+    },
+    "rawContent": "# Implementation_Developer\n\n## Purpose\n\nImplement production code using strict TDD methodology with Red-Green-Refactor cycle.\n\n## TDD Cycle\n\n### RED Phase\n1. Write failing test first\n2. Test must fail for the right reason\n3. One test at a time\n\n### GREEN Phase\n1. Write minimum code to pass\n2. No additional features\n3. Run tests to verify\n\n### REFACTOR Phase\n1. Improve code quality\n2. Maintain passing tests\n3. Extract duplication\n4. Apply SOLID principles\n\n## Quality Gates\n\n- Test coverage > 80%\n- No TypeScript errors\n- ESLint passing\n- No CRITICAL findings\n\n## Output\n\nGenerated code with:\n- Unit tests (*.test.ts)\n- Implementation files\n- Updated traceability",
+    "purpose": "Implement production code using TDD methodology",
+    "examples": [
+      {
+        "title": "Implement Task",
+        "language": "bash",
+        "code": "/htec-sdd-implement ERTriage --task T-001"
+      }
+    ],
+    "options": [
+      {
+        "parameter": "--task",
+        "type": "string",
+        "required": false,
+        "description": "Specific task ID to implement"
+      }
+    ],
+    "isFavorite": false
+  },
+  {
+    "id": "GRC_gdpr-compliance",
+    "name": "GDPR Compliance Assessor",
+    "type": "skill",
+    "description": "Assesses GDPR compliance requirements, data privacy impacts, and DPIA triggers for EU data processing",
+    "stage": "solarch",
+    "path": ".claude/skills/GRC_gdpr-compliance/SKILL.md",
+    "frontmatter": {
+      "name": "GRC_gdpr-compliance",
+      "description": "GDPR compliance assessment and DPIA evaluation",
+      "model": "haiku",
+      "context": null,
+      "agent": null,
+      "allowed_tools": ["Read", "Write"],
+      "skills_required": []
+    },
+    "rawContent": "# GRC_gdpr-compliance\n\n## Purpose\n\nEvaluate GDPR compliance requirements and identify data protection requirements for EU data processing.\n\n## Assessment Areas\n\n### Lawful Basis\n- Consent\n- Contract\n- Legal obligation\n- Vital interests\n- Public task\n- Legitimate interests\n\n### Data Subject Rights\n- Right to access\n- Right to rectification\n- Right to erasure\n- Right to portability\n- Right to object\n\n### DPIA Triggers\n- Large-scale processing\n- Sensitive data\n- Systematic monitoring\n- Automated decision-making\n\n## Output\n\nGenerates compliance assessment with:\n- Lawful basis analysis\n- DPIA recommendation\n- Required technical measures\n- Documentation requirements",
+    "purpose": "Evaluate GDPR compliance and identify data protection requirements",
+    "examples": [
+      {
+        "title": "GDPR Assessment",
+        "language": "bash",
+        "code": "/grc-assess-gdpr \"CRM system processing EU customer data\""
+      }
+    ],
+    "options": [],
+    "isFavorite": false
+  },
+  {
+    "id": "SECURITY_vulnerability-scanner",
+    "name": "OWASP Vulnerability Scanner",
+    "type": "skill",
+    "description": "Scans code for OWASP 2025 vulnerabilities including SQL injection, XSS, broken authentication, and IDOR",
+    "stage": "implementation",
+    "path": ".claude/skills/SECURITY_vulnerability-scanner/SKILL.md",
+    "frontmatter": {
+      "name": "SECURITY_vulnerability-scanner",
+      "description": "OWASP 2025 vulnerability scanning",
+      "model": "sonnet",
+      "context": null,
+      "agent": "quality-security-auditor",
+      "allowed_tools": ["Read", "Grep", "Bash"],
+      "skills_required": []
+    },
+    "rawContent": "# SECURITY_vulnerability-scanner\n\n## Purpose\n\nDetect security vulnerabilities in code following OWASP 2025 guidelines.\n\n## Vulnerability Categories\n\n### Injection\n- SQL injection\n- NoSQL injection\n- Command injection\n- LDAP injection\n\n### Authentication\n- Broken authentication\n- Session management\n- Credential exposure\n\n### XSS\n- Reflected XSS\n- Stored XSS\n- DOM-based XSS\n\n### Access Control\n- IDOR\n- Privilege escalation\n- Missing authorization\n\n## Severity Levels\n\n- CRITICAL: Immediate exploitation risk\n- HIGH: Significant security impact\n- MEDIUM: Moderate risk\n- LOW: Minor concern\n\n## Output\n\nGenerates security report with:\n- Vulnerability list by severity\n- Code locations\n- Remediation recommendations",
+    "purpose": "Detect security vulnerabilities in code",
+    "examples": [
+      {
+        "title": "Security Scan",
+        "language": "bash",
+        "code": "/htec-sdd-review ERTriage --security"
+      }
+    ],
+    "options": [],
+    "isFavorite": false
+  }
+]

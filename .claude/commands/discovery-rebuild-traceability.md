@@ -1,4 +1,5 @@
 ---
+name: discovery-rebuild-traceability
 description: Rebuild traceability registry from discovery artifacts
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob

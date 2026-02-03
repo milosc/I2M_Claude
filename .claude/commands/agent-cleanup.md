@@ -1,4 +1,5 @@
 ---
+name: agent-cleanup
 description: Clean up stale agent sessions and locks
 argument-hint: None
 model: claude-haiku-4-5-20250515

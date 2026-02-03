@@ -1,4 +1,5 @@
 ---
+name: htec-libraries-init
 description: Install all required dependencies for HTEC framework workflows
 argument-hint: None
 model: claude-haiku-4-5-20250515

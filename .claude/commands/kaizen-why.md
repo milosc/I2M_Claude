@@ -1,4 +1,5 @@
 ---
+name: kaizen-why
 description: Iterative Five Whys root cause analysis drilling from symptoms to fundamentals
 argument-hint: Optional issue or symptom description
 model: claude-haiku-4-5-20250515

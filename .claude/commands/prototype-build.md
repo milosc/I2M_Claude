@@ -1,4 +1,5 @@
 ---
+name: prototype-build
 description: Build prototype with npm/vite and validate output
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob

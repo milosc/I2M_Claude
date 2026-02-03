@@ -1,4 +1,5 @@
 ---
+name: solarch-context
 description: Generate C4 context diagram from system overview
 argument-hint: None
 model: claude-haiku-4-5-20250515

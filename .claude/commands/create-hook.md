@@ -1,4 +1,5 @@
 ---
+name: create-hook
 description: Create and configure git hooks with intelligent project analysis, suggestions, and automated testing
 argument-hint: Optional hook type or description of desired behavior
 model: claude-haiku-4-5-20250515

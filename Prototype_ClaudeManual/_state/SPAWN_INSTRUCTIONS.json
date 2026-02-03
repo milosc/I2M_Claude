@@ -1,0 +1,214 @@
+{
+  "schema_version": "1.0.0",
+  "system_name": "ClaudeManual",
+  "orchestrator": "prototype-orchestrator",
+  "generated_at": "2026-01-31T14:45:00Z",
+  "completed_checkpoints": [0, 1, 2, 5],
+  "pending_checkpoints": [3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "instructions": {
+    "cp3_data_model": {
+      "checkpoint": 3,
+      "agent_type": "prototype-data-model-specifier",
+      "model": "sonnet",
+      "description": "Generate data model specification for ClaudeManual",
+      "prerequisites": ["CP-2 completed"],
+      "spawn_prompt": "Agent: prototype-data-model-specifier\nRead: .claude/agents/prototype-data-model-specifier.md\n\nSYSTEM: ClaudeManual\nCHECKPOINT: 3\nSESSION: session-data-model-claudemanual\n\nINPUT: ClientAnalysis_ClaudeManual/04-design-specs/data-fields.md\nINPUT: _state/requirements_registry.json\nOUTPUT: Prototype_ClaudeManual/00-foundation/data-model/\n\nGenerate complete data model specification including:\n- Entity definitions (9 entities: Skill, Command, Agent, Rule, Hook, UserPreferences, Workflow, WaysOfWorking, ArchitectureDoc)\n- Relationships (uses_skill, invokes_skill, loads_skill, favorites, etc.)\n- Validation rules (27 rules across all entities)\n- TypeScript interfaces for all entities\n- API types for REST endpoints\n\nREQUIREMENTS:\n- All 9 entities from data-fields.md\n- Entity-Relationship diagram (Mermaid)\n- Validation rules for each field\n- Traceability to requirements (REQ-021, REQ-022, REQ-023, etc.)\n\nRETURN: JSON { status: 'completed', files_written: ['DATA_MODEL.md', 'ENTITY_INDEX.md', 'types.ts'], entities: 9, relationships: 8, validation_rules: 27 }",
+      "expected_outputs": [
+        "00-foundation/data-model/DATA_MODEL.md",
+        "00-foundation/data-model/ENTITY_INDEX.md",
+        "00-foundation/data-model/types.ts"
+      ]
+    },
+    "cp4_api_contracts": {
+      "checkpoint": 4,
+      "agent_type": "prototype-api-contract-specifier",
+      "model": "sonnet",
+      "description": "Generate API contract specifications (REST + WebSocket)",
+      "prerequisites": ["CP-3 completed"],
+      "spawn_prompt": "Agent: prototype-api-contract-specifier\nRead: .claude/agents/prototype-api-contract-specifier.md\n\nSYSTEM: ClaudeManual\nCHECKPOINT: 4\nSESSION: session-api-contracts-claudemanual\n\nINPUT: Prototype_ClaudeManual/00-foundation/data-model/DATA_MODEL.md\nINPUT: ClientAnalysis_ClaudeManual/04-design-specs/screen-definitions.md\nOUTPUT: Prototype_ClaudeManual/00-foundation/api-contracts/\n\nGenerate OpenAPI 3.0 specification including:\n- REST endpoints for all entities (GET /api/skills, GET /api/commands, GET /api/agents, etc.)\n- Search endpoint (POST /api/search) with filters\n- File system watching endpoint (GET /api/watch)\n- Request/response schemas for all entities\n- Error codes and handling\n- Authentication placeholders (localStorage token)\n\nREQUIREMENTS:\n- OpenAPI 3.0 format\n- All 9 entities from data model\n- Search and filter parameters (stage, type, query)\n- File system watching for hot-reload\n- Traceability to requirements (REQ-036, REQ-037)\n\nRETURN: JSON { status: 'completed', files_written: ['openapi.json', 'api-types.ts'], endpoints: 15, schemas: 9 }",
+      "expected_outputs": [
+        "00-foundation/api-contracts/openapi.json",
+        "00-foundation/api-contracts/api-types.ts"
+      ]
+    },
+    "cp6_7_design_tokens": {
+      "checkpoint": "6-7",
+      "agent_type": "prototype-design-token-generator",
+      "model": "sonnet",
+      "description": "Generate design token system (combined CP-6 and CP-7)",
+      "prerequisites": ["CP-5 completed"],
+      "spawn_prompt": "Agent: prototype-design-token-generator\nRead: .claude/agents/prototype-design-token-generator.md\n\nSYSTEM: ClaudeManual\nCHECKPOINTS: 6-7 (combined)\nSESSION: session-design-tokens-claudemanual\n\nINPUT: ClientAnalysis_ClaudeManual/04-design-specs/\nOUTPUT: Prototype_ClaudeManual/00-foundation/design-tokens/\n\nGenerate comprehensive design token system:\n- Color palette (primary: blue, accent: green/purple/orange/red for stages, semantic colors, light/dark theme variants)\n- Typography scale (Inter font family, responsive sizes: xs/sm/base/lg/xl/2xl)\n- Spacing system (4px base grid: 1/2/3/4/6/8/12/16/24/32/48/64)\n- Shadow definitions (sm/md/lg/xl)\n- Border radius values (sm/md/lg/full)\n- Animation tokens (duration, easing)\n\nREQUIREMENTS:\n- WCAG AA contrast ratios for all text\n- Stage color coding (Discovery=blue, Prototype=green, Implementation=purple, etc.)\n- Tailwind-compatible JSON format\n- Dark mode color variants\n\nRETURN: JSON { status: 'completed', files_written: ['tokens.json', 'colors.md', 'typography.md', 'spacing.md'], themes: 2 }",
+      "expected_outputs": [
+        "00-foundation/design-tokens/tokens.json",
+        "00-foundation/design-tokens/colors.md",
+        "00-foundation/design-tokens/typography.md",
+        "00-foundation/design-tokens/spacing.md"
+      ]
+    },
+    "cp8_components": {
+      "checkpoint": 8,
+      "agent_type": "prototype-component-specifier",
+      "model": "sonnet",
+      "description": "Generate component specifications (assembly-first mode)",
+      "prerequisites": ["CP-6-7 completed"],
+      "spawn_prompt": "Agent: prototype-component-specifier\nRead: .claude/agents/prototype-component-specifier.md\n\nSYSTEM: ClaudeManual\nCHECKPOINT: 8\nASSEMBLY_FIRST: true\nSESSION: session-components-claudemanual\n\nINPUT: ClientAnalysis_ClaudeManual/04-design-specs/screen-definitions.md\nINPUT: Prototype_ClaudeManual/00-foundation/design-tokens/tokens.json\nINPUT: .claude/templates/component-library/manifests/components.json\nOUTPUT: Prototype_ClaudeManual/01-components/\n\nASSEMBLY-FIRST MODE:\n1. Read component library manifest\n2. Map Discovery screens to library components\n3. Identify ONLY aggregate components (combining library components with business logic)\n4. Generate specs for aggregate components only\n\nDO NOT create specs for Button, TextField, Select, Table, Tree, Tabs, etc. (use library)\nCREATE specs for: NavigationTree, DetailPane, SearchResultCard, ComponentCard, FavoritesPanel, etc. (custom business logic)\n\nAGGREGATE COMPONENTS (7-10 expected):\n- NavigationTree (Tree + stage filtering + count badges)\n- DetailPane (Tabs + markdown rendering + Mermaid diagrams)\n- SearchResultCard (Card + metadata + copy path button)\n- ComponentCard (Card + favorite toggle + stage badge)\n- FavoritesPanel (List + drag-drop reordering)\n- StageFilterDropdown (MultiSelect + stage enum)\n- DiagramViewer (Mermaid/PlantUML renderer + zoom/pan)\n\nRETURN: JSON { status: 'completed', files_written: ['component-index.md', 'specs/*.md'], aggregate_components: 8, library_components_used: 12 }",
+      "expected_outputs": [
+        "01-components/component-index.md",
+        "01-components/specs/NavigationTree.md",
+        "01-components/specs/DetailPane.md",
+        "01-components/specs/SearchResultCard.md",
+        "01-components/specs/ComponentCard.md",
+        "01-components/specs/FavoritesPanel.md",
+        "01-components/specs/StageFilterDropdown.md",
+        "01-components/specs/DiagramViewer.md"
+      ]
+    },
+    "cp9_screens_parallel": {
+      "checkpoint": 9,
+      "agent_type": "prototype-screen-specifier",
+      "model": "sonnet",
+      "description": "Generate screen specifications (7 agents IN PARALLEL)",
+      "prerequisites": ["CP-8 completed"],
+      "spawn_mode": "parallel",
+      "parallel_agents": [
+        {
+          "screen_id": "SCR-001",
+          "screen_name": "Main Explorer View",
+          "prompt": "Agent: prototype-screen-specifier\nRead: .claude/agents/prototype-screen-specifier.md\n\nSYSTEM: ClaudeManual\nCHECKPOINT: 9\nSCREEN: SCR-001 - Main Explorer View\nSESSION: session-screen-scr001\n\nINPUT: ClientAnalysis_ClaudeManual/04-design-specs/screen-definitions.md (SCR-001 section)\nINPUT: Prototype_ClaudeManual/01-components/component-index.md\nINPUT: Prototype_ClaudeManual/00-foundation/data-model/DATA_MODEL.md\nOUTPUT: Prototype_ClaudeManual/02-screens/main-explorer-view/\n\nGenerate detailed screen specification:\n- Map screen sections to components (NavigationTree + DetailPane + Header)\n- Define layout structure (dual-pane, responsive breakpoints)\n- Specify state management (selectedItem, expandedNodes, theme)\n- Define data fetching (GET /api/skills, GET /api/commands, GET /api/agents)\n- Document user flows (framework creator onboarding, product manager tool discovery)\n- List accessibility requirements (keyboard navigation, WCAG AA contrast)\n\nRETURN: JSON { status: 'completed', files_written: ['spec.md', 'layout.md', 'data-requirements.md'], components_used: 5, user_flows: 3 }"
+        },
+        {
+          "screen_id": "SCR-002",
+          "screen_name": "Search Results Page",
+          "prompt": "Agent: prototype-screen-specifier\n[Similar structure for SCR-002]\n\nMap to SearchResultCard, StageFilterDropdown, TypeFilter components\nDefine search state (query, filters, results)\nData: POST /api/search with filters"
+        },
+        {
+          "screen_id": "SCR-003",
+          "screen_name": "Stage-Filtered View",
+          "prompt": "[Similar structure for SCR-003]\n\nMap to NavigationTree + StageFilterDropdown\nDefine filter state (selectedStages)\nData: GET /api/skills?stage=Discovery"
+        },
+        {
+          "screen_id": "SCR-004",
+          "screen_name": "Favorites Page",
+          "prompt": "[Similar structure for SCR-004]\n\nMap to FavoritesPanel component\nDefine favorites state (localStorage)\nData: Filter skills/commands/agents by IDs in favorites array"
+        },
+        {
+          "screen_id": "SCR-006",
+          "screen_name": "Component Detail Modal",
+          "prompt": "[Similar structure for SCR-006]\n\nMap to DetailPane component (reusable)\nDefine modal state (open, componentId)\nData: GET /api/skills/:id or GET /api/commands/:id"
+        },
+        {
+          "screen_id": "SCR-009",
+          "screen_name": "Workflow Viewer",
+          "prompt": "[Similar structure for SCR-009]\n\nMap to DiagramViewer component\nDefine diagram state (zoom, pan, format)\nData: GET /api/workflows (Mermaid/PlantUML rendering)"
+        },
+        {
+          "screen_id": "SCR-010",
+          "screen_name": "Architecture Browser",
+          "prompt": "[Similar structure for SCR-010]\n\nMap to NavigationTree + DiagramViewer\nDefine architecture categories (C4, ADR, patterns)\nData: GET /api/architecture-docs"
+        }
+      ],
+      "expected_outputs": [
+        "02-screens/main-explorer-view/spec.md",
+        "02-screens/search-results-page/spec.md",
+        "02-screens/stage-filtered-view/spec.md",
+        "02-screens/favorites-page/spec.md",
+        "02-screens/component-detail-modal/spec.md",
+        "02-screens/workflow-viewer/spec.md",
+        "02-screens/architecture-browser/spec.md"
+      ]
+    },
+    "cp10_interactions": {
+      "checkpoint": 10,
+      "agent_type": null,
+      "model": null,
+      "description": "Generate interaction specifications (direct execution by main session)",
+      "prerequisites": ["CP-9 completed"],
+      "spawn_required": false,
+      "execution_instructions": "Main session should directly create:\n\n1. motion.md:\n   - Transition durations (tree expand: 150ms, page navigation: 200ms, search results: 300ms)\n   - Easing functions (ease-in-out for most, ease-out for search)\n   - Loading animations (skeleton loader, spinner)\n   - Hover effects (card elevation, button highlight)\n\n2. accessibility.md:\n   - Focus management (trap focus in modals, restore focus on close)\n   - Screen reader support (ARIA labels, live regions for search results)\n   - Keyboard shortcuts (Cmd+K search, Arrow keys navigation, Tab/Shift+Tab, Esc close modal)\n   - High contrast mode compatibility\n\n3. responsive.md:\n   - Breakpoints (mobile: <768px, tablet: 768-1024px, desktop: >1024px)\n   - Layout adjustments (master pane → drawer on mobile, single column)\n   - Touch targets (min 44px for mobile)\n   - Font scaling (responsive typography)",
+      "expected_outputs": [
+        "03-interactions/motion.md",
+        "03-interactions/accessibility.md",
+        "03-interactions/responsive.md"
+      ]
+    },
+    "cp11_build_sequence": {
+      "checkpoint": 11,
+      "agent_type": null,
+      "model": null,
+      "description": "Generate build sequence (direct execution by main session)",
+      "prerequisites": ["CP-10 completed"],
+      "spawn_required": false,
+      "execution_instructions": "Main session should analyze screen specifications and create BUILD_SEQUENCE.md:\n\n## Phase 1: Foundation (Screens 1)\n- Main Explorer View (SCR-001) - no dependencies, core navigation\n\n## Phase 2: Search and Filters (Screens 2-3)\n- Search Results Page (SCR-002) - uses SearchResultCard component\n- Stage-Filtered View (SCR-003) - uses StageFilterDropdown\n\n## Phase 3: Personalization (Screen 4)\n- Favorites Page (SCR-004) - uses FavoritesPanel, depends on localStorage\n\n## Phase 4: Detail Views (Screen 6)\n- Component Detail Modal (SCR-006) - reusable across all screens\n\n## Phase 5: Diagrams (Screens 9-10)\n- Workflow Viewer (SCR-009) - Mermaid/PlantUML rendering\n- Architecture Browser (SCR-010) - complex diagram interactions",
+      "expected_outputs": [
+        "04-implementation/BUILD_SEQUENCE.md"
+      ]
+    },
+    "cp12_code_generation": {
+      "checkpoint": 12,
+      "agent_type": "prototype-code-generator",
+      "model": "sonnet",
+      "description": "Generate React component code and Next.js pages",
+      "prerequisites": ["CP-11 completed"],
+      "spawn_prompt": "Agent: prototype-code-generator\nRead: .claude/agents/prototype-code-generator.md\n\nSYSTEM: ClaudeManual\nCHECKPOINT: 12\nSESSION: session-codegen-claudemanual\n\nINPUT: Prototype_ClaudeManual/02-screens/\nINPUT: Prototype_ClaudeManual/01-components/\nINPUT: Prototype_ClaudeManual/00-foundation/design-tokens/tokens.json\nINPUT: Prototype_ClaudeManual/04-implementation/BUILD_SEQUENCE.md\nOUTPUT: Prototype_ClaudeManual/04-implementation/\n\nGenerate following build sequence:\n\n1. React components (src/components/):\n   - NavigationTree.tsx (tree view with expand/collapse)\n   - DetailPane.tsx (tabbed interface with markdown rendering)\n   - SearchResultCard.tsx (card with metadata and actions)\n   - ComponentCard.tsx (card with favorite toggle and stage badge)\n   - FavoritesPanel.tsx (draggable list)\n   - StageFilterDropdown.tsx (multi-select dropdown)\n   - DiagramViewer.tsx (Mermaid/PlantUML renderer with zoom/pan)\n\n2. Next.js pages (pages/):\n   - index.tsx (Main Explorer View - SCR-001)\n   - search.tsx (Search Results - SCR-002)\n   - favorites.tsx (Favorites Page - SCR-004)\n\n3. API routes (pages/api/):\n   - skills/index.ts (GET /api/skills)\n   - skills/[id].ts (GET /api/skills/:id)\n   - commands/index.ts (GET /api/commands)\n   - agents/index.ts (GET /api/agents)\n   - search.ts (POST /api/search)\n   - watch.ts (GET /api/watch - file system watching)\n\n4. Configuration:\n   - package.json (Next.js, React, TypeScript, Tailwind CSS, react-markdown, mermaid, prism-react-renderer)\n   - tsconfig.json (strict mode, path aliases)\n   - next.config.js (API routes, file system watching)\n   - tailwind.config.js (design tokens, theme variants)\n\nRETURN: JSON { status: 'completed', files_written: ['src/**/*.tsx', 'pages/**/*.tsx', 'api/**/*.ts', 'config/*.json'], components: 8, pages: 3, api_routes: 6 }",
+      "expected_outputs": [
+        "04-implementation/src/components/*.tsx",
+        "04-implementation/pages/*.tsx",
+        "04-implementation/pages/api/*.ts",
+        "04-implementation/package.json",
+        "04-implementation/tsconfig.json",
+        "04-implementation/next.config.js",
+        "04-implementation/tailwind.config.js"
+      ]
+    },
+    "cp13_validation_parallel": {
+      "checkpoint": 13,
+      "agent_type": "multiple",
+      "model": "haiku/sonnet",
+      "description": "Validation (4 agents IN PARALLEL)",
+      "prerequisites": ["CP-12 completed"],
+      "spawn_mode": "parallel",
+      "parallel_agents": [
+        {
+          "agent": "prototype-component-validator",
+          "model": "haiku",
+          "prompt": "Agent: prototype-component-validator\nRead: .claude/agents/prototype-component-validator.md\n\nSYSTEM: ClaudeManual\nCHECKPOINT: 13.1\nSESSION: session-validation-components\n\nINPUT: Prototype_ClaudeManual/01-components/\nOUTPUT: Prototype_ClaudeManual/05-validation/component-validation.md\n\nValidate all component specs for completeness, consistency, and coverage:\n- All 8 aggregate components have specs\n- Props and variants documented\n- Accessibility requirements specified\n- State management defined\n- Library components properly referenced\n\nRETURN: JSON { status: 'completed', components_validated: 8, issues: [] }"
+        },
+        {
+          "agent": "prototype-screen-validator",
+          "model": "haiku",
+          "prompt": "Agent: prototype-screen-validator\n\nValidate all screen specs match Discovery requirements:\n- All 7 screens specified\n- Screen sections map to components\n- User flows documented\n- Data requirements defined\n- Accessibility criteria met\n\nRETURN: JSON { status: 'completed', screens_validated: 7, issues: [] }"
+        },
+        {
+          "agent": "prototype-ux-validator",
+          "model": "haiku",
+          "prompt": "Agent: prototype-ux-validator\n\nValidate UX patterns and interaction consistency:\n- Navigation patterns consistent across screens\n- Keyboard shortcuts defined\n- Error states handled\n- Loading states specified\n- Theme consistency (light/dark)\n\nRETURN: JSON { status: 'completed', patterns_validated: 15, issues: [] }"
+        },
+        {
+          "agent": "prototype-accessibility-auditor",
+          "model": "sonnet",
+          "prompt": "Agent: prototype-accessibility-auditor\n\nAudit WCAG 2.1 AA compliance:\n- Color contrast ratios ≥ 4.5:1\n- Keyboard navigation support\n- ARIA labels and roles\n- Focus indicators visible\n- Screen reader compatibility\n\nRETURN: JSON { status: 'completed', wcag_level: 'AA', issues: [], pass: true }"
+        }
+      ],
+      "expected_outputs": [
+        "05-validation/component-validation.md",
+        "05-validation/screen-validation.md",
+        "05-validation/ux-validation.md",
+        "05-validation/accessibility-report.md"
+      ]
+    },
+    "cp14_ui_audit": {
+      "checkpoint": 14,
+      "agent_type": "prototype-visual-qa-tester",
+      "model": "sonnet",
+      "description": "Final UI audit with Playwright (BLOCKING)",
+      "prerequisites": ["CP-13 completed (all validators passed)"],
+      "spawn_prompt": "Agent: prototype-visual-qa-tester\nRead: .claude/agents/prototype-visual-qa-tester.md\n\nSYSTEM: ClaudeManual\nCHECKPOINT: 14 (FINAL - BLOCKING)\nSESSION: session-ui-audit-claudemanual\n\nINPUT: Prototype_ClaudeManual/05-validation/\nINPUT: Prototype_ClaudeManual/04-implementation/\nOUTPUT: Prototype_ClaudeManual/05-validation/ui-audit-report.md\nOUTPUT: Prototype_ClaudeManual/05-validation/screenshots/\n\nPerform comprehensive visual QA audit:\n1. Launch prototype: cd Prototype_ClaudeManual/04-implementation && npm install && npm run dev\n2. Capture screenshots of all screens (mobile: 375px, tablet: 768px, desktop: 1440px)\n3. Compare against design specifications\n4. Verify WCAG compliance (contrast, keyboard, screen reader)\n5. Generate final audit report\n\nREQUIREMENTS:\n- All 7 screens captured and tested\n- Responsive tests at 3 breakpoints\n- Accessibility tests (contrast, keyboard, screen reader)\n- BLOCKING: Must pass WCAG AA\n\nBLOCKING GATE:\nIf status !== 'APPROVED', throw error with issues list.\n\nRETURN: JSON { status: 'APPROVED' | 'NEEDS_WORK', wcag_aa_pass: true, screens_tested: 7, breakpoints: 3, issues: [] }",
+      "expected_outputs": [
+        "05-validation/ui-audit-report.md",
+        "05-validation/ui-audit-report.json",
+        "05-validation/screenshots/*.png"
+      ],
+      "blocking": true
+    }
+  }
+}

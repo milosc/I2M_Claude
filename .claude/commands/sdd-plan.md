@@ -1,4 +1,5 @@
 ---
+name: sdd-plan
 description: Plan the feature development based on the feature specification.
 argument-hint: Plan specifics suggestions
 model: claude-sonnet-4-5-20250929

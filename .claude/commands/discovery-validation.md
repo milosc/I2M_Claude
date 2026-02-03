@@ -1,4 +1,5 @@
 ---
+name: discovery-validation
 description: Generate validation rules from discovery specifications
 argument-hint: None
 model: claude-haiku-4-5-20250515
