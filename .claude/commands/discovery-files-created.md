@@ -12,8 +12,23 @@ hooks:
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-files-created started '{"stage": "discovery"}'
   Stop:
     - hooks:
+        # VALIDATION: Check FILES_CREATED.md was created
         - type: command
-          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-files-created ended '{"stage": "discovery"}'
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$(cat _state/discovery_config.json 2>/dev/null | grep -o '"system_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)/05-documentation"
+            --requires "FILES_CREATED.md"
+        # VALIDATION: Check FILES_CREATED has required sections
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_file_contains.py"
+            --directory "ClientAnalysis_$(cat _state/discovery_config.json 2>/dev/null | grep -o '"system_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)/05-documentation"
+            --pattern "FILES_CREATED.md"
+            --contains "## Summary"
+            --contains "## File Tree"
+        # LOGGING: Record command completion
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-files-created ended '{"stage": "discovery", "validated": true}'
 ---
 
 

@@ -20,6 +20,10 @@ hooks:
         - type: command
           command: "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/tdd_compliance_check.py"
         - type: command
+          command: "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/validators/ruff_validator.py"
+        - type: command
+          command: "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/validators/ty_validator.py"
+        - type: command
           command: "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/file_lock_release.py"
         - type: command
           command: "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py --event-type PostToolUse"

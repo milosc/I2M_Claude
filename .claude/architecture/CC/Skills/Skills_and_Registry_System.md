@@ -224,7 +224,24 @@ Multi-agent commands spawn agents from registry files:
 
 ### Adding a New Agent (Multi-Agent)
 
+**Recommended**: Use the `/create-agent` command to create agents with proper HTEC conventions:
+
+```bash
+/create-agent React performance optimization specialist
+```
+
+This spawns the `agent-expert` in a separate context to create the agent with:
+- Proper hooks configuration (PreToolUse, PostToolUse, Stop)
+- FIRST ACTION (MANDATORY) lifecycle logging
+- COMPLETION LOGGING (MANDATORY) section
+- HTEC naming conventions
+
+**Manual process** (if needed):
+
 1. **Create agent definition**: `.claude/agents/discovery-my-agent.md`
+   - Follow template in `.claude/agents/agent-expert.md`
+   - Include hooks for lifecycle logging
+   - Add FIRST ACTION and COMPLETION LOGGING sections
 2. **Register in AGENT_REGISTRY.json**:
    ```json
    {
@@ -338,11 +355,19 @@ Skills are **automatically hot-reloaded**:
 
 ## Related Documentation
 
+### Authoring Commands
+- `/create-agent <description>`: Create new agents with proper HTEC conventions
+- `/create-skill`: Create new skills with TDD approach
+- `/create-command`: Create new slash commands
+- `/create-hook`: Create new validation hooks
+
+### Reference Files
 - **CLAUDE.md**: Project overview, command quick reference
 - **SKILL_INVOCATION.md**: Detailed invocation syntax
 - **Agent_Spawning_Architecture.md**: Multi-agent system design
 - **Stage_Output_Structures.md**: What each stage produces
 - **Skills_Reference.md**: Full skill inventory by stage
+- **agent-expert.md**: Agent creation template and guidelines
 
 ---
 
@@ -380,5 +405,5 @@ Skills are **automatically hot-reloaded**:
 
 ---
 
-**Last Updated**: 2026-01-26
+**Last Updated**: 2026-02-03
 **Framework Version**: 3.0.0

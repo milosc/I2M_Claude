@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { NavigationTree } from '@/components/NavigationTree';
 import { DetailPane } from '@/components/DetailPane';
@@ -135,6 +136,7 @@ async function fetchAgents(): Promise<FrameworkItem[]> {
 }
 
 export default function Home() {
+  const router = useRouter();
   const [selectedItem, setSelectedItem] = useState<FrameworkItem | null>(null);
   const [selectedStages, setSelectedStages] = useState<string[]>([]);
   const [expandedNodes, setExpandedNodes] = useState<string[]>([]);
@@ -142,6 +144,17 @@ export default function Home() {
   const [stagesVersion, setStagesVersion] = useState(0);
   // Favorites state
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  // Search state (global search navigates to /search page)
+  const [searchQuery, setSearchQuery] = useState('');
+  // Sidebar filter state (local filtering)
+  const [sidebarFilter, setSidebarFilter] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   const {
     data: skills,
@@ -254,11 +267,44 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
-      {/* Header */}
-      <header className="border-b border-border px-4 py-3 flex items-center gap-4">
-        <div className="flex-1">
+      {/* Header - sticky with high z-index */}
+      <header className="border-b border-border px-4 py-3 flex items-center gap-4 bg-background sticky top-0 z-30">
+        <div className="flex-shrink-0">
           <h1 className="text-xl font-bold">ClaudeManual</h1>
         </div>
+
+        {/* Search Input */}
+        <form onSubmit={handleSearch} className="flex-1 max-w-xl">
+          <div className="relative">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search skills, commands, agents, hooks..."
+              className="w-full px-4 py-2 pl-10 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-default focus:border-transparent"
+            />
+            <svg
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-secondary"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary hover:text-foreground"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
+        </form>
+
         <StageFilterDropdown
           selectedStages={selectedStages as any}
           onChange={(stages) => setSelectedStages(stages as string[])}
@@ -266,7 +312,7 @@ export default function Home() {
       </header>
 
       {/* Main dual-pane layout */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative">
         {/* Navigation Tree (Sidebar) */}
         <ResizableSidebar
           storageKey="main-sidebar-width"
@@ -274,15 +320,58 @@ export default function Home() {
           maxWidth={500}
           defaultWidth={320}
         >
-          <NavigationTree
-            items={treeNodes as any}
-            onSelect={(itemId: string) => {
-              const item = allItems.find(i => i.id === itemId);
-              if (item) handleItemSelect(item);
-            }}
-            stageFilter={selectedStages as any}
-            favorites={favoriteIds}
-          />
+          <div className="flex flex-col h-full">
+            {/* Sidebar Filter Input */}
+            <div className="p-3 border-b border-border bg-surface sticky top-0 z-10">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={sidebarFilter}
+                  onChange={(e) => setSidebarFilter(e.target.value)}
+                  placeholder="Filter items..."
+                  className="w-full px-3 py-1.5 pl-8 text-sm bg-background border border-border rounded focus:outline-none focus:ring-1 focus:ring-accent-default focus:border-transparent"
+                />
+                <svg
+                  className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-3.5 h-3.5 text-secondary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                {sidebarFilter && (
+                  <button
+                    type="button"
+                    onClick={() => setSidebarFilter('')}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-secondary hover:text-foreground"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+              {sidebarFilter && (
+                <p className="text-xs text-secondary mt-1">
+                  Filtering by &quot;{sidebarFilter}&quot;
+                </p>
+              )}
+            </div>
+
+            {/* Tree content - scrollable */}
+            <div className="flex-1 overflow-y-auto">
+              <NavigationTree
+                items={treeNodes as any}
+                onSelect={(itemId: string) => {
+                  const item = allItems.find(i => i.id === itemId);
+                  if (item) handleItemSelect(item);
+                }}
+                stageFilter={selectedStages as any}
+                searchQuery={sidebarFilter}
+                favorites={favoriteIds}
+              />
+            </div>
+          </div>
         </ResizableSidebar>
 
         {/* Detail Pane (Main) */}
@@ -302,9 +391,9 @@ export default function Home() {
         </main>
       </div>
 
-      {/* Footer */}
-      <footer className="border-t border-border px-4 py-2 text-sm text-secondary">
-        Version 3.0.0 | Last Updated: 2026-01-31 | © HTEC Framework
+      {/* Footer - sticky at bottom */}
+      <footer className="border-t border-border px-4 py-2 text-sm text-secondary bg-background z-20">
+        Version 3.0.0 | Last Updated: 2026-01-31 | HTEC Framework
       </footer>
     </div>
   );

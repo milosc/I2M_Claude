@@ -13,8 +13,56 @@ hooks:
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery started '{"stage": "discovery"}'
   Stop:
     - hooks:
+        # VALIDATION: Block completion until Discovery outputs are complete
         - type: command
-          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery ended '{"stage": "discovery"}'
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_discovery_output.py"
+            --system-name "$1"
+        # VALIDATION: Check analysis summary exists and has required sections
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_file_contains.py"
+            --file "ClientAnalysis_$1/01-analysis/ANALYSIS_SUMMARY.md"
+            --contains "## Executive Summary"
+            --contains "## Key Findings"
+        # VALIDATION: Check at least one persona exists with required sections
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/02-research"
+            --requires "persona-*.md"
+        # VALIDATION: Check JTBD document exists
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/02-research"
+            --requires "jtbd-*.md"
+        # VALIDATION: Check screen definitions exist
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/04-design-specs"
+            --requires "screen-definitions.md"
+        # VALIDATION: Check validation report exists
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/05-documentation"
+            --requires "VALIDATION_REPORT.md"
+        # VALIDATION: Check competitive intelligence outputs exist (CP-6.5)
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/03-strategy"
+            --requires "COMPETITIVE_LANDSCAPE.md"
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/03-strategy"
+            --requires "COMPETITIVE_INTELLIGENCE_SUMMARY.md"
+        # LOGGING: Record command completion
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery ended '{"stage": "discovery", "validated": true}'
 ---
 
 
@@ -208,21 +256,39 @@ Read these skills BEFORE executing each phase:
 11. **Update Visualization**: `python3 .claude/skills/tools/traceability_manager.py visualize`
 12. Update progress: Phases 3-4 complete
 
-### Phase 5-8: Strategy
+### Phase 5-6: Vision & Strategy
 
 1. Read Discovery_GenerateVision skill
 2. Generate `03-strategy/product-vision.md`
 3. Read Discovery_GenerateStrategy skill
 4. Generate `03-strategy/product-strategy.md`
-5. Read Discovery_GenerateRoadmap skill
-6. Generate `03-strategy/product-roadmap.md`
-7. Populate `traceability/requirements_registry.json` (features from roadmap)
-8. Read Discovery_GenerateKPIs skill
-9. Generate `03-strategy/kpis-and-goals.md`
-10. Update `trace_matrix.json` with JTBD→Feature links
-11. **Run Phase Validation**: `python3 .claude/hooks/discovery_quality_gates.py --validate-checkpoint <PHASE_NUM>` for 5, 6, 7, 8
-12. **Update Visualization**: `python3 .claude/skills/tools/traceability_manager.py visualize`
-13. Update progress: Phases 5-8 complete
+5. **Run Phase Validation**: `python3 .claude/hooks/discovery_quality_gates.py --validate-checkpoint 5` && `python3 .claude/hooks/discovery_quality_gates.py --validate-checkpoint 6`
+6. Update progress: Phases 5-6 complete
+
+### Phase 6.5: Competitive Intelligence
+
+1. Spawn the `discovery-competitor-analyst` agent (or read skill directly)
+2. Generate in `03-strategy/`:
+   - `COMPETITIVE_LANDSCAPE.md` - Market map with competitor categorization
+   - `THREAT_OPPORTUNITY_MATRIX.md` - Quantitative threat/opportunity analysis
+   - `DIFFERENTIATION_BLUEPRINT.md` - USP definition and positioning
+   - `COMPETITIVE_INTELLIGENCE_SUMMARY.md` - Executive summary
+   - `battlecards/[COMPETITOR]_BATTLECARD.md` - Per-competitor sales enablement
+3. **Run Phase Validation**: `python3 .claude/hooks/discovery_quality_gates.py --validate-checkpoint 6.5`
+4. **Update Visualization**: `python3 .claude/skills/tools/traceability_manager.py visualize`
+5. Update progress: Phase 6.5 complete
+
+### Phase 7-8: Roadmap & KPIs
+
+1. Read Discovery_GenerateRoadmap skill
+2. Generate `03-strategy/product-roadmap.md` (informed by competitive intelligence from Phase 6.5)
+3. Populate `traceability/requirements_registry.json` (features from roadmap)
+4. Read Discovery_GenerateKPIs skill
+5. Generate `03-strategy/kpis-and-goals.md`
+6. Update `trace_matrix.json` with JTBD→Feature links
+7. **Run Phase Validation**: `python3 .claude/hooks/discovery_quality_gates.py --validate-checkpoint 7` && `python3 .claude/hooks/discovery_quality_gates.py --validate-checkpoint 8`
+8. **Update Visualization**: `python3 .claude/skills/tools/traceability_manager.py visualize`
+9. Update progress: Phases 7-8 complete
 
 ### Phase 9: Design Specs
 

@@ -2,47 +2,91 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-interface SearchableItem {
+export interface SearchableItem {
   id: string;
   name: string;
   description: string;
   stage: string;
   path: string;
-  type: string;
+  type: 'Skill' | 'Command' | 'Agent' | 'Hook' | 'Workflow' | 'Architecture';
+  tags?: string[];
+  content?: string;
 }
 
-function parseYamlFrontmatter(content: string): Record<string, string> {
+interface ParsedFrontmatter {
+  name?: string;
+  description?: string;
+  tags?: string[];
+  [key: string]: string | string[] | undefined;
+}
+
+function parseYamlFrontmatter(content: string): ParsedFrontmatter {
   const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
   if (!frontmatterMatch) return {};
 
-  const frontmatter: Record<string, string> = {};
+  const frontmatter: ParsedFrontmatter = {};
   const lines = frontmatterMatch[1].split('\n');
   let currentKey = '';
   let currentValue = '';
+  let inArray = false;
+  let arrayValues: string[] = [];
 
   for (const line of lines) {
+    // Check for array item
+    if (inArray && line.match(/^\s+-\s+(.+)$/)) {
+      const match = line.match(/^\s+-\s+(.+)$/);
+      if (match) {
+        arrayValues.push(match[1].replace(/^["']|["']$/g, '').trim());
+      }
+      continue;
+    }
+
+    // Check for new key
     const keyMatch = line.match(/^(\w[\w-]*):(.*)$/);
-    if (keyMatch && !line.trim().endsWith(':')) {
+    if (keyMatch) {
+      // Save previous key
       if (currentKey) {
-        frontmatter[currentKey] = currentValue.trim();
+        if (inArray) {
+          frontmatter[currentKey] = arrayValues;
+        } else {
+          frontmatter[currentKey] = currentValue.trim();
+        }
       }
+
       currentKey = keyMatch[1];
-      currentValue = keyMatch[2].trim();
-    } else if (keyMatch && line.trim().endsWith(':')) {
-      if (currentKey) {
-        frontmatter[currentKey] = currentValue.trim();
+      const value = keyMatch[2].trim();
+
+      // Check if this starts an array
+      if (value === '' || value === '[]') {
+        inArray = true;
+        arrayValues = [];
+        currentValue = '';
+      } else {
+        inArray = false;
+        currentValue = value;
       }
-      currentKey = '';
-      currentValue = '';
-    } else if (currentKey && line.startsWith('  ') && !line.includes('- ')) {
+    } else if (currentKey && line.startsWith('  ') && !inArray) {
       currentValue += ' ' + line.trim();
     }
   }
+
+  // Save last key
   if (currentKey) {
-    frontmatter[currentKey] = currentValue.trim();
+    if (inArray) {
+      frontmatter[currentKey] = arrayValues;
+    } else {
+      frontmatter[currentKey] = currentValue.trim();
+    }
   }
 
   return frontmatter;
+}
+
+function getContentBody(content: string): string {
+  // Remove frontmatter and get body content
+  const withoutFrontmatter = content.replace(/^---\n[\s\S]*?\n---\n?/, '');
+  // Truncate to first 500 chars for search preview
+  return withoutFrontmatter.slice(0, 500).trim();
 }
 
 function determineStage(name: string, type: string): string {
@@ -71,6 +115,22 @@ function formatName(filename: string): string {
     .join(' ');
 }
 
+function scanDirectoryRecursive(dir: string, extension: string): string[] {
+  const results: string[] = [];
+  if (!fs.existsSync(dir)) return results;
+
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      results.push(...scanDirectoryRecursive(fullPath, extension));
+    } else if (entry.isFile() && entry.name.endsWith(extension)) {
+      results.push(fullPath);
+    }
+  }
+  return results;
+}
+
 function loadAllItems(): SearchableItem[] {
   // 04-implementation -> Prototype_ClaudeManual -> claudeManual (2 levels up)
   const projectRoot = path.resolve(process.cwd(), '../..');
@@ -88,15 +148,18 @@ function loadAllItems(): SearchableItem[] {
         const content = fs.readFileSync(skillMdPath, 'utf-8');
         const frontmatter = parseYamlFrontmatter(content);
         if (!frontmatter.description && !frontmatter.name) continue;
+        const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : [];
         items.push({
           id: entry.name,
-          name: frontmatter.name ? formatName(frontmatter.name) : formatName(entry.name),
-          description: (frontmatter.description || '').replace(/^["']|["']$/g, ''),
+          name: frontmatter.name ? formatName(String(frontmatter.name)) : formatName(entry.name),
+          description: String(frontmatter.description || '').replace(/^["']|["']$/g, ''),
           stage: determineStage(entry.name, 'skill'),
           path: `.claude/skills/${entry.name}/SKILL.md`,
-          type: 'Skill'
+          type: 'Skill',
+          tags,
+          content: getContentBody(content)
         });
-      } catch (err) {
+      } catch {
         // Skip invalid files
       }
     }
@@ -116,15 +179,18 @@ function loadAllItems(): SearchableItem[] {
         const frontmatter = parseYamlFrontmatter(content);
         if (!frontmatter.description && !frontmatter.name) continue;
         const commandId = file.replace('.md', '');
+        const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : [];
         items.push({
           id: commandId,
-          name: frontmatter.name ? formatName(frontmatter.name) : formatName(commandId),
-          description: (frontmatter.description || '').replace(/^["']|["']$/g, ''),
+          name: frontmatter.name ? formatName(String(frontmatter.name)) : formatName(commandId),
+          description: String(frontmatter.description || '').replace(/^["']|["']$/g, ''),
           stage: determineStage(commandId, 'command'),
           path: `.claude/commands/${file}`,
-          type: 'Command'
+          type: 'Command',
+          tags,
+          content: getContentBody(content)
         });
-      } catch (err) {
+      } catch {
         // Skip invalid files
       }
     }
@@ -144,15 +210,115 @@ function loadAllItems(): SearchableItem[] {
         const frontmatter = parseYamlFrontmatter(content);
         if (!frontmatter.description && !frontmatter.name) continue;
         const agentId = file.replace('.md', '');
+        const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : [];
         items.push({
           id: agentId,
-          name: frontmatter.name ? formatName(frontmatter.name) : formatName(agentId),
-          description: (frontmatter.description || '').replace(/^["']|["']$/g, ''),
+          name: frontmatter.name ? formatName(String(frontmatter.name)) : formatName(agentId),
+          description: String(frontmatter.description || '').replace(/^["']|["']$/g, ''),
           stage: determineStage(agentId, 'agent'),
           path: `.claude/agents/${file}`,
-          type: 'Agent'
+          type: 'Agent',
+          tags,
+          content: getContentBody(content)
         });
-      } catch (err) {
+      } catch {
+        // Skip invalid files
+      }
+    }
+  }
+
+  // Load hooks
+  const hooksDir = path.join(projectRoot, '.claude', 'hooks');
+  if (fs.existsSync(hooksDir)) {
+    const files = fs.readdirSync(hooksDir);
+    for (const file of files) {
+      if (!file.endsWith('.py')) continue;
+      const hookPath = path.join(hooksDir, file);
+      try {
+        const stat = fs.statSync(hookPath);
+        if (!stat.isFile()) continue;
+        const content = fs.readFileSync(hookPath, 'utf-8');
+        // Extract docstring or first comment
+        let description = '';
+        const docstringMatch = content.match(/^"""([\s\S]*?)"""/m) || content.match(/^'''([\s\S]*?)'''/m);
+        if (docstringMatch) {
+          description = docstringMatch[1].trim().split('\n')[0];
+        } else {
+          const commentMatch = content.match(/^#\s*(.+)$/m);
+          if (commentMatch) {
+            description = commentMatch[1].trim();
+          }
+        }
+        const hookId = file.replace('.py', '');
+        items.push({
+          id: hookId,
+          name: formatName(hookId),
+          description: description || `Python hook: ${hookId}`,
+          stage: determineStage(hookId, 'hook'),
+          path: `.claude/hooks/${file}`,
+          type: 'Hook',
+          tags: [],
+          content: content.slice(0, 500)
+        });
+      } catch {
+        // Skip invalid files
+      }
+    }
+  }
+
+  // Load workflows
+  const workflowsDir = path.join(projectRoot, '.claude', 'architecture', 'Workflows');
+  if (fs.existsSync(workflowsDir)) {
+    const workflowFiles = scanDirectoryRecursive(workflowsDir, '.md');
+    for (const filePath of workflowFiles) {
+      try {
+        const content = fs.readFileSync(filePath, 'utf-8');
+        const frontmatter = parseYamlFrontmatter(content);
+        const relativePath = path.relative(projectRoot, filePath);
+        const fileName = path.basename(filePath, '.md');
+        const parentDir = path.basename(path.dirname(filePath));
+        const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : [];
+        items.push({
+          id: `workflow-${fileName}`,
+          name: frontmatter.name ? formatName(String(frontmatter.name)) : formatName(fileName),
+          description: String(frontmatter.description || `Workflow: ${fileName}`).replace(/^["']|["']$/g, ''),
+          stage: determineStage(parentDir, 'workflow'),
+          path: relativePath.replace(/\\/g, '/'),
+          type: 'Workflow',
+          tags,
+          content: getContentBody(content)
+        });
+      } catch {
+        // Skip invalid files
+      }
+    }
+  }
+
+  // Load architecture docs (excluding Workflows)
+  const archDir = path.join(projectRoot, '.claude', 'architecture');
+  if (fs.existsSync(archDir)) {
+    const archFiles = scanDirectoryRecursive(archDir, '.md');
+    for (const filePath of archFiles) {
+      // Skip workflow files
+      if (filePath.includes('Workflows')) continue;
+      try {
+        const content = fs.readFileSync(filePath, 'utf-8');
+        const frontmatter = parseYamlFrontmatter(content);
+        const relativePath = path.relative(projectRoot, filePath);
+        const fileName = path.basename(filePath, '.md');
+        const parentDir = path.basename(path.dirname(filePath));
+        const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : [];
+        items.push({
+          id: `arch-${fileName}`,
+          name: frontmatter.name ? formatName(String(frontmatter.name)) : formatName(fileName),
+          description: String(frontmatter.description || `Architecture doc: ${fileName}`).replace(/^["']|["']$/g, ''),
+          stage: parentDir === 'architecture' ? 'Utility' : determineStage(parentDir, 'architecture'),
+          path: relativePath.replace(/\\/g, '/'),
+          type: 'Architecture',
+          tags,
+          content: getContentBody(content)
+        });
+      } catch {
         // Skip invalid files
       }
     }
@@ -164,22 +330,31 @@ function loadAllItems(): SearchableItem[] {
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const query = searchParams.get('q')?.toLowerCase() || '';
+  const typeFilter = searchParams.get('type'); // Optional type filter
 
   if (!query) {
     return NextResponse.json([]);
   }
 
   try {
-    const allItems = loadAllItems();
+    let allItems = loadAllItems();
 
-    // Search: match query in name, description, or stage
+    // Apply type filter if provided
+    if (typeFilter) {
+      const types = typeFilter.split(',');
+      allItems = allItems.filter(item => types.includes(item.type));
+    }
+
+    // Search: match query in name, description, stage, content, or tags
     const results = allItems
       .filter((item) => {
         const matchName = item.name.toLowerCase().includes(query);
         const matchDescription = item.description.toLowerCase().includes(query);
         const matchStage = item.stage.toLowerCase().includes(query);
         const matchId = item.id.toLowerCase().includes(query);
-        return matchName || matchDescription || matchStage || matchId;
+        const matchContent = item.content?.toLowerCase().includes(query) || false;
+        const matchTags = item.tags?.some(tag => tag.toLowerCase().includes(query)) || false;
+        return matchName || matchDescription || matchStage || matchId || matchContent || matchTags;
       })
       .map((item) => {
         // Calculate relevance score
@@ -187,11 +362,13 @@ export async function GET(request: NextRequest) {
         if (item.name.toLowerCase().includes(query)) score += 10;
         if (item.id.toLowerCase().includes(query)) score += 8;
         if (item.description.toLowerCase().includes(query)) score += 5;
+        if (item.tags?.some(tag => tag.toLowerCase().includes(query))) score += 4;
+        if (item.content?.toLowerCase().includes(query)) score += 3;
         if (item.stage.toLowerCase().includes(query)) score += 2;
         return { ...item, score };
       })
       .sort((a, b) => b.score - a.score)
-      .slice(0, 50) // Limit results
+      .slice(0, 100) // Limit results
       .map(({ score, ...item }) => item);
 
     return NextResponse.json(results);

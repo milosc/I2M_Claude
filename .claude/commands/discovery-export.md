@@ -12,8 +12,33 @@ hooks:
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-export started '{"stage": "discovery"}'
   Stop:
     - hooks:
+        # VALIDATION: Check validation report exists (prerequisite for export)
         - type: command
-          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-export ended '{"stage": "discovery"}'
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$(cat _state/discovery_config.json 2>/dev/null | grep -o '"system_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)/05-documentation"
+            --requires "VALIDATION_REPORT.md"
+        # VALIDATION: Check screen definitions exist (required for prototype)
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$(cat _state/discovery_config.json 2>/dev/null | grep -o '"system_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)/04-design-specs"
+            --requires "screen-definitions.md"
+        # VALIDATION: Check data model exists (required for prototype)
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$(cat _state/discovery_config.json 2>/dev/null | grep -o '"system_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)/04-design-specs"
+            --requires "data-fields.md"
+        # VALIDATION: Check export manifest was created
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "_state"
+            --requires "discovery_export.json"
+        # LOGGING: Record command completion
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-export ended '{"stage": "discovery", "validated": true}'
 ---
 
 

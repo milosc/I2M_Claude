@@ -12,8 +12,23 @@ hooks:
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-data-fields started '{"stage": "discovery"}'
   Stop:
     - hooks:
+        # VALIDATION: Check data-fields document was created
         - type: command
-          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-data-fields ended '{"stage": "discovery"}'
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$(cat _state/discovery_config.json 2>/dev/null | grep -o '"system_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)/04-design-specs"
+            --requires "data-fields.md"
+        # VALIDATION: Check data-fields has required sections
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_file_contains.py"
+            --directory "ClientAnalysis_$(cat _state/discovery_config.json 2>/dev/null | grep -o '"system_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)/04-design-specs"
+            --pattern "data-fields.md"
+            --contains "## Data Model"
+            --contains "### Fields"
+        # LOGGING: Record command completion
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-data-fields ended '{"stage": "discovery", "validated": true}'
 ---
 
 

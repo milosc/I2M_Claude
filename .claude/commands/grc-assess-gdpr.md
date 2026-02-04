@@ -27,7 +27,8 @@ Conduct a comprehensive GDPR compliance assessment.
 
 Load these skills:
 
-- `gdpr-compliance` - GDPR requirements and DPIA guidance
+- `gdpr-compliance` - GDPR requirements, DPIA guidance, and document generation
+- `GRC_GDPR_DataFlow_Mapper` - Data flow diagrams for GDPR compliance (Mermaid)
 - `data-classification` - Personal data categorization
 
 ### Step 2: Spawn Privacy Officer Agent
@@ -39,12 +40,12 @@ Conduct a comprehensive GDPR compliance assessment for: $ARGUMENTS
 
 Perform the following assessments:
 
-1. Data Mapping
+1. Data Mapping (use GRC_GDPR_DataFlow_Mapper skill)
    - Identify all personal data collected
    - Categorize data (standard vs special category)
-   - Map data flows (collection, processing, storage, sharing)
+   - Map data flows (collection, processing, storage, sharing) - generate Mermaid DFDs
    - Identify controllers and processors
-   - Document international transfers
+   - Document international transfers with cross-border flow diagrams
 
 2. Lawful Basis Assessment
    - Determine lawful basis for each processing activity

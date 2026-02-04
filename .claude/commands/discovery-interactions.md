@@ -12,8 +12,23 @@ hooks:
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-interactions started '{"stage": "discovery"}'
   Stop:
     - hooks:
+        # VALIDATION: Check interaction-patterns document was created
         - type: command
-          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-interactions ended '{"stage": "discovery"}'
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$(cat _state/discovery_config.json 2>/dev/null | grep -o '"system_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)/04-design-specs"
+            --requires "interaction-patterns.md"
+        # VALIDATION: Check interaction-patterns has required sections
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_file_contains.py"
+            --directory "ClientAnalysis_$(cat _state/discovery_config.json 2>/dev/null | grep -o '"system_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)/04-design-specs"
+            --pattern "interaction-patterns.md"
+            --contains "## Interactions"
+            --contains "## Feedback"
+        # LOGGING: Record command completion
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-interactions ended '{"stage": "discovery", "validated": true}'
 ---
 
 

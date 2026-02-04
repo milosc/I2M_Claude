@@ -86,6 +86,12 @@ ClientAnalysis_<SystemName>/
 ├── 03-strategy/
 │   ├── PRODUCT_VISION.md
 │   ├── PRODUCT_STRATEGY.md
+│   ├── COMPETITIVE_LANDSCAPE.md          # CP-6.5: Market map with competitor categorization
+│   ├── THREAT_OPPORTUNITY_MATRIX.md      # CP-6.5: Quantitative threat/opportunity analysis
+│   ├── DIFFERENTIATION_BLUEPRINT.md      # CP-6.5: USP definition and positioning
+│   ├── COMPETITIVE_INTELLIGENCE_SUMMARY.md # CP-6.5: Executive summary
+│   ├── battlecards/                      # CP-6.5: Per-competitor sales enablement
+│   │   └── [COMPETITOR]_BATTLECARD.md
 │   ├── PRODUCT_ROADMAP.md
 │   └── KPIS_AND_GOALS.md
 ├── 04-design-specs/

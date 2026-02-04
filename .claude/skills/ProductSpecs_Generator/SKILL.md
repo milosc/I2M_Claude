@@ -1098,8 +1098,9 @@ sequenceDiagram
     participant UI as {Screen Name}
     participant API as Backend API
     participant DB as Database
-    
-    {Generate from screen "User Interactions" + API contracts}
+
+    %% Generate from screen User Interactions and API contracts
+    Note over U,DB: Template - populate from screen spec
 ```
 ```
 

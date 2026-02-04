@@ -512,6 +512,38 @@ Executes TDD implementation with multi-agent code review.
 
 ---
 
+## Utility Agents (Cross-Stage)
+
+These agents support multiple stages and are not tied to a specific pipeline phase.
+
+| Agent ID | Name | Model | Purpose |
+|----------|------|-------|---------|
+| `agent-expert` | Agent Expert | sonnet | Creates and designs specialized agents with proper hooks, lifecycle logging |
+| `compliance-analyst` | Compliance Analyst | sonnet | Regulatory framework assessment (GDPR, HIPAA, PCI-DSS) |
+| `privacy-officer` | Privacy Officer | sonnet | Data privacy assessment, DPIAs, data subject rights |
+| `security-auditor` | Security Auditor | sonnet | Security framework alignment (ISO 27001, SOC 2, NIST) |
+| `project-orchestrator` | Project Orchestrator | sonnet | Strategic project management, thinking frameworks |
+
+### Utility Agent Invocation
+
+Utility agents can be invoked directly without going through a stage orchestrator:
+
+```javascript
+Task({
+  subagent_type: "general-purpose",
+  model: "sonnet",
+  description: "Create new agent",
+  prompt: `
+    Agent: agent-expert
+    Read instructions from: .claude/agents/agent-expert.md
+
+    Create a new React performance optimization agent with proper hooks and lifecycle logging.
+  `
+})
+```
+
+---
+
 ## Archived Agents
 
 Some agents have been archived as they are not used in all pipeline stages. See `.claude/agents/archived/README.md` for details.
@@ -619,7 +651,14 @@ All agent files are at the root level with stage prefixes:
 │
 ├── reflexion-actor.md                          # Initial implementation
 ├── reflexion-evaluator.md                      # Multi-perspective critique
-└── reflexion-self-refiner.md                   # Improvement iteration
+├── reflexion-self-refiner.md                   # Improvement iteration
+│
+├── # UTILITY AGENTS (Cross-Stage)
+├── agent-expert.md                             # Agent creation and design specialist
+├── compliance-analyst.md                       # Regulatory compliance (GDPR, HIPAA, PCI-DSS)
+├── privacy-officer.md                          # Data privacy assessment
+├── security-auditor.md                         # Security framework alignment
+└── project-orchestrator.md                     # Strategic project management
 ```
 
 ### Agent ID Convention

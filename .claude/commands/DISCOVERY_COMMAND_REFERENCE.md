@@ -15,6 +15,7 @@
 | `/discovery-resume` | Sequential | Resume from last checkpoint | - |
 | `/discovery-audit` | Validation | Zero hallucination audit | - |
 | `/discovery-feedback` | Change Management | Process feedback with impact analysis | - |
+| `/discovery-competitive-analysis` | Standalone | Competitive intelligence with threat/opportunity scoring | - |
 
 ---
 
@@ -138,6 +139,49 @@ Main Session (discovery-multiagent command)
 
 ## Utility Commands
 
+### `/discovery-competitive-analysis <SystemName> [OPTIONS]`
+
+**File**: `.claude/commands/discovery-competitive-analysis.md`
+
+Standalone competitive intelligence analysis with threat/opportunity scoring and sales battlecards.
+
+**Usage**:
+```bash
+# Basic (auto-discover competitors)
+/discovery-competitive-analysis InventorySystem
+
+# With known competitors
+/discovery-competitive-analysis InventorySystem --competitors "NetSuite,SAP,Zoho"
+
+# With market segment definition
+/discovery-competitive-analysis InventorySystem --segment "SMB inventory SaaS"
+
+# Deep dive analysis
+/discovery-competitive-analysis InventorySystem --competitors "NetSuite,SAP" --depth deep_dive
+```
+
+**Arguments**:
+- `<SystemName>` - Required: System name (must have completed Discovery)
+- `--competitors` - Optional: Comma-separated list of known competitors
+- `--segment` - Optional: Market niche definition
+- `--depth` - Optional: `quick_scan`, `standard` (default), `deep_dive`
+
+**Prerequisites**: Requires completed Discovery outputs (PRODUCT_VISION.md, PRODUCT_STRATEGY.md, etc.)
+
+**Outputs** (to `ClientAnalysis_<SystemName>/03-strategy/`):
+- `COMPETITIVE_LANDSCAPE.md` - Market map with competitor categorization
+- `THREAT_OPPORTUNITY_MATRIX.md` - Scored threat/opportunity analysis
+- `DIFFERENTIATION_BLUEPRINT.md` - USP and positioning strategy
+- `COMPETITIVE_INTELLIGENCE_SUMMARY.md` - Executive summary
+- `battlecards/*.md` - Per-competitor sales enablement cards
+
+**When to use**:
+- After Discovery to enrich strategy with competitive insights
+- Standalone refresh of competitive analysis
+- Before roadmap planning (informs feature prioritization)
+
+---
+
 ### `/discovery-resume`
 
 Resume sequential Discovery from last checkpoint.
@@ -199,7 +243,7 @@ Process feedback and change requests using Reflexion-enhanced impact analysis.
 
 ---
 
-## 12 Checkpoints
+## 13 Checkpoints
 
 | CP | Phase | Agents | Execution Mode |
 |----|-------|--------|----------------|
@@ -211,6 +255,7 @@ Process feedback and change requests using Reflexion-enhanced impact analysis.
 | 4 | JTBD Extraction | jtbd-extractor | Sequential |
 | 5 | Vision | vision-generator | Sequential |
 | 6 | Strategy | strategy-generator | Sequential |
+| 6.5 | **Competitive Intelligence** | competitor-analyst | Sequential |
 | 7 | Roadmap | roadmap-generator | Sequential |
 | 8 | KPIs | kpis-generator | Sequential |
 | 9 | Design Specs | screen-specifier, navigation-specifier, data-fields-specifier, interaction-specifier | **Parallel (4 agents)** |
@@ -218,6 +263,19 @@ Process feedback and change requests using Reflexion-enhanced impact analysis.
 | 11 | Validation (BLOCKING) | cross-reference-validator | Sequential |
 
 **Note**: N = number of files (interviews, PDFs, personas)
+
+### CP-6.5: Competitive Intelligence (New)
+
+The `competitor-analyst` agent performs strategic intelligence synthesis:
+- **Input**: PRODUCT_VISION.md, PRODUCT_STRATEGY.md, personas/, JOBS_TO_BE_DONE.md, PAIN_POINTS.md
+- **Output**:
+  - `03-strategy/COMPETITIVE_LANDSCAPE.md` - Market map with competitor categorization
+  - `03-strategy/THREAT_OPPORTUNITY_MATRIX.md` - Quantitative threat/opportunity analysis
+  - `03-strategy/DIFFERENTIATION_BLUEPRINT.md` - USP definition and positioning
+  - `03-strategy/COMPETITIVE_INTELLIGENCE_SUMMARY.md` - Executive summary
+  - `03-strategy/battlecards/[COMPETITOR]_BATTLECARD.md` - Per-competitor sales enablement
+- **Dependencies**: Requires CP-6 (Strategy) completed
+- **Blocks**: CP-7 (Roadmap) - competitive insights inform feature prioritization
 
 ---
 
@@ -320,6 +378,7 @@ When processing client materials:
 | `/discovery-status` | Show current progress |
 | `/discovery-trace` | Review traceability coverage |
 | `/discovery-export` | Package for Prototype stage |
+| `/discovery-competitive-analysis` | Standalone competitive intelligence |
 | `/htec-libraries-init` | Install dependencies |
 | `/integrity-check` | Cross-stage validation |
 

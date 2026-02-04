@@ -13,6 +13,15 @@ hooks:
   Stop:
     - hooks:
         - type: command
+          command: |
+            SYSTEM_NAME=$(cat _state/session.json 2>/dev/null | grep -o '"project"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed 's/.*"project"[[:space:]]*:[[:space:]]*"//' | sed 's/"$//' || echo "")
+            if [ -n "$SYSTEM_NAME" ] && [ "$SYSTEM_NAME" != "pending" ]; then
+              uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_prototype_output.py" --system-name "$SYSTEM_NAME" --quick
+            else
+              echo '{"result": "skip", "reason": "System name not found in session"}'
+              exit 0
+            fi
+        - type: command
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /prototype-resume ended '{"stage": "prototype"}'
 ---
 

@@ -12,8 +12,35 @@ hooks:
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-analyze started '{"stage": "discovery"}'
   Stop:
     - hooks:
+        # VALIDATION: Check analysis summary exists and has required sections
         - type: command
-          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-analyze ended '{"stage": "discovery"}'
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_file_contains.py"
+            --directory "ClientAnalysis_$(cat _state/discovery_config.json 2>/dev/null | grep -o '"system_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)/01-analysis"
+            --pattern "ANALYSIS_SUMMARY.md"
+            --contains "## Executive Summary"
+            --contains "## Key Findings"
+        # VALIDATION: Check client facts registry exists
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "traceability"
+            --requires "client_facts_registry.json"
+        # VALIDATION: Check pain point registry exists
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "traceability"
+            --requires "pain_point_registry.json"
+        # VALIDATION: Check user type registry exists
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "traceability"
+            --requires "user_type_registry.json"
+        # LOGGING: Record command completion
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-analyze ended '{"stage": "discovery", "validated": true}'
 ---
 
 

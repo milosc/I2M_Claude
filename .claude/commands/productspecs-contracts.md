@@ -10,23 +10,16 @@ hooks:
       once: true
       hooks:
         - type: command
-          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /productspecs-contracts started '{"stage": "implementation"}'
-  Stop:
-    - hooks:
-        - type: command
-          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /productspecs-contracts ended '{"stage": "implementation"}'
-hooks:
-  PreToolUse:
-    - matcher: "*"
-      once: true
-      hooks:
-        - type: command
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /productspecs-contracts started '{"stage": "productspecs"}'
   Stop:
     - hooks:
         - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_productspecs_output.py"
+            --system-name "$1"
+            --phase contracts
+        - type: command
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /productspecs-contracts ended '{"stage": "productspecs"}'
-
 ---
 
 ## FIRST ACTION (MANDATORY)

@@ -13,6 +13,11 @@ hooks:
   Stop:
     - hooks:
         - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_productspecs_output.py"
+            --system-name "$1"
+            --phase tests
+        - type: command
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /productspecs-tests ended '{"stage": "productspecs"}'
 ---
 

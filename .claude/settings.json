@@ -43,7 +43,50 @@
         ]
       }
     ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py\" --event-type SubagentStart"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/validators/permission_audit.py\""
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/validators/capture_failure.py\""
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/validators/security_gate.py\""
+          },
+          {
+            "type": "command",
+            "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py\" --event-type PreToolUse"
+          }
+        ]
+      },
       {
         "matcher": "Task",
         "hooks": [
@@ -107,6 +150,10 @@
           {
             "type": "command",
             "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py\" --event-type SubagentStop"
+          },
+          {
+            "type": "command",
+            "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/slack_notification_hook.py\" --event SubagentStop --quiet"
           }
         ]
       }
@@ -117,6 +164,10 @@
           {
             "type": "command",
             "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py\" --event-type Stop"
+          },
+          {
+            "type": "command",
+            "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/slack_notification_hook.py\" --event Stop --status completed --quiet"
           }
         ]
       }
@@ -137,6 +188,10 @@
           {
             "type": "command",
             "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py\" --event-type Notification"
+          },
+          {
+            "type": "command",
+            "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/slack_notification_hook.py\" --event Notification --quiet"
           }
         ]
       }

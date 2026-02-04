@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0.0",
   "stage": "discovery",
-  "total_agents": 16,
-  "notes": "v2.1: Added VP PM reviewer (opus) at CP-10 for strategic review before validation. All other agents use sonnet except cross-ref-validator (haiku)",
+  "total_agents": 17,
+  "notes": "v2.2: Added competitor-analyst (sonnet) at CP-6.5 for competitive intelligence between strategy and roadmap. Uses thinking-critically, business-model-canvas, and game-theory skills.",
   "agents": [
     {
       "agent_id": "interview-analyst",
@@ -170,6 +170,29 @@
         "03-strategy/PRODUCT_STRATEGY.md"
       ],
       "agent_definition_file": ".claude/agents/discovery-strategy-generator.md"
+    },
+    {
+      "agent_id": "competitor-analyst",
+      "checkpoint": 6.5,
+      "model": "sonnet",
+      "subagent_type": "general-purpose",
+      "parallel_group": null,
+      "description": "Strategic intelligence synthesis: competitive landscape mapping, threat/opportunity scoring, sales battlecards",
+      "skills_required": [
+        "thinking-critically",
+        "business-model-canvas",
+        "game-theory-tit-for-tat"
+      ],
+      "output_files": [
+        "03-strategy/COMPETITIVE_LANDSCAPE.md",
+        "03-strategy/THREAT_OPPORTUNITY_MATRIX.md",
+        "03-strategy/DIFFERENTIATION_BLUEPRINT.md",
+        "03-strategy/battlecards/[COMPETITOR]_BATTLECARD.md",
+        "03-strategy/COMPETITIVE_INTELLIGENCE_SUMMARY.md"
+      ],
+      "blocking": false,
+      "agent_definition_file": ".claude/agents/discovery-competitor-analyst.md",
+      "notes": "Uses WebSearch/WebFetch for competitive research. Runs after strategy-generator, before roadmap-generator to inform feature prioritization."
     },
     {
       "agent_id": "roadmap-generator",

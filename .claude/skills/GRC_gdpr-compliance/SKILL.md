@@ -1,8 +1,8 @@
 ---
 name: gdpr-compliance
-description: GDPR compliance planning including lawful bases, data subject rights, DPIA, and implementation patterns
+description: GDPR compliance document generation including data processing registers, DPIA, TOMs, privacy policies, and employee agreements. Uses professional templates from references folder.
 model: sonnet
-allowed-tools: Read, Glob, Grep, Write, Edit, Task
+allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 hooks:
   PreToolUse:
     - matcher: "*"
@@ -16,9 +16,158 @@ hooks:
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" skill gdpr-compliance ended '{"stage": "utility"}'
 ---
 
-# GDPR Compliance Planning
+# GDPR Compliance Planning & Document Generation
 
-Comprehensive guidance for General Data Protection Regulation compliance before development begins.
+Comprehensive guidance and document generation for General Data Protection Regulation compliance.
+
+## MANDATORY FIRST STEP: Ask User for Output Type
+
+**BEFORE doing any work, you MUST use the `AskUserQuestion` tool to determine which GDPR document(s) the user needs.**
+
+Use this exact question:
+
+```
+AskUserQuestion({
+  questions: [{
+    question: "Which GDPR compliance document do you need?",
+    header: "Output Type",
+    options: [
+      {
+        label: "Data Processing Register + DPIA",
+        description: "Record of Processing Activities (ROPA) with Threshold Analysis and Data Protection Impact Assessment. Best for: Article 30 compliance, documenting all data processing."
+      },
+      {
+        label: "Technical & Organizational Measures (TOMs)",
+        description: "Security controls documentation covering access control, encryption, availability, and data deletion policies. Best for: Article 32 compliance, vendor assessments."
+      },
+      {
+        label: "Privacy Policy / Data Protection Statement",
+        description: "User-facing privacy notice for websites and applications. Best for: Article 13/14 compliance, informing data subjects."
+      },
+      {
+        label: "Employee Data Protection Agreement",
+        description: "Confidentiality and data handling agreement for employees. Best for: Staff onboarding, establishing data handling obligations."
+      }
+    ],
+    multiSelect: true
+  }]
+})
+```
+
+## Reference Templates
+
+All templates are located in: `.claude/skills/GRC_gdpr-compliance/references/`
+
+| Document | Template File | Primary Use |
+|----------|---------------|-------------|
+| **Data Processing Register + DPIA** | `list-of-data-processing-activities-with-data-protection-impact-assessment-dpia.md` | Article 30 ROPA, risk assessment |
+| **Technical & Organizational Measures** | `technical-and-organizational-measures.md` | Article 32 security documentation |
+| **Privacy Policy** | `data-protection-statement-privacy-policy.md` | Article 13/14 data subject information |
+| **Employee Agreement** | `employee-data-protection-and-confidentiality-agreement.md` | Employee obligations |
+
+## Workflow After User Selection
+
+### 1. If "Data Processing Register + DPIA" selected:
+
+**Read the template:**
+```
+Read: .claude/skills/GRC_gdpr-compliance/references/list-of-data-processing-activities-with-data-protection-impact-assessment-dpia.md
+```
+
+**Gather information from user:**
+- Company name and address
+- Data Protection Officer contact
+- List of data processing activities (internal and external)
+- Categories of personal data processed
+- Data subjects affected
+- Processors and third parties involved
+- International transfers
+
+**Generate:**
+- Tab 1: Data Processing Activities (internal)
+- Tab 2: Data Processing Activities (external)
+- Tab 3: Threshold Analysis
+- Tab 4: DPIA (for high-risk processing)
+- Tab 5: Risk Methodology reference
+
+### 2. If "Technical & Organizational Measures" selected:
+
+**Read the template:**
+```
+Read: .claude/skills/GRC_gdpr-compliance/references/technical-and-organizational-measures.md
+```
+
+**Gather information from user:**
+- Company name
+- Categories of personal data processed
+- DPO contact details
+- Physical security measures (entry control)
+- IT access controls
+- Data deletion policies and retention periods
+- Cloud providers used
+
+**Generate sections:**
+1. General Considerations
+2. Organization (DPO)
+3. Confidentiality (Entry, Access, Usage, Pseudonymization, Separation)
+4. Integrity (Transfer, Input, Availability)
+5. Employee Workplace
+6. Review Procedures
+
+### 3. If "Privacy Policy" selected:
+
+**Read the template:**
+```
+Read: .claude/skills/GRC_gdpr-compliance/references/data-protection-statement-privacy-policy.md
+```
+
+**Gather information from user:**
+- Company name and full address
+- Contact details
+- Types of data collected
+- Purposes of processing
+- Legal bases used
+- Data retention periods
+- Newsletter/tracking usage
+- Third parties and processors
+
+**Generate sections covering:**
+- Definitions (Article 4)
+- Controller information
+- Data collection methods
+- Newsletter and tracking
+- Data subject rights (Articles 15-22)
+- Legal basis (Article 6)
+- Retention periods
+- Security measures
+
+### 4. If "Employee Agreement" selected:
+
+**Read the template:**
+```
+Read: .claude/skills/GRC_gdpr-compliance/references/employee-data-protection-and-confidentiality-agreement.md
+```
+
+**Gather information from user:**
+- Company name
+- Country/jurisdiction (for local law references)
+- Internal documentation references (QMS, SOPs)
+
+**Generate:**
+- Main agreement with signature blocks
+- Annex with GDPR articles and local law references (BDSG for Germany, adjust for other jurisdictions)
+
+## Output Format
+
+**Always output as Markdown files to the specified location (or propose a default):**
+
+| Document | Suggested Filename |
+|----------|-------------------|
+| Data Processing Register | `ROPA_[CompanyName].md` |
+| DPIA | `DPIA_[CompanyName].md` |
+| TOMs | `TOMs_[CompanyName].md` |
+| Privacy Policy | `Privacy_Policy_[CompanyName].md` |
+| Employee Agreement | `Employee_Data_Agreement_[CompanyName].md` |
 
 ## When to Use This Skill
 
@@ -27,6 +176,8 @@ Comprehensive guidance for General Data Protection Regulation compliance before 
 - Implementing data subject rights (access, erasure, portability)
 - Conducting Data Protection Impact Assessments (DPIA)
 - Defining data processing agreements and controller/processor relationships
+- Creating compliance documentation for audits
+- Onboarding new employees with data handling responsibilities
 
 ## GDPR Fundamentals
 
@@ -376,8 +527,29 @@ Security Measures:
 - Decision: [Proceed/Modify/Suspend]
 ```
 
+## Data Flow Diagram Generation
+
+For visual data flow mapping and GDPR-compliant DFD generation, use the **GDPR DataFlow Mapper** skill:
+
+```
+Skill: GRC_GDPR_DataFlow_Mapper
+```
+
+This companion skill generates:
+- Level 0-2 Data Flow Diagrams (Mermaid notation)
+- Cross-Border Transfer diagrams (Article 44-49)
+- Special Category Data flow diagrams (Article 9)
+- Data Subject Rights fulfillment flow diagrams
+- GDPR compliance checklists aligned with diagrams
+
+**When to use together:**
+- After user selects "Data Processing Register + DPIA" - generate DFDs to support the DPIA
+- For Article 30 ROPA documentation - visualize processing activities
+- When assessing international data transfers - map cross-border flows
+
 ## Cross-References
 
+- **GDPR Data Flow Mapper**: `GRC_GDPR_DataFlow_Mapper` for visual data flow diagrams
 - **CCPA/CPRA**: See similar concepts (disclosure, deletion, opt-out)
 - **AI Governance**: `ai-governance` skill for AI-specific requirements
 - **Security Frameworks**: `security-frameworks` for technical controls
@@ -388,3 +560,4 @@ Security Measures:
 - [GDPR Full Text](https://gdpr-info.eu/)
 - [EDPB Guidelines](https://edpb.europa.eu/our-work-tools/general-guidance/guidelines-recommendations-best-practices_en)
 - [ICO GDPR Guidance](https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/)
+

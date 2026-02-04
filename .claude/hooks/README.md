@@ -96,7 +96,84 @@ python3 .claude/hooks/integrity_checker.py --full-audit
 All validation results are recorded in:
 - `.claude/hooks/hook_log.jsonl` (Technical log)
 - `_state/discovery_progress.json` (Phase status)
+- `_state/lifecycle.json` (Event lifecycle)
+- `_state/permission_audit.json` (Permission requests)
 - `traceability/trace_matrix.json` (Link validation)
+
+---
+
+## 🛡️ Self-Validating Hooks (New in v2.0)
+
+The framework now includes **self-validating hooks** that enforce quality gates deterministically. Unlike traditional validation that relies on Claude following instructions, these hooks **block** Claude from completing commands until all validators pass.
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                     HTEC HOOKS ARCHITECTURE                          │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  LAYER 1: GLOBAL HOOKS (settings.json)                              │
+│  ├── PreToolUse: security_gate.py (Bash blocking)                   │
+│  ├── PostToolUse: capture_event.py (logging)                        │
+│  ├── PermissionRequest: permission_audit.py                         │
+│  ├── PostToolUseFailure: capture_failure.py                         │
+│  └── SubagentStart: capture_event.py                                │
+│                                                                      │
+│  LAYER 2: COMMAND HOOKS (frontmatter)                               │
+│  ├── Stop: validate_*_output.py (output completeness)               │
+│  ├── Stop: validate_file_contains.py (required sections)            │
+│  └── Stop: log-lifecycle.sh (lifecycle logging)                     │
+│                                                                      │
+│  LAYER 3: AGENT HOOKS (frontmatter)                                 │
+│  ├── PreToolUse: file_lock_acquire.py (file locking)                │
+│  ├── PostToolUse: ruff_validator.py (Python linting)                │
+│  ├── PostToolUse: ty_validator.py (Python type checking)            │
+│  └── PostToolUse: tdd_compliance_check.py (TDD enforcement)         │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Exit Code Protocol
+
+All validators follow this exit code convention:
+
+| Exit Code | Meaning | Hook Behavior |
+|-----------|---------|---------------|
+| 0 | Validation passed | Allow Claude to continue |
+| 1 | Validation failed | Block Claude from stopping |
+| 2 | Critical/Security | Force Claude to address |
+
+### Validators Library
+
+Located in `.claude/hooks/validators/`:
+
+| Validator | Type | Purpose |
+|-----------|------|---------|
+| `security_gate.py` | Security | Block dangerous bash commands |
+| `validate_files_exist.py` | Generic | Check file patterns exist |
+| `validate_file_contains.py` | Generic | Check required content |
+| `validate_frontmatter.py` | Generic | Check YAML metadata |
+| `ruff_validator.py` | Code Quality | Python linting |
+| `ty_validator.py` | Code Quality | Python type checking |
+| `validate_discovery_output.py` | Stage | Discovery completeness |
+| `validate_prototype_output.py` | Stage | Prototype completeness |
+| `validate_productspecs_output.py` | Stage | ProductSpecs completeness |
+| `validate_solarch_output.py` | Stage | SolArch completeness |
+| `permission_audit.py` | Audit | Log permission requests |
+| `capture_failure.py` | Audit | Log tool failures |
+
+See `.claude/hooks/validators/README.md` for detailed usage.
+
+### Running Tests
+
+```bash
+# Run all validator tests
+uv run .claude/hooks/tests/test_validators.py
+
+# Run with pytest
+uv run pytest .claude/hooks/tests/test_validators.py -v
+```
 
 ---
 
@@ -130,4 +207,101 @@ A global auditor that runs across the entire project root.
 Shared utility library containing core logic for project classification lookups, applicability matrices, and N/A file format enforcement.
 
 ---
+
+## 📱 Slack Notifications Setup
+
+The framework supports Slack notifications for hook events (Notification, Stop, SubagentStop). This allows you to receive alerts when Claude needs input or completes tasks.
+
+### Prerequisites
+
+1. **Create a Slack App** at https://api.slack.com/apps
+2. **Add Bot Token Scopes** under OAuth & Permissions:
+   - `chat:write`
+   - `chat:write.public` (for channels the bot isn't in)
+3. **Install the app** to your workspace
+4. **Copy the Bot Token** (starts with `xoxb-`)
+
+### Configuration
+
+**IMPORTANT**: `uv run` does NOT inherit shell environment variables or auto-load `.env` files. You must export variables in your shell profile.
+
+**Add to `~/.zshrc` (or `~/.bashrc`):**
+
+```bash
+export SLACK_BOT_TOKEN="xoxb-your-actual-token-here"
+export SLACK_CHANNEL="claude-notifications"  # or "#channel-name" or "C0123456789"
+```
+
+**Then reload and restart Claude Code:**
+
+```bash
+source ~/.zshrc
+# Close and reopen terminal, then start Claude Code
+```
+
+### Testing
+
+**1. Verify token is available to uv:**
+
+```bash
+cd /path/to/project
+uv run python3 -c "import os; print('Token:', 'YES' if os.getenv('SLACK_BOT_TOKEN') else 'NO')"
+```
+
+**2. Test notification manually:**
+
+```bash
+uv run .claude/hooks/slack_notification_hook.py --event Notification
+```
+
+**3. Test via curl (direct):**
+
+```bash
+curl -X POST https://slack.com/api/chat.postMessage \
+  -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"channel":"claude-notifications","text":"Test from CLI"}'
+```
+
+### Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| `Token: NO` in uv test | Export in `~/.zshrc`, not just `.env` |
+| `"not_authed"` error | Token invalid - regenerate in Slack App settings |
+| `"channel_not_found"` | Use channel ID (e.g., `C0123456789`) instead of name |
+| No notification sent | Check `_state/logs/slack_notifications.log` |
+
+### Hook Events That Trigger Slack
+
+Configured in `settings.json`:
+
+| Event | When Triggered |
+|-------|----------------|
+| `Notification` | Claude needs user input |
+| `Stop` | Main agent completes |
+| `SubagentStop` | Sub-agent completes |
+
+### Adding Custom Slack Hooks
+
+To add Slack notifications for other events (e.g., `AskUserQuestion`), add to `settings.json`:
+
+```json
+{
+  "PostToolUse": [
+    {
+      "matcher": "AskUserQuestion",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/slack_notification_hook.py\" --event Notification --quiet"
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
 **Note**: If a hook fails, do not try to bypass it. The framework is designed to prevent technical debt from accumulating early in the discovery process. Fix the source artifact instead.

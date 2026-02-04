@@ -269,6 +269,12 @@ def validate_checkpoint(checkpoint_num, target_dir=None):
         "4": ["02-research/JOBS_TO_BE_DONE.md"],
         "5": ["03-strategy/PRODUCT_VISION.md"],
         "6": ["03-strategy/PRODUCT_STRATEGY.md"],
+        "6.5": [
+            "03-strategy/COMPETITIVE_LANDSCAPE.md",
+            "03-strategy/THREAT_OPPORTUNITY_MATRIX.md",
+            "03-strategy/DIFFERENTIATION_BLUEPRINT.md",
+            "03-strategy/COMPETITIVE_INTELLIGENCE_SUMMARY.md"
+        ],
         "7": ["03-strategy/PRODUCT_ROADMAP.md"],
         "8": ["03-strategy/KPIS_AND_GOALS.md"],
         "9": [
@@ -399,6 +405,12 @@ def list_checkpoints():
         "4": ("Generate JTBD", ["02-research/JOBS_TO_BE_DONE.md"]),
         "5": ("Product Vision", ["03-strategy/PRODUCT_VISION.md"]),
         "6": ("Product Strategy", ["03-strategy/PRODUCT_STRATEGY.md"]),
+        "6.5": ("Competitive Intelligence", [
+            "03-strategy/COMPETITIVE_LANDSCAPE.md",
+            "03-strategy/THREAT_OPPORTUNITY_MATRIX.md",
+            "03-strategy/DIFFERENTIATION_BLUEPRINT.md",
+            "03-strategy/COMPETITIVE_INTELLIGENCE_SUMMARY.md"
+        ]),
         "7": ("Product Roadmap", ["03-strategy/PRODUCT_ROADMAP.md"]),
         "8": ("KPIs & Goals", ["03-strategy/KPIS_AND_GOALS.md"]),
         "9": ("Design Specs", [
@@ -454,11 +466,12 @@ def validate_progress_status(checkpoint_num):
             "4": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd"],
             "5": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision"],
             "6": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy"],
-            "7": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy", "7_roadmap"],
-            "8": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy", "7_roadmap", "8_kpis"],
-            "9": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy", "7_roadmap", "8_kpis", "9_specs"],
-            "10": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy", "7_roadmap", "8_kpis", "9_specs", "10_docs"],
-            "11": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy", "7_roadmap", "8_kpis", "9_specs", "10_docs", "11_validate"],
+            "6.5": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy", "6.5_competitive_intelligence"],
+            "7": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy", "6.5_competitive_intelligence", "7_roadmap"],
+            "8": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy", "6.5_competitive_intelligence", "7_roadmap", "8_kpis"],
+            "9": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy", "6.5_competitive_intelligence", "7_roadmap", "8_kpis", "9_specs"],
+            "10": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy", "6.5_competitive_intelligence", "7_roadmap", "8_kpis", "9_specs", "10_docs"],
+            "11": ["0_init", "1_analyze", "1.5_pdf_analysis", "2_extract", "3_personas", "4_jtbd", "5_vision", "6_strategy", "6.5_competitive_intelligence", "7_roadmap", "8_kpis", "9_specs", "10_docs", "11_validate"],
         }
 
         if str(checkpoint_num) not in expected_complete:

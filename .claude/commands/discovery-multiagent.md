@@ -13,8 +13,62 @@ hooks:
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-multiagent started '{"stage": "discovery"}'
   Stop:
     - hooks:
+        # VALIDATION: Full Discovery output validation (same as /discovery)
         - type: command
-          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-multiagent ended '{"stage": "discovery"}'
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_discovery_output.py"
+            --system-name "$1"
+        # VALIDATION: Check analysis summary exists and has required sections
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_file_contains.py"
+            --file "ClientAnalysis_$1/01-analysis/ANALYSIS_SUMMARY.md"
+            --contains "## Executive Summary"
+            --contains "## Key Findings"
+        # VALIDATION: Check at least one persona exists
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/02-research"
+            --requires "persona-*.md"
+        # VALIDATION: Check JTBD document exists
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/02-research"
+            --requires "jtbd-*.md"
+        # VALIDATION: Check screen definitions exist
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/04-design-specs"
+            --requires "screen-definitions.md"
+        # VALIDATION: Check validation report exists
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/05-documentation"
+            --requires "VALIDATION_REPORT.md"
+        # VALIDATION: Check competitive intelligence outputs exist (CP-6.5)
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/03-strategy"
+            --requires "COMPETITIVE_LANDSCAPE.md"
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1/03-strategy"
+            --requires "COMPETITIVE_INTELLIGENCE_SUMMARY.md"
+        # VALIDATION: Check spawn manifest was created
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "_state"
+            --requires "discovery_agent_spawn_manifest.json"
+        # LOGGING: Record command completion
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-multiagent ended '{"stage": "discovery", "validated": true}'
 ---
 
 ## FIRST ACTION (MANDATORY)
@@ -399,6 +453,29 @@ The spawn manifest tracks all agent executions and their states.
       }
     },
     {
+      "agent_id": "competitor-analyst",
+      "agent_type": "discovery-competitor-analyst",
+      "checkpoint": 6.5,
+      "phase": "competitive_intelligence",
+      "status": "not_started",
+      "spawn_info": {
+        "model": "sonnet"
+      },
+      "outputs": {
+        "expected": [
+          "03-strategy/COMPETITIVE_LANDSCAPE.md",
+          "03-strategy/THREAT_OPPORTUNITY_MATRIX.md",
+          "03-strategy/DIFFERENTIATION_BLUEPRINT.md",
+          "03-strategy/COMPETITIVE_INTELLIGENCE_SUMMARY.md"
+        ],
+        "actual": []
+      },
+      "dependencies": {
+        "depends_on": ["strategy-generator"],
+        "blocks": ["roadmap-generator"]
+      }
+    },
+    {
       "agent_id": "roadmap-generator",
       "agent_type": "discovery-roadmap-generator",
       "checkpoint": 7,
@@ -470,6 +547,7 @@ The spawn manifest tracks all agent executions and their states.
     "CP-4": { "status": "not_started", "agents": ["jtbd-extractor"] },
     "CP-5": { "status": "not_started", "agents": ["vision-generator"] },
     "CP-6": { "status": "not_started", "agents": ["strategy-generator"] },
+    "CP-6.5": { "status": "not_started", "agents": ["competitor-analyst"] },
     "CP-7": { "status": "not_started", "agents": ["roadmap-generator"] },
     "CP-8": { "status": "not_started", "agents": ["kpis-generator"] },
     "CP-9": { "status": "not_started", "agents": ["screen-specifier", "navigation-specifier", "data-fields-specifier", "interaction-specifier"] },
@@ -575,8 +653,21 @@ CP-5: Vision [AGENT]
 CP-6: Strategy [AGENT]
   Agent: strategy-generator | Model: sonnet
 
+CP-6.5: Competitive Intelligence [AGENT] ⭐ NEW
+  Agent: competitor-analyst | Model: sonnet
+  Dependencies: Requires CP-6 (strategy) completed
+  Output:
+    - 03-strategy/COMPETITIVE_LANDSCAPE.md
+    - 03-strategy/THREAT_OPPORTUNITY_MATRIX.md
+    - 03-strategy/DIFFERENTIATION_BLUEPRINT.md
+    - 03-strategy/COMPETITIVE_INTELLIGENCE_SUMMARY.md
+    - 03-strategy/battlecards/[COMPETITOR]_BATTLECARD.md
+  Notes: Strategic intelligence synthesis - competitor mapping, threat/opportunity scoring,
+         sales battlecards. Informs Roadmap Generator (CP-7) feature prioritization.
+
 CP-7: Roadmap [AGENT]
   Agent: roadmap-generator | Model: sonnet
+  Dependencies: Requires CP-6.5 (competitive intelligence) completed
 
 CP-8: KPIs [AGENT]
   Agent: kpis-generator | Model: sonnet

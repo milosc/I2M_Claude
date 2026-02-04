@@ -13,8 +13,33 @@ hooks:
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-init started '{"stage": "discovery"}'
   Stop:
     - hooks:
+        # VALIDATION: Check discovery config was created
         - type: command
-          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-init ended '{"stage": "discovery"}'
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "_state"
+            --requires "discovery_config.json"
+        # VALIDATION: Check discovery progress was created
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "_state"
+            --requires "discovery_progress.json"
+        # VALIDATION: Check output folder structure was created
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ClientAnalysis_$1"
+            --requires "00-management"
+        # VALIDATION: Check traceability folder was initialized
+        - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "traceability"
+            --requires "trace_matrix.json"
+        # LOGGING: Record command completion
+        - type: command
+          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /discovery-init ended '{"stage": "discovery", "validated": true}'
 ---
 
 
@@ -84,6 +109,7 @@ This command requires Discovery-specific rules. Load them now:
    ├── 01-analysis/
    ├── 02-research/
    ├── 03-strategy/
+   │   └── battlecards/           # CP-6.5: Per-competitor sales enablement
    ├── 04-design-specs/
    └── 05-documentation/
    ```
@@ -127,18 +153,20 @@ This command requires Discovery-specific rules. Load them now:
      "phases": {
        "0_init": { "status": "complete", "started": "<timestamp>", "completed": "<timestamp>" },
        "1_analyze": { "status": "pending" },
+       "1.5_pdf_analysis": { "status": "pending" },
        "2_extract": { "status": "pending" },
        "3_personas": { "status": "pending" },
        "4_jtbd": { "status": "pending" },
        "5_vision": { "status": "pending" },
        "6_strategy": { "status": "pending" },
+       "6.5_competitive_intelligence": { "status": "pending" },
        "7_roadmap": { "status": "pending" },
        "8_kpis": { "status": "pending" },
        "9_specs": { "status": "pending" },
        "10_docs": { "status": "pending" },
        "11_validate": { "status": "pending" }
      },
-     "overall_progress": 8,
+     "overall_progress": 7,
      "last_checkpoint": "discovery-init",
      "resumable_from": "1_analyze"
    }

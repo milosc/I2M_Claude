@@ -91,16 +91,21 @@ export const ResizableSidebar: React.FC<ResizableSidebarProps> = ({
   return (
     <aside
       ref={sidebarRef}
-      className={`relative flex-shrink-0 border-r border-border overflow-y-auto ${className}`}
+      className={`relative flex-shrink-0 border-r border-border bg-surface z-10 h-full ${className}`}
       style={{ width: `${width}px` }}
     >
-      {/* Sidebar content */}
-      <div className="h-full overflow-y-auto">{children}</div>
+      {/* Sidebar content with isolated scrolling */}
+      <div
+        className="h-full overflow-y-auto"
+        style={{ overscrollBehavior: 'contain' }}
+      >
+        {children}
+      </div>
 
       {/* Resize handle */}
       <div
         onMouseDown={handleMouseDown}
-        className={`absolute top-0 right-0 w-1 h-full cursor-col-resize group hover:bg-accent-default/30 transition-colors ${
+        className={`absolute top-0 right-0 w-1 h-full cursor-col-resize group hover:bg-accent-default/30 transition-colors z-20 ${
           isResizing ? 'bg-accent-default/50' : ''
         }`}
         title="Drag to resize"

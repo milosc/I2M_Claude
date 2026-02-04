@@ -13,6 +13,12 @@ hooks:
   Stop:
     - hooks:
         - type: command
+          command: >-
+            uv run "$CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_files_exist.py"
+            --directory "ProductSpecs_$1/04-jira"
+            --requires "*.csv"
+            --requires "IMPORT_GUIDE.md"
+        - type: command
           command: "$CLAUDE_PROJECT_DIR/.claude/hooks/log-lifecycle.sh" command /productspecs-jira ended '{"stage": "productspecs"}'
 ---
 

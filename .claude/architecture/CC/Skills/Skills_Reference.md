@@ -184,6 +184,7 @@ The framework supports specialized agents for parallel execution of complex task
 | Quality | `quality-*` | Code review (6 specialized reviewers) |
 | Process Integrity | `process-integrity-*` | Traceability, TDD compliance |
 | Reflexion | `reflexion-*` | Self-improvement loop |
+| Utility | Descriptive names | Cross-stage utilities (e.g., `agent-expert`) |
 
 ### Agent Invocation
 
@@ -216,7 +217,14 @@ Task({
 
 ## Related Documentation
 
-- **Skill Authoring**: `.claude/commands/create-skill.md`
+### Authoring Commands
+- **Agent Creation**: `/create-agent <description>` - Spawns agent-expert to create new agents
+- **Skill Authoring**: `/create-skill` - Create new skills with TDD approach
+- **Command Authoring**: `/create-command` - Create new slash commands
+- **Hook Authoring**: `/create-hook` - Create new validation hooks
+
+### Reference Documentation
+- **Agent Expert**: `.claude/agents/agent-expert.md`
 - **Skill Frontmatter**: `.claude/skills/SKILL_FRONTMATTER_REFERENCE.md`
 - **Skill Invocation**: `.claude/skills/SKILL_INVOCATION.md`
 - **Agent Definitions**: `.claude/agents/`
