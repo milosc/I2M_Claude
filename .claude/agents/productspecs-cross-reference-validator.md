@@ -2,6 +2,11 @@
 name: productspecs-cross-reference-validator
 description: The Cross-Reference Validator agent validates ID reference integrity across all ProductSpecs artifacts, ensuring that all referenced IDs exist, are properly formatted, and point to valid targets without circular dependencies or dangling references.
 model: haiku
+skills:
+  required:
+    - Integrity_Checker
+  optional:
+    - graph-thinking
 hooks:
   PreToolUse:
     - matcher: "Read"

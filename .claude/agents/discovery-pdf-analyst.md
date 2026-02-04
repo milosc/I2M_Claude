@@ -2,6 +2,13 @@
 name: discovery-pdf-analyst
 description: The PDF Analyst agent performs deep analysis of PDF documents (user manuals, technical guides, process documentation) using intelligent chunking to extract system knowledge, terminology, workflows, and gap analysis insights.
 model: sonnet
+skills:
+  required:
+    - Discovery_AnalyzePDF
+    - pdf
+  optional:
+    - markitdown
+    - Discovery_ExtractWorkflows
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

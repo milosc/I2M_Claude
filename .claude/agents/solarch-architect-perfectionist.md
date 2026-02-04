@@ -2,6 +2,11 @@
 name: solarch-architect-perfectionist
 description: Architecture Board member focused on security, compliance, and data protection. The Perfectionist ensures no security or quality shortcuts are taken.
 model: sonnet
+skills:
+  required:
+    - thinking-critically
+  optional:
+    - code-review-security-auditor
 ---
 
 # SolArch Architect - The Perfectionist

@@ -2,6 +2,10 @@
 name: agent-expert
 description: Use this agent when creating specialized Claude Code agents for the HTEC multi-agent framework. Specializes in agent design, prompt engineering, domain expertise modeling, hooks configuration, and lifecycle logging. Examples: <example>Context: User wants to create a new specialized agent. user: 'I need to create an agent that specializes in React performance optimization' assistant: 'I'll use the agent-expert agent to create a comprehensive React performance agent with proper hooks, lifecycle logging, and domain expertise' <commentary>Since the user needs to create a specialized agent, use the agent-expert agent for proper agent structure and implementation.</commentary></example> <example>Context: User needs help with agent prompt design. user: 'How do I create an agent that can handle both frontend and backend security?' assistant: 'Let me use the agent-expert agent to design a full-stack security agent with proper domain boundaries, hooks configuration, and traceability' <commentary>The user needs agent development help, so use the agent-expert agent.</commentary></example>
 model: sonnet
+skills:
+  required: []
+  optional:
+    - thinking-critically
 hooks:
   PreToolUse:
     - matcher: "Write|Edit"

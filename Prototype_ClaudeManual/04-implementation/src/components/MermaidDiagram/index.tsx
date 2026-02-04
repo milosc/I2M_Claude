@@ -1,15 +1,6 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import mermaid from 'mermaid';
-
-// Initialize mermaid with default config
-mermaid.initialize({
-  startOnLoad: false,
-  theme: 'default',
-  securityLevel: 'loose',
-  fontFamily: 'system-ui, -apple-system, sans-serif',
-});
 
 export interface MermaidDiagramProps {
   /** Mermaid diagram code */
@@ -17,6 +8,9 @@ export interface MermaidDiagramProps {
   /** Theme variant */
   theme?: 'light' | 'dark';
 }
+
+// Flag to track if mermaid has been initialized
+let mermaidInitialized = false;
 
 export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({
   code,
@@ -39,13 +33,20 @@ export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({
         setIsLoading(true);
         setError(null);
 
-        // Update theme based on prop
-        mermaid.initialize({
-          startOnLoad: false,
-          theme: theme === 'dark' ? 'dark' : 'default',
-          securityLevel: 'loose',
-          fontFamily: 'system-ui, -apple-system, sans-serif',
-        });
+        // Dynamically import mermaid only when needed
+        const mermaid = (await import('mermaid')).default;
+
+        // Initialize mermaid only once
+        if (!mermaidInitialized) {
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: theme === 'dark' ? 'dark' : 'default',
+            securityLevel: 'loose',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            suppressErrorRendering: true,
+          });
+          mermaidInitialized = true;
+        }
 
         // Generate unique ID for this diagram
         const id = `mermaid-${Math.random().toString(36).substring(2, 11)}`;

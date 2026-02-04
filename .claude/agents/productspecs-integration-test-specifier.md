@@ -2,6 +2,12 @@
 name: productspecs-integration-test-specifier
 description: The Integration Test Specifier agent generates comprehensive integration test specifications from API module specs and data contracts, creating detailed test cases for API flows, data transformations, service interactions, and cross-module communication.
 model: sonnet
+skills:
+  required:
+    - test-driven-development
+  optional:
+    - rest-api-client-harness
+    - pict-test-designer-minimal
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

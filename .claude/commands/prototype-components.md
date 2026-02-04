@@ -4,6 +4,13 @@ description: Generate component specifications from discovery design specs
 argument-hint: None
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit
+skills:
+  required:
+    - Prototype_Components
+  optional:
+    - ui-design-system
+    - tailwind-patterns
+    - frontend-dev-guidelines
 hooks:
   PreToolUse:
     - matcher: "*"

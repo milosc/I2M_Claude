@@ -2,6 +2,9 @@
 name: prototype-design-token-generator
 description: The Design Token Generator agent creates a comprehensive design token system from Discovery design specs and brand guidelines, producing JSON tokens for colors, typography, spacing, and other design primitives.
 model: sonnet
+skills:
+  required:
+    - Prototype_DesignTokens
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

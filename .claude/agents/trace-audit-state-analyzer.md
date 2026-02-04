@@ -2,6 +2,10 @@
 name: trace-audit-state-analyzer
 description: Analyzes the _state/ folder to validate pipeline state, session integrity, checkpoint consistency, and configuration validity. Returns factual findings only - no speculation or hallucination.
 model: sonnet
+skills:
+  required:
+    - Integrity_Checker
+  optional: []
 hooks:
   PreToolUse:
     - matcher: "*"

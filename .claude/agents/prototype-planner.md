@@ -2,6 +2,12 @@
 name: prototype-planner
 description: Decomposes screen specifications into evolutionary implementation tasks with dependencies, TDD specs, and team assignments. Mimics /htec-sdd-tasks approach for prototype building.
 model: sonnet
+skills:
+  required:
+    - Prototype_Decomposition
+  optional:
+    - kanban
+    - executing-plans
 hooks:
   PreToolUse:
     - matcher: "Task"

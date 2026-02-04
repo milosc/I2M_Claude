@@ -2,6 +2,11 @@
 name: process-integrity-playbook-enforcer
 description: The Playbook Enforcer agent validates that all implementation follows prescribed patterns, particularly TDD compliance (RED-GREEN-REFACTOR), coding standards, and workflow procedures. It can VETO phase transitions when playbook violations are detected.
 model: sonnet
+skills:
+  required:
+    - test-driven-development
+  optional:
+    - code-review-code-quality
 hooks:
   PreToolUse:
     - matcher: "Read"

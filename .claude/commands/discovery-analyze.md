@@ -3,6 +3,24 @@ name: discovery-analyze
 description: Analyze raw client materials and generate discovery documentation
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob
+skills:
+  required:
+    - Discovery_ClassifyProject
+    - Discovery_AnalyzeDocument
+    - Discovery_ExtractClientFacts
+    - Discovery_ExtractPainPoints
+    - Discovery_ExtractUserTypes
+  optional:
+    - Discovery_AnalyzeSpreadsheet
+    - Discovery_AnalyzePresentation
+    - Discovery_AnalyzeDesign
+    - Discovery_AnalyzeAudioVideo
+    - Discovery_AnalyzeData
+    - Discovery_AnalyzeDocument
+    - Discovery_AnalyzePDF
+    - Discovery_ExtractWorkflows
+    - Discovery_ExtractQuotes
+    - Discovery_ExtractMetrics
 hooks:
   PreToolUse:
     - matcher: "*"
@@ -87,10 +105,10 @@ None required - reads configuration from `_state/discovery_config.json`
 - `.claude/skills/Discovery_AnalyzeDocument/Discovery_AnalyzeDocument.md` - **includes PDF chunking logic**
 - `.claude/skills/Discovery_AnalyzeSpreadsheet/Discovery_AnalyzeSpreadsheet.md`
 - `.claude/skills/Discovery_AnalyzePresentation/Discovery_AnalyzePresentation.md`
-- `.claude/skills/Discovery_AnalyzeScreenshot/Discovery_AnalyzeScreenshot.md`
+- `.claude/skills/Discovery_AnalyzeDesign/Discovery_AnalyzeDesign.md`
 - `.claude/skills/Discovery_AnalyzeAudioVideo/Discovery_AnalyzeAudioVideo.md`
 - `.claude/skills/Discovery_AnalyzeData/Discovery_AnalyzeData.md`
-- `.claude/skills/Discovery_AnalyzeInterview/Discovery_AnalyzeInterview.md`
+- `.claude/skills/Discovery_AnalyzeDocument/Discovery_AnalyzeDocument.md`
 
 **Deep PDF Analysis** (Phase 1.5 - NEW):
 - `.claude/skills/Discovery_AnalyzePDF/Discovery_AnalyzePDF.md` - Deep extraction of system knowledge, terminology, gap analysis
@@ -237,12 +255,12 @@ None required - reads configuration from `_state/discovery_config.json`
       - `.pdf` → Discovery_AnalyzeDocument (with Markdown conversion per step c)
       - `.xlsx`, `.csv` → Discovery_AnalyzeSpreadsheet
       - `.pptx` → Discovery_AnalyzePresentation
-      - `.png`, `.jpg`, `.jpeg` → Discovery_AnalyzeScreenshot
+      - `.png`, `.jpg`, `.jpeg` → Discovery_AnalyzeDesign
       - `.mp3`, `.wav`, `.m4a` → Discovery_AnalyzeAudioVideo (Transcribe first)
       - `.mp4`, `.mov`, `.avi` → Discovery_AnalyzeAudioVideo (Transcribe first)
       - `.json`, `.xml`, `.yaml` → Discovery_AnalyzeData
-      - `.mp3`, `.wav`, `.mp4`, etc. → Discovery_AnalyzeInterview (via transcript)
-      - Interview transcripts → Discovery_AnalyzeInterview
+      - `.mp3`, `.wav`, `.mp4`, etc. → Discovery_AnalyzeDocument (via transcript)
+      - Interview transcripts → Discovery_AnalyzeDocument
 
    e. **Read File Once** (or each .md file once for large PDFs/Audio):
       - Success → Extract content, add to analysis

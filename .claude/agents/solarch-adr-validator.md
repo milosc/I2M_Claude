@@ -2,6 +2,10 @@
 name: solarch-adr-validator
 description: The ADR Validator agent validates all Architecture Decision Records for consistency, completeness, and alignment with requirements. It ensures ADR cross-references are valid, all decisions are properly justified, and traceability chains are complete.
 model: haiku
+skills:
+  required:
+    - Integrity_Checker
+  optional: []
 hooks:
   PreToolUse:
     - matcher: "Read"

@@ -2,6 +2,14 @@
 name: prototype-developer
 description: Executes TDD implementation (RED-GREEN-REFACTOR) for prototype tasks. Can run 2 instances in parallel with file locking to prevent conflicts.
 model: sonnet
+skills:
+  required:
+    - Prototype_Builder
+    - Prototype_CodeGen
+    - test-driven-development
+  optional:
+    - vite-build-optimization
+    - systematic-debugging
 hooks:
   PreToolUse:
     - matcher: "Write|Edit"

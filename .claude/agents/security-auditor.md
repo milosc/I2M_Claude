@@ -2,6 +2,12 @@
 name: security-auditor
 description: PROACTIVELY use when reviewing security framework alignment. Assesses control effectiveness and audit readiness for ISO 27001, SOC 2, NIST CSF, and CIS Controls.
 model: sonnet
+skills:
+  required:
+    - GRC_security-frameworks
+    - GRC_data-classification
+  optional:
+    - GRC_ai-governance
 tools: Read, Glob, Grep, Skill, mcp__perplexity__search, mcp__perplexity__reason, mcp__microsoft-learn__microsoft_docs_fetch
 color: purple
 hooks:

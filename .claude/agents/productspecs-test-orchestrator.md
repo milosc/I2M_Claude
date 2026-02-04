@@ -2,6 +2,12 @@
 name: productspecs-test-orchestrator
 description: Test orchestrator that spawns 4 test agents (Unit, Integration, E2E, PICT) with self-validation. Coordinates parallel execution with merge gate for test case consolidation.
 model: sonnet
+skills:
+  required:
+    - pict-test-designer-minimal
+    - test-driven-development
+  optional:
+    - dispatching-parallel-agents
 hooks:
   PreToolUse:
     - matcher: "Task"

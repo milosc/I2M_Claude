@@ -2,6 +2,15 @@
 name: discovery-persona-generator
 description: The Persona Generator agent synthesizes user research data (interviews, role profiles, quotes) into comprehensive, actionable persona documents with rich narratives, goals, frustrations, and day-in-life scenarios.
 model: sonnet
+skills:
+  required:
+    - Discovery_GeneratePersona
+    - jobs-to-be-done
+    - fogg-behavior-model
+  optional:
+    - hooked-model
+    - loss-aversion-psychology
+    - cognitive-biases
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

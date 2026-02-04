@@ -2,6 +2,10 @@
 name: reflexion-actor
 description: The Actor agent generates initial solutions, implementations, or outputs for a given task. It operates as the first stage in the Reflexion loop, producing work that will be evaluated and potentially refined through iteration.
 model: sonnet
+skills:
+  required: []
+  optional:
+    - thinking-critically
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

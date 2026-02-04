@@ -4,6 +4,14 @@ description: Process feedback on Discovery artifacts with reflexion-enhanced imp
 argument-hint: [feedback_text | file.md | resume FB-NNN | status | list]
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob
+skills:
+  required:
+    - Shared_FeedbackImpactAnalyzer_Reflexion
+    - Shared_FeedbackPlanGenerator_Reflexion
+    - Shared_FeedbackReviewer_Reflexion
+  optional:
+    - thinking-critically
+    - cognitive-biases
 hooks:
   PreToolUse:
     - matcher: "*"

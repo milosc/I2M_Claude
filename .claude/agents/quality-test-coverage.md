@@ -2,6 +2,11 @@
 name: quality-test-coverage
 description: The Test Coverage agent analyzes test suites for completeness, identifies missing test scenarios, evaluates test quality, and detects common testing anti-patterns.
 model: sonnet
+skills:
+  required:
+    - test-driven-development
+  optional:
+    - testing-anti-patterns
 hooks:
   PreToolUse:
     - matcher: "Read"

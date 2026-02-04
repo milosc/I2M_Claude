@@ -2,6 +2,9 @@
 name: solarch-tech-researcher
 description: The Technology Researcher agent investigates technology options, evaluates frameworks, and provides evidence-based recommendations for architectural decisions. It performs web research, analyzes documentation, and compares alternatives based on project-specific requirements and constraints.
 model: sonnet
+skills:
+  required:
+    - sdd-researcher
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

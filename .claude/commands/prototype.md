@@ -4,6 +4,27 @@ description: Generate complete working prototype from Discovery with full tracea
 argument-hint: <SystemName>
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep
+skills:
+  required:
+    - Prototype_ValidateDiscovery
+    - Prototype_Requirements
+    - Prototype_DataModel
+    - Prototype_DesignTokens
+    - Prototype_Components
+    - Prototype_Screens
+    - Prototype_Sequencer
+    - Prototype_CodeGen
+  optional:
+    - Prototype_ApiContracts
+    - Prototype_TestData
+    - Prototype_DesignBrief
+    - Prototype_Interactions
+    - Prototype_QA
+    - Prototype_UIAudit
+    - flowchart-creator
+    - dashboard-creator
+    - architecture-diagram-creator
+    - technical-doc-creator
 hooks:
   PreToolUse:
     - matcher: "*"

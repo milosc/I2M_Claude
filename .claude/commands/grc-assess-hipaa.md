@@ -4,6 +4,13 @@ description: Conduct a HIPAA compliance assessment for healthcare systems handli
 argument-hint: <scope-description>
 model: sonnet
 allowed-tools: Task, Skill, Read, Glob, Grep
+skills:
+  required:
+    - GRC_hipaa-compliance
+    - GRC_data-classification
+    - GRC_security-frameworks
+  optional:
+    - GRC_ethics-review
 hooks:
   PreToolUse:
     - matcher: "*"

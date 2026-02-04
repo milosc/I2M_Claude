@@ -191,3 +191,22 @@
 {"timestamp": "2026-02-04T15:22:01.959765", "event_type": "Stop", "success": true, "details": "status=completed"}
 {"timestamp": "2026-02-04T15:22:06.972846", "event_type": "SubagentStop", "success": true, "details": "agent=unknown-agent, status=completed"}
 {"timestamp": "2026-02-04T15:22:31.495588", "event_type": "Notification", "success": true, "details": null}
+{"timestamp": "2026-02-04T20:15:40.101266", "event_type": "Stop", "success": true, "details": "status=completed"}
+{"timestamp": "2026-02-04T20:15:53.734014", "event_type": "SubagentStop", "success": true, "details": "agent=unknown-agent, status=completed"}
+{"timestamp": "2026-02-04T20:16:40.728405", "event_type": "Notification", "success": true, "details": null}
+{"timestamp": "2026-02-04T20:20:25.733873", "event_type": "Stop", "success": true, "details": "status=completed"}
+{"timestamp": "2026-02-04T20:20:32.140802", "event_type": "Stop", "success": true, "details": "status=completed"}
+{"timestamp": "2026-02-04T20:20:33.557460", "event_type": "SubagentStop", "success": true, "details": "agent=unknown-agent, status=completed"}
+{"timestamp": "2026-02-04T20:20:42.091652", "event_type": "SubagentStop", "success": true, "details": "agent=unknown-agent, status=completed"}
+{"timestamp": "2026-02-04T20:26:28.025827", "event_type": "Stop", "success": true, "details": "status=completed"}
+{"timestamp": "2026-02-04T20:26:33.927050", "event_type": "Stop", "success": true, "details": "status=completed"}
+{"timestamp": "2026-02-04T20:26:40.514994", "event_type": "SubagentStop", "success": true, "details": "agent=unknown-agent, status=completed"}
+{"timestamp": "2026-02-04T20:26:41.868090", "event_type": "SubagentStop", "success": true, "details": "agent=unknown-agent, status=completed"}
+{"timestamp": "2026-02-04T20:27:34.489339", "event_type": "Notification", "success": true, "details": null}
+{"timestamp": "2026-02-04T20:32:24.852139", "event_type": "Stop", "success": true, "details": "status=completed"}
+{"timestamp": "2026-02-04T20:32:31.548354", "event_type": "Stop", "success": true, "details": "status=completed"}
+{"timestamp": "2026-02-04T20:32:34.076540", "event_type": "SubagentStop", "success": true, "details": "agent=unknown-agent, status=completed"}
+{"timestamp": "2026-02-04T20:32:38.270415", "event_type": "SubagentStop", "success": true, "details": "agent=unknown-agent, status=completed"}
+{"timestamp": "2026-02-04T20:39:44.517425", "event_type": "SubagentStop", "success": true, "details": "agent=unknown-agent, status=completed"}
+{"timestamp": "2026-02-04T20:41:46.371196", "event_type": "Stop", "success": true, "details": "status=completed"}
+{"timestamp": "2026-02-04T20:41:53.721674", "event_type": "SubagentStop", "success": true, "details": "agent=unknown-agent, status=completed"}

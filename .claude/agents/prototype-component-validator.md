@@ -2,6 +2,11 @@
 name: prototype-component-validator
 description: The Component Validator agent validates that implemented components match their specifications, checking props compliance, variant coverage, state handling, and accessibility requirements defined in component specs.
 model: haiku
+skills:
+  required:
+    - Prototype_Components
+  optional:
+    - webapp-testing
 hooks:
   PreToolUse:
     - matcher: "Read"

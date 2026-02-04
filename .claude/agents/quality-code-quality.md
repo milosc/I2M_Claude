@@ -2,6 +2,11 @@
 name: quality-code-quality
 description: The Code Quality agent reviews code for adherence to SOLID principles, DRY, complexity management, naming conventions, and project-specific style guidelines.
 model: sonnet
+skills:
+  required:
+    - code-review-code-quality
+  optional:
+    - thinking-critically
 hooks:
   PreToolUse:
     - matcher: "Read"

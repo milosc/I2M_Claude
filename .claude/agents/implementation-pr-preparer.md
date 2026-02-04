@@ -2,6 +2,10 @@
 name: implementation-pr-preparer
 description: Implementation PR Preparer Agent
 model: sonnet
+skills:
+  required:
+    - Implementation_CodeReview
+  optional: []
 hooks:
   PreToolUse:
     - matcher: "Write|Edit"

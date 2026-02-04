@@ -2,6 +2,11 @@
 name: productspecs-unit-test-specifier
 description: The Unit Test Specifier agent generates comprehensive unit test specifications from module specifications, creating detailed test cases for individual components, functions, and classes with edge cases, error paths, and boundary conditions.
 model: haiku
+skills:
+  required:
+    - test-driven-development
+  optional:
+    - pict-test-designer-minimal
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

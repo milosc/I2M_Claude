@@ -2,6 +2,12 @@
 name: prototype-screen-validator
 description: The Screen Validator agent validates that implemented screens match their specifications, checking layout compliance, component usage, data binding, navigation flows, and responsive behavior.
 model: haiku
+skills:
+  required:
+    - Prototype_Components
+  optional:
+    - webapp-testing
+    - Prototype_UIAudit
 hooks:
   PreToolUse:
     - matcher: "Read"

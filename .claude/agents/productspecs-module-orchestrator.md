@@ -2,6 +2,11 @@
 name: productspecs-module-orchestrator
 description: Module orchestrator that spawns UI/API/NFR agents, coordinates self-validation, and manages VP review triggers (auto and batch). Handles parallel execution with merge gate for module consolidation.
 model: sonnet
+skills:
+  required:
+    - ProductSpecs_Generator
+  optional:
+    - dispatching-parallel-agents
 hooks:
   PreToolUse:
     - matcher: "Task"

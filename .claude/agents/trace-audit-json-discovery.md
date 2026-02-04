@@ -2,6 +2,11 @@
 name: trace-audit-json-discovery
 description: Discovers and analyzes all .json files outside traceability/ and _state/ folders to identify undocumented registries, shadow data stores, and configuration files that may impact traceability correctness. Returns factual findings only - no speculation or hallucination.
 model: sonnet
+skills:
+  required:
+    - json-schema-validation-transformation
+  optional:
+    - Integrity_Checker
 hooks:
   PreToolUse:
     - matcher: "*"

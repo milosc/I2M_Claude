@@ -2,6 +2,11 @@
 name: productspecs-validation-orchestrator
 description: Validation orchestrator that performs global validation and blocking gate checks. Spawns 3 validators in parallel (traceability, cross-reference, spec-review) and BLOCKS progression if criteria not met.
 model: sonnet
+skills:
+  required:
+    - Integrity_Checker
+  optional:
+    - dispatching-parallel-agents
 hooks:
   PreToolUse:
     - matcher: "Task"

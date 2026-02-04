@@ -2,6 +2,11 @@
 name: solarch-adr-foundation-writer
 description: The ADR Foundation Writer agent creates Architecture Decision Records for foundational decisions that set the overall direction of the architecture. These include architecture style, technology stack, data storage, and core patterns that influence all other decisions.
 model: sonnet
+skills:
+  required:
+    - SolutionArchitecture_Generator
+  optional:
+    - sadd
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

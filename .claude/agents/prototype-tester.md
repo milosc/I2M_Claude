@@ -2,6 +2,12 @@
 name: prototype-tester
 description: Validates implemented components/screens against specifications. Runs after developer completes GREEN phase. Checks spec compliance, test coverage, accessibility, and integration.
 model: haiku
+skills:
+  required:
+    - webapp-testing
+  optional:
+    - playwright-e2e-testing
+    - Prototype_UIAudit
 hooks:
   PreToolUse:
     - matcher: "Bash"

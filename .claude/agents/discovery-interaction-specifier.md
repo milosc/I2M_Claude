@@ -2,6 +2,12 @@
 name: discovery-interaction-specifier
 description: Define interaction patterns catalog including gestures, animations, feedback, and micro-interactions.
 model: sonnet
+skills:
+  required:
+    - Discovery_SpecInteractions
+  optional:
+    - cognitive-fluency-psychology
+    - self-initiated-triggers
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

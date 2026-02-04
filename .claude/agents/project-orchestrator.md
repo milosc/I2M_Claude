@@ -6,6 +6,12 @@ description:
   needing guidance on which methodology to apply.
 tools: Read, Grep, Glob, WebFetch, WebSearch, TodoWrite
 model: opus
+skills:
+  required:
+    - thinking-critically
+  optional:
+    - hypothesis-tree
+    - graph-thinking
 hooks:
   PreToolUse:
     - matcher: "Task"

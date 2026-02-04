@@ -2,6 +2,12 @@
 name: solarch-usability-scenarios
 description: The Usability Scenarios agent generates usability and accessibility quality scenarios based on NFR specifications, personas, and WCAG guidelines. It defines learnability, efficiency, and accessibility scenarios with measurable acceptance criteria.
 model: sonnet
+skills:
+  required:
+    - SolutionArchitecture_Generator
+  optional:
+    - cognitive-load
+    - hicks-law
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

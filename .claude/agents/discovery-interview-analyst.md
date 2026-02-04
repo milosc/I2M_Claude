@@ -3,6 +3,14 @@ name: discovery-interview-analyst
 description: Extract pain points, workflows, quotes, and user needs from interview transcripts. Spawns one instance per interview file for massive parallelization.
 model: sonnet
 context_window: 1M
+skills:
+  required:
+    - Discovery_AnalyzeDocument
+    - Discovery_ExtractPainPoints
+    - Discovery_ExtractQuotes
+  optional:
+    - Discovery_ExtractWorkflows
+    - Discovery_ExtractUserTypes
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

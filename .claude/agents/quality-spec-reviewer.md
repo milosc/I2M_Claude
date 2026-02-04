@@ -2,6 +2,11 @@
 name: quality-spec-reviewer
 description: The Spec Reviewer agent performs systematic review of specifications and documentation, focusing on clarity, completeness, consistency, and actionability. It ensures that all specifications meet quality standards before proceeding to downstream stages.
 model: sonnet
+skills:
+  required:
+    - thinking-critically
+  optional:
+    - ProductSpecs_Generator
 hooks:
   PreToolUse:
     - matcher: "Read"

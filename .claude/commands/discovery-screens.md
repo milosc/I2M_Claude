@@ -3,6 +3,12 @@ name: discovery-screens
 description: Generate screen definitions from discovery materials
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit
+skills:
+  required:
+    - Discovery_SpecScreens
+  optional:
+    - flowchart-creator
+    - progressive-disclosure
 hooks:
   PreToolUse:
     - matcher: "*"

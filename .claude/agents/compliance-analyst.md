@@ -2,6 +2,14 @@
 name: compliance-analyst
 description: PROACTIVELY use when assessing compliance requirements. Evaluates regulatory frameworks (GDPR, HIPAA, PCI-DSS), identifies gaps, and provides remediation roadmaps.
 model: sonnet
+skills:
+  required:
+    - GRC_gdpr-compliance
+    - GRC_hipaa-compliance
+    - GRC_pci-dss-compliance
+  optional:
+    - GRC_data-classification
+    - GRC_security-frameworks
 tools: Read, Glob, Grep, Skill, mcp__perplexity__search, mcp__perplexity__reason, mcp__microsoft-learn__microsoft_docs_fetch
 color: purple
 hooks:

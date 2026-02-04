@@ -2,6 +2,12 @@
 name: discovery-pain-point-validator
 description: The Pain Point Validator agent validates extracted pain points against source materials, ensuring each pain point has proper evidence, correct severity classification, and accurate categorization.
 model: haiku
+skills:
+  required:
+    - Discovery_ExtractPainPoints
+    - Discovery_Validate
+  optional:
+    - Discovery_FactAuditor
 hooks:
   PreToolUse:
     - matcher: "Read"

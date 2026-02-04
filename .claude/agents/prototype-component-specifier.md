@@ -2,6 +2,11 @@
 name: prototype-component-specifier
 description: The Component Specifier agent generates detailed component specifications from Discovery design specs and design tokens, creating a comprehensive component library with props, variants, states, and accessibility requirements.
 model: sonnet
+skills:
+  required:
+    - Prototype_Components
+  optional:
+    - Prototype_DesignTokens
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

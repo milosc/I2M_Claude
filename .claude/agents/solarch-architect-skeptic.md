@@ -2,6 +2,11 @@
 name: solarch-architect-skeptic
 description: Architecture Board member focused on maintainability, technical debt, and developer experience. The Skeptic questions assumptions and advocates for long-term code health.
 model: sonnet
+skills:
+  required:
+    - thinking-critically
+  optional:
+    - code-review-code-quality
 ---
 
 # SolArch Architect - The Skeptic

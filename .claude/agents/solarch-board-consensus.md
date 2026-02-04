@@ -2,6 +2,9 @@
 name: solarch-board-consensus
 description: Calculates weighted voting consensus from Architecture Board votes. Fast consensus calculation using Haiku model.
 model: haiku
+skills:
+  required: []
+  optional: []
 ---
 
 # SolArch Board Consensus Calculator

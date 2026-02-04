@@ -4,6 +4,12 @@ description: Generate Architecture Decision Records with traceability
 argument-hint: None
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob
+skills:
+  required:
+    - SolutionArchitecture_AdrGenerator
+  optional:
+    - thinking-critically
+    - making-product-decisions
 hooks:
   PreToolUse:
     - matcher: "*"

@@ -2,6 +2,12 @@
 name: discovery-design-analyst
 description: The Design Analyst agent processes visual materials (screenshots, wireframes, mockups, UI exports) to extract design patterns, component inventory, navigation structures, and visual design tokens that inform prototype specifications.
 model: sonnet
+skills:
+  required:
+    - Discovery_AnalyzeDesign
+  optional:
+    - image-ocr-table-extraction
+    - Discovery_SpecComponents
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

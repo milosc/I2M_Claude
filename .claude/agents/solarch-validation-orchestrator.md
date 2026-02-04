@@ -2,6 +2,11 @@
 name: solarch-validation-orchestrator
 description: Sub-orchestrator for global validation at CP-10, coordinating parallel validators and enforcing blocking gate requirements.
 model: sonnet
+skills:
+  required:
+    - Integrity_Checker
+  optional:
+    - dispatching-parallel-agents
 hooks:
   PreToolUse:
     - matcher: "Task"

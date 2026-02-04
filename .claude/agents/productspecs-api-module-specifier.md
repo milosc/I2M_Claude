@@ -12,6 +12,12 @@ hooks:
     - hooks:
         - type: command
           command: "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py --event-type Stop"
+skills:
+  required:
+    - ProductSpecs_Generator
+  optional:
+    - technical-doc-creator
+    - flowchart-creator
 ---
 
 # API Module Specifier Agent

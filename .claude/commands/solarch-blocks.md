@@ -4,6 +4,12 @@ description: Generate building blocks from ProductSpecs modules
 argument-hint: None
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit
+skills:
+  required:
+    - SolutionArchitecture_C4Generator
+  optional:
+    - architecture-diagram-creator
+    - flowchart-creator
 hooks:
   PreToolUse:
     - matcher: "*"

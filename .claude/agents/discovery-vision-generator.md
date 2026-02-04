@@ -2,6 +2,12 @@
 name: discovery-vision-generator
 description: Generate product vision document articulating long-term goals, value proposition, and strategic direction from Discovery outputs.
 model: sonnet
+skills:
+  required:
+    - Discovery_GenerateVision
+  optional:
+    - business-model-canvas
+    - thinking-critically
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

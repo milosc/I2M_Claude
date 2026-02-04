@@ -2,6 +2,11 @@
 name: implementation-documenter
 description: Implementation Documenter Agent
 model: sonnet
+skills:
+  required:
+    - markdown-knowledge-base-composer
+  optional:
+    - technical-doc-creator
 hooks:
   PreToolUse:
     - matcher: "Write|Edit"

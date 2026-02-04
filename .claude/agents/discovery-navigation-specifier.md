@@ -2,6 +2,13 @@
 name: discovery-navigation-specifier
 description: Define navigation structure, menu hierarchy, and routing patterns for the application.
 model: sonnet
+skills:
+  required:
+    - Discovery_SpecNavigation
+  optional:
+    - hicks-law
+    - progressive-disclosure
+    - graph-thinking
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

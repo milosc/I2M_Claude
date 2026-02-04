@@ -2,6 +2,11 @@
 name: productspecs-pict-combinatorial
 description: The PICT Combinatorial Test agent generates efficient test case combinations using Pairwise Independent Combinatorial Testing (PICT) methodology, creating comprehensive test coverage with minimal test cases for complex parameter spaces.
 model: sonnet
+skills:
+  required:
+    - pict-test-designer-minimal
+  optional:
+    - test-driven-development
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

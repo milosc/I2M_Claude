@@ -2,6 +2,12 @@
 name: privacy-officer
 description: PROACTIVELY use when evaluating data privacy requirements. Assesses DPIAs, data subject rights, privacy-by-design implementation, and international data transfers.
 model: sonnet
+skills:
+  required:
+    - GRC_gdpr-compliance
+    - GRC_data-classification
+  optional:
+    - GRC_ethics-review
 tools: Read, Glob, Grep, Skill, AskUserQuestion, mcp__perplexity__search, mcp__perplexity__reason, mcp__microsoft-learn__microsoft_docs_fetch
 color: purple
 hooks:

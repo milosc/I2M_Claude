@@ -2,6 +2,9 @@
 name: productspecs-nfr-generator
 description: The NFR Generator agent generates comprehensive Non-Functional Requirements (NFRs) from Discovery analysis, Prototype outputs, and industry best practices, creating detailed specifications for performance, security, reliability, usability, and maintainability.
 model: sonnet
+skills:
+  required:
+    - ProductSpecs_NFRGenerator
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

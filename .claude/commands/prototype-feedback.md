@@ -4,6 +4,14 @@ description: Process feedback on Prototype with systematic debugging and reflexi
 argument-hint: [feedback-text] | --feedback-id <ID> | resume <ID> | status | list
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, Skill
+skills:
+  required:
+    - Shared_FeedbackImpactAnalyzer_Reflexion
+    - Shared_FeedbackPlanGenerator_Reflexion
+    - Shared_FeedbackReviewer_Reflexion
+  optional:
+    - five-whys
+    - thinking-critically
 hooks:
   PreToolUse:
     - matcher: "*"

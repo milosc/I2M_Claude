@@ -2,6 +2,12 @@
 name: trace-audit-consolidator
 description: Consolidates findings from all trace-audit scanner agents (registry-scanner, state-analyzer, json-discovery) into a unified traceability health report. Performs cross-validation, deduplication, and generates actionable recommendations. No hallucination - only synthesizes actual findings.
 model: sonnet
+skills:
+  required:
+    - Integrity_Checker
+  optional:
+    - graph-thinking
+    - thinking-critically
 hooks:
   PreToolUse:
     - matcher: "*"

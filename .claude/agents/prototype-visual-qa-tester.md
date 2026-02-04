@@ -2,6 +2,12 @@
 name: prototype-visual-qa-tester
 description: The Visual QA Tester agent performs comprehensive visual regression testing using Playwright screenshots and multimodal analysis, comparing the prototype against design specifications and identifying visual discrepancies, inconsistencies, and quality issues.
 model: sonnet
+skills:
+  required:
+    - Prototype_UIAudit
+    - webapp-testing
+  optional:
+    - playwright-e2e-testing
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

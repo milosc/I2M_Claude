@@ -4,6 +4,12 @@ description: Generate screen specifications from discovery screens
 argument-hint: None
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit
+skills:
+  required:
+    - Prototype_Screens
+  optional:
+    - flowchart-creator
+    - progressive-disclosure
 hooks:
   PreToolUse:
     - matcher: "*"

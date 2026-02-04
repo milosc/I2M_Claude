@@ -17,6 +17,24 @@ hooks:
     - hooks:
         - type: command
           command: "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py --event-type Stop"
+skills:
+  required:
+    - Prototype_DataModel
+    - Prototype_ApiContracts
+    - Prototype_DesignTokens
+    - Prototype_Components
+    - Prototype_Screens
+    - Prototype_Interactions
+    - Prototype_Sequencer
+    - Prototype_CodeGen
+    - Prototype_QA
+    - Prototype_UIAudit
+    - Prototype_ValidationSummary
+  optional:
+    - flowchart-creator
+    - dashboard-creator
+    - architecture-diagram-creator
+    - technical-doc-creator
 ---
 
 # Prototype Orchestrator - Coordination Guide

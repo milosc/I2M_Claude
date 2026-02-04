@@ -1,6 +1,12 @@
 ---
 name: implementation-task-orchestrator
 description: Orchestrates full 8-phase implementation flow for a single task in isolated context, preventing context accumulation in parent dispatcher
+model: sonnet
+skills:
+  required:
+    - test-driven-development
+  optional:
+    - dispatching-parallel-agents
 hooks:
   PreToolUse:
     - matcher: "*"

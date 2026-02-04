@@ -4,6 +4,18 @@ description: Generate production-ready specifications from Prototype with JIRA e
 argument-hint: <SystemName>
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep
+skills:
+  required:
+    - ProductSpecs_Generator
+    - ProductSpecs_NFRGenerator
+    - ProductSpecs_TestSpecGenerator
+    - ProductSpecs_Validate
+    - ProductSpecs_ExtractRequirements
+  optional:
+    - ProductSpecs_JIRAExporter
+    - flowchart-creator
+    - dashboard-creator
+    - technical-doc-creator
 hooks:
   PreToolUse:
     - matcher: "*"

@@ -17,6 +17,17 @@ hooks:
     - hooks:
         - type: command
           command: "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py --event-type Stop"
+skills:
+  required:
+    - SolutionArchitecture_Generator
+    - SolutionArchitecture_C4Generator
+    - SolutionArchitecture_AdrGenerator
+    - SolutionArchitecture_Arc42Generator
+  optional:
+    - architecture-diagram-creator
+    - flowchart-creator
+    - technical-doc-creator
+    - dashboard-creator
 ---
 
 # SolArch Orchestrator Agent

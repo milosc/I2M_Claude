@@ -2,6 +2,10 @@
 name: solarch-self-validator
 description: Per-ADR format and checklist validation agent using 15-point checklist. Fast validation using Haiku model for quality assurance before Architecture Board review.
 model: haiku
+skills:
+  required:
+    - Integrity_Checker
+  optional: []
 ---
 
 # SolArch Self-Validator

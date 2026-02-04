@@ -2,6 +2,11 @@
 name: quality-cross-validator
 description: The Cross-Validator agent performs systematic validation of cross-references between artifacts, ensuring referential integrity, bidirectional link consistency, and coverage completeness across the HTEC framework stages.
 model: haiku
+skills:
+  required:
+    - Integrity_Checker
+  optional:
+    - graph-thinking
 hooks:
   PreToolUse:
     - matcher: "Read"

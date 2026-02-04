@@ -2,6 +2,11 @@
 name: planning-code-explorer
 description: The Code Explorer agent deeply analyzes existing codebases by tracing execution paths, mapping architecture layers, understanding patterns and abstractions, and documenting dependencies to inform new development.
 model: sonnet
+skills:
+  required:
+    - Discovery_AnalyzeCode
+  optional:
+    - graph-thinking
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

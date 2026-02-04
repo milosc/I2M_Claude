@@ -4,6 +4,19 @@ description: Generate solution architecture with arc42 docs, C4 diagrams, and AD
 argument-hint: <SystemName>
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep
+skills:
+  required:
+    - SolutionArchitecture_Generator
+    - SolutionArchitecture_C4Generator
+    - SolutionArchitecture_AdrGenerator
+    - SolutionArchitecture_Arc42Generator
+  optional:
+    - SolutionArchitecture_InformationDesignGenerator
+    - SolutionArchitecture_E2ETraceabiliyAnalyzer
+    - architecture-diagram-creator
+    - flowchart-creator
+    - technical-doc-creator
+    - dashboard-creator
 hooks:
   PreToolUse:
     - matcher: "*"

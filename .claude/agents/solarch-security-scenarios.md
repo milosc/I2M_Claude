@@ -2,6 +2,11 @@
 name: solarch-security-scenarios
 description: The Security Scenarios agent generates security quality scenarios based on NFR specifications, threat modeling, and OWASP guidelines. It defines authentication, authorization, data protection, and attack resilience scenarios with specific security controls.
 model: sonnet
+skills:
+  required:
+    - SolutionArchitecture_Generator
+  optional:
+    - code-review-security-auditor
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

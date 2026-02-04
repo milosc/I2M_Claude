@@ -2,6 +2,11 @@
 name: solarch-adr-communication-writer
 description: The ADR Communication Writer agent creates Architecture Decision Records for communication and integration decisions. These include API design, messaging patterns, event architecture, and external integration approaches.
 model: sonnet
+skills:
+  required:
+    - SolutionArchitecture_Generator
+  optional:
+    - rest-api-client-harness
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

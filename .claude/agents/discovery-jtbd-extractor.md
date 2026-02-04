@@ -2,6 +2,13 @@
 name: discovery-jtbd-extractor
 description: The JTBD Extractor agent derives Jobs-To-Be-Done from pain points, personas, and interview insights using the "When... I want to... So that..." framework, ensuring each job is actionable and maps to specific user needs.
 model: sonnet
+skills:
+  required:
+    - Discovery_GenerateJTBD
+    - jobs-to-be-done
+  optional:
+    - user-story-fundamentals
+    - fogg-behavior-model
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

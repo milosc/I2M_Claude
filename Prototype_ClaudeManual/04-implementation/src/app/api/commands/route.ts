@@ -8,12 +8,33 @@ interface CommandContent {
   workflow: string;
 }
 
+interface HookEntry {
+  type: string;
+  command: string;
+}
+
+interface HookMatcher {
+  matcher?: string;
+  once?: boolean;
+  hooks: HookEntry[];
+}
+
+interface ParsedHooks {
+  PreToolUse?: HookMatcher[];
+  PostToolUse?: HookMatcher[];
+  Stop?: HookMatcher[];
+  [key: string]: HookMatcher[] | undefined;
+}
+
 interface FrontmatterAttributes {
   model?: string | null;
   argument_hint?: string | null;
   allowed_tools?: string[];
   invokes_skills?: string[];
+  skills_required?: string[];
+  skills_optional?: string[];
   orchestrates_agents?: string[];
+  hooks?: ParsedHooks;
   [key: string]: unknown;
 }
 
@@ -34,12 +55,178 @@ interface Command {
   content: CommandContent;
 }
 
-function parseYamlFrontmatter(content: string): { frontmatter: Record<string, string>; body: string } {
-  const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-  if (!frontmatterMatch) return { frontmatter: {}, body: content };
+interface ParsedSkills {
+  required: string[];
+  optional: string[];
+}
 
+function parseSkillsSection(frontmatterText: string): ParsedSkills {
+  const skills: ParsedSkills = { required: [], optional: [] };
+
+  // Find skills section
+  const skillsMatch = frontmatterText.match(/^skills:\s*$/m);
+  if (!skillsMatch) return skills;
+
+  const startIdx = skillsMatch.index! + skillsMatch[0].length;
+  const lines = frontmatterText.substring(startIdx).split('\n');
+
+  let currentList: 'required' | 'optional' | null = null;
+
+  for (const line of lines) {
+    // Stop if we hit another top-level key (no leading whitespace)
+    if (line && !line.startsWith(' ') && !line.startsWith('\t') && line.includes(':')) {
+      break;
+    }
+
+    const trimmed = line.trim();
+
+    if (trimmed === 'required:') {
+      currentList = 'required';
+    } else if (trimmed === 'optional:') {
+      currentList = 'optional';
+    } else if (trimmed.startsWith('- ') && currentList) {
+      const skillName = trimmed.substring(2).trim();
+      skills[currentList].push(skillName);
+    }
+  }
+
+  return skills;
+}
+
+function parseHooksSection(frontmatterText: string): ParsedHooks | undefined {
+  // Find hooks section
+  const hooksMatch = frontmatterText.match(/^hooks:\s*$/m);
+  if (!hooksMatch) return undefined;
+
+  const startIdx = hooksMatch.index! + hooksMatch[0].length;
+  const lines = frontmatterText.substring(startIdx).split('\n');
+
+  const hooks: ParsedHooks = {};
+  let currentHookType: string | null = null;
+  let currentMatcher: HookMatcher | null = null;
+  let currentHookEntry: Partial<HookEntry> | null = null;
+  let inHooksArray = false;
+  let commandLines: string[] = [];
+
+  for (const line of lines) {
+    // Stop if we hit another top-level key (no leading whitespace, has colon, not inside hooks)
+    if (line && !line.startsWith(' ') && !line.startsWith('\t') && line.includes(':')) {
+      break;
+    }
+
+    const trimmed = line.trim();
+    const indent = line.search(/\S/);
+
+    // Hook type (PreToolUse:, Stop:, etc.) - 2 space indent
+    if (indent === 2 && trimmed.endsWith(':') && !trimmed.startsWith('-')) {
+      // Save previous hook entry
+      if (currentHookEntry && currentHookEntry.type && currentMatcher) {
+        if (commandLines.length > 0) {
+          currentHookEntry.command = commandLines.join(' ').trim();
+          commandLines = [];
+        }
+        currentMatcher.hooks.push(currentHookEntry as HookEntry);
+        currentHookEntry = null;
+      }
+      // Save previous matcher
+      if (currentMatcher && currentHookType) {
+        if (!hooks[currentHookType]) hooks[currentHookType] = [];
+        hooks[currentHookType]!.push(currentMatcher);
+        currentMatcher = null;
+      }
+
+      currentHookType = trimmed.slice(0, -1);
+      inHooksArray = false;
+      continue;
+    }
+
+    // Array item start (- matcher: or - hooks:)
+    if (trimmed.startsWith('- ') && currentHookType) {
+      // Save previous hook entry
+      if (currentHookEntry && currentHookEntry.type && currentMatcher) {
+        if (commandLines.length > 0) {
+          currentHookEntry.command = commandLines.join(' ').trim();
+          commandLines = [];
+        }
+        currentMatcher.hooks.push(currentHookEntry as HookEntry);
+        currentHookEntry = null;
+      }
+      // Save previous matcher if starting new one
+      if (trimmed.startsWith('- matcher:') || trimmed.startsWith('- hooks:')) {
+        if (currentMatcher) {
+          if (!hooks[currentHookType]) hooks[currentHookType] = [];
+          hooks[currentHookType]!.push(currentMatcher);
+        }
+        currentMatcher = { hooks: [] };
+      }
+
+      const content = trimmed.substring(2);
+      if (content.startsWith('matcher:')) {
+        const matcherValue = content.substring(8).trim().replace(/^["']|["']$/g, '');
+        if (currentMatcher) currentMatcher.matcher = matcherValue;
+      } else if (content.startsWith('hooks:')) {
+        inHooksArray = true;
+      } else if (content.startsWith('type:')) {
+        currentHookEntry = { type: content.substring(5).trim() };
+      }
+      continue;
+    }
+
+    // Properties within matcher (once:, hooks:)
+    if (currentMatcher && indent >= 6) {
+      if (trimmed.startsWith('once:')) {
+        currentMatcher.once = trimmed.substring(5).trim() === 'true';
+      } else if (trimmed === 'hooks:') {
+        inHooksArray = true;
+      } else if (trimmed.startsWith('- type:')) {
+        // Save previous hook entry
+        if (currentHookEntry && currentHookEntry.type) {
+          if (commandLines.length > 0) {
+            currentHookEntry.command = commandLines.join(' ').trim();
+            commandLines = [];
+          }
+          currentMatcher.hooks.push(currentHookEntry as HookEntry);
+        }
+        currentHookEntry = { type: trimmed.substring(7).trim() };
+      } else if (trimmed.startsWith('command:')) {
+        if (currentHookEntry) {
+          const cmdValue = trimmed.substring(8).trim();
+          if (cmdValue.startsWith('>-') || cmdValue.startsWith('>')) {
+            // Multiline command starts
+            commandLines = [];
+          } else {
+            currentHookEntry.command = cmdValue.replace(/^["']|["']$/g, '');
+          }
+        }
+      } else if (commandLines !== null && currentHookEntry && !trimmed.startsWith('-') && !trimmed.includes(':')) {
+        // Continuation of multiline command
+        commandLines.push(trimmed);
+      }
+    }
+  }
+
+  // Save final entries
+  if (currentHookEntry && currentHookEntry.type && currentMatcher) {
+    if (commandLines.length > 0) {
+      currentHookEntry.command = commandLines.join(' ').trim();
+    }
+    currentMatcher.hooks.push(currentHookEntry as HookEntry);
+  }
+  if (currentMatcher && currentHookType) {
+    if (!hooks[currentHookType]) hooks[currentHookType] = [];
+    hooks[currentHookType]!.push(currentMatcher);
+  }
+
+  return Object.keys(hooks).length > 0 ? hooks : undefined;
+}
+
+function parseYamlFrontmatter(content: string): { frontmatter: Record<string, string>; body: string; skills: ParsedSkills; hooks: ParsedHooks | undefined } {
+  const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  if (!frontmatterMatch) return { frontmatter: {}, body: content, skills: { required: [], optional: [] }, hooks: undefined };
+
+  const frontmatterText = frontmatterMatch[1];
   const frontmatter: Record<string, string> = {};
-  const lines = frontmatterMatch[1].split('\n');
+  const lines = frontmatterText.split('\n');
   let currentKey = '';
   let currentValue = '';
 
@@ -65,7 +252,13 @@ function parseYamlFrontmatter(content: string): { frontmatter: Record<string, st
     frontmatter[currentKey] = currentValue.trim();
   }
 
-  return { frontmatter, body: frontmatterMatch[2] || '' };
+  // Parse skills section separately
+  const skills = parseSkillsSection(frontmatterText);
+
+  // Parse hooks section separately
+  const hooks = parseHooksSection(frontmatterText);
+
+  return { frontmatter, body: frontmatterMatch[2] || '', skills, hooks };
 }
 
 function extractSection(body: string, sectionName: string): string {
@@ -163,7 +356,7 @@ export async function GET() {
 
       try {
         const fileContent = fs.readFileSync(commandPath, 'utf-8');
-        const { frontmatter, body } = parseYamlFrontmatter(fileContent);
+        const { frontmatter, body, skills, hooks } = parseYamlFrontmatter(fileContent);
 
         const commandId = file.replace('.md', '');
         const description = (frontmatter.description || '').replace(/^["']|["']$/g, '');
@@ -182,6 +375,9 @@ export async function GET() {
           ? `/${commandId} ${argHint}`
           : `/${commandId}`;
 
+        // Combine skills for invokes_skills (backward compatibility)
+        const allSkills = [...skills.required, ...skills.optional];
+
         commands.push({
           id: commandId,
           name: frontmatter.name ? formatCommandName(frontmatter.name) : formatCommandName(commandId),
@@ -192,14 +388,17 @@ export async function GET() {
           model: frontmatter.model || null,
           allowed_tools: parseAllowedTools(frontmatter['allowed-tools']),
           argument_hint: frontmatter['argument-hint'] || null,
-          invokes_skills: [],
+          invokes_skills: allSkills,
           orchestrates_agents: [],
           frontmatter: {
             model: frontmatter.model || null,
             argument_hint: frontmatter['argument-hint'] || null,
             allowed_tools: parseAllowedTools(frontmatter['allowed-tools']),
-            invokes_skills: [],
+            invokes_skills: allSkills,
+            skills_required: skills.required.length > 0 ? skills.required : undefined,
+            skills_optional: skills.optional.length > 0 ? skills.optional : undefined,
             orchestrates_agents: [],
+            hooks: hooks,
           },
           rawContent: body,
           content: {

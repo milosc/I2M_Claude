@@ -3,6 +3,12 @@ name: discovery-components
 description: Generate component specifications from discovery materials
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit
+skills:
+  required:
+    - Discovery_SpecComponents
+  optional:
+    - ui-design-system
+    - tailwind-patterns
 hooks:
   PreToolUse:
     - matcher: "*"

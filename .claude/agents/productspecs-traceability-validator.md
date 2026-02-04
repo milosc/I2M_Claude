@@ -2,6 +2,11 @@
 name: productspecs-traceability-validator
 description: The Traceability Validator agent validates complete traceability chains from Pain Points through Modules to Test Cases, ensuring 100% P0 coverage and identifying any gaps in the requirement-to-test mapping.
 model: haiku
+skills:
+  required:
+    - Integrity_Checker
+  optional:
+    - graph-thinking
 hooks:
   PreToolUse:
     - matcher: "Read"

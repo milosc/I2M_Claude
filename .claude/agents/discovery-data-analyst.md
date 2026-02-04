@@ -2,6 +2,14 @@
 name: discovery-data-analyst
 description: The Data Analyst agent processes structured data files (spreadsheets, CSVs, database exports) to extract business rules, data relationships, field definitions, and validation patterns that inform data model design and requirements.
 model: sonnet
+skills:
+  required:
+    - Discovery_AnalyzeData
+    - Discovery_AnalyzeSpreadsheet
+  optional:
+    - xlsx
+    - csv-excel-data-wrangler
+    - json-schema-validation-transformation
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

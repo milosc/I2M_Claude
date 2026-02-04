@@ -2,6 +2,12 @@
 name: discovery-cross-reference-validator
 description: The Cross-Reference Validator agent validates bidirectional links between Discovery artifacts (Client Facts ↔ Pain Points ↔ JTBD ↔ Personas ↔ Screens), ensuring complete traceability chains and identifying orphaned or missing references.
 model: haiku
+skills:
+  required:
+    - Discovery_Validate
+    - Integrity_Checker
+  optional:
+    - graph-thinking
 hooks:
   PreToolUse:
     - matcher: "Read"

@@ -2,6 +2,10 @@
 name: process-integrity-checkpoint-auditor
 description: The Checkpoint Auditor agent validates that all requirements for phase transitions are met **across all HTEC framework stages**. It verifies artifact completeness, quality gates, and blocking conditions before allowing progression through the workflow.
 model: sonnet
+skills:
+  required:
+    - Integrity_Checker
+  optional: []
 hooks:
   PreToolUse:
     - matcher: "Read"

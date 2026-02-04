@@ -2,6 +2,11 @@
 name: implementation-test-designer
 description: Implementation Test Designer Agent
 model: sonnet
+skills:
+  required:
+    - test-driven-development
+  optional:
+    - pict-test-designer-minimal
 hooks:
   PreToolUse:
     - matcher: "Write|Edit"

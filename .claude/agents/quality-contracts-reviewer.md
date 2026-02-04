@@ -2,6 +2,11 @@
 name: quality-contracts-reviewer
 description: The Contracts Reviewer agent validates that implementation correctly adheres to API contracts, data schemas, and interface definitions specified in ProductSpecs and SolArch documentation.
 model: sonnet
+skills:
+  required:
+    - json-schema-validation-transformation
+  optional:
+    - rest-api-client-harness
 hooks:
   PreToolUse:
     - matcher: "Read"

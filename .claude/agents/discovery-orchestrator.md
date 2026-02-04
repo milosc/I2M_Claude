@@ -17,6 +17,19 @@ hooks:
     - hooks:
         - type: command
           command: "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py --event-type Stop"
+skills:
+  required:
+    - Discovery_AnalyzeDocument
+    - Discovery_AnalyzeData
+    - Discovery_AnalyzeDesign
+    - Discovery_AnalyzePDF
+    - Discovery_ExtractPainPoints
+    - Discovery_GeneratePersona
+    - Discovery_GenerateJTBD
+    - Discovery_Validate
+  optional:
+    - flowchart-creator
+    - dashboard-creator
 ---
 
 # Discovery Orchestrator Agent

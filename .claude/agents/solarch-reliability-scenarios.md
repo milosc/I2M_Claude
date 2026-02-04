@@ -2,6 +2,10 @@
 name: solarch-reliability-scenarios
 description: The Reliability Scenarios agent generates reliability and availability quality scenarios based on NFR specifications. It defines fault tolerance, disaster recovery, and degradation scenarios with specific SLA targets and recovery procedures.
 model: sonnet
+skills:
+  required:
+    - SolutionArchitecture_Generator
+  optional: []
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

@@ -2,6 +2,11 @@
 name: trace-audit-registry-scanner
 description: Scans the traceability/ folder to analyze all registry files, validate cross-references, detect orphaned IDs, broken links, and coverage gaps. Returns factual findings only - no speculation or hallucination.
 model: sonnet
+skills:
+  required:
+    - Integrity_Checker
+  optional:
+    - graph-thinking
 hooks:
   PreToolUse:
     - matcher: "*"

@@ -17,6 +17,11 @@ hooks:
     - hooks:
         - type: command
           command: "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py --event-type Stop"
+skills:
+  required:
+    - code-review-bug-hunter
+  optional:
+    - systematic-debugging
 ---
 
 # Bug Hunter Agent

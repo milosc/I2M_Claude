@@ -2,6 +2,10 @@
 name: productspecs-self-validator
 description: Per-agent format/checklist validation (15 checks) for ProductSpecs artifacts. Validates frontmatter, traceability, content completeness, and naming conventions. Returns quality score and triggers VP review if score < 70.
 model: haiku
+skills:
+  required:
+    - Integrity_Checker
+  optional: []
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

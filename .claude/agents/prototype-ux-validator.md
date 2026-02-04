@@ -2,6 +2,12 @@
 name: prototype-ux-validator
 description: The UX Validator agent validates the generated prototype against design specifications, design tokens, and UX best practices using Playwright screenshots for visual comparison and multimodal analysis.
 model: haiku
+skills:
+  required:
+    - Prototype_UIAudit
+  optional:
+    - webapp-testing
+    - playwright-e2e-testing
 hooks:
   PreToolUse:
     - matcher: "Read"

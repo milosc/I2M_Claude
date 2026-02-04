@@ -15,7 +15,7 @@ hooks:
           command: >-
             uv run $CLAUDE_PROJECT_DIR/.claude/hooks/validators/validate_file_contains.py
             --directory specs
-            --pattern "*.md"
+            --extension .md
             --contains '## Task Description'
             --contains '## Objective'
             --contains '## Relevant Files'

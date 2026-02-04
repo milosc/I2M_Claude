@@ -2,6 +2,10 @@
 name: solarch-risk-scorer
 description: The Risk Scorer agent quantifies and prioritizes architectural risks identified during evaluation. It applies a consistent scoring methodology to enable informed decision-making and resource allocation for risk mitigation.
 model: haiku
+skills:
+  required:
+    - SolutionArchitecture_Generator
+  optional: []
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

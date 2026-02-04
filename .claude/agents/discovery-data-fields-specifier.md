@@ -2,6 +2,11 @@
 name: discovery-data-fields-specifier
 description: Define all data fields, validation rules, and data types extracted from client materials and workflows.
 model: sonnet
+skills:
+  required:
+    - Discovery_SpecDataModel
+  optional:
+    - graph-thinking
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

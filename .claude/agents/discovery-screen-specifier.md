@@ -2,6 +2,14 @@
 name: discovery-screen-specifier
 description: Generate screen definitions with user flows, wireframes, and UI patterns based on personas and JTBD.
 model: sonnet
+skills:
+  required:
+    - Discovery_SpecScreens
+  optional:
+    - hicks-law
+    - cognitive-load
+    - progressive-disclosure
+    - visual-cues-cta-psychology
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

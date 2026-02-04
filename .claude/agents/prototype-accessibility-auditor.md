@@ -2,6 +2,12 @@
 name: prototype-accessibility-auditor
 description: The Accessibility Auditor agent validates WCAG 2.1 AA compliance of the generated prototype using automated testing (axe-core via Playwright) and manual checklist verification, ensuring the application is usable by people with disabilities.
 model: sonnet
+skills:
+  required:
+    - Prototype_UIAudit
+  optional:
+    - playwright-e2e-testing
+    - webapp-testing
 hooks:
   PreToolUse:
     - matcher: "Read"

@@ -4,6 +4,40 @@ description: Complete Discovery analysis from client materials to specifications
 argument-hint: <SystemName> <InputPath>
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep
+skills:
+  required:
+    - Discovery_Orchestrator
+    - Discovery_ClassifyProject
+    - Discovery_AnalyzeDocument
+    - Discovery_ExtractPainPoints
+    - Discovery_GeneratePersona
+    - Discovery_GenerateJTBD
+    - Discovery_GenerateVision
+    - Discovery_GenerateStrategy
+    - Discovery_GenerateRoadmap
+    - Discovery_GenerateKPIs
+    - Discovery_SpecScreens
+    - Discovery_Validate
+  optional:
+    - Discovery_AnalyzeSpreadsheet
+    - Discovery_AnalyzePresentation
+    - Discovery_AnalyzeDesign
+    - Discovery_AnalyzeAudioVideo
+    - Discovery_AnalyzeData
+    - Discovery_AnalyzeDocument
+    - Discovery_ExtractUserTypes
+    - Discovery_ExtractWorkflows
+    - Discovery_ExtractQuotes
+    - Discovery_ExtractMetrics
+    - Discovery_SpecNavigation
+    - Discovery_SpecDataModel
+    - Discovery_SpecSampleData
+    - Discovery_SpecComponents
+    - Discovery_SpecInteractions
+    - Discovery_DocIndex
+    - Discovery_DocSummary
+    - flowchart-creator
+    - dashboard-creator
 hooks:
   PreToolUse:
     - matcher: "*"
@@ -142,10 +176,10 @@ Read these skills BEFORE executing each phase:
 - `.claude/skills/Discovery_AnalyzeDocument/Discovery_AnalyzeDocument.md`
 - `.claude/skills/Discovery_AnalyzeSpreadsheet/Discovery_AnalyzeSpreadsheet.md`
 - `.claude/skills/Discovery_AnalyzePresentation/Discovery_AnalyzePresentation.md`
-- `.claude/skills/Discovery_AnalyzeScreenshot/Discovery_AnalyzeScreenshot.md`
+- `.claude/skills/Discovery_AnalyzeDesign/Discovery_AnalyzeDesign.md`
 - `.claude/skills/Discovery_AnalyzeAudioVideo/Discovery_AnalyzeAudioVideo.md`
 - `.claude/skills/Discovery_AnalyzeData/Discovery_AnalyzeData.md`
-- `.claude/skills/Discovery_AnalyzeInterview/Discovery_AnalyzeInterview.md`
+- `.claude/skills/Discovery_AnalyzeDocument/Discovery_AnalyzeDocument.md`
 - `.claude/skills/Discovery_ExtractPainPoints/Discovery_ExtractPainPoints.md`
 - `.claude/skills/Discovery_ExtractUserTypes/Discovery_ExtractUserTypes.md`
 - `.claude/skills/Discovery_ExtractWorkflows/Discovery_ExtractWorkflows.md`

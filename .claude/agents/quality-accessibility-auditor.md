@@ -2,6 +2,11 @@
 name: quality-accessibility-auditor
 description: The Accessibility Auditor agent reviews code for WCAG 2.1 compliance, proper ARIA usage, keyboard navigation, screen reader compatibility, and inclusive design practices.
 model: sonnet
+skills:
+  required:
+    - webapp-testing
+  optional:
+    - playwright-e2e-testing
 hooks:
   PreToolUse:
     - matcher: "Read"

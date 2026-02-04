@@ -3,6 +3,16 @@ name: compliance-check
 description: Run compliance validation against regulatory standards (ISO 13485, GDPR, FDA, etc.)
 model: sonnet
 allowed-tools: Read, Grep, Glob, Write, Bash
+skills:
+  required:
+    - GRC_quality-manager-qms-iso13485
+    - GRC_gdpr-dsgvo-expert
+    - GRC_data-privacy-compliance
+  optional:
+    - GRC_fda-consultant-specialist
+    - GRC_mdr-745-specialist
+    - GRC_information-security-manager-iso27001
+    - GRC_risk-management-specialist
 hooks:
   PreToolUse:
     - matcher: "*"

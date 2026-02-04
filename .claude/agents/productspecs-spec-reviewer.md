@@ -2,6 +2,11 @@
 name: productspecs-spec-reviewer
 description: The Spec Reviewer agent performs comprehensive quality review of ProductSpecs artifacts, checking for completeness, consistency, clarity, and adherence to templates. It identifies missing sections, inconsistent terminology, and provides actionable improvement recommendations.
 model: sonnet
+skills:
+  required:
+    - ProductSpecs_Generator
+  optional:
+    - thinking-critically
 hooks:
   PreToolUse:
     - matcher: "Read"

@@ -2,6 +2,10 @@
 name: solarch-performance-scenarios
 description: The Performance Scenarios agent generates concrete, measurable performance quality scenarios based on NFR specifications and user journeys. It defines response time targets, throughput requirements, and scalability scenarios with specific acceptance criteria.
 model: sonnet
+skills:
+  required:
+    - SolutionArchitecture_Generator
+  optional: []
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

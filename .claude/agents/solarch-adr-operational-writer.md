@@ -2,6 +2,11 @@
 name: solarch-adr-operational-writer
 description: The ADR Operational Writer agent creates Architecture Decision Records for operational concerns including deployment, monitoring, security infrastructure, and DevOps practices. These decisions ensure the system is production-ready and maintainable.
 model: sonnet
+skills:
+  required:
+    - SolutionArchitecture_Generator
+  optional:
+    - sadd
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

@@ -8,12 +8,28 @@ interface AgentContent {
   workflow: string;
 }
 
+interface HookEntry {
+  type: string;
+  command: string;
+}
+
+interface HookMatcher {
+  matcher?: string;
+  once?: boolean;
+  hooks: HookEntry[];
+}
+
+interface ParsedHooks {
+  [key: string]: HookMatcher[] | undefined;
+}
+
 interface FrontmatterAttributes {
   model?: string | null;
   checkpoint?: number | null;
   color?: string;
   loads_skills?: string[];
   spawned_by?: string[];
+  hooks?: ParsedHooks;
   [key: string]: unknown;
 }
 
@@ -35,12 +51,122 @@ interface Agent {
   content: AgentContent;
 }
 
-function parseYamlFrontmatter(content: string): { frontmatter: Record<string, string>; body: string } {
-  const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-  if (!frontmatterMatch) return { frontmatter: {}, body: content };
+function parseHooksSection(frontmatterText: string): ParsedHooks | undefined {
+  const hooksMatch = frontmatterText.match(/^hooks:\s*$/m);
+  if (!hooksMatch) return undefined;
 
+  const startIdx = hooksMatch.index! + hooksMatch[0].length;
+  const lines = frontmatterText.substring(startIdx).split('\n');
+
+  const hooks: ParsedHooks = {};
+  let currentHookType: string | null = null;
+  let currentMatcher: HookMatcher | null = null;
+  let currentHookEntry: Partial<HookEntry> | null = null;
+  let commandLines: string[] = [];
+
+  for (const line of lines) {
+    if (line && !line.startsWith(' ') && !line.startsWith('\t') && line.includes(':')) {
+      break;
+    }
+
+    const trimmed = line.trim();
+    const indent = line.search(/\S/);
+
+    if (indent === 2 && trimmed.endsWith(':') && !trimmed.startsWith('-')) {
+      if (currentHookEntry && currentHookEntry.type && currentMatcher) {
+        if (commandLines.length > 0) {
+          currentHookEntry.command = commandLines.join(' ').trim();
+          commandLines = [];
+        }
+        currentMatcher.hooks.push(currentHookEntry as HookEntry);
+        currentHookEntry = null;
+      }
+      if (currentMatcher && currentHookType) {
+        if (!hooks[currentHookType]) hooks[currentHookType] = [];
+        hooks[currentHookType]!.push(currentMatcher);
+        currentMatcher = null;
+      }
+      currentHookType = trimmed.slice(0, -1);
+      continue;
+    }
+
+    if (trimmed.startsWith('- ') && currentHookType) {
+      if (currentHookEntry && currentHookEntry.type && currentMatcher) {
+        if (commandLines.length > 0) {
+          currentHookEntry.command = commandLines.join(' ').trim();
+          commandLines = [];
+        }
+        currentMatcher.hooks.push(currentHookEntry as HookEntry);
+        currentHookEntry = null;
+      }
+      if (trimmed.startsWith('- matcher:') || trimmed.startsWith('- hooks:')) {
+        if (currentMatcher) {
+          if (!hooks[currentHookType]) hooks[currentHookType] = [];
+          hooks[currentHookType]!.push(currentMatcher);
+        }
+        currentMatcher = { hooks: [] };
+      }
+
+      const content = trimmed.substring(2);
+      if (content.startsWith('matcher:')) {
+        const matcherValue = content.substring(8).trim().replace(/^["']|["']$/g, '');
+        if (currentMatcher) currentMatcher.matcher = matcherValue;
+      } else if (content.startsWith('type:')) {
+        currentHookEntry = { type: content.substring(5).trim() };
+      }
+      continue;
+    }
+
+    if (currentMatcher && indent >= 6) {
+      if (trimmed.startsWith('once:')) {
+        currentMatcher.once = trimmed.substring(5).trim() === 'true';
+      } else if (trimmed === 'hooks:') {
+        // hooks array start
+      } else if (trimmed.startsWith('- type:')) {
+        if (currentHookEntry && currentHookEntry.type) {
+          if (commandLines.length > 0) {
+            currentHookEntry.command = commandLines.join(' ').trim();
+            commandLines = [];
+          }
+          currentMatcher.hooks.push(currentHookEntry as HookEntry);
+        }
+        currentHookEntry = { type: trimmed.substring(7).trim() };
+      } else if (trimmed.startsWith('command:')) {
+        if (currentHookEntry) {
+          const cmdValue = trimmed.substring(8).trim();
+          if (cmdValue.startsWith('>-') || cmdValue.startsWith('>')) {
+            commandLines = [];
+          } else {
+            currentHookEntry.command = cmdValue.replace(/^["']|["']$/g, '');
+          }
+        }
+      } else if (currentHookEntry && !trimmed.startsWith('-') && !trimmed.includes(':')) {
+        commandLines.push(trimmed);
+      }
+    }
+  }
+
+  if (currentHookEntry && currentHookEntry.type && currentMatcher) {
+    if (commandLines.length > 0) {
+      currentHookEntry.command = commandLines.join(' ').trim();
+    }
+    currentMatcher.hooks.push(currentHookEntry as HookEntry);
+  }
+  if (currentMatcher && currentHookType) {
+    if (!hooks[currentHookType]) hooks[currentHookType] = [];
+    hooks[currentHookType]!.push(currentMatcher);
+  }
+
+  return Object.keys(hooks).length > 0 ? hooks : undefined;
+}
+
+function parseYamlFrontmatter(content: string): { frontmatter: Record<string, string>; body: string; hooks: ParsedHooks | undefined } {
+  const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  if (!frontmatterMatch) return { frontmatter: {}, body: content, hooks: undefined };
+
+  const frontmatterText = frontmatterMatch[1];
   const frontmatter: Record<string, string> = {};
-  const lines = frontmatterMatch[1].split('\n');
+  const lines = frontmatterText.split('\n');
   let currentKey = '';
   let currentValue = '';
 
@@ -66,7 +192,9 @@ function parseYamlFrontmatter(content: string): { frontmatter: Record<string, st
     frontmatter[currentKey] = currentValue.trim();
   }
 
-  return { frontmatter, body: frontmatterMatch[2] || '' };
+  const hooks = parseHooksSection(frontmatterText);
+
+  return { frontmatter, body: frontmatterMatch[2] || '', hooks };
 }
 
 function extractSection(body: string, sectionName: string): string {
@@ -184,7 +312,7 @@ export async function GET() {
 
       try {
         const fileContent = fs.readFileSync(agentPath, 'utf-8');
-        const { frontmatter, body } = parseYamlFrontmatter(fileContent);
+        const { frontmatter, body, hooks } = parseYamlFrontmatter(fileContent);
 
         const agentId = file.replace('.md', '');
         const description = (frontmatter.description || '').replace(/^["']|["']$/g, '');
@@ -223,6 +351,7 @@ export async function GET() {
             color: determineColor(stage),
             loads_skills: [],
             spawned_by: [],
+            hooks: hooks,
           },
           rawContent: body,
           content: {

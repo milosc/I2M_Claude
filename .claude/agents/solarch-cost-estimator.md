@@ -2,6 +2,10 @@
 name: solarch-cost-estimator
 description: The Cost Estimator agent analyzes total cost of ownership (TCO) for architectural decisions, including infrastructure, licensing, operational, and development costs. It provides comparative cost analysis across alternatives and projects multi-year cost trajectories.
 model: haiku
+skills:
+  required:
+    - SolutionArchitecture_Generator
+  optional: []
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

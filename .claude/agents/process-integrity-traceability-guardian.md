@@ -2,6 +2,11 @@
 name: process-integrity-traceability-guardian
 description: The Traceability Guardian agent continuously monitors traceability registries and artifact links across **all HTEC framework stages** to ensure proper trace chains are maintained. It can VETO phase transitions when traceability is broken.
 model: haiku
+skills:
+  required:
+    - Integrity_Checker
+  optional:
+    - graph-thinking
 hooks:
   PreToolUse:
     - matcher: "Read"

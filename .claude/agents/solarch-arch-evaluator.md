@@ -2,6 +2,11 @@
 name: solarch-arch-evaluator
 description: The Architecture Evaluator agent performs comprehensive evaluation of the proposed architecture against quality attributes, business goals, and technical constraints. It uses ATAM-inspired analysis to identify tradeoffs, sensitivity points, and risks.
 model: sonnet
+skills:
+  required:
+    - SolutionArchitecture_Generator
+  optional:
+    - thinking-critically
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

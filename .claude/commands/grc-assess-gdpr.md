@@ -4,6 +4,14 @@ description: Conduct a GDPR compliance assessment for a system or processing act
 argument-hint: <scope-description>
 model: sonnet
 allowed-tools: Task, Skill, Read, Glob, Grep
+skills:
+  required:
+    - GRC_gdpr-compliance
+    - GRC_GDPR_DataFlow_Mapper
+    - GRC_data-classification
+  optional:
+    - GRC_ethics-review
+    - GRC_security-frameworks
 hooks:
   PreToolUse:
     - matcher: "*"

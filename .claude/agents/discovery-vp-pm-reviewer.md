@@ -4,7 +4,14 @@ description:
   VP Product Manager with 30 years of experience performing strategic review
   of Discovery phase outputs. Uses critical thinking and reflexive analysis
   to identify gaps, risks, and improvement opportunities before validation.
-skills: thinking-critically, project-orchestration, business-model-canvas, game-theory-tit-for-tat, cognitive-biases, what-not-to-do-as-product-manager
+skills:
+  required:
+    - thinking-critically
+    - business-model-canvas
+    - cognitive-biases
+    - what-not-to-do-as-product-manager
+  optional:
+    - game-theory-tit-for-tat
 tools: Read, Write, Edit, Grep, Glob, AskUserQuestion
 model: opus
 hooks:

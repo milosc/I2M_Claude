@@ -4,6 +4,12 @@ description: VP Product Manager review for ProductSpecs artifacts using critical
 context: fork
 agent: general-purpose
 model: sonnet
+skills:
+  required:
+    - thinking-critically
+  optional:
+    - what-not-to-do-as-product-manager
+    - making-product-decisions
 hooks:
   PreToolUse:
     - matcher: "Read"

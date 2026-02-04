@@ -3,6 +3,14 @@ name: prototype-build
 description: Build prototype with npm/vite and validate output
 model: claude-sonnet-4-5-20250929
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob
+skills:
+  required:
+    - Prototype_Sequencer
+    - Prototype_CodeGen
+  optional:
+    - Prototype_Builder
+    - frontend-dev-guidelines
+    - tailwind-patterns
 hooks:
   PreToolUse:
     - matcher: "*"

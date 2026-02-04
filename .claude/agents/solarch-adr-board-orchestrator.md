@@ -2,6 +2,11 @@
 name: solarch-adr-board-orchestrator
 description: Sub-orchestrator for ADR generation with Architecture Board review, weighted voting consensus, and self-validation with auto-rework.
 model: sonnet
+skills:
+  required:
+    - SolutionArchitecture_Generator
+  optional:
+    - dispatching-parallel-agents
 hooks:
   PreToolUse:
     - matcher: "Task"

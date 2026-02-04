@@ -2,6 +2,12 @@
 name: productspecs-ui-module-specifier
 description: The UI Module Specifier agent generates detailed UI/screen module specifications from Prototype screen specs and requirements, creating comprehensive module documentation with acceptance criteria, component integration, state management, and implementation guidance.
 model: sonnet
+skills:
+  required:
+    - ProductSpecs_Generator
+  optional:
+    - user-story-fundamentals
+    - thinking-critically
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

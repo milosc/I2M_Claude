@@ -2,6 +2,9 @@
 name: test-demo-agent
 description: Test Demo Agent - Deterministic Lifecycle Logging (v2.0)
 model: sonnet
+skills:
+  required: []
+  optional: []
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

@@ -2,6 +2,9 @@
 name: process-integrity-state-watchdog
 description: The State Watchdog agent monitors agent locks, sessions, and state files for anomalies. It detects stale locks, orphaned sessions, state corruption, and coordination failures, triggering cleanup and recovery procedures.
 model: haiku
+skills:
+  required: []
+  optional: []
 hooks:
   PreToolUse:
     - matcher: "Read"

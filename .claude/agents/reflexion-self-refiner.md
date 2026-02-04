@@ -2,6 +2,11 @@
 name: reflexion-self-refiner
 description: The Self-Refiner agent performs final polish and optimization on solutions that have passed evaluation. It focuses on improvements that maintain correctness while enhancing quality, readability, and adherence to best practices.
 model: sonnet
+skills:
+  required:
+    - code-review-code-quality
+  optional:
+    - thinking-critically
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

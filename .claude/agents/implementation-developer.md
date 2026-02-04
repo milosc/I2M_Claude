@@ -35,6 +35,12 @@ hooks:
     - hooks:
         - type: command
           command: "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/capture_event.py --event-type Stop"
+skills:
+  required:
+    - Implementation_Developer
+  optional:
+    - systematic-debugging
+    - using-htec-accelerators
 ---
 
 # Developer Agent

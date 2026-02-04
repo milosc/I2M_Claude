@@ -2,6 +2,12 @@
 name: productspecs-e2e-test-specifier
 description: The E2E Test Specifier agent generates comprehensive end-to-end test specifications from user journeys, screen specs, and acceptance criteria, creating detailed test scenarios that validate complete user workflows across the application.
 model: sonnet
+skills:
+  required:
+    - playwright-e2e-testing
+    - webapp-testing
+  optional:
+    - pict-test-designer-minimal
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

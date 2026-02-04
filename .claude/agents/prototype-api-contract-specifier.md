@@ -2,6 +2,12 @@
 name: prototype-api-contract-specifier
 description: The API Contract Specifier agent generates comprehensive API contracts from Discovery specifications and data models, creating OpenAPI specs, endpoint definitions, request/response schemas, and error handling patterns.
 model: sonnet
+skills:
+  required:
+    - Prototype_ApiContracts
+  optional:
+    - rest-api-client-harness
+    - json-schema-validation-transformation
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

@@ -2,6 +2,14 @@
 name: discovery-roadmap-generator
 description: Generate phased product roadmap with prioritized features, milestones, and delivery timelines.
 model: sonnet
+skills:
+  required:
+    - Discovery_GenerateRoadmap
+  optional:
+    - theme-epic-story
+    - kanban
+    - hypothesis-tree
+    - timeline-creator
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

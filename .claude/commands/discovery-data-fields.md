@@ -3,6 +3,11 @@ name: discovery-data-fields
 description: Generate data field specifications from discovery materials
 model: claude-haiku-4-5-20250515
 allowed-tools: Read, Write, Edit
+skills:
+  required:
+    - Discovery_SpecDataModel
+  optional:
+    - graph-thinking
 hooks:
   PreToolUse:
     - matcher: "*"

@@ -209,5 +209,18 @@
       "UI-Developer",
       "Explore"
     ]
+  },
+  {
+    "agent_name": "claude-code-guide",
+    "parent_session": "8168197a-f62a-436a-ae8c-a926e4977b60",
+    "timestamp": "2026-02-04T19:47:58.753752",
+    "call_stack": [
+      "discovery-vp-pm-reviewer",
+      "Explore",
+      "prototype-screen-specifier",
+      "UI-Developer",
+      "Explore",
+      "claude-code-guide"
+    ]
   }
 ]

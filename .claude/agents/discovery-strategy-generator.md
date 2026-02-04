@@ -2,6 +2,12 @@
 name: discovery-strategy-generator
 description: Generate product strategy document defining market positioning, competitive analysis, and go-to-market approach.
 model: sonnet
+skills:
+  required:
+    - Discovery_GenerateStrategy
+  optional:
+    - business-model-canvas
+    - game-theory-tit-for-tat
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

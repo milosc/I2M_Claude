@@ -2,6 +2,13 @@
 name: planning-tech-lead
 description: The Tech Lead agent decomposes module specifications into executable implementation tasks with TDD specifications, dependency ordering, and parallel execution markers.
 model: sonnet
+skills:
+  required:
+    - Implementation_TaskDecomposer
+    - test-driven-development
+  optional:
+    - executing-plans
+    - kanban
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

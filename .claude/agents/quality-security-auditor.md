@@ -2,6 +2,11 @@
 name: quality-security-auditor
 description: The Security Auditor agent performs comprehensive security review focused on OWASP Top 10 vulnerabilities, authentication/authorization issues, data exposure risks, and security best practices.
 model: sonnet
+skills:
+  required:
+    - code-review-security-auditor
+  optional:
+    - SECURITY_vulnerability-scanner
 hooks:
   PreToolUse:
     - matcher: "Read"

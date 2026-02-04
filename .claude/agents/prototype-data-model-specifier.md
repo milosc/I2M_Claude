@@ -2,6 +2,12 @@
 name: prototype-data-model-specifier
 description: The Data Model Specifier agent generates comprehensive data models from Discovery data-fields specifications, creating TypeScript interfaces, entity relationships, validation rules, and mock data schemas.
 model: sonnet
+skills:
+  required:
+    - Prototype_DataModel
+  optional:
+    - json-schema-validation-transformation
+    - graph-thinking
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

@@ -2,6 +2,14 @@
 name: prototype-screen-specifier
 description: The Screen Specifier agent generates detailed screen specifications from Discovery screen definitions, mapping each screen to components, data requirements, user flows, and interaction patterns.
 model: sonnet
+skills:
+  required:
+    - Prototype_Components
+    - Prototype_Builder
+  optional:
+    - hicks-law
+    - cognitive-load
+    - progressive-disclosure
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"

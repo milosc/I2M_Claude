@@ -2,6 +2,12 @@
 name: discovery-fact-auditor-reviewer
 description: The Chef Product Manager Reviewer is a specialized quality assurance agent that acts as the product manager's representative to validate all ClientAnalysis stage outputs for factuality, accuracy, and absence of hallucinations. It ensures that every claim, persona definition, job-to-be-done, pain ...
 model: sonnet
+skills:
+  required:
+    - Discovery_FactAuditor
+    - Discovery_Validate
+  optional:
+    - thinking-critically
 hooks:
   PreToolUse:
     - matcher: "Read"

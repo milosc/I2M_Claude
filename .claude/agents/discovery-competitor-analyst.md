@@ -2,6 +2,12 @@
 name: discovery-competitor-analyst
 description: The Competitor Analyst agent performs strategic intelligence synthesis for niche markets, transforming raw competitor data into tactical roadmaps. Specializes in contextual benchmarking, threat/opportunity scoring, and creating sales battlecards. Examples:<example>Context:Need to understand competitive positioning for new product user:'We're launching a SaaS product for cold-chain logistics and need to understand our competitive landscape' assistant:'I'll use the discovery-competitor-analyst agent to map the niche market, analyze competitors, and create actionable battlecards' <commentary>Competitive intelligence requires specialized market positioning analysis and threat scoring expertise</commentary></example><example>Context:Product team needs competitive insights user:'Can you analyze our competitors and identify market gaps we can exploit?' assistant:'The competitor-analyst will perform contextual benchmarking, score threats/opportunities, and provide a differentiation blueprint' <commentary>Strategic market analysis requires deep competitive intelligence methodology</commentary></example>
 model: sonnet
+skills:
+  required:
+    - business-model-canvas
+  optional:
+    - game-theory-tit-for-tat
+    - thinking-critically
 hooks:
   PreToolUse:
     - matcher: "Write|Edit"

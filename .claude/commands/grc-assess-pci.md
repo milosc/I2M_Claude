@@ -4,6 +4,13 @@ description: Conduct a PCI-DSS scope assessment and compliance review for paymen
 argument-hint: <scope-description>
 model: sonnet
 allowed-tools: Task, Skill, Read, Glob, Grep
+skills:
+  required:
+    - GRC_pci-dss-compliance
+    - GRC_security-frameworks
+    - GRC_data-classification
+  optional:
+    - GRC_ethics-review
 hooks:
   PreToolUse:
     - matcher: "*"

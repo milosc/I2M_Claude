@@ -2,6 +2,9 @@
 name: solarch-integration-analyst
 description: The Integration Analyst agent analyzes system integration requirements, evaluates communication patterns, and designs integration architectures. It examines existing systems, third-party APIs, and internal service boundaries to produce comprehensive integration specifications.
 model: sonnet
+skills:
+  required:
+    - SolutionArchitecture_InformationDesignGenerator
 hooks:
   PostToolUse:
     - matcher: "Write|Edit"
