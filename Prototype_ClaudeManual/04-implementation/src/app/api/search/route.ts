@@ -345,6 +345,15 @@ export async function GET(request: NextRequest) {
       allItems = allItems.filter(item => types.includes(item.type));
     }
 
+    // Special case: '*' returns all items (for tag-only filtering)
+    if (query === '*') {
+      // Return all items sorted by name
+      const results = allItems
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .slice(0, 200); // Higher limit for browsing
+      return NextResponse.json(results);
+    }
+
     // Search: match query in name, description, stage, content, or tags
     const results = allItems
       .filter((item) => {

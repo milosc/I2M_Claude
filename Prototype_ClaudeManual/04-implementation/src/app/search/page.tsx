@@ -8,7 +8,8 @@ import { StageFilterDropdown } from '@/components/StageFilterDropdown';
 import { TagFilter } from '@/components/TagFilter';
 import { TypeFilter, ItemType } from '@/components/TypeFilter';
 import { FileContentModal } from '@/components/FileContentModal';
-import { getAllUserTags, getComponentTags } from '@/lib/localStorage';
+import { AllTagsPanel, TagWithCount } from '@/components/AllTagsPanel';
+import { getAllUserTags, getComponentTags, getPreferences } from '@/lib/localStorage';
 import Link from 'next/link';
 
 interface SearchResult {
@@ -72,11 +73,13 @@ export default function SearchPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const query = searchParams.get('q') || '';
+  const tagParam = searchParams.get('tag') || '';
 
   const [selectedStages, setSelectedStages] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<ItemType[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [userTags, setUserTags] = useState<string[]>([]);
+  const [allTagsWithCounts, setAllTagsWithCounts] = useState<TagWithCount[]>([]);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(TYPE_ORDER));
   const [selectedFilePath, setSelectedFilePath] = useState<string | null>(null);
   const [startTime] = useState(Date.now());
@@ -87,6 +90,16 @@ export default function SearchPage() {
     setSearchInput(query);
   }, [query]);
 
+  // Sync tag filter from URL parameter
+  useEffect(() => {
+    if (tagParam) {
+      const tags = tagParam.split(',').map((t) => t.trim()).filter(Boolean);
+      if (tags.length > 0 && !tags.every((t) => selectedTags.includes(t))) {
+        setSelectedTags((prev) => [...new Set([...prev, ...tags])]);
+      }
+    }
+  }, [tagParam]);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchInput.trim()) {
@@ -94,10 +107,40 @@ export default function SearchPage() {
     }
   };
 
-  // Load user tags on mount
+  // Load user tags with counts on mount
   useEffect(() => {
-    setUserTags(getAllUserTags());
+    const tags = getAllUserTags();
+    setUserTags(tags);
+
+    // Calculate tag counts from component_tags
+    const prefs = getPreferences();
+    const tagCounts: Record<string, number> = {};
+    Object.values(prefs.component_tags).forEach((componentTags) => {
+      componentTags.forEach((tag) => {
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      });
+    });
+
+    const tagsWithCounts: TagWithCount[] = tags.map((tag) => ({
+      name: tag,
+      count: tagCounts[tag] || 0,
+    }));
+    setAllTagsWithCounts(tagsWithCounts);
   }, []);
+
+  // Toggle tag selection
+  const handleTagClick = (tag: string) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter((t) => t !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
+
+  // Clear all selected tags
+  const handleClearAllTags = () => {
+    setSelectedTags([]);
+  };
 
   const {
     data: results,
@@ -197,7 +240,7 @@ export default function SearchPage() {
       <main className="min-h-screen bg-background text-foreground p-8">
         <div className="max-w-2xl mx-auto text-center">
           <h1 className="text-3xl font-bold mb-6">Search Framework Components</h1>
-          <p className="text-secondary mb-8">Search across Skills, Commands, Agents, Hooks, Workflows, and Architecture docs</p>
+          <p className="text-gray-600 mb-8">Search across Skills, Commands, Agents, Hooks, Workflows, and Architecture docs</p>
 
           <form onSubmit={handleSearch} className="mb-8">
             <div className="relative">
@@ -206,11 +249,11 @@ export default function SearchPage() {
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Search by name, content, or tags..."
-                className="w-full px-6 py-4 pl-12 text-lg bg-surface border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-default focus:border-transparent"
+                className="w-full px-6 py-4 pl-12 text-lg text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 autoFocus
               />
               <svg
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -219,21 +262,46 @@ export default function SearchPage() {
               </svg>
               <button
                 type="submit"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 px-4 py-2 bg-accent-default text-white rounded-lg hover:bg-accent-hover transition-colors"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Search
               </button>
             </div>
           </form>
 
-          <div className="text-sm text-secondary mb-4">
-            Try searching for: <button onClick={() => { setSearchInput('discovery'); router.push('/search?q=discovery'); }} className="text-accent-default hover:underline mx-1">discovery</button> |
-            <button onClick={() => { setSearchInput('prototype'); router.push('/search?q=prototype'); }} className="text-accent-default hover:underline mx-1">prototype</button> |
-            <button onClick={() => { setSearchInput('quality'); router.push('/search?q=quality'); }} className="text-accent-default hover:underline mx-1">quality</button> |
-            <button onClick={() => { setSearchInput('hook'); router.push('/search?q=hook'); }} className="text-accent-default hover:underline mx-1">hook</button>
+          <div className="text-sm text-gray-600 mb-4">
+            Try searching for: <button onClick={() => { setSearchInput('discovery'); router.push('/search?q=discovery'); }} className="text-blue-600 hover:underline mx-1">discovery</button> |
+            <button onClick={() => { setSearchInput('prototype'); router.push('/search?q=prototype'); }} className="text-blue-600 hover:underline mx-1">prototype</button> |
+            <button onClick={() => { setSearchInput('quality'); router.push('/search?q=quality'); }} className="text-blue-600 hover:underline mx-1">quality</button> |
+            <button onClick={() => { setSearchInput('hook'); router.push('/search?q=hook'); }} className="text-blue-600 hover:underline mx-1">hook</button>
           </div>
 
-          <Link href="/" className="text-accent-default hover:underline mt-4 inline-block">
+          {/* All Tags Panel - always shown on empty search page */}
+          <div className="mt-8 max-w-lg mx-auto">
+            {allTagsWithCounts.length > 0 ? (
+              <AllTagsPanel
+                tags={allTagsWithCounts}
+                selectedTags={selectedTags}
+                onTagClick={(tag) => {
+                  // When clicking a tag on empty page, search for it
+                  handleTagClick(tag);
+                  router.push(`/search?q=*&tag=${encodeURIComponent(tag)}`);
+                }}
+                onClearAll={handleClearAllTags}
+                collapsible={false}
+                title="Browse by Tag"
+              />
+            ) : (
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
+                <h3 className="font-semibold text-gray-800 mb-2">Browse by Tag</h3>
+                <p className="text-sm text-gray-600">
+                  No tags yet. Add tags to components from the detail pane to see them here.
+                </p>
+              </div>
+            )}
+          </div>
+
+          <Link href="/" className="text-blue-600 hover:underline mt-6 inline-block">
             &larr; Back to Explorer
           </Link>
         </div>
@@ -249,7 +317,7 @@ export default function SearchPage() {
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <span>Searching for &quot;{query}&quot;...</span>
+          <span>{query === '*' ? 'Loading all components...' : `Searching for "${query}"...`}</span>
         </div>
       </main>
     );
@@ -260,7 +328,7 @@ export default function SearchPage() {
       <main className="min-h-screen bg-background text-foreground p-8">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-red-500 mb-4">Search failed. Please try again.</p>
-          <Link href="/" className="text-accent-default hover:underline">
+          <Link href="/" className="text-blue-600 hover:underline">
             &larr; Back to Explorer
           </Link>
         </div>
@@ -274,7 +342,7 @@ export default function SearchPage() {
       <header className="border-b border-border px-4 py-3 sticky top-0 bg-background z-10">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-4 mb-4">
-            <Link href="/" className="text-accent-default hover:underline flex-shrink-0">
+            <Link href="/" className="text-blue-600 hover:underline flex-shrink-0">
               &larr; Back
             </Link>
 
@@ -286,10 +354,10 @@ export default function SearchPage() {
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   placeholder="Search..."
-                  className="w-full px-4 py-2 pl-10 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-default focus:border-transparent"
+                  className="w-full px-4 py-2 pl-10 text-gray-900 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <svg
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-secondary"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -299,8 +367,9 @@ export default function SearchPage() {
               </div>
             </form>
 
-            <p className="text-secondary text-sm flex-shrink-0">
-              {filteredResults.length} result{filteredResults.length !== 1 ? 's' : ''} in {executionTime}s
+            <p className="text-gray-600 text-sm flex-shrink-0">
+              {filteredResults.length} result{filteredResults.length !== 1 ? 's' : ''}
+              {query === '*' ? ' (all components)' : ''} in {executionTime}s
             </p>
           </div>
 
@@ -321,14 +390,29 @@ export default function SearchPage() {
             />
           </div>
 
-          {/* Tag Filter */}
-          {availableTags.length > 0 && (
+          {/* All Tags Panel - collapsible on results page */}
+          {allTagsWithCounts.length > 0 && (
+            <div className="mt-3">
+              <AllTagsPanel
+                tags={allTagsWithCounts}
+                selectedTags={selectedTags}
+                onTagClick={handleTagClick}
+                onClearAll={handleClearAllTags}
+                collapsible={true}
+                defaultCollapsed={true}
+                title="All Tags"
+              />
+            </div>
+          )}
+
+          {/* Tag Filter - shows tags from current results */}
+          {availableTags.length > 0 && selectedTags.length === 0 && (
             <div className="mt-2">
               <TagFilter
                 availableTags={availableTags}
                 selectedTags={selectedTags}
                 onTagsChange={setSelectedTags}
-                label="Filter by tags"
+                label="Filter by tags in results"
               />
             </div>
           )}
@@ -340,13 +424,25 @@ export default function SearchPage() {
         <div className="max-w-6xl mx-auto">
           {filteredResults.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-secondary text-lg mb-4">
-                No results found for &quot;{query}&quot;
+              <p className="text-gray-600 text-lg mb-4">
+                {query === '*'
+                  ? 'No components match the selected filters'
+                  : `No results found for "${query}"`}
               </p>
-              <p className="text-sm text-secondary mb-6">
-                Try different keywords or adjust your filters
+              <p className="text-sm text-gray-600 mb-6">
+                {selectedTags.length > 0
+                  ? 'Try removing some tag filters'
+                  : 'Try different keywords or adjust your filters'}
               </p>
-              <Link href="/" className="text-accent-default hover:underline">
+              {selectedTags.length > 0 && (
+                <button
+                  onClick={handleClearAllTags}
+                  className="text-blue-600 hover:underline mr-4"
+                >
+                  Clear tag filters
+                </button>
+              )}
+              <Link href="/" className="text-blue-600 hover:underline">
                 Browse all components
               </Link>
             </div>
@@ -361,7 +457,7 @@ export default function SearchPage() {
                     {/* Section Header */}
                     <button
                       onClick={() => toggleSection(type)}
-                      className="w-full flex items-center justify-between px-4 py-3 bg-surface hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                      className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <svg
@@ -373,7 +469,7 @@ export default function SearchPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                         <h2 className="text-lg font-semibold">{type}s</h2>
-                        <span className="text-sm text-secondary">({typeResults.length})</span>
+                        <span className="text-sm text-gray-600">({typeResults.length})</span>
                       </div>
                     </button>
 
@@ -405,7 +501,7 @@ export default function SearchPage() {
                             />
                             {/* Show content preview if available */}
                             {result.content && (
-                              <div className="mt-2 ml-12 text-sm text-secondary line-clamp-2">
+                              <div className="mt-2 ml-12 text-sm text-gray-600 line-clamp-2">
                                 {result.content.slice(0, 200)}...
                               </div>
                             )}

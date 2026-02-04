@@ -39,10 +39,15 @@ export interface SearchResultCardProps {
   highlighted?: boolean;
 }
 
-function highlightQuery(text: string, query: string): React.ReactNode {
-  if (!query) return text;
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
-  const regex = new RegExp(`(${query})`, 'gi');
+function highlightQuery(text: string, query: string): React.ReactNode {
+  if (!query || query === '*') return text;
+
+  const escapedQuery = escapeRegex(query);
+  const regex = new RegExp(`(${escapedQuery})`, 'gi');
   const parts = text.split(regex);
 
   return parts.map((part, index) => {
